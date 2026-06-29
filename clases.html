@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clases en Vivo — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy: #07091a; --navy2: #0c0f26; --navy3: #111535; --blue: #2563eb; --blue-mid: #3b82f6; --blue-soft: #93c5fd; --white: #ffffff; --off-white: #f0f4ff; --gray-100: #e2e8f4; --gray-400: #8892aa; --gray-600: #4b5775; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--navy); overflow-x: hidden; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-logo { font-size: 0.95rem; font-weight: 800; color: var(--white); letter-spacing: -0.3px; flex-shrink: 0; margin-right: 0.5rem; text-decoration: none; }
+    .nav-logo span { color: var(--blue-mid); }
+    .nav-links { display: flex; align-items: center; list-style: none; height: 100%; flex: 1; justify-content: center; }
+    .nav-links li { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+    .nav-links > li > a:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+    .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
+    .nav-drop { display: none; position: absolute; top: 100%; left: 0; background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 0.5rem 0; min-width: 185px; box-shadow: 0 20px 48px rgba(0,0,0,0.55); }
+    .has-drop:hover .nav-drop { display: block; }
+    .nav-drop a { display: block; height: auto; padding: 0.58rem 1.2rem; font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s, background 0.15s; }
+    .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-right { display: flex; align-items: center; gap: 0.2rem; flex-shrink: 0; }
+    .nav-tienda { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0.42rem 0.65rem; border-radius: 6px; transition: background 0.15s; white-space: nowrap; }
+    .nav-tienda:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-estudiante { background: var(--blue); color: var(--white); padding: 0.45rem 0.9rem; border-radius: 7px; font-weight: 700; font-size: 0.82rem; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
+    .nav-estudiante:hover { background: #1d4ed8; }
+
+    .page-hero { background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 55%, #0e1440 100%); padding: 8rem 4% 5rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 65%); pointer-events: none; }
+    .live-dot { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .live-dot::before { content: '●'; color: #ef4444; font-size: 0.5rem; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .live-dot span { font-size: 0.72rem; font-weight: 700; color: #fca5a5; text-transform: uppercase; letter-spacing: 1.5px; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 1rem; }
+    .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.6); max-width: 540px; margin: 0 auto; line-height: 1.75; }
+
+    /* SCHEDULE */
+    .schedule-section { padding: 5rem 4%; background: var(--off-white); }
+    .schedule-inner { max-width: 900px; margin: 0 auto; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--navy); margin-bottom: 0.5rem; }
+    .section-sub { color: var(--gray-600); font-size: 0.95rem; margin-bottom: 2.5rem; }
+    .schedule-list { display: flex; flex-direction: column; gap: 1rem; }
+    .schedule-item { background: var(--white); border: 1px solid var(--gray-100); border-radius: 16px; padding: 1.5rem 2rem; display: flex; align-items: center; gap: 2rem; transition: all 0.2s; }
+    .schedule-item:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.2); }
+    .schedule-item.live { border-left: 4px solid #ef4444; }
+    .sch-day { font-size: 0.72rem; font-weight: 800; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; min-width: 70px; }
+    .sch-time { font-size: 1.3rem; font-weight: 900; color: var(--navy); min-width: 90px; }
+    .sch-info { flex: 1; }
+    .sch-title { font-size: 0.95rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
+    .sch-desc { font-size: 0.8rem; color: var(--gray-600); }
+    .sch-badge { font-size: 0.68rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 100px; }
+    .sch-badge.live-now { background: #fee2e2; color: #dc2626; }
+    .sch-badge.recorded { background: #dbeafe; color: #1d4ed8; }
+    .sch-badge.upcoming { background: #f3f4f6; color: #6b7280; }
+
+    /* REPLAYS */
+    .replays-section { padding: 5rem 4%; background: var(--white); }
+    .replays-inner { max-width: 1000px; margin: 0 auto; }
+    .replays-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin-top: 2rem; }
+    .replay-card { border: 1px solid var(--gray-100); border-radius: 16px; overflow: hidden; transition: all 0.2s; cursor: pointer; }
+    .replay-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .replay-thumb { aspect-ratio: 16/9; background: linear-gradient(135deg, var(--navy2), var(--navy3)); display: flex; align-items: center; justify-content: center; position: relative; }
+    .play-btn { width: 48px; height: 48px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2); }
+    .replay-duration { position: absolute; bottom: 0.6rem; right: 0.8rem; background: rgba(0,0,0,0.7); color: var(--white); font-size: 0.7rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .replay-info { padding: 1rem; }
+    .replay-date { font-size: 0.72rem; color: var(--gray-400); margin-bottom: 0.3rem; }
+    .replay-title { font-size: 0.88rem; font-weight: 700; color: var(--navy); }
+
+    footer { background: var(--navy); color: rgba(255,255,255,0.45); text-align: center; padding: 2.5rem 4%; font-size: 0.82rem; }
+    footer strong { color: rgba(255,255,255,0.85); }
+    @media (max-width: 640px) { .nav-links { display: none; } .schedule-item { flex-direction: column; align-items: flex-start; gap: 0.75rem; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Andrés <span>Cestona</span></div>
+
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="#">Nosotros</a>
+        <div class="nav-drop">
+          <a href="index.html#quien">¿Quién es Andrés?</a>
+          <a href="index.html#media">Prensa</a>
+        </div>
+      </li>
+      <li><a href="index.html#markets">Markets</a></li>
+      <li><a href="estadisticas.html">Estadísticas</a></li>
+      <li><a href="calculadora.html">Calculadora</a></li>
+      <li class="has-drop">
+        <a href="#">Comunidad</a>
+        <div class="nav-drop">
+          <a href="testimonios.html">Testimonios</a>
+          <a href="canales.html">Canales</a>
+          <a href="eventos.html">Eventos</a>
+        </div>
+      </li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="estadisticas.html" class="nav-tienda">Ver estadísticas</a>
+      <a href="index.html#markets" class="nav-estudiante">Markets by Andrés</a>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="live-dot"><span>Clases en vivo</span></div>
+    <h1>Aprende en tiempo real</h1>
+    <p>Sesiones semanales en directo donde analizamos los mercados, resolvemos dudas y operamos juntos. Todas las clases quedan grabadas.</p>
+  </section>
+
+  <section class="schedule-section">
+    <div class="schedule-inner">
+      <h2 class="section-title">Calendario semanal</h2>
+      <p class="section-sub">Horario España (CET). Todas las sesiones quedan grabadas en la plataforma.</p>
+      <div class="schedule-list">
+        <div class="schedule-item live">
+          <div class="sch-day">Lunes</div>
+          <div class="sch-time">20:00h</div>
+          <div class="sch-info"><div class="sch-title">Apertura de semana: análisis de mercados</div><div class="sch-desc">Revisamos la macro, identificamos oportunidades y establecemos el plan de la semana.</div></div>
+          <span class="sch-badge live-now">● En vivo hoy</span>
+        </div>
+        <div class="schedule-item">
+          <div class="sch-day">Miércoles</div>
+          <div class="sch-time">19:30h</div>
+          <div class="sch-info"><div class="sch-title">Masterclass temática</div><div class="sch-desc">Cada semana profundizamos en un tema específico: sectores, instrumentos, estrategias avanzadas.</div></div>
+          <span class="sch-badge upcoming">Próxima</span>
+        </div>
+        <div class="schedule-item">
+          <div class="sch-day">Viernes</div>
+          <div class="sch-time">18:00h</div>
+          <div class="sch-info"><div class="sch-title">Cierre de semana + Q&A en vivo</div><div class="sch-desc">Repaso de la semana, revisión de operaciones de los alumnos y sesión abierta de preguntas.</div></div>
+          <span class="sch-badge upcoming">Próxima</span>
+        </div>
+        <div class="schedule-item">
+          <div class="sch-day">Sábado</div>
+          <div class="sch-time">11:00h</div>
+          <div class="sch-info"><div class="sch-title">Sesión para principiantes</div><div class="sch-desc">Clase especial sin requisitos previos. Ideal para quienes están empezando su camino inversor.</div></div>
+          <span class="sch-badge recorded">Grabada disponible</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="replays-section">
+    <div class="replays-inner">
+      <h2 class="section-title">Clases anteriores</h2>
+      <p class="section-sub">Accede al archivo completo de grabaciones.</p>
+      <div class="replays-grid">
+        <div class="replay-card"><div class="replay-thumb"><div class="play-btn">▶</div><div class="replay-duration">1h 24min</div></div><div class="replay-info"><div class="replay-date">16 Jun 2025</div><div class="replay-title">Análisis semanal: USD, S&P500 y oro</div></div></div>
+        <div class="replay-card"><div class="replay-thumb"><div class="play-btn">▶</div><div class="replay-duration">52min</div></div><div class="replay-info"><div class="replay-date">11 Jun 2025</div><div class="replay-title">Masterclass: ETFs globales vs sectoriales</div></div></div>
+        <div class="replay-card"><div class="replay-thumb"><div class="play-btn">▶</div><div class="replay-duration">1h 08min</div></div><div class="replay-info"><div class="replay-date">9 Jun 2025</div><div class="replay-title">Q&A: gestión del riesgo en mercados volátiles</div></div></div>
+        <div class="replay-card"><div class="replay-thumb"><div class="play-btn">▶</div><div class="replay-duration">43min</div></div><div class="replay-info"><div class="replay-date">7 Jun 2025</div><div class="replay-title">Sesión principiantes: tu primer ETF</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer><p>&copy; 2026 <strong>Andrés Cestona</strong> — Todos los derechos reservados.</p></footer>
+</body>
+</html>

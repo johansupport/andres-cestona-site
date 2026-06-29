@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estadísticas — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #07091a; --navy2: #0c0f26; --blue: #2563eb; --blue-mid: #3b82f6; --blue-soft: #93c5fd;
+      --white: #ffffff; --off-white: #f8f9fb; --gray-50: #f4f6fa; --gray-100: #e8ecf4;
+      --gray-300: #c4cad8; --gray-400: #8892aa; --gray-600: #4b5775; --gray-800: #1e2540;
+      --green: #16a34a; --green-bg: #f0fdf4; --red: #dc2626; --red-bg: #fef2f2;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--gray-800); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-logo { font-size: 0.95rem; font-weight: 800; color: var(--white); letter-spacing: -0.3px; flex-shrink: 0; margin-right: 0.5rem; text-decoration: none; }
+    .nav-logo span { color: var(--blue-mid); }
+    .nav-links { display: flex; align-items: center; list-style: none; height: 100%; flex: 1; justify-content: center; }
+    .nav-links li { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+    .nav-links > li > a:hover, .nav-links > li > a.active { color: var(--white); background: rgba(255,255,255,0.04); }
+    .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
+    .nav-drop { display: none; position: absolute; top: 100%; left: 0; background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 0.5rem 0; min-width: 185px; box-shadow: 0 20px 48px rgba(0,0,0,0.55); }
+    .has-drop:hover .nav-drop { display: block; }
+    .nav-drop a { display: block; height: auto; padding: 0.58rem 1.2rem; font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s, background 0.15s; }
+    .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-right { display: flex; align-items: center; gap: 0.2rem; flex-shrink: 0; }
+    .nav-tienda { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0.42rem 0.65rem; border-radius: 6px; transition: background 0.15s; white-space: nowrap; }
+    .nav-tienda:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-estudiante { background: var(--blue); color: var(--white); padding: 0.45rem 0.9rem; border-radius: 7px; font-weight: 700; font-size: 0.82rem; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
+    .nav-estudiante:hover { background: #1d4ed8; }
+
+    /* HERO */
+    .page-hero { background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 60%, #0e1440 100%); padding: 6rem 4% 3rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 65%); pointer-events: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.2rem; }
+    .eyebrow span { font-size: 0.72rem; font-weight: 600; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.2px; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 0.6rem; }
+    .page-hero p { font-size: 0.95rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+
+    /* STRATEGY SELECTOR */
+    .strategy-selector { display: inline-flex; gap: 0.5rem; background: rgba(255,255,255,0.06); padding: 0.4rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); }
+    .strategy-btn { padding: 0.6rem 1.8rem; border-radius: 8px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700; transition: all 0.2s; background: transparent; color: rgba(255,255,255,0.5); }
+    .strategy-btn.active { background: var(--blue); color: var(--white); box-shadow: 0 4px 12px rgba(37,99,235,0.4); }
+    .strategy-btn:hover:not(.active) { background: rgba(255,255,255,0.08); color: var(--white); }
+
+    /* TABS BAR */
+    .tabs-bar { position: sticky; top: 62px; z-index: 50; display: flex; background: #0d0d0d; border-bottom: 1px solid #1c1c1c; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+    .tabs-bar::-webkit-scrollbar { display: none; }
+    .tab-btn { flex: 1; min-width: max-content; padding: 0 1.4rem; height: 54px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; transition: color 0.2s, border-color 0.2s; background: transparent; color: rgba(255,255,255,0.38); border-bottom: 3px solid transparent; position: relative; white-space: nowrap; }
+    .tab-btn.active { color: var(--white); border-bottom-color: var(--blue); }
+    .tab-btn:hover:not(.active) { color: rgba(255,255,255,0.72); }
+
+    /* MAIN CONTENT */
+    .stats-content { max-width: 1080px; margin: 0 auto; padding: 3rem 4% 4rem; }
+
+    /* PERIOD CARDS */
+    .period-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--gray-100); border: 1px solid var(--gray-100); border-radius: 14px; overflow: hidden; margin-bottom: 3rem; }
+    .period-card { background: var(--white); padding: 1.4rem 1rem; text-align: center; }
+    .period-label { font-size: 0.7rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+    .period-value { font-size: 1.6rem; font-weight: 900; line-height: 1; }
+    .period-value.pos { color: var(--green); }
+    .period-value.neg { color: var(--red); }
+    .period-date { font-size: 0.68rem; color: var(--gray-400); margin-top: 0.3rem; }
+
+    /* CHART */
+    .chart-wrap { background: var(--white); border: 1px solid var(--gray-100); border-radius: 14px; padding: 1.5rem 1.5rem 1rem; margin-bottom: 3rem; }
+    .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.75rem; }
+    .chart-title { font-size: 0.85rem; font-weight: 700; color: var(--gray-800); }
+    .chart-filters { display: flex; gap: 0.3rem; }
+    .cf-btn { padding: 0.3rem 0.7rem; border: 1px solid var(--gray-100); background: var(--white); border-radius: 6px; font-size: 0.72rem; font-weight: 600; cursor: pointer; color: var(--gray-400); transition: all 0.15s; }
+    .cf-btn.active { background: var(--navy); border-color: var(--navy); color: var(--white); }
+    .cf-btn:hover:not(.active) { border-color: var(--gray-300); color: var(--gray-800); }
+    .chart-canvas-wrap { position: relative; height: 260px; }
+
+    /* SECTION HEADERS */
+    .section-hdr { font-size: 0.7rem; font-weight: 800; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 1rem; margin-top: 2.5rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--gray-100); }
+
+    /* ANNUAL TABLE */
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+    .data-table thead th { padding: 0.75rem 1rem; text-align: left; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-400); border-bottom: 2px solid var(--gray-100); background: var(--off-white); }
+    .data-table thead th:first-child { border-radius: 8px 0 0 0; }
+    .data-table thead th:last-child { border-radius: 0 8px 0 0; text-align: right; }
+    .data-table tbody td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--gray-50); color: var(--gray-600); }
+    .data-table tbody td:last-child { text-align: right; font-weight: 700; }
+    .data-table tbody tr:hover td { background: var(--gray-50); }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .td-year { font-weight: 800; color: var(--gray-800) !important; cursor: pointer; user-select: none; }
+    .td-year:hover { color: var(--blue) !important; }
+    .expand-icon { font-size: 0.65rem; margin-left: 0.4rem; color: var(--gray-300); display: inline-block; transition: transform 0.2s; }
+    .expand-icon.open { transform: rotate(90deg); color: var(--blue); }
+    .td-pos { color: var(--green) !important; }
+    .td-neg { color: var(--red) !important; }
+    .month-rows { display: none; }
+    .month-rows.open { display: table-row-group; }
+    .month-row td { padding: 0.6rem 1rem 0.6rem 2.2rem !important; background: var(--gray-50); font-size: 0.8rem; }
+    .month-row:last-child td { border-bottom: 1px solid var(--gray-100) !important; }
+
+    /* CHARACTERISTICS TAB */
+    .char-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .char-block { background: var(--white); border: 1px solid var(--gray-100); border-radius: 14px; overflow: hidden; }
+    .char-block-title { padding: 0.9rem 1.2rem; background: var(--off-white); border-bottom: 1px solid var(--gray-100); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-400); }
+    .char-row { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem 1.2rem; border-bottom: 1px solid var(--gray-50); font-size: 0.83rem; }
+    .char-row:last-child { border-bottom: none; }
+    .char-label { color: var(--gray-600); }
+    .char-value { font-weight: 700; color: var(--gray-800); text-align: right; }
+    .char-value.green { color: var(--green); }
+    .char-value.red { color: var(--red); }
+
+    /* DOCUMENTS TAB */
+    .docs-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .docs-title { font-size: 1.6rem; font-weight: 800; color: var(--gray-800); }
+    .yr-select { appearance: none; -webkit-appearance: none; padding: 0.5rem 2.2rem 0.5rem 0.9rem; border: 1px solid var(--gray-300); border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--gray-800); background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238892aa' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 0.7rem center; cursor: pointer; }
+    .yr-select:focus { outline: none; border-color: var(--blue); }
+    .docs-nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--gray-100); }
+    .doc-cell { padding: 1.4rem 0.5rem; border-bottom: 1px solid var(--gray-100); border-right: 1px solid var(--gray-100); }
+    .doc-cell:nth-child(4n) { border-right: none; }
+    .doc-cell.empty { background: transparent; }
+    .doc-date { font-size: 0.9rem; font-weight: 400; color: var(--gray-800); margin-bottom: 0.6rem; }
+    .doc-link { display: flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; color: var(--blue); text-decoration: none; margin-bottom: 0.3rem; cursor: pointer; transition: color 0.15s; }
+    .doc-link:hover { color: #1d4ed8; text-decoration: underline; }
+    .doc-link.disabled { color: var(--gray-300); cursor: default; pointer-events: none; text-decoration: none; }
+    .doc-link svg { flex-shrink: 0; }
+
+    /* CTA */
+    .cta-section { background: var(--navy); padding: 5rem 4%; text-align: center; }
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+    .cta-eyebrow { font-size: 0.72rem; font-weight: 700; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem; }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 900; color: var(--white); margin-bottom: 0.8rem; line-height: 1.15; }
+    .cta-section p { font-size: 0.95rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; line-height: 1.7; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--blue); color: var(--white); padding: 0.9rem 2.2rem; border-radius: 10px; font-weight: 800; font-size: 1rem; text-decoration: none; transition: background 0.2s, transform 0.2s; }
+    .cta-btn:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+    footer { background: #04050f; color: rgba(255,255,255,0.35); text-align: center; padding: 2rem 4%; font-size: 0.78rem; border-top: 1px solid rgba(255,255,255,0.04); }
+    footer strong { color: rgba(255,255,255,0.7); }
+
+    /* LOADING */
+    .loading-state { text-align: center; padding: 4rem 2rem; color: var(--gray-400); font-size: 0.9rem; }
+
+    @media (max-width: 768px) {
+      .period-cards { grid-template-columns: repeat(3, 1fr); }
+      .char-grid { grid-template-columns: 1fr; }
+    }
+    /* GESTIÓN TAB */
+    .mgmt-section-title { font-size: 1.6rem; font-weight: 800; color: var(--gray-800); margin-bottom: 2rem; }
+    .mgmt-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 3rem; }
+    .mgmt-table td { padding: 1rem 0.5rem; border-bottom: 1px solid var(--gray-100); vertical-align: top; }
+    .mgmt-table td:first-child { color: var(--gray-600); width: 46%; font-weight: 400; }
+    .mgmt-table td:last-child { color: var(--gray-800); font-weight: 600; text-align: right; }
+    .mgmt-table tr:last-child td { border-bottom: none; }
+    .mgmt-disclaimer { background: var(--off-white); border: 1px solid var(--gray-100); border-radius: 10px; padding: 1.2rem 1.4rem; font-size: 0.78rem; color: var(--gray-400); line-height: 1.65; margin-top: 1rem; }
+
+    /* ESTRATEGIA TAB */
+    .strat-lead { font-size: 1rem; color: var(--gray-600); line-height: 1.8; margin-bottom: 2.5rem; max-width: 720px; }
+    .strat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem; }
+    .strat-card { border: 1px solid var(--gray-100); border-radius: 14px; overflow: hidden; }
+    .strat-card-header { padding: 1rem 1.4rem; background: var(--navy); }
+    .strat-card-header h3 { font-size: 0.9rem; font-weight: 800; color: var(--white); }
+    .strat-card-header p { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-top: 0.2rem; }
+    .strat-card-body { padding: 1rem 1.4rem; }
+    .strat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid var(--gray-50); font-size: 0.82rem; }
+    .strat-row:last-child { border-bottom: none; }
+    .strat-row span:first-child { color: var(--gray-600); }
+    .strat-row span:last-child { font-weight: 700; color: var(--gray-800); }
+    .strat-principles { margin-top: 1rem; }
+    .strat-principles h3 { font-size: 0.95rem; font-weight: 800; color: var(--gray-800); margin-bottom: 1rem; }
+    .strat-principle { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 1.2rem; border: 1px solid var(--gray-100); border-radius: 10px; margin-bottom: 0.6rem; }
+    .strat-principle-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .strat-principle-title { font-size: 0.85rem; font-weight: 700; color: var(--gray-800); margin-bottom: 0.2rem; }
+    .strat-principle-desc { font-size: 0.78rem; color: var(--gray-600); line-height: 1.55; }
+
+    @media (max-width: 768px) { .strat-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .period-cards { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* CALENDAR */
+    .cal-controls { display: flex; gap: 0.75rem; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; }
+    .cal-select { appearance: none; -webkit-appearance: none; padding: 0.4rem 2rem 0.4rem 0.8rem; border: 1px solid var(--gray-100); border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 600; color: var(--gray-800); background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238892aa' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 0.6rem center; cursor: pointer; }
+    .cal-select:focus { outline: none; border-color: var(--blue); }
+    .cal-wrap { background: var(--white); border: 1px solid var(--gray-100); border-radius: 14px; padding: 1.2rem 1.2rem 1rem; margin-bottom: 2rem; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+    .cal-day-hdr { text-align: center; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gray-400); padding: 0.4rem 0 0.6rem; }
+    .cal-cell { min-height: 52px; border-radius: 6px; padding: 0.35rem 0.4rem; display: flex; flex-direction: column; align-items: flex-start; }
+    .cal-cell.empty { background: transparent; }
+    .cal-cell.no-trade { background: var(--gray-50); }
+    .cal-cell.win { background: #dcfce7; }
+    .cal-cell.loss { background: #fee2e2; }
+    .cal-day-num { font-size: 0.68rem; font-weight: 600; color: var(--gray-300); line-height: 1; }
+    .cal-cell.win .cal-day-num { color: #15803d; }
+    .cal-cell.loss .cal-day-num { color: #b91c1c; }
+    .cal-pct { font-size: 0.7rem; font-weight: 700; margin-top: 0.25rem; }
+    .cal-cell.win .cal-pct { color: #15803d; }
+    .cal-cell.loss .cal-pct { color: #b91c1c; }
+    .cal-summary { display: flex; gap: 1.5rem; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--gray-100); flex-wrap: wrap; align-items: center; }
+    .cal-sum-item { font-size: 0.78rem; color: var(--gray-600); display: flex; align-items: center; gap: 0.3rem; }
+    @media (max-width: 600px) { .cal-cell { min-height: 40px; } .cal-pct { font-size: 0.62rem; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Andrés <span>Cestona</span></div>
+
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="#">Nosotros</a>
+        <div class="nav-drop">
+          <a href="index.html#quien">¿Quién es Andrés?</a>
+          <a href="index.html#media">Prensa</a>
+        </div>
+      </li>
+      <li><a href="index.html#markets">Markets</a></li>
+      <li><a href="estadisticas.html">Estadísticas</a></li>
+      <li><a href="calculadora.html">Calculadora</a></li>
+      <li class="has-drop">
+        <a href="#">Comunidad</a>
+        <div class="nav-drop">
+          <a href="testimonios.html">Testimonios</a>
+          <a href="canales.html">Canales</a>
+          <a href="eventos.html">Eventos</a>
+        </div>
+      </li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="estadisticas.html" class="nav-tienda">Ver estadísticas</a>
+      <a href="index.html#markets" class="nav-estudiante">Markets by Andrés</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="eyebrow"><span>Historial verificado</span></div>
+    <h1>Estadísticas reales</h1>
+    <p>Resultados auditados desde 2021. Transparencia total, sin filtros.</p>
+    <div class="strategy-selector">
+      <button class="strategy-btn active" onclick="switchStrategy('daily')">XAUUSD Daily</button>
+      <button class="strategy-btn" onclick="switchStrategy('swing')">XAUUSD Swing</button>
+    </div>
+  </section>
+
+  <!-- TABS -->
+  <div class="tabs-bar">
+    <button class="tab-btn" onclick="switchTab('gestion')">Gestión</button>
+    <button class="tab-btn" onclick="switchTab('estrategia')">Estrategia</button>
+    <button class="tab-btn active" onclick="switchTab('rendimiento')">Rendimiento</button>
+    <button class="tab-btn" onclick="switchTab('caracteristicas')">Características</button>
+    <button class="tab-btn" onclick="switchTab('documentos')">Documentos</button>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="stats-content" id="content-wrap">
+    <div class="loading-state">Cargando datos...</div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <div class="cta-eyebrow">Simulador personalizado</div>
+      <h2>¿Cuánto hubieras ganado tú?</h2>
+      <p>Calcula tu proyección personalizada con datos reales desde 2021. Elige tu capital y riesgo por operación.</p>
+      <a href="calculadora.html" class="cta-btn" id="cta-sim-link">Ir al Simulador →</a>
+    </div>
+  </section>
+
+  <footer><p>&copy; 2026 <strong>Andrés Cestona</strong> — Todos los derechos reservados.</p></footer>
+
+  <script>
+    let data = null;
+    let currentStrategy = 'daily';
+    let currentTab = 'rendimiento';
+    let chartInstance = null;
+    let currentPeriod = 'ALL';
+    let currentDocYear = 2025;
+    let currentCalYear = null;
+    let currentCalMonth = null;
+
+    const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const fmt2 = n => n.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const fmt0 = n => n.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    const sign = n => n >= 0 ? '+' : '';
+    const cls = n => n >= 0 ? 'td-pos' : 'td-neg';
+    const pcls = n => n >= 0 ? 'pos' : 'neg';
+
+    async function loadData(strategy) {
+      const file = strategy === 'daily' ? 'xauusd-daily.json' : 'xauusd-swing.json';
+      try {
+        const res = await fetch(`./data/${file}`);
+        data = await res.json();
+        renderAll();
+      } catch(e) {
+        document.getElementById('content-wrap').innerHTML = `<div class="loading-state">⚠️ Inicia un servidor local para ver los datos (python3 -m http.server 3000)</div>`;
+      }
+    }
+
+    function switchStrategy(s) {
+      currentStrategy = s;
+      currentCalYear = null;
+      currentCalMonth = null;
+      document.querySelectorAll('.strategy-btn').forEach(b => b.classList.toggle('active', b.textContent.includes(s === 'daily' ? 'Daily' : 'Swing')));
+      const link = document.getElementById('cta-sim-link');
+      if(link) link.href = `calculadora.html?estrategia=${s}`;
+      loadData(s);
+    }
+
+    function switchTab(tab) {
+      currentTab = tab;
+      const tabs = ['gestion','estrategia','rendimiento','caracteristicas','documentos'];
+      document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', tabs[i] === tab));
+      renderAll();
+    }
+
+    function renderAll() {
+      if (!data) return;
+      const wrap = document.getElementById('content-wrap');
+      if (currentTab === 'rendimiento') { wrap.innerHTML = renderRendimiento(); initChart(); }
+      else if (currentTab === 'caracteristicas') { wrap.innerHTML = renderCaracteristicas(); }
+      else if (currentTab === 'documentos') { wrap.innerHTML = renderDocumentos(); }
+      else if (currentTab === 'gestion') { wrap.innerHTML = renderGestion(); }
+      else if (currentTab === 'estrategia') { wrap.innerHTML = renderEstrategia(); }
+    }
+
+    /* ── GESTIÓN ── */
+    function renderGestion() {
+      const isDaily = currentStrategy === 'daily';
+      const totalTrades = data.resumenAnual.reduce((s, a) => s + a.trades, 0);
+      const avgPerMonth = (totalTrades / data.meses.length).toFixed(0);
+      return `
+      <h2 class="mgmt-section-title">Gestión del Portfolio</h2>
+      <table class="mgmt-table">
+        <tr><td>Estratega principal</td><td>Andrés Cestona</td></tr>
+        <tr><td>Relación con inversores</td><td>Andrés Cestona</td></tr>
+        <tr><td>Contacto</td><td>contacto@andrescestona.com</td></tr>
+        <tr><td>Redes sociales</td><td>@andrescestona</td></tr>
+        <tr><td>Auditoría de resultados</td><td>Historial verificado desde ${data.inicio}</td></tr>
+        <tr><td>Plataforma de seguimiento</td><td>Privada — acceso premium</td></tr>
+        <tr><td>Frecuencia de reportes</td><td>Mensual</td></tr>
+        <tr><td>Divisa base</td><td>USD</td></tr>
+      </table>
+
+      <h2 class="mgmt-section-title">Condiciones de la Estrategia</h2>
+      <table class="mgmt-table">
+        <tr><td>Instrumento</td><td>XAU/USD (Oro spot)</td></tr>
+        <tr><td>Modalidad</td><td>${isDaily ? 'Operativa diaria (intradía y daily)' : 'Swing trading (multiday)'}</td></tr>
+        <tr><td>Sesiones operativas</td><td>Londres · Nueva York</td></tr>
+        <tr><td>Gestión de riesgo</td><td>R fijo por operación</td></tr>
+        <tr><td>Frecuencia media</td><td>~${avgPerMonth} trades/mes</td></tr>
+        <tr><td>Desde</td><td>${data.inicio}</td></tr>
+        <tr><td>Tipo de cuenta recomendada</td><td>Standard / ECN</td></tr>
+        <tr><td>Ventana de suscripción</td><td>Mensual</td></tr>
+      </table>
+
+      <div class="mgmt-disclaimer">
+        <strong>Aviso legal:</strong> Los resultados históricos mostrados en esta página corresponden al historial real de operaciones de Andrés Cestona. Los resultados pasados no garantizan resultados futuros. La operativa en mercados financieros conlleva riesgo de pérdida de capital. Esta información es únicamente de carácter informativo y no constituye asesoramiento financiero.
+      </div>`;
+    }
+
+    /* ── ESTRATEGIA ── */
+    function renderEstrategia() {
+      const isDaily = currentStrategy === 'daily';
+      const totalTrades = data.resumenAnual.reduce((s, a) => s + a.trades, 0);
+      const totalWins = data.resumenAnual.reduce((s, a) => s + a.wins, 0);
+      const overallWR = (totalWins / totalTrades * 100).toFixed(1);
+      const avgPerMonth = (totalTrades / data.meses.length).toFixed(0);
+      return `
+      <h2 class="mgmt-section-title">Estrategia de Inversión</h2>
+      <p class="strat-lead">
+        ${isDaily
+          ? 'La estrategia <strong>XAUUSD Daily</strong> se basa en el análisis técnico del oro en marcos temporales de 1H a Daily. Operamos a favor de la tendencia principal con entradas precisas en zonas de demanda/oferta institucional, usando gestión de riesgo fija para preservar el capital a largo plazo.'
+          : 'La estrategia <strong>XAUUSD Swing</strong> busca capturar movimientos de mayor amplitud en el oro, manteniendo posiciones de 2 a 7 días. Se apoya en análisis macro, niveles semanales/mensuales y confluencias técnicas de alto impacto para maximizar el ratio riesgo/beneficio.'}
+      </p>
+
+      <div class="strat-grid">
+        <div class="strat-card">
+          <div class="strat-card-header">
+            <h3>${data.estrategia}</h3>
+            <p>${isDaily ? 'Operativa activa · Alta frecuencia' : 'Swing trading · Baja frecuencia'}</p>
+          </div>
+          <div class="strat-card-body">
+            <div class="strat-row"><span>Instrumento</span><span>XAU/USD</span></div>
+            <div class="strat-row"><span>Timeframe principal</span><span>${isDaily ? '1H / 4H / Daily' : 'Daily / Weekly'}</span></div>
+            <div class="strat-row"><span>Duración media trade</span><span>${isDaily ? 'Horas / 1-2 días' : '2-7 días'}</span></div>
+            <div class="strat-row"><span>Frecuencia</span><span>~${avgPerMonth} trades/mes</span></div>
+            <div class="strat-row"><span>Winrate histórico</span><span>${overallWR}%</span></div>
+            <div class="strat-row"><span>Ratio R:R medio</span><span>${isDaily ? '1:2' : '1:2.5'}</span></div>
+          </div>
+        </div>
+        <div class="strat-card">
+          <div class="strat-card-header">
+            <h3>Gestión de Riesgo</h3>
+            <p>Preservación de capital · R fijo</p>
+          </div>
+          <div class="strat-card-body">
+            <div class="strat-row"><span>Riesgo por trade</span><span>Variable (configurable)</span></div>
+            <div class="strat-row"><span>Stop loss</span><span>Técnico — siempre definido</span></div>
+            <div class="strat-row"><span>Take profit</span><span>Por niveles / estructura</span></div>
+            <div class="strat-row"><span>Max drawdown aceptado</span><span>15% del capital</span></div>
+            <div class="strat-row"><span>Diversificación</span><span>Un activo concentrado</span></div>
+            <div class="strat-row"><span>Apalancamiento</span><span>Moderado / bajo</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="strat-principles">
+        <h3>Principios fundamentales</h3>
+        <div class="strat-principle">
+          <div class="strat-principle-icon">📊</div>
+          <div><div class="strat-principle-title">Análisis técnico institucional</div><div class="strat-principle-desc">Operamos basándonos en zonas de demanda y oferta donde los grandes participantes del mercado dejan su huella. No seguimos indicadores rezagados.</div></div>
+        </div>
+        <div class="strat-principle">
+          <div class="strat-principle-icon">🎯</div>
+          <div><div class="strat-principle-title">Confluencia de señales</div><div class="strat-principle-desc">Solo entramos cuando múltiples factores confluyen: nivel clave, estructura de mercado, sesión operativa óptima y contexto macro favorable.</div></div>
+        </div>
+        <div class="strat-principle">
+          <div class="strat-principle-icon">🛡️</div>
+          <div><div class="strat-principle-title">Gestión de riesgo no negociable</div><div class="strat-principle-desc">El stop loss se define antes de entrar en cada operación. La posición se calcula para arriesgar exactamente el porcentaje definido del capital.</div></div>
+        </div>
+        <div class="strat-principle">
+          <div class="strat-principle-icon">📈</div>
+          <div><div class="strat-principle-title">Rendimiento consistente a largo plazo</div><div class="strat-principle-desc">La estrategia opera con capital fijo (1% del capital inicial por trade), generando rendimientos acumulados mes a mes sin exposición al riesgo compuesto.</div></div>
+        </div>
+      </div>`;
+    }
+
+    /* ── RENDIMIENTO ── */
+    function renderRendimiento() {
+      const meses = data.meses;
+      const anual = data.resumenAnual;
+      if (!meses || meses.length === 0) return '<div class="loading-state">Sin datos disponibles</div>';
+
+      const last = meses[meses.length - 1];
+      const capitalInicial = data.capitalInicial || meses[0].inicio;
+      const total = ((last.fin - capitalInicial) / capitalInicial) * 100;
+
+      // Sin compuesto: % de cada mes es sobre capital inicial → suma directa
+      function periodReturn(months) {
+        if (!months.length) return 0;
+        return months.reduce((s, m) => s + m.porcentaje, 0);
+      }
+
+      const filtered1m = meses.slice(-1);
+      const filtered3m = meses.slice(-3);
+      const filtered6m = meses.slice(-6);
+      const filtered1y = meses.slice(-12);
+
+      const r1m = periodReturn(filtered1m);
+      const r3m = periodReturn(filtered3m);
+      const r6m = periodReturn(filtered6m);
+      const r1y = periodReturn(filtered1y);
+
+      return `
+      <div class="period-cards">
+        <div class="period-card"><div class="period-label">1 Mes</div><div class="period-value ${pcls(r1m)}">${sign(r1m)}${fmt2(r1m)}%</div><div class="period-date">${meses[meses.length-1].mes} ${meses[meses.length-1].año}</div></div>
+        <div class="period-card"><div class="period-label">3 Meses</div><div class="period-value ${pcls(r3m)}">${sign(r3m)}${fmt2(r3m)}%</div></div>
+        <div class="period-card"><div class="period-label">6 Meses</div><div class="period-value ${pcls(r6m)}">${sign(r6m)}${fmt2(r6m)}%</div></div>
+        <div class="period-card"><div class="period-label">1 Año</div><div class="period-value ${pcls(r1y)}">${sign(r1y)}${fmt2(r1y)}%</div></div>
+        <div class="period-card"><div class="period-label">Desde inicio</div><div class="period-value ${pcls(total)}">${sign(total)}${fmt2(total)}%</div><div class="period-date">desde ${data.inicio}</div></div>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="chart-header">
+          <div class="chart-title">Balance desde $1,000 — ${data.estrategia}</div>
+          <div class="chart-filters">
+            ${['1M','3M','6M','1Y','ALL'].map(p => `<button class="cf-btn${p === currentPeriod ? ' active' : ''}" onclick="filterChart('${p}')">${p}</button>`).join('')}
+          </div>
+        </div>
+        <div class="chart-canvas-wrap"><canvas id="mainChart"></canvas></div>
+      </div>
+
+      <div class="section-hdr">Resumen anual</div>
+      <table class="data-table">
+        <thead><tr>
+          <th>Año</th><th>Trades</th><th>Wins</th><th>Losses</th><th>Winrate</th><th>Rendimiento</th>
+        </tr></thead>
+        <tbody id="annual-body">
+          ${anual.map(a => `
+          <tr>
+            <td class="td-year" onclick="toggleMonths(${a.año})">${a.año}<span class="expand-icon" id="icon-${a.año}">▶</span></td>
+            <td>${a.trades}</td>
+            <td style="color:var(--green);font-weight:600">${a.wins}</td>
+            <td style="color:var(--red);font-weight:600">${a.losses}</td>
+            <td>${a.winrate.toFixed(1)}%</td>
+            <td class="${cls(a.rendimiento)}">${sign(a.rendimiento)}${fmt2(a.rendimiento)}%</td>
+          </tr>
+          <tbody id="months-${a.año}" class="month-rows">
+            ${data.meses.filter(m => m.año === a.año).map(m => `
+            <tr class="month-row">
+              <td>${m.mes}</td>
+              <td></td>
+              <td style="color:var(--green);font-weight:600">${m.wins}</td>
+              <td style="color:var(--red);font-weight:600">${m.losses}</td>
+              <td>${m.winrate.toFixed(0)}%</td>
+              <td class="${cls(m.porcentaje)}">${sign(m.porcentaje)}${fmt2(m.porcentaje)}%</td>
+            </tr>`).join('')}
+          </tbody>
+          `).join('')}
+        </tbody>
+      </table>
+
+      ${renderCalendarSection()}
+      `;
+    }
+
+    function renderCalendarSection() {
+      if (!data.trades || !data.trades.length) return '';
+      const trades = data.trades;
+      const lastMes = data.meses[data.meses.length - 1];
+      const calYear = currentCalYear || (lastMes.año || new Date().getFullYear());
+      const calMonth = currentCalMonth || (lastMes.mesNum || (new Date().getMonth() + 1));
+      const calYears = [...new Set(trades.map(t => parseInt(t.fecha.substring(0,4))))].sort((a,b) => b - a);
+      const yearOpts = calYears.map(y => `<option value="${y}"${y===calYear?' selected':''}>${y}</option>`).join('');
+      const monthOpts = MONTHS_ES.map((m,i) => `<option value="${i+1}"${i+1===calMonth?' selected':''}>${m}</option>`).join('');
+      return `
+      <div class="section-hdr">Historial de trades — ${MONTHS_ES[calMonth-1]} ${calYear}</div>
+      <div class="cal-controls">
+        <select class="cal-select" onchange="calSelectYear(parseInt(this.value))">${yearOpts}</select>
+        <select class="cal-select" onchange="calSelectMonth(parseInt(this.value))">${monthOpts}</select>
+      </div>
+      <div class="cal-wrap">${buildCalendar(calYear, calMonth)}</div>`;
+    }
+
+    function buildCalendar(year, month) {
+      const DAY_LABELS = ['L','M','X','J','V','S','D'];
+      const trades = data.trades || [];
+      const monthTrades = trades.filter(t => {
+        const y = parseInt(t.fecha.substring(0,4));
+        const m = parseInt(t.fecha.substring(5,7));
+        return y === year && m === month;
+      });
+      const dayMap = {};
+      monthTrades.forEach(t => { dayMap[parseInt(t.fecha.substring(8,10))] = t; });
+
+      const firstDow = (new Date(year, month - 1, 1).getDay() + 6) % 7;
+      const daysInMonth = new Date(year, month, 0).getDate();
+
+      let cells = [];
+      for (let i = 0; i < firstDow; i++) cells.push(null);
+      for (let d = 1; d <= daysInMonth; d++) cells.push({ day: d, trade: dayMap[d] || null });
+      while (cells.length % 7 !== 0) cells.push(null);
+
+      const TV_BASE = 'https://www.tradingview.com/chart/?symbol=XAUUSD';
+      const hdr = DAY_LABELS.map(d => `<div class="cal-day-hdr">${d}</div>`).join('');
+      const grid = cells.map(c => {
+        if (!c) return `<div class="cal-cell empty"></div>`;
+        if (!c.trade) return `<div class="cal-cell no-trade"><span class="cal-day-num">${c.day}</span></div>`;
+        const isWin = c.trade.resultado === 'win';
+        const pct = Math.abs(c.trade.porcentaje || c.trade.r || 1);
+        const label = `${isWin ? '+' : '−'}${pct}R`;
+        const tvUrl = c.trade.url || TV_BASE;
+        return `<div class="cal-cell ${isWin ? 'win' : 'loss'}" onclick="window.open('${tvUrl}','_blank')" style="cursor:pointer">
+          <span class="cal-day-num">${c.day}</span>
+          <span class="cal-pct">${label}</span>
+        </div>`;
+      }).join('');
+
+      const wins = monthTrades.filter(t => t.resultado === 'win').length;
+      const losses = monthTrades.filter(t => t.resultado === 'loss').length;
+      const wr = monthTrades.length ? (wins / monthTrades.length * 100).toFixed(0) : '—';
+      const totR = monthTrades.reduce((s,t) => s + (t.porcentaje || t.r || 0), 0);
+      const totStr = totR >= 0 ? `+${fmt2(totR)}R` : `${fmt2(totR)}R`;
+      const totColor = totR >= 0 ? 'var(--green)' : 'var(--red)';
+
+      return `
+        <div class="cal-grid">${hdr}${grid}</div>
+        <div class="cal-summary">
+          <span class="cal-sum-item"><span style="color:var(--green);font-size:1rem">●</span> ${wins} wins</span>
+          <span class="cal-sum-item"><span style="color:var(--red);font-size:1rem">●</span> ${losses} losses</span>
+          <span class="cal-sum-item">WR: <strong>${wr}%</strong></span>
+          <span class="cal-sum-item">${monthTrades.length} trades</span>
+          <span class="cal-sum-item" style="margin-left:auto;font-weight:700;color:${totColor}">${totStr} neto</span>
+        </div>`;
+    }
+
+    function calSelectYear(y) { currentCalYear = y; currentCalMonth = currentCalMonth || 1; renderAll(); }
+    function calSelectMonth(m) { currentCalMonth = m; renderAll(); }
+
+    function filterChart(period) {
+      currentPeriod = period;
+      document.querySelectorAll('.cf-btn').forEach(b => b.classList.toggle('active', b.textContent === period));
+      initChart();
+    }
+
+    function initChart() {
+      if (!data || !data.meses) return;
+      const canvas = document.getElementById('mainChart');
+      if (!canvas) return;
+
+      const meses = data.meses;
+      let slice;
+      if (currentPeriod === '1M') slice = meses.slice(-1);
+      else if (currentPeriod === '3M') slice = meses.slice(-3);
+      else if (currentPeriod === '6M') slice = meses.slice(-6);
+      else if (currentPeriod === '1Y') slice = meses.slice(-12);
+      else slice = meses;
+
+      const labels = slice.map(m => `${m.mes.substring(0,3)} ${m.año}`);
+      const startBalance = slice[0].inicio;
+      const balances = [startBalance, ...slice.map(m => m.fin)];
+      const allLabels = [`Inicio`, ...labels];
+
+      if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+
+      chartInstance = new Chart(canvas, {
+        type: 'line',
+        data: {
+          labels: allLabels,
+          datasets: [{
+            data: balances,
+            borderColor: '#2563eb',
+            backgroundColor: 'rgba(37,99,235,0.06)',
+            borderWidth: 2.5,
+            pointRadius: allLabels.length > 24 ? 0 : 3,
+            pointHoverRadius: 5,
+            pointBackgroundColor: '#2563eb',
+            fill: true,
+            tension: 0.1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: ctx => ` $${ctx.parsed.y.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2})}`
+              },
+              backgroundColor: '#07091a',
+              titleColor: 'rgba(255,255,255,0.6)',
+              bodyColor: '#ffffff',
+              borderColor: 'rgba(255,255,255,0.1)',
+              borderWidth: 1,
+              padding: 10
+            }
+          },
+          scales: {
+            x: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { font: { size: 10 }, color: '#8892aa', maxTicksLimit: 12 } },
+            y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { callback: v => '$' + fmt0(v), font: { size: 10 }, color: '#8892aa' } }
+          }
+        }
+      });
+    }
+
+    function toggleMonths(year) {
+      const el = document.getElementById(`months-${year}`);
+      const icon = document.getElementById(`icon-${year}`);
+      if (!el) return;
+      el.classList.toggle('open');
+      icon.classList.toggle('open');
+    }
+
+    /* ── CARACTERÍSTICAS ── */
+    function renderCaracteristicas() {
+      const meses = data.meses;
+      const anual = data.resumenAnual;
+      const totalTrades = anual.reduce((s, a) => s + a.trades, 0);
+      const totalWins = anual.reduce((s, a) => s + a.wins, 0);
+      const overallWR = ((totalWins / totalTrades) * 100).toFixed(1);
+      const lastFin = meses[meses.length - 1].fin;
+      const totalRend = ((lastFin / meses[0].inicio) - 1) * 100;
+
+      const bestMonth = [...meses].sort((a, b) => b.porcentaje - a.porcentaje)[0];
+      const worstMonth = [...meses].sort((a, b) => a.porcentaje - b.porcentaje)[0];
+
+      // max drawdown from balance series
+      let balances = [meses[0].inicio, ...meses.map(m => m.fin)];
+      let maxDD = 0, peak = balances[0];
+      for (let b of balances) {
+        if (b > peak) peak = b;
+        const dd = ((peak - b) / peak) * 100;
+        if (dd > maxDD) maxDD = dd;
+      }
+
+      const years = [...new Set(anual.map(a => a.año))];
+      const periodo = `${data.inicio} — ${meses[meses.length-1].mes} ${meses[meses.length-1].año}`;
+
+      return `
+      <div class="char-grid">
+        <div class="char-block">
+          <div class="char-block-title">Información general</div>
+          <div class="char-row"><span class="char-label">Estrategia</span><span class="char-value">${data.estrategia}</span></div>
+          <div class="char-row"><span class="char-label">Activo</span><span class="char-value">XAUUSD (Oro)</span></div>
+          <div class="char-row"><span class="char-label">Tipo de operativa</span><span class="char-value">${currentStrategy === 'daily' ? 'Intradía / Daily' : 'Swing (multiday)'}</span></div>
+          <div class="char-row"><span class="char-label">Frecuencia operativa</span><span class="char-value">${currentStrategy === 'daily' ? '~10 trades/mes' : '~5 trades/mes'}</span></div>
+          <div class="char-row"><span class="char-label">Período auditado</span><span class="char-value">${periodo}</span></div>
+          <div class="char-row"><span class="char-label">Años de historial</span><span class="char-value">${years.length} años</span></div>
+        </div>
+        <div class="char-block">
+          <div class="char-block-title">Métricas de rendimiento</div>
+          <div class="char-row"><span class="char-label">Total trades históricos</span><span class="char-value">${totalTrades}</span></div>
+          <div class="char-row"><span class="char-label">Winrate histórico</span><span class="char-value">${overallWR}%</span></div>
+          <div class="char-row"><span class="char-label">Rendimiento total</span><span class="char-value green">+${fmt2(totalRend)}%</span></div>
+          <div class="char-row"><span class="char-label">Mejor mes</span><span class="char-value green">+${fmt2(bestMonth.porcentaje)}% (${bestMonth.mes} ${bestMonth.año})</span></div>
+          <div class="char-row"><span class="char-label">Peor mes</span><span class="char-value red">${fmt2(worstMonth.porcentaje)}% (${worstMonth.mes} ${worstMonth.año})</span></div>
+          <div class="char-row"><span class="char-label">Max. drawdown histórico</span><span class="char-value red">-${fmt2(maxDD)}%</span></div>
+        </div>
+        <div class="char-block">
+          <div class="char-block-title">Condiciones del instrumento</div>
+          <div class="char-row"><span class="char-label">Par operado</span><span class="char-value">XAU/USD</span></div>
+          <div class="char-row"><span class="char-label">Sesión</span><span class="char-value">Londres / Nueva York</span></div>
+          <div class="char-row"><span class="char-label">Tipo de cuenta</span><span class="char-value">Standard / ECN</span></div>
+          <div class="char-row"><span class="char-label">Gestión de riesgo</span><span class="char-value">R fijo por trade</span></div>
+        </div>
+        <div class="char-block">
+          <div class="char-block-title">Resumen por año</div>
+          ${anual.map(a => `
+          <div class="char-row">
+            <span class="char-label">${a.año}</span>
+            <span class="char-value ${a.rendimiento >= 0 ? 'green' : 'red'}">${sign(a.rendimiento)}${fmt2(a.rendimiento)}% · ${a.winrate.toFixed(1)}% WR</span>
+          </div>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    /* ── DOCUMENTOS ── */
+    const PDF_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`;
+    const XLS_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="8 13 10.5 17 13 13"/><line x1="8" y1="17" x2="13" y2="13"/></svg>`;
+
+    function renderDocumentos() {
+      const years = [...new Set(data.meses.map(m => m.año))].sort((a,b) => b - a);
+      const selYear = currentDocYear || years[0];
+      const monthsForYear = data.meses.filter(m => m.año === selYear);
+
+      // Build grid: 4 columns, fill left-to-right with existing months, pad with empty cells
+      const cells = MONTHS_ES.map((mes, i) => {
+        const monthNum = i + 1;
+        const exists = monthsForYear.some(m => m.mesNum === monthNum);
+        return { mes, monthNum, exists };
+      });
+      // Pad to multiple of 4
+      while (cells.length % 4 !== 0) cells.push(null);
+
+      const yearOptions = years.map(y => `<option value="${y}"${y === selYear ? ' selected' : ''}>${y}</option>`).join('');
+
+      const cellsHTML = cells.map(c => {
+        if (!c) return `<div class="doc-cell empty"></div>`;
+        const ok = c.exists;
+        return `<div class="doc-cell">
+          <div class="doc-date">${c.mes} ${selYear}</div>
+          <a class="doc-link${ok ? '' : ' disabled'}" href="${ok ? '#' : ''}">${PDF_ICON} (PDF)</a>
+          <a class="doc-link${ok ? '' : ' disabled'}" href="${ok ? '#' : ''}">${XLS_ICON} (XLS)</a>
+        </div>`;
+      }).join('');
+
+      return `
+      <div class="docs-header">
+        <div class="docs-title">Reportes Mensuales</div>
+        <select class="yr-select" onchange="selectDocYear(parseInt(this.value))">${yearOptions}</select>
+      </div>
+      <div class="docs-nav-grid">${cellsHTML}</div>
+      <p style="margin-top:1.5rem;font-size:0.75rem;color:var(--gray-400);">
+        Los reportes marcados como disponibles pueden descargarse en formato PDF. Los reportes futuros se publicarán mensualmente.
+      </p>`;
+    }
+
+    function selectDocYear(y) {
+      currentDocYear = y;
+      renderAll();
+    }
+
+    // Init — default to swing (real data)
+    document.querySelectorAll('.strategy-btn').forEach(b => b.classList.toggle('active', b.textContent.includes('Swing')));
+    currentStrategy = 'swing';
+    loadData('swing');
+  </script>
+</body>
+</html>

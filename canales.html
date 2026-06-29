@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Canales — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #07091a; --navy2: #0c0f26; --navy3: #111535;
+      --blue: #2563eb; --blue-mid: #3b82f6; --blue-soft: #93c5fd;
+      --white: #ffffff; --off-white: #f0f4ff;
+      --gray-100: #e2e8f4; --gray-400: #8892aa; --gray-600: #4b5775;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--navy); overflow-x: hidden; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-logo { font-size: 0.95rem; font-weight: 800; color: var(--white); letter-spacing: -0.3px; flex-shrink: 0; margin-right: 0.5rem; text-decoration: none; }
+    .nav-logo span { color: var(--blue-mid); }
+    .nav-links { display: flex; align-items: center; list-style: none; height: 100%; flex: 1; justify-content: center; }
+    .nav-links li { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+    .nav-links > li > a:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+    .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
+    .nav-drop { display: none; position: absolute; top: 100%; left: 0; background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 0.5rem 0; min-width: 185px; box-shadow: 0 20px 48px rgba(0,0,0,0.55); }
+    .has-drop:hover .nav-drop { display: block; }
+    .nav-drop a { display: block; height: auto; padding: 0.58rem 1.2rem; font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s, background 0.15s; }
+    .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-right { display: flex; align-items: center; gap: 0.2rem; flex-shrink: 0; }
+    .nav-tienda { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0.42rem 0.65rem; border-radius: 6px; transition: background 0.15s; white-space: nowrap; }
+    .nav-tienda:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-estudiante { background: var(--blue); color: var(--white); padding: 0.45rem 0.9rem; border-radius: 7px; font-weight: 700; font-size: 0.82rem; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
+    .nav-estudiante:hover { background: #1d4ed8; }
+
+    /* HERO */
+    .page-hero {
+      background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 55%, #0e1440 100%);
+      padding: 8rem 4% 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3);
+      padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem;
+    }
+    .eyebrow::before { content: '●'; color: var(--blue-mid); font-size: 0.45rem; }
+    .eyebrow span { font-size: 0.72rem; font-weight: 600; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.2px; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 1rem; }
+    .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.6); max-width: 540px; margin: 0 auto; line-height: 1.75; }
+
+    /* CHANNELS GRID */
+    .channels-section { padding: 5rem 4%; background: var(--white); }
+    .channels-inner { max-width: 1100px; margin: 0 auto; }
+    .channels-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+
+    .channel-card {
+      border: 1px solid var(--gray-100);
+      border-radius: 20px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+    }
+    .channel-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      border-radius: 20px 20px 0 0;
+    }
+    .channel-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.1); }
+
+    /* colores por red */
+    .ch-youtube::before { background: #FF0000; }
+    .ch-youtube:hover { border-color: #FF0000; box-shadow: 0 16px 48px rgba(255,0,0,0.12); }
+    .ch-telegram::before { background: #2AABEE; }
+    .ch-telegram:hover { border-color: #2AABEE; box-shadow: 0 16px 48px rgba(42,171,238,0.12); }
+    .ch-discord::before { background: #5865F2; }
+    .ch-discord:hover { border-color: #5865F2; box-shadow: 0 16px 48px rgba(88,101,242,0.12); }
+    .ch-twitch::before { background: #9146FF; }
+    .ch-twitch:hover { border-color: #9146FF; box-shadow: 0 16px 48px rgba(145,70,255,0.12); }
+    .ch-instagram::before { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .ch-instagram:hover { border-color: #dc2743; box-shadow: 0 16px 48px rgba(220,39,67,0.12); }
+    .ch-tiktok::before { background: #010101; }
+    .ch-tiktok:hover { border-color: #010101; box-shadow: 0 16px 48px rgba(0,0,0,0.15); }
+
+    .channel-header { display: flex; align-items: center; gap: 1rem; }
+    .channel-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+    }
+    .ch-youtube .channel-icon { background: #FF000015; }
+    .ch-telegram .channel-icon { background: #2AABEE15; }
+    .ch-discord .channel-icon { background: #5865F215; }
+    .ch-twitch .channel-icon { background: #9146FF15; }
+    .ch-instagram .channel-icon { background: #dc274315; }
+    .ch-tiktok .channel-icon { background: #01010110; }
+
+    .channel-name { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .channel-handle { font-size: 0.78rem; color: var(--gray-400); margin-top: 0.1rem; }
+    .channel-desc { font-size: 0.88rem; color: var(--gray-600); line-height: 1.6; }
+    .channel-stats { display: flex; gap: 1.5rem; }
+    .ch-stat-num { font-size: 1rem; font-weight: 800; color: var(--navy); }
+    .ch-stat-label { font-size: 0.7rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; }
+    .channel-btn {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.55rem 1.2rem; border-radius: 8px;
+      font-size: 0.82rem; font-weight: 700;
+      text-decoration: none; margin-top: auto;
+      transition: opacity 0.15s;
+      align-self: flex-start;
+    }
+    .channel-btn:hover { opacity: 0.85; }
+    .ch-youtube .channel-btn { background: #FF000018; color: #CC0000; }
+    .ch-telegram .channel-btn { background: #2AABEE18; color: #0088CC; }
+    .ch-discord .channel-btn { background: #5865F218; color: #4752C4; }
+    .ch-twitch .channel-btn { background: #9146FF18; color: #7B2FBE; }
+    .ch-instagram .channel-btn { background: #dc274318; color: #C13584; }
+    .ch-tiktok .channel-btn { background: #01010110; color: #010101; }
+
+    footer { background: var(--navy); color: rgba(255,255,255,0.45); text-align: center; padding: 2.5rem 4%; font-size: 0.82rem; }
+    footer strong { color: rgba(255,255,255,0.85); }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">Andrés <span>Cestona</span></div>
+
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="#">Nosotros</a>
+        <div class="nav-drop">
+          <a href="index.html#quien">¿Quién es Andrés?</a>
+          <a href="index.html#media">Prensa</a>
+        </div>
+      </li>
+      <li><a href="index.html#markets">Markets</a></li>
+      <li><a href="estadisticas.html">Estadísticas</a></li>
+      <li><a href="calculadora.html">Calculadora</a></li>
+      <li class="has-drop">
+        <a href="#">Comunidad</a>
+        <div class="nav-drop">
+          <a href="testimonios.html">Testimonios</a>
+          <a href="canales.html">Canales</a>
+          <a href="eventos.html">Eventos</a>
+        </div>
+      </li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="estadisticas.html" class="nav-tienda">Ver estadísticas</a>
+      <a href="index.html#markets" class="nav-estudiante">Markets by Andrés</a>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="eyebrow"><span>Comunidad</span></div>
+    <h1>Únete a nuestros<br/>canales</h1>
+    <p>Síguenos en todas las plataformas. Contenido diario, análisis en vivo, mercados en tiempo real y mucho más.</p>
+  </section>
+
+  <section class="channels-section">
+    <div class="channels-inner">
+      <div class="channels-grid">
+
+        <!-- YouTube -->
+        <a href="https://youtube.com" target="_blank" class="channel-card ch-youtube">
+          <div class="channel-header">
+            <div class="channel-icon">▶</div>
+            <div>
+              <div class="channel-name">YouTube</div>
+              <div class="channel-handle">@AndresCestona</div>
+            </div>
+          </div>
+          <p class="channel-desc">Videos semanales de análisis de mercados, estrategias de inversión y educación financiera. Desde cero hasta nivel avanzado.</p>
+          <div class="channel-stats">
+            <div><div class="ch-stat-num">50K+</div><div class="ch-stat-label">Suscriptores</div></div>
+            <div><div class="ch-stat-num">200+</div><div class="ch-stat-label">Videos</div></div>
+          </div>
+          <span class="channel-btn">Ver canal →</span>
+        </a>
+
+        <!-- Telegram -->
+        <a href="https://t.me" target="_blank" class="channel-card ch-telegram">
+          <div class="channel-header">
+            <div class="channel-icon">✈</div>
+            <div>
+              <div class="channel-name">Telegram</div>
+              <div class="channel-handle">@AndresCestonaInvierte</div>
+            </div>
+          </div>
+          <p class="channel-desc">Alertas de mercado en tiempo real, análisis rápidos y señales de trading. El canal más activo para estar siempre un paso adelante.</p>
+          <div class="channel-stats">
+            <div><div class="ch-stat-num">15K+</div><div class="ch-stat-label">Miembros</div></div>
+            <div><div class="ch-stat-num">Diario</div><div class="ch-stat-label">Frecuencia</div></div>
+          </div>
+          <span class="channel-btn">Unirme →</span>
+        </a>
+
+        <!-- Discord -->
+        <a href="https://discord.com" target="_blank" class="channel-card ch-discord">
+          <div class="channel-header">
+            <div class="channel-icon">🎮</div>
+            <div>
+              <div class="channel-name">Discord</div>
+              <div class="channel-handle">Servidor Cestona Invest</div>
+            </div>
+          </div>
+          <p class="channel-desc">La comunidad más activa. Canales por mercados, salas de voz en vivo, debates, estrategias y soporte directo de otros inversores.</p>
+          <div class="channel-stats">
+            <div><div class="ch-stat-num">8K+</div><div class="ch-stat-label">Miembros</div></div>
+            <div><div class="ch-stat-num">24/7</div><div class="ch-stat-label">Actividad</div></div>
+          </div>
+          <span class="channel-btn">Entrar →</span>
+        </a>
+
+        <!-- Twitch -->
+        <a href="https://twitch.tv" target="_blank" class="channel-card ch-twitch">
+          <div class="channel-header">
+            <div class="channel-icon">📡</div>
+            <div>
+              <div class="channel-name">Twitch</div>
+              <div class="channel-handle">AndresCestona</div>
+            </div>
+          </div>
+          <p class="channel-desc">Transmisiones en vivo los martes y jueves. Análisis de mercados en tiempo real, sesiones de preguntas y trading en directo.</p>
+          <div class="channel-stats">
+            <div><div class="ch-stat-num">5K+</div><div class="ch-stat-label">Seguidores</div></div>
+            <div><div class="ch-stat-num">2x/sem</div><div class="ch-stat-label">En vivo</div></div>
+          </div>
+          <span class="channel-btn">Seguir →</span>
+        </a>
+
+        <!-- Instagram -->
+        <a href="https://instagram.com" target="_blank" class="channel-card ch-instagram">
+          <div class="channel-header">
+            <div class="channel-icon">📸</div>
+            <div>
+              <div class="channel-name">Instagram</div>
+              <div class="channel-handle">@andrescestona</div>
+            </div>
+          </div>
+          <p class="channel-desc">Contenido visual diario: reels con conceptos financieros, stories con análisis rápidos y carruseles con estrategias accionables.</p>
+          <div class="channel-stats">
+            <div><div class="ch-stat-num">30K+</div><div class="ch-stat-label">Seguidores</div></div>
+            <div><div class="ch-stat-num">Diario</div><div class="ch-stat-label">Publicaciones</div></div>
+          </div>
+          <span class="channel-btn">Seguir →</span>
+        </a>
+
+        <!-- TikTok -->
+        <a href="https://tiktok.com" target="_blank" class="channel-card ch-tiktok">
+          <div class="channel-header">
+            <div class="channel-icon">🎵</div>
+            <div>
+              <div class="channel-name">TikTok</div>
+              <div class="channel-handle">@andrescestona</div>
+            </div>
+          </div>
+          <p class="channel-desc">Finanzas en formato corto. Videos de 60 segundos que explican conceptos complejos de forma simple, directa y entretenida.</p>
+          <div class="channel-stats">
+            <div><div class="ch-stat-num">20K+</div><div class="ch-stat-label">Seguidores</div></div>
+            <div><div class="ch-stat-num">3x/sem</div><div class="ch-stat-label">Videos</div></div>
+          </div>
+          <span class="channel-btn">Ver perfil →</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 <strong>Andrés Cestona</strong> — Todos los derechos reservados.</p>
+  </footer>
+
+</body>
+</html>

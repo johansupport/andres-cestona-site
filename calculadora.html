@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculadora & Simulador — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy:  #07091a; --navy2: #0c0f26; --navy3: #111535;
+      --blue:  #2563eb; --blue-mid: #3b82f6; --blue-soft: #93c5fd;
+      --green: #16a34a; --green-bg: #dcfce7; --green-border: #86efac;
+      --red:   #dc2626; --red-bg:   #fee2e2; --red-border:   #fca5a5;
+      --white: #ffffff; --off-white: #f8fafc;
+      --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0;
+      --gray-400: #94a3b8; --gray-600: #475569; --gray-900: #0f172a;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--white); overflow-x: hidden; }
+
+    /* ─── NAV ─── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-logo { font-size: 0.95rem; font-weight: 800; color: var(--white); letter-spacing: -0.3px; flex-shrink: 0; margin-right: 0.5rem; text-decoration: none; }
+    .nav-logo span { color: var(--blue-mid); }
+    .nav-links { display: flex; align-items: center; list-style: none; height: 100%; flex: 1; justify-content: center; }
+    .nav-links li { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+    .nav-links > li > a:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+    .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
+    .nav-drop { display: none; position: absolute; top: 100%; left: 0; background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 0.5rem 0; min-width: 185px; box-shadow: 0 20px 48px rgba(0,0,0,0.55); }
+    .has-drop:hover .nav-drop { display: block; }
+    .nav-drop a { display: block; padding: 0.58rem 1.2rem; font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s, background 0.15s; }
+    .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-right { display: flex; align-items: center; gap: 0.2rem; flex-shrink: 0; }
+    .nav-tienda { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0.42rem 0.65rem; border-radius: 6px; transition: background 0.15s; white-space: nowrap; }
+    .nav-tienda:hover { background: rgba(255,255,255,0.06); }
+    .nav-estudiante { background: var(--blue); color: var(--white); padding: 0.45rem 0.9rem; border-radius: 7px; font-weight: 700; font-size: 0.82rem; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
+    .nav-estudiante:hover { background: #1d4ed8; }
+
+    /* ─── HERO ─── */
+    .page-hero { background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 55%, #0e1440 100%); padding: 8rem 4% 4rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 65%); pointer-events: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .eyebrow::before { content: '●'; color: var(--blue-mid); font-size: 0.45rem; }
+    .eyebrow span { font-size: 0.72rem; font-weight: 600; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.2px; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 4.5vw, 3.2rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 1rem; }
+    .page-hero h1 em { color: var(--blue-soft); font-style: italic; }
+    .page-hero p { font-size: 1rem; color: rgba(255,255,255,0.55); max-width: 520px; margin: 0 auto; line-height: 1.75; }
+
+    /* ─── SIMULATOR FORM ─── */
+    .sim-section { padding: 2.5rem 4% 5rem; }
+    .sim-inner { max-width: 860px; margin: 0 auto; }
+    .sim-card { background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 2.2rem; }
+    .sim-card-title { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 1.8rem; display: flex; align-items: center; gap: 0.7rem; }
+    .sim-card-title::before { content: ''; display: block; width: 3px; height: 1em; background: var(--blue-mid); border-radius: 2px; }
+    .strat-row { display: flex; gap: 0.85rem; margin-bottom: 1.8rem; }
+    .strat-btn { flex: 1; padding: 0.9rem 1.2rem; background: var(--navy3); border: 1.5px solid rgba(255,255,255,0.08); border-radius: 10px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 0.25rem; color: var(--white); font-family: 'Inter', sans-serif; }
+    .strat-btn:hover { border-color: rgba(59,130,246,0.4); }
+    .strat-btn.active { border-color: var(--blue-mid); background: rgba(37,99,235,0.12); }
+    .strat-btn-name { font-size: 0.88rem; font-weight: 700; }
+    .strat-btn-desc { font-size: 0.72rem; color: var(--gray-400); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .field { display: flex; flex-direction: column; gap: 0.4rem; }
+    .field label { font-size: 0.7rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; }
+    .field input { background: var(--navy3); border: 1.5px solid rgba(255,255,255,0.08); border-radius: 9px; padding: 0.7rem 0.9rem; color: var(--white); font-size: 0.9rem; font-family: 'Inter', sans-serif; transition: border-color 0.15s; outline: none; width: 100%; }
+    .field input:focus { border-color: var(--blue-mid); }
+    .field input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.5; cursor: pointer; }
+    .reinv-field { margin-bottom: 1.4rem; }
+    .reinv-field label { font-size: 0.7rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.6rem; }
+    .reinv-row { display: flex; align-items: center; gap: 0.75rem; }
+    .reinv-row input[type="range"] { flex: 1; height: 4px; accent-color: var(--blue-mid); cursor: pointer; }
+    .reinv-num { width: 68px; background: var(--navy3); border: 1.5px solid rgba(255,255,255,0.08); border-radius: 9px; padding: 0.55rem 0.75rem; color: var(--white); font-size: 0.9rem; font-weight: 700; font-family: 'Inter', sans-serif; text-align: center; outline: none; transition: border-color 0.15s; }
+    .reinv-num:focus { border-color: var(--blue-mid); }
+    .reinv-labels { display: flex; justify-content: space-between; margin-top: 0.3rem; }
+    .reinv-label { font-size: 0.65rem; color: rgba(255,255,255,0.3); }
+    .reinv-desc { font-size: 0.72rem; color: var(--blue-soft); margin-top: 0.5rem; font-weight: 500; min-height: 1rem; }
+    .btn-calc { width: 100%; padding: 0.9rem; background: var(--blue); color: var(--white); border: none; border-radius: 10px; font-size: 0.95rem; font-weight: 800; font-family: 'Inter', sans-serif; cursor: pointer; transition: background 0.15s, transform 0.15s; }
+    .btn-calc:hover { background: #1d4ed8; transform: translateY(-1px); }
+    .btn-calc:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .loading { display: none; align-items: center; gap: 0.75rem; color: var(--gray-400); font-size: 0.85rem; margin-top: 1rem; }
+    .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.1); border-top-color: var(--blue-mid); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-msg { display: none; background: rgba(220,38,38,0.12); border: 1px solid rgba(220,38,38,0.3); border-radius: 9px; padding: 0.9rem 1.2rem; color: #fca5a5; font-size: 0.82rem; margin-top: 1rem; }
+
+    /* ─── RESULTS WRAPPER ─── */
+    #results { display: none; margin-top: 2.5rem; }
+
+    /* ─── SUMMARY HEADER CARD (dark) ─── */
+    .summary-card {
+      background: var(--navy2);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 2rem 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .summary-top { font-size: 0.65rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.7rem; }
+    .summary-capital { font-size: 2rem; font-weight: 900; color: var(--white); margin-bottom: 0.2rem; }
+    .summary-capital span { color: var(--blue-soft); }
+    .summary-period { font-size: 1rem; font-weight: 700; color: rgba(255,255,255,0.6); margin-bottom: 0.4rem; }
+    .summary-note { font-size: 0.72rem; color: var(--gray-400); margin-bottom: 1.5rem; }
+    .summary-stats { display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.2rem; }
+    .ss-item { flex: 1; text-align: center; border-right: 1px solid rgba(255,255,255,0.06); padding: 0 1rem; }
+    .ss-item:last-child { border-right: none; }
+    .ss-item:first-child { padding-left: 0; text-align: left; }
+    .ss-label { font-size: 0.62rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.3rem; }
+    .ss-value { font-size: 1.2rem; font-weight: 900; color: var(--white); }
+    .ss-value.green { color: #4ade80; }
+    .ss-value.red { color: #f87171; }
+    .ss-value.blue { color: var(--blue-soft); }
+
+    /* ─── LEGEND ─── */
+    .legend-row {
+      display: flex; gap: 1.5rem; align-items: center;
+      margin-bottom: 1.5rem; flex-wrap: wrap;
+      font-size: 0.72rem; color: var(--gray-400);
+    }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; }
+    .legend-chip { padding: 0.2rem 0.55rem; border-radius: 5px; font-size: 0.7rem; font-weight: 700; }
+    .legend-chip.win  { background: var(--green-bg); color: var(--green); }
+    .legend-chip.loss { background: var(--red-bg); color: var(--red); }
+
+    .results-actions { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem; }
+    .results-actions-title { font-size: 0.7rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 2px; }
+    .btn-pdf { display: inline-flex; align-items: center; gap: 0.45rem; background: transparent; border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.75); padding: 0.5rem 1.1rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.2s; }
+    .btn-pdf:hover { border-color: var(--blue-mid); color: var(--white); }
+
+    /* ─── MONTH CARDS ─── */
+    #month-cards { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+
+    .month-card { background: var(--white); border-radius: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+
+    .month-card-header {
+      background: var(--navy);
+      padding: 1rem 1.4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 0.75rem;
+    }
+    .mch-left { display: flex; flex-direction: column; gap: 0.15rem; }
+    .mch-name { font-size: 1rem; font-weight: 800; color: var(--white); }
+    .mch-wl { font-size: 0.72rem; color: var(--gray-400); }
+    .mch-wl .w { color: #4ade80; font-weight: 700; }
+    .mch-wl .l { color: #f87171; font-weight: 700; }
+    .mch-right { display: flex; align-items: center; gap: 1.5rem; }
+    .mch-stat { text-align: right; }
+    .mch-stat-label { font-size: 0.58rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; }
+    .mch-stat-value { font-size: 0.88rem; font-weight: 700; color: var(--white); }
+    .mch-stat-value.green { color: #4ade80; }
+    .mch-stat-value.red   { color: #f87171; }
+    .mch-pct { font-size: 1.5rem; font-weight: 900; }
+    .mch-pct.green { color: #4ade80; }
+    .mch-pct.red   { color: #f87171; }
+
+    .month-card-body { padding: 0; }
+
+    /* Week section */
+    .week-section { border-bottom: 1px solid var(--gray-100); }
+    .week-section:last-of-type { border-bottom: none; }
+
+    .week-header-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.65rem 1.4rem;
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.72rem;
+    }
+    .week-label { font-weight: 700; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.5px; }
+    .week-result { font-weight: 700; }
+    .week-result.green { color: var(--green); }
+    .week-result.red   { color: var(--red); }
+
+    .week-trades-row {
+      display: flex; gap: 0.6rem; flex-wrap: wrap;
+      padding: 0.9rem 1.4rem;
+      background: var(--white);
+    }
+
+    /* Individual trade card */
+    .tc {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      width: 78px; border-radius: 8px; padding: 0.55rem 0.4rem;
+      text-align: center; gap: 0.1rem;
+      border: 1px solid;
+    }
+    .tc.win  { background: var(--green-bg); border-color: var(--green-border); }
+    .tc.loss { background: var(--red-bg);   border-color: var(--red-border); }
+    .tc-day   { font-size: 0.6rem; font-weight: 600; color: var(--gray-400); margin-bottom: 0.15rem; }
+    .tc-pct   { font-size: 0.88rem; font-weight: 900; line-height: 1; }
+    .tc.win  .tc-pct { color: var(--green); }
+    .tc.loss .tc-pct { color: var(--red); }
+    .tc-gain  { font-size: 0.62rem; font-weight: 600; }
+    .tc.win  .tc-gain { color: var(--green); }
+    .tc.loss .tc-gain { color: var(--red); }
+    .tc-bal   { font-size: 0.6rem; color: var(--gray-600); margin-top: 0.05rem; }
+
+    /* Week summary */
+    .week-summary-row {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      padding: 0.6rem 1.4rem;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-100);
+    }
+    .ws-col { display: flex; flex-direction: column; gap: 0.1rem; }
+    .ws-label { font-size: 0.58rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.8px; }
+    .ws-value { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .ws-value.green { color: var(--green); }
+    .ws-value.red   { color: var(--red); }
+
+    /* Month footer */
+    .month-footer {
+      display: flex; justify-content: space-between;
+      padding: 0.85rem 1.4rem;
+      background: var(--gray-100);
+      border-top: 2px solid var(--gray-200);
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+    .mf-col { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; }
+    .mf-label { font-size: 0.58rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.8px; }
+    .mf-value { font-size: 0.88rem; font-weight: 800; color: var(--gray-900); }
+    .mf-value.green { color: var(--green); }
+    .mf-value.red   { color: var(--red); }
+
+    /* ─── GLOBAL TABLE ─── */
+    .global-table-wrap {
+      background: var(--white); border-radius: 14px; overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.12); margin-bottom: 2rem;
+    }
+    .global-table-header { background: var(--navy); padding: 0.9rem 1.4rem; }
+    .global-table-title { font-size: 0.7rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 2px; }
+    .global-table { width: 100%; border-collapse: collapse; }
+    .global-table th { background: var(--navy); color: var(--white); padding: 0.75rem 1rem; text-align: left; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .global-table td { padding: 0.8rem 1rem; font-size: 0.82rem; border-bottom: 1px solid var(--gray-100); color: var(--gray-900); }
+    .global-table tr.total-row td { background: var(--gray-50); font-weight: 800; border-top: 2px solid var(--gray-200); }
+    .global-table tr:hover td { background: var(--gray-50); }
+    .gt-green { color: var(--green); font-weight: 700; }
+    .gt-red   { color: var(--red); font-weight: 700; }
+    .gt-bold  { font-weight: 800; color: var(--gray-900); }
+
+    /* ─── FOOTER ─── */
+    footer { background: var(--navy); border-top: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.45); text-align: center; padding: 2.5rem 4%; font-size: 0.82rem; }
+    footer strong { color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 800px) {
+      .form-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .mch-right { gap: 0.75rem; }
+      .summary-stats { flex-wrap: wrap; }
+      .ss-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 0.5rem 0; flex: 0 0 48%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">Andrés <span>Cestona</span></div>
+
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="#">Nosotros</a>
+        <div class="nav-drop">
+          <a href="index.html#quien">¿Quién es Andrés?</a>
+          <a href="index.html#media">Prensa</a>
+        </div>
+      </li>
+      <li><a href="index.html#markets">Markets</a></li>
+      <li><a href="estadisticas.html">Estadísticas</a></li>
+      <li><a href="calculadora.html">Calculadora</a></li>
+      <li class="has-drop">
+        <a href="#">Comunidad</a>
+        <div class="nav-drop">
+          <a href="testimonios.html">Testimonios</a>
+          <a href="canales.html">Canales</a>
+          <a href="eventos.html">Eventos</a>
+        </div>
+      </li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="estadisticas.html" class="nav-tienda">Ver estadísticas</a>
+      <a href="index.html#markets" class="nav-estudiante">Markets by Andrés</a>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="eyebrow"><span>Estadísticas reales</span></div>
+    <h1>Simulador con datos <em>reales</em></h1>
+    <p>Configura tu capital y riesgo. El sistema aplica interés compuesto sobre nuestro historial real de trades.</p>
+  </section>
+
+  <section class="sim-section" id="simulador">
+    <div class="sim-inner">
+
+      <!-- FORM -->
+      <div class="sim-card">
+        <div class="sim-card-title">Configura tu simulación</div>
+        <div class="strat-row">
+          <button class="strat-btn active" data-strategy="daily" onclick="selectStrategy('daily',this)">
+            <span class="strat-btn-name">XAUUSD Daily</span>
+            <span class="strat-btn-desc">Operativa diaria · Mayor frecuencia</span>
+          </button>
+          <button class="strat-btn" data-strategy="swing" onclick="selectStrategy('swing',this)">
+            <span class="strat-btn-name">XAUUSD Swing</span>
+            <span class="strat-btn-desc">Operativa semanal · Menor frecuencia</span>
+          </button>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Desde</label><input type="date" id="startDate"/></div>
+          <div class="field"><label>Hasta</label><input type="date" id="endDate"/></div>
+          <div class="field"><label>Capital inicial ($)</label><input type="number" id="capital" placeholder="ej: 1000" min="1" value="1000"/></div>
+          <div class="field"><label>Riesgo por trade (%)</label><input type="number" id="risk" placeholder="ej: 5" min="0.1" max="100" step="0.1" value="5"/></div>
+        </div>
+        <div class="reinv-field">
+          <label>Reinversión mensual (%)</label>
+          <div class="reinv-row">
+            <input type="range" id="reinversion" min="0" max="100" step="5" value="100" oninput="syncReinv(this.value)">
+            <input type="number" id="reinvNum" class="reinv-num" min="0" max="100" step="5" value="100" oninput="syncReinv(this.value)">
+          </div>
+          <div class="reinv-labels"><span class="reinv-label">0% — retira todo cada mes</span><span class="reinv-label">50% — mitad reinvierte</span><span class="reinv-label">100% — interés compuesto total</span></div>
+          <div class="reinv-desc" id="reinvDesc">Reinvierte el 100% de las ganancias mensuales — interés compuesto total</div>
+        </div>
+        <button class="btn-calc" id="btnCalc" onclick="calculate()">Calcular resultados →</button>
+        <div class="loading" id="loading"><div class="spinner"></div><span>Calculando...</span></div>
+        <div class="error-msg" id="errorMsg"></div>
+      </div>
+
+      <!-- RESULTS -->
+      <div id="results">
+
+        <!-- Summary dark card -->
+        <div class="summary-card" id="summaryCard">
+          <div class="summary-top" id="s-top">SIMULACIÓN AVANZADA · XAUUSD · INTERÉS COMPUESTO MENSUAL</div>
+          <div class="summary-capital" id="s-capital">$1,000 <span>→ $0</span></div>
+          <div class="summary-period" id="s-period">—</div>
+          <div class="summary-note" id="s-note">Reinversión total · Sin retiros · Capital inicial $1,000</div>
+          <div class="summary-stats">
+            <div class="ss-item"><div class="ss-label">Capital inicial</div><div class="ss-value" id="ss-ini">—</div></div>
+            <div class="ss-item"><div class="ss-label">Wins totales</div><div class="ss-value green" id="ss-wins">—</div></div>
+            <div class="ss-item"><div class="ss-label">Pérdidas</div><div class="ss-value red" id="ss-losses">—</div></div>
+            <div class="ss-item"><div class="ss-label">Winrate</div><div class="ss-value" id="ss-wr">—</div></div>
+            <div class="ss-item"><div class="ss-label">Balance final</div><div class="ss-value blue" id="ss-fin">—</div></div>
+            <div class="ss-item" id="ss-withdrawn-wrap" style="display:none"><div class="ss-label">Total retirado</div><div class="ss-value" id="ss-withdrawn" style="color:#f59e0b">—</div></div>
+          </div>
+        </div>
+
+        <!-- Actions + legend -->
+        <div class="results-actions">
+          <div>
+            <div class="results-actions-title">Detalle mes a mes — semana a semana — trade a trade</div>
+          </div>
+          <button class="btn-pdf" onclick="downloadPDF()">⬇ Descargar PDF</button>
+        </div>
+
+        <div class="legend-row">
+          <div class="legend-item"><span class="legend-chip win">W +%</span><span>Win — compuesto sobre nuevo balance</span></div>
+          <div class="legend-item"><span class="legend-chip loss">L -%</span><span>Loss — descuento sobre balance actual</span></div>
+        </div>
+
+        <!-- Month cards -->
+        <div id="month-cards"></div>
+
+        <!-- Global table -->
+        <div class="global-table-wrap" id="globalTableWrap">
+          <div class="global-table-header"><div class="global-table-title">Resumen global</div></div>
+          <div style="overflow-x:auto">
+            <table class="global-table">
+              <thead id="global-thead"></thead>
+              <tbody id="global-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div><!-- /results -->
+    </div>
+  </section>
+
+  <footer>
+    <p>Basado en historial real de trades · Los resultados pasados no garantizan resultados futuros.</p>
+    <p style="margin-top:0.5rem">&copy; 2026 <strong>Andrés Cestona</strong> — </p>
+  </footer>
+
+<script>
+/* ─── STATE ─── */
+let selectedStrategy = 'daily';
+let lastResult = null;
+const cache = {};
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('startDate').value = '2024-01-01';
+  document.getElementById('endDate').value = new Date().toISOString().slice(0,10);
+});
+
+function syncReinv(val) {
+  const v = Math.max(0, Math.min(100, parseInt(val) || 0));
+  document.getElementById('reinversion').value = v;
+  document.getElementById('reinvNum').value = v;
+  const desc = v === 100
+    ? 'Reinvierte el 100% de las ganancias mensuales — interés compuesto total'
+    : v === 0
+      ? 'Retira el 100% de las ganancias cada mes — siempre opera sobre el capital inicial'
+      : `Reinvierte el ${v}% de las ganancias · Retira el ${100-v}% cada mes`;
+  document.getElementById('reinvDesc').textContent = desc;
+}
+
+function selectStrategy(id, el) {
+  document.querySelectorAll('.strat-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  selectedStrategy = id;
+}
+
+/* ─── LOAD ─── */
+async function loadData(strategy) {
+  if (cache[strategy]) return cache[strategy];
+  const url = strategy === 'daily' ? './data/xauusd-daily.json' : './data/xauusd-swing.json';
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('No se pudo cargar el archivo de datos. Verifica que el servidor esté activo.');
+  const json = await res.json();
+  cache[strategy] = json;
+  return json;
+}
+
+/* ─── CALCULATE ─── */
+async function calculate() {
+  const startDate = document.getElementById('startDate').value;
+  const endDate   = document.getElementById('endDate').value;
+  const capital   = parseFloat(document.getElementById('capital').value);
+  const risk      = parseFloat(document.getElementById('risk').value);
+  hideError();
+
+  if (!startDate || !endDate || isNaN(capital) || isNaN(risk)) { showError('Completa todos los campos.'); return; }
+  if (capital <= 0) { showError('El capital debe ser mayor a 0.'); return; }
+  if (risk <= 0 || risk > 100) { showError('El riesgo debe estar entre 0.1% y 100%.'); return; }
+  if (new Date(startDate) > new Date(endDate)) { showError('La fecha de inicio debe ser anterior a la fecha final.'); return; }
+
+  setLoading(true);
+  try {
+    const data = await loadData(selectedStrategy);
+    const start = new Date(startDate + 'T00:00:00');
+    const end   = new Date(endDate   + 'T23:59:59');
+
+    const filtered = data.trades
+      .filter(t => { const d = new Date(t.fecha + 'T00:00:00'); return d >= start && d <= end; })
+      .sort((a,b) => new Date(a.fecha) - new Date(b.fecha));
+
+    if (filtered.length === 0) { showError('No hay trades en ese rango de fechas.'); return; }
+
+    const reinversion = Math.max(0, Math.min(100, parseFloat(document.getElementById('reinvNum').value) || 100));
+
+    // Group trades by month preserving sort order
+    const tradesByMonth = {};
+    const monthOrder = [];
+    for (const trade of filtered) {
+      const m = trade.fecha.slice(0,7);
+      if (!tradesByMonth[m]) { tradesByMonth[m] = []; monthOrder.push(m); }
+      tradesByMonth[m].push(trade);
+    }
+
+    // Month-by-month compound with partial reinvestment
+    let workingBalance = capital;
+    let totalWithdrawn = 0;
+    let totalWins = 0, totalLosses = 0;
+    let peak = capital, maxDD = 0;
+    const monthlyMap = {};
+    const allTradeResults = [];
+
+    for (const month of monthOrder) {
+      const monthStartBalance = workingBalance;
+      const monthTradeResults = [];
+
+      for (const trade of tradesByMonth[month]) {
+        const r = trade.r !== undefined ? trade.r : (trade.porcentaje !== undefined ? trade.porcentaje : 0);
+        const before = workingBalance;
+        workingBalance = before * (1 + (risk / 100) * r);
+        if (workingBalance < 0) workingBalance = 0;
+        const gainDollar = workingBalance - before;
+        const gainPct = r * risk;
+        monthTradeResults.push({ ...trade, r, balanceBefore: before, balanceAfter: workingBalance, gainDollar, gainPct });
+        if (r > 0) totalWins++; else totalLosses++;
+      }
+
+      const monthEndRaw = workingBalance;
+      const monthGain = monthEndRaw - monthStartBalance;
+      let withdrawn = 0;
+
+      if (monthGain > 0 && reinversion < 100) {
+        withdrawn = monthGain * (1 - reinversion / 100);
+        workingBalance = monthStartBalance + monthGain * (reinversion / 100);
+        totalWithdrawn += withdrawn;
+      }
+
+      if (workingBalance > peak) peak = workingBalance;
+      const dd = peak > 0 ? (peak - workingBalance) / peak * 100 : 0;
+      if (dd > maxDD) maxDD = dd;
+
+      monthlyMap[month] = {
+        wins: monthTradeResults.filter(t => t.r > 0).length,
+        losses: monthTradeResults.filter(t => t.r <= 0).length,
+        startBalance: monthStartBalance,
+        endBalance: monthEndRaw,
+        accountBalance: workingBalance,
+        withdrawn,
+        trades: monthTradeResults
+      };
+      allTradeResults.push(...monthTradeResults);
+    }
+
+    const wins = totalWins;
+    const losses = totalLosses;
+    const winrate = (wins + losses) > 0 ? wins / (wins + losses) * 100 : 0;
+    const finalBalance = workingBalance;
+    const totalProfit = finalBalance + totalWithdrawn - capital;
+    const totalGain = totalProfit;
+    const totalGainPct = capital > 0 ? totalProfit / capital * 100 : 0;
+
+    lastResult = {
+      strategy: data.estrategia, capital, risk, reinversion, startDate, endDate,
+      finalBalance, totalWithdrawn, totalGain, totalGainPct,
+      wins, losses, winrate, maxDD,
+      tradeResults: allTradeResults, monthlyMap
+    };
+
+    renderResults(lastResult);
+  } catch(e) {
+    showError('Error: ' + e.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
+/* ─── RENDER RESULTS ─── */
+function renderResults(r) {
+  document.getElementById('results').style.display = 'block';
+
+  // Summary card
+  const hasWithdrawal = r.reinversion < 100;
+  document.getElementById('s-top').textContent =
+    `SIMULACIÓN · ${r.strategy.toUpperCase()} · REINVERSIÓN ${r.reinversion}%`;
+  document.getElementById('s-capital').innerHTML =
+    `${fmtM(r.capital)} <span>→ ${fmtM(r.finalBalance)}</span>`;
+  document.getElementById('s-period').textContent =
+    `${fmtMonthLong(r.startDate.slice(0,7))} – ${fmtMonthLong(r.endDate.slice(0,7))}`;
+  const noteReinv = r.reinversion === 100
+    ? 'Reinversión total · Sin retiros'
+    : r.reinversion === 0
+      ? 'Sin reinversión · Retira el 100% de ganancias cada mes'
+      : `Reinversión ${r.reinversion}% · Retiros ${100 - r.reinversion}% de ganancias`;
+  document.getElementById('s-note').textContent =
+    `${noteReinv} · Capital inicial ${fmtM(r.capital)} · Riesgo ${r.risk}% por trade`;
+  document.getElementById('ss-ini').textContent    = fmtM(r.capital);
+  document.getElementById('ss-wins').textContent   = r.wins;
+  document.getElementById('ss-losses').textContent = r.losses;
+  document.getElementById('ss-wr').textContent     = r.winrate.toFixed(1) + '%';
+  document.getElementById('ss-fin').textContent    = fmtM(r.finalBalance);
+  const withdrawWrap = document.getElementById('ss-withdrawn-wrap');
+  if (hasWithdrawal) {
+    withdrawWrap.style.display = '';
+    document.getElementById('ss-withdrawn').textContent = fmtM(r.totalWithdrawn);
+  } else {
+    withdrawWrap.style.display = 'none';
+  }
+
+  // Month cards
+  renderMonthCards(r.monthlyMap, r.risk, r.reinversion);
+
+  // Global table
+  renderGlobalTable(r.monthlyMap, r.capital, r.finalBalance, r.wins, r.losses, r.winrate, r.totalGain, r.totalGainPct, r.totalWithdrawn, r.reinversion);
+
+  setTimeout(() => document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+}
+
+/* ─── MONTH CARDS ─── */
+function renderMonthCards(monthlyMap, risk, reinversion) {
+  const container = document.getElementById('month-cards');
+  container.innerHTML = '';
+
+  for (const [month, md] of Object.entries(monthlyMap)) {
+    const wr = md.wins + md.losses > 0 ? (md.wins / (md.wins + md.losses) * 100).toFixed(1) : '0.0';
+    const gain = md.endBalance - md.startBalance;
+    const gainPct = md.startBalance > 0 ? gain / md.startBalance * 100 : 0;
+    const pos = gain >= 0;
+
+    // Group trades by calendar week within month
+    const weeks = groupByCalendarWeek(md.trades);
+
+    // Build week HTML
+    let weeksHTML = '';
+    for (const [weekKey, wTrades] of Object.entries(weeks)) {
+      const weekWins   = wTrades.filter(t => t.r > 0).length;
+      const weekLosses = wTrades.length - weekWins;
+      const weekGain   = wTrades[wTrades.length-1].balanceAfter - wTrades[0].balanceBefore;
+      const weekGainPct = wTrades[0].balanceBefore > 0 ? weekGain / wTrades[0].balanceBefore * 100 : 0;
+      const weekPos    = weekGain >= 0;
+      const wStart     = wTrades[0].balanceBefore;
+      const wEnd       = wTrades[wTrades.length-1].balanceAfter;
+      const weekLabel  = weekKey; // "SEMANA X"
+
+      // Trade cards
+      let cardsHTML = '';
+      for (const t of wTrades) {
+        const cls = t.r > 0 ? 'win' : 'loss';
+        const dayStr = dayAbbr(t.fecha);
+        const pctStr = (t.r > 0 ? '+' : '') + t.gainPct.toFixed(1) + '%';
+        const gainStr = (t.gainDollar >= 0 ? '+' : '') + fmtCompact(t.gainDollar);
+        const balStr = fmtCompact(t.balanceAfter);
+        cardsHTML += `
+          <div class="tc ${cls}">
+            <div class="tc-day">${dayStr}</div>
+            <div class="tc-pct">${pctStr}</div>
+            <div class="tc-gain">${gainStr}</div>
+            <div class="tc-bal">${balStr}</div>
+          </div>`;
+      }
+
+      const wResClass = weekPos ? 'green' : 'red';
+      const wResPct   = (weekPos ? '+' : '') + weekGainPct.toFixed(1) + '%';
+      const wWLStr    = `${weekWins}W/${weekLosses}L`;
+
+      weeksHTML += `
+        <div class="week-section">
+          <div class="week-header-row">
+            <span class="week-label">${weekLabel} · Inicio ${fmtM(wStart)}</span>
+            <span class="week-result ${wResClass}">${wResPct} ${wWLStr} · Fin ${fmtM(wEnd)}</span>
+          </div>
+          <div class="week-trades-row">${cardsHTML}</div>
+          <div class="week-summary-row">
+            <div class="ws-col"><div class="ws-label">INICIO</div><div class="ws-value">${fmtM(wStart)}</div></div>
+            <div class="ws-col"><div class="ws-label">FIN</div><div class="ws-value ${wResClass}">${fmtM(wEnd)}</div></div>
+            <div class="ws-col"><div class="ws-label">RESULTADO</div><div class="ws-value ${wResClass}">${weekGain>=0?'+':''}${fmtM(weekGain)}</div></div>
+            <div class="ws-col"><div class="ws-label">%</div><div class="ws-value ${wResClass}">${wResPct}</div></div>
+          </div>
+        </div>`;
+    }
+
+    // Month footer
+    const hasW = reinversion < 100 && md.withdrawn > 0;
+    const footerHTML = `
+      <div class="month-footer">
+        <div class="mf-col"><div class="mf-label">WINS</div><div class="mf-value green">${md.wins}</div></div>
+        <div class="mf-col"><div class="mf-label">PÉRDIDAS</div><div class="mf-value red">${md.losses}</div></div>
+        <div class="mf-col"><div class="mf-label">WINRATE</div><div class="mf-value">${wr}%</div></div>
+        <div class="mf-col"><div class="mf-label">INICIO</div><div class="mf-value">${fmtM(md.startBalance)}</div></div>
+        <div class="mf-col"><div class="mf-label">FIN</div><div class="mf-value ${pos?'green':'red'}">${fmtM(md.endBalance)}</div></div>
+        <div class="mf-col"><div class="mf-label">GANANCIA</div><div class="mf-value ${pos?'green':'red'}">${gain>=0?'+':''}${fmtM(gain)}</div></div>
+        <div class="mf-col"><div class="mf-label">RENDIMIENTO</div><div class="mf-value ${pos?'green':'red'}">${gainPct>=0?'+':''}${gainPct.toFixed(1)}%</div></div>
+        ${hasW ? `
+        <div class="mf-col"><div class="mf-label">RETIRADO</div><div class="mf-value" style="color:#f59e0b">${fmtM(md.withdrawn)}</div></div>
+        <div class="mf-col"><div class="mf-label">EN CUENTA</div><div class="mf-value" style="color:#93c5fd">${fmtM(md.accountBalance)}</div></div>` : ''}
+      </div>`;
+
+    container.innerHTML += `
+      <div class="month-card">
+        <div class="month-card-header">
+          <div class="mch-left">
+            <div class="mch-name">${fmtMonthLong(month)}</div>
+            <div class="mch-wl"><span class="w">${md.wins}W</span> / <span class="l">${md.losses}L</span> · Winrate ${wr}%</div>
+          </div>
+          <div class="mch-right">
+            <div class="mch-stat"><div class="mch-stat-label">INICIO</div><div class="mch-stat-value">${fmtM(md.startBalance)}</div></div>
+            <div class="mch-stat"><div class="mch-stat-label">FIN</div><div class="mch-stat-value ${pos?'green':'red'}">${fmtM(md.endBalance)}</div></div>
+            <div class="mch-stat"><div class="mch-stat-label">GANANCIA</div><div class="mch-stat-value ${pos?'green':'red'}">${gain>=0?'+':''}${fmtM(gain)}</div></div>
+            <div class="mch-pct ${pos?'green':'red'}">${gainPct>=0?'+':''}${gainPct.toFixed(1)}%</div>
+          </div>
+        </div>
+        <div class="month-card-body">${weeksHTML}${footerHTML}</div>
+      </div>`;
+  }
+}
+
+/* ─── GLOBAL TABLE ─── */
+function renderGlobalTable(monthlyMap, capital, finalBalance, wins, losses, winrate, totalGain, totalGainPct, totalWithdrawn, reinversion) {
+  const showW = reinversion < 100;
+  const thead = document.getElementById('global-thead');
+  const extraCols = showW ? '<th>RETIRADO</th><th>EN CUENTA</th>' : '';
+  thead.innerHTML = `<tr><th>MES</th><th>W</th><th>L</th><th>WINRATE</th><th>INICIO</th><th>FIN</th><th>GANANCIA</th><th>RENDIMIENTO</th>${extraCols}</tr>`;
+
+  const tbody = document.getElementById('global-tbody');
+  tbody.innerHTML = '';
+
+  for (const [m, md] of Object.entries(monthlyMap)) {
+    const gain = md.endBalance - md.startBalance;
+    const gainPct = md.startBalance > 0 ? gain / md.startBalance * 100 : 0;
+    const wr = md.wins + md.losses > 0 ? (md.wins/(md.wins+md.losses)*100).toFixed(1)+'%' : '0%';
+    const pos = gain >= 0;
+    const wCols = showW
+      ? `<td style="color:#f59e0b;font-weight:700">${md.withdrawn > 0 ? fmtM(md.withdrawn) : '—'}</td>
+         <td style="color:#93c5fd;font-weight:700">${fmtM(md.accountBalance)}</td>`
+      : '';
+    tbody.innerHTML += `<tr>
+      <td class="gt-bold">${fmtMonthLong(m)}</td>
+      <td class="gt-green">${md.wins}</td>
+      <td class="gt-red">${md.losses}</td>
+      <td>${wr}</td>
+      <td>${fmtM(md.startBalance)}</td>
+      <td class="${pos?'gt-green':'gt-red'}">${fmtM(md.endBalance)}</td>
+      <td class="${pos?'gt-green':'gt-red'}">${gain>=0?'+':''}${fmtM(gain)}</td>
+      <td class="${pos?'gt-green':'gt-red'}">${gainPct>=0?'+':''}${gainPct.toFixed(1)}%</td>
+      ${wCols}
+    </tr>`;
+  }
+
+  const pos = totalGain >= 0;
+  const totWCols = showW
+    ? `<td style="color:#f59e0b;font-weight:800">${fmtM(totalWithdrawn)}</td>
+       <td style="color:#93c5fd;font-weight:800">${fmtM(finalBalance)}</td>`
+    : '';
+  tbody.innerHTML += `<tr class="total-row">
+    <td class="gt-bold">TOTAL</td>
+    <td class="gt-green">${wins}</td>
+    <td class="gt-red">${losses}</td>
+    <td>${winrate.toFixed(1)}%</td>
+    <td>${fmtM(capital)}</td>
+    <td class="${pos?'gt-green':'gt-red'}">${fmtM(finalBalance)}</td>
+    <td class="${pos?'gt-green':'gt-red'}">${totalGain>=0?'+':''}${fmtM(totalGain)}</td>
+    <td class="${pos?'gt-green':'gt-red'}">${totalGainPct>=0?'+':''}${totalGainPct.toFixed(1)}%</td>
+    ${totWCols}
+  </tr>`;
+}
+
+/* ─── PDF ─── */
+async function downloadPDF() {
+  if (!lastResult) return;
+  const r = lastResult;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+  const W = 210;
+  let y = 0;
+
+  // Header
+  doc.setFillColor(7,9,26); doc.rect(0,0,W,50,'F');
+  doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(255,255,255);
+  doc.text('Andrés Cestona', 14, 15);
+  doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor(147,197,253);
+  doc.text(`Simulación ${r.strategy} · ${r.startDate} → ${r.endDate}`, 14, 24);
+  doc.setFontSize(8); doc.setTextColor(136,146,170);
+  doc.text(`Capital: ${fmtM(r.capital)} · Riesgo: ${r.risk}% por trade · Total trades: ${r.wins+r.losses}`, 14, 32);
+  doc.setFontSize(8); doc.setTextColor(74,222,128);
+  doc.text(`${fmtM(r.capital)} → ${fmtM(r.finalBalance)}  (+${r.totalGainPct.toFixed(1)}%)`, 14, 41);
+
+  y = 60;
+
+  // Monthly table
+  doc.autoTable({
+    startY: y,
+    head: [['MES','W','L','WR%','INICIO','FIN','GANANCIA','RENDIMIENTO']],
+    body: [
+      ...Object.entries(r.monthlyMap).map(([m,md]) => {
+        const gain = md.endBalance - md.startBalance;
+        const gp = md.startBalance > 0 ? (gain/md.startBalance*100).toFixed(1)+'%' : '0%';
+        const wr = md.wins+md.losses>0 ? (md.wins/(md.wins+md.losses)*100).toFixed(0)+'%' : '0%';
+        return [
+          fmtMonthLong(m), md.wins, md.losses, wr,
+          fmtM(md.startBalance), fmtM(md.endBalance),
+          (gain>=0?'+':'')+fmtM(gain),
+          (gain>=0?'+':'')+gp
+        ];
+      }),
+      ['TOTAL', r.wins, r.losses, r.winrate.toFixed(1)+'%',
+       fmtM(r.capital), fmtM(r.finalBalance),
+       (r.totalGain>=0?'+':'')+fmtM(r.totalGain),
+       (r.totalGainPct>=0?'+':'')+r.totalGainPct.toFixed(1)+'%']
+    ],
+    styles: { fontSize: 8, cellPadding: 3 },
+    headStyles: { fillColor:[7,9,26], textColor:[255,255,255], fontStyle:'bold' },
+    alternateRowStyles: { fillColor:[245,248,255] },
+    theme: 'striped', margin:{left:10,right:10},
+    didDrawRow: (data) => {
+      if (data.row.index === Object.keys(r.monthlyMap).length) {
+        doc.setFillColor(240,244,255);
+      }
+    }
+  });
+
+  y = doc.lastAutoTable.finalY + 10;
+
+  // Trade detail
+  doc.autoTable({
+    startY: y,
+    head: [['FECHA','DÍA','RESULTADO','GANANCIA %','GANANCIA $','BALANCE']],
+    body: r.tradeResults.map(t => [
+      t.fecha, dayAbbr(t.fecha),
+      t.r>0 ? 'WIN' : 'LOSS',
+      (t.r>0?'+':'')+t.gainPct.toFixed(2)+'%',
+      (t.gainDollar>=0?'+':'')+fmtM(t.gainDollar),
+      fmtM(t.balanceAfter)
+    ]),
+    styles: { fontSize: 7, cellPadding: 2 },
+    headStyles: { fillColor:[7,9,26], textColor:[255,255,255], fontStyle:'bold' },
+    alternateRowStyles: { fillColor:[248,250,255] },
+    willDrawCell: (data) => {
+      if (data.section==='body' && data.column.index===2) {
+        data.cell.styles.textColor = data.row.raw[2]==='WIN' ? [22,163,74] : [220,38,38];
+        data.cell.styles.fontStyle = 'bold';
+      }
+      if (data.section==='body' && (data.column.index===3||data.column.index===4)) {
+        data.cell.styles.textColor = data.row.raw[2]==='WIN' ? [22,163,74] : [220,38,38];
+      }
+    },
+    theme: 'striped', margin:{left:10,right:10}
+  });
+
+  // Footer on every page
+  const pages = doc.internal.getNumberOfPages();
+  for (let i=1; i<=pages; i++) {
+    doc.setPage(i);
+    doc.setFillColor(7,9,26); doc.rect(0,284,W,13,'F');
+    doc.setFont('helvetica','italic'); doc.setFontSize(6.5); doc.setTextColor(100,110,140);
+    doc.text('Basado en historial real de trades. Los resultados pasados no garantizan resultados futuros.',W/2,290,{align:'center'});
+    doc.setFont('helvetica','normal');
+    doc.text(`Pág. ${i}/${pages}`,W-12,290,{align:'right'});
+  }
+
+  doc.save(`simulacion-${r.strategy.toLowerCase().replace(/\s+/g,'-')}-${r.startDate}-${r.endDate}.pdf`);
+}
+
+/* ─── HELPERS ─── */
+function groupByCalendarWeek(trades) {
+  const map = {};
+  let weekNum = null, prevMonday = null;
+
+  for (const t of trades) {
+    const d = new Date(t.fecha + 'T12:00:00');
+    const dow = (d.getDay() + 6) % 7; // Mon=0
+    const mon = new Date(d); mon.setDate(d.getDate() - dow);
+    const monKey = mon.toISOString().slice(0,10);
+    if (monKey !== prevMonday) { prevMonday = monKey; weekNum = (weekNum||0) + 1; }
+    const key = 'SEMANA ' + weekNum;
+    if (!map[key]) map[key] = [];
+    map[key].push(t);
+  }
+  return map;
+}
+
+const DAYS_ES = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+function dayAbbr(fecha) {
+  const d = new Date(fecha + 'T12:00:00');
+  const day = DAYS_ES[d.getDay()];
+  const num = d.getDate();
+  return day + ' ' + num;
+}
+
+function fmtM(n) {
+  if (Math.abs(n) >= 1e9)  return '$' + (n/1e9).toFixed(2)  + 'B';
+  if (Math.abs(n) >= 1e6)  return '$' + (n/1e6).toFixed(2)  + 'M';
+  if (Math.abs(n) >= 1000) return '$' + (n/1000).toFixed(1) + 'K';
+  return '$' + n.toFixed(2);
+}
+function fmtCompact(n) {
+  if (Math.abs(n) >= 1e6)  return (n>=0?'+':'')+  '$'+(n/1e6).toFixed(1)+'M';
+  if (Math.abs(n) >= 1000) return (n>=0?'+':'')+  '$'+(n/1000).toFixed(1)+'K';
+  return (n>=0?'+':'')+  '$'+n.toFixed(0);
+}
+function fmtMonthLong(m) {
+  if (!m) return '';
+  const [y,mo] = m.slice(0,7).split('-');
+  const names = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  return names[parseInt(mo)-1] + ' ' + y;
+}
+function setLoading(v) {
+  document.getElementById('loading').style.display = v ? 'flex' : 'none';
+  document.getElementById('btnCalc').disabled = v;
+}
+function showError(msg) { const e=document.getElementById('errorMsg'); e.textContent=msg; e.style.display='block'; }
+function hideError()     { document.getElementById('errorMsg').style.display='none'; }
+</script>
+</body>
+</html>

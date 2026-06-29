@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cursos Online — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy: #07091a; --navy2: #0c0f26; --navy3: #111535; --blue: #2563eb; --blue-mid: #3b82f6; --blue-soft: #93c5fd; --white: #ffffff; --off-white: #f0f4ff; --gray-100: #e2e8f4; --gray-400: #8892aa; --gray-600: #4b5775; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--navy); overflow-x: hidden; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-logo { font-size: 0.95rem; font-weight: 800; color: var(--white); letter-spacing: -0.3px; flex-shrink: 0; margin-right: 0.5rem; text-decoration: none; }
+    .nav-logo span { color: var(--blue-mid); }
+    .nav-links { display: flex; align-items: center; list-style: none; height: 100%; flex: 1; justify-content: center; }
+    .nav-links li { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+    .nav-links > li > a:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+    .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
+    .nav-drop { display: none; position: absolute; top: 100%; left: 0; background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 0.5rem 0; min-width: 185px; box-shadow: 0 20px 48px rgba(0,0,0,0.55); }
+    .has-drop:hover .nav-drop { display: block; }
+    .nav-drop a { display: block; height: auto; padding: 0.58rem 1.2rem; font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s, background 0.15s; }
+    .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+    .nav-right { display: flex; align-items: center; gap: 0.2rem; flex-shrink: 0; }
+    .nav-tienda { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0.42rem 0.65rem; border-radius: 6px; transition: background 0.15s; white-space: nowrap; }
+    .nav-tienda:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-estudiante { background: var(--blue); color: var(--white); padding: 0.45rem 0.9rem; border-radius: 7px; font-weight: 700; font-size: 0.82rem; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
+    .nav-estudiante:hover { background: #1d4ed8; }
+
+    .page-hero { background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 55%, #0e1440 100%); padding: 8rem 4% 5rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 65%); pointer-events: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .eyebrow::before { content: '●'; color: var(--blue-mid); font-size: 0.45rem; }
+    .eyebrow span { font-size: 0.72rem; font-weight: 600; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.2px; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 1rem; }
+    .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.6); max-width: 540px; margin: 0 auto; line-height: 1.75; }
+
+    .courses-section { padding: 5rem 4%; }
+    .courses-inner { max-width: 1100px; margin: 0 auto; }
+    .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 3rem; }
+
+    .course-card { border: 1px solid var(--gray-100); border-radius: 20px; overflow: hidden; transition: all 0.25s; }
+    .course-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(37,99,235,0.12); border-color: rgba(37,99,235,0.25); }
+    .course-thumb { aspect-ratio: 16/9; background: linear-gradient(135deg, var(--navy2), var(--navy3)); display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; }
+    .course-badge { position: absolute; top: 1rem; right: 1rem; background: var(--blue); color: var(--white); font-size: 0.7rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .course-badge.nuevo { background: #059669; }
+    .course-body { padding: 1.6rem; }
+    .course-level { font-size: 0.7rem; font-weight: 700; color: var(--blue-mid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+    .course-title { font-size: 1.2rem; font-weight: 800; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.3; }
+    .course-desc { font-size: 0.85rem; color: var(--gray-600); line-height: 1.65; margin-bottom: 1.2rem; }
+    .course-meta { display: flex; gap: 1.2rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+    .course-meta span { font-size: 0.78rem; color: var(--gray-400); display: flex; align-items: center; gap: 0.3rem; }
+    .course-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--gray-100); }
+    .course-price { font-size: 1.4rem; font-weight: 900; color: var(--navy); }
+    .course-price-old { font-size: 0.85rem; color: var(--gray-400); text-decoration: line-through; margin-left: 0.4rem; }
+    .btn-course { background: var(--blue); color: var(--white); padding: 0.55rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: background 0.15s; }
+    .btn-course:hover { background: #1d4ed8; }
+
+    footer { background: var(--navy); color: rgba(255,255,255,0.45); text-align: center; padding: 2.5rem 4%; font-size: 0.82rem; }
+    footer strong { color: rgba(255,255,255,0.85); }
+    @media (max-width: 640px) { .nav-links { display: none; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-logo">Andrés <span>Cestona</span></div>
+
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="#">Nosotros</a>
+        <div class="nav-drop">
+          <a href="index.html#quien">¿Quién es Andrés?</a>
+          <a href="index.html#media">Prensa</a>
+        </div>
+      </li>
+      <li><a href="index.html#markets">Markets</a></li>
+      <li><a href="estadisticas.html">Estadísticas</a></li>
+      <li><a href="calculadora.html">Calculadora</a></li>
+      <li class="has-drop">
+        <a href="#">Comunidad</a>
+        <div class="nav-drop">
+          <a href="testimonios.html">Testimonios</a>
+          <a href="canales.html">Canales</a>
+          <a href="eventos.html">Eventos</a>
+        </div>
+      </li>
+      <li><a href="#">Contacto</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <a href="estadisticas.html" class="nav-tienda">Ver estadísticas</a>
+      <a href="index.html#markets" class="nav-estudiante">Markets by Andrés</a>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="eyebrow"><span>Academia</span></div>
+    <h1>Cursos online</h1>
+    <p>Aprende a tu ritmo con contenido grabado, actualizado y diseñado para que puedas aplicarlo desde el primer día.</p>
+  </section>
+
+  <section class="courses-section">
+    <div class="courses-inner">
+      <div class="courses-grid">
+
+        <div class="course-card">
+          <div class="course-thumb">📊<div class="course-badge nuevo">Nuevo</div></div>
+          <div class="course-body">
+            <div class="course-level">Principiante</div>
+            <div class="course-title">Inversión desde Cero: tu primera cartera</div>
+            <div class="course-desc">Aprende los fundamentos de la inversión, cómo abrirte un bróker, diversificar y construir tu primera cartera con cualquier capital.</div>
+            <div class="course-meta">
+              <span>🎬 42 videos</span>
+              <span>⏱ 18 horas</span>
+              <span>👤 1,200 alumnos</span>
+            </div>
+            <div class="course-footer">
+              <div><span class="course-price">€97</span><span class="course-price-old">€197</span></div>
+              <a href="#" class="btn-course">Ver curso →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card">
+          <div class="course-thumb">📈</div>
+          <div class="course-body">
+            <div class="course-level">Intermedio</div>
+            <div class="course-title">Análisis Técnico Aplicado a los Mercados</div>
+            <div class="course-desc">Domina los patrones, indicadores y estrategias de análisis técnico para tomar decisiones de inversión con mayor precisión.</div>
+            <div class="course-meta">
+              <span>🎬 58 videos</span>
+              <span>⏱ 24 horas</span>
+              <span>👤 890 alumnos</span>
+            </div>
+            <div class="course-footer">
+              <div><span class="course-price">€147</span><span class="course-price-old">€297</span></div>
+              <a href="#" class="btn-course">Ver curso →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card">
+          <div class="course-thumb">💼</div>
+          <div class="course-body">
+            <div class="course-level">Avanzado</div>
+            <div class="course-title">Gestión de Carteras y Estrategia a Largo Plazo</div>
+            <div class="course-desc">Construye y gestiona una cartera diversificada, controla el riesgo y desarrolla una estrategia que trabaje por ti mientras duermes.</div>
+            <div class="course-meta">
+              <span>🎬 71 videos</span>
+              <span>⏱ 32 horas</span>
+              <span>👤 640 alumnos</span>
+            </div>
+            <div class="course-footer">
+              <div><span class="course-price">€197</span><span class="course-price-old">€397</span></div>
+              <a href="#" class="btn-course">Ver curso →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card">
+          <div class="course-thumb">₿<div class="course-badge">Popular</div></div>
+          <div class="course-body">
+            <div class="course-level">Intermedio</div>
+            <div class="course-title">Criptoactivos: Inversión Inteligente sin Casino</div>
+            <div class="course-desc">Aprende a invertir en cripto con criterio, sin depender de la suerte: análisis on-chain, ciclos de mercado y gestión del riesgo.</div>
+            <div class="course-meta">
+              <span>🎬 36 videos</span>
+              <span>⏱ 14 horas</span>
+              <span>👤 1,100 alumnos</span>
+            </div>
+            <div class="course-footer">
+              <div><span class="course-price">€127</span><span class="course-price-old">€247</span></div>
+              <a href="#" class="btn-course">Ver curso →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card">
+          <div class="course-thumb">🧠</div>
+          <div class="course-body">
+            <div class="course-level">Todos los niveles</div>
+            <div class="course-title">Psicología del Inversor: domina tus emociones</div>
+            <div class="course-desc">El factor que más dinero te hace perder no son los mercados: eres tú. Aprende a controlar el miedo, la avaricia y los sesgos cognitivos.</div>
+            <div class="course-meta">
+              <span>🎬 28 videos</span>
+              <span>⏱ 10 horas</span>
+              <span>👤 780 alumnos</span>
+            </div>
+            <div class="course-footer">
+              <div><span class="course-price">€77</span><span class="course-price-old">€147</span></div>
+              <a href="#" class="btn-course">Ver curso →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card">
+          <div class="course-thumb">🌍</div>
+          <div class="course-body">
+            <div class="course-level">Avanzado</div>
+            <div class="course-title">Fiscalidad del Inversor: paga menos, gana más</div>
+            <div class="course-desc">Todo lo que necesitas saber sobre impuestos, declaración de inversiones y estrategias legales para optimizar tu carga fiscal.</div>
+            <div class="course-meta">
+              <span>🎬 22 videos</span>
+              <span>⏱ 8 horas</span>
+              <span>👤 520 alumnos</span>
+            </div>
+            <div class="course-footer">
+              <div><span class="course-price">€87</span><span class="course-price-old">€167</span></div>
+              <a href="#" class="btn-course">Ver curso →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer><p>&copy; 2026 <strong>Andrés Cestona</strong> — Todos los derechos reservados.</p></footer>
+</body>
+</html>
