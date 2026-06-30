@@ -73,21 +73,55 @@
     footer { background: var(--navy); color: rgba(255,255,255,0.45); text-align: center; padding: 2.5rem 4%; font-size: 0.82rem; }
     footer strong { color: rgba(255,255,255,0.85); }
     @media (max-width: 640px) { .nav-links { display: none; } }
+  
+    /* ── NAV ── */
+    nav {
+      position: fixed; top:0; left:0; right:0; z-index:200;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 4%;
+      background: #05070f;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-logo { font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; text-decoration:none; }
+    .nav-logo span { color: #c9a84c; }
+    .nav-links { display:flex; align-items:center; list-style:none; gap:.1rem; flex:1; justify-content:center; height:100%; }
+    .nav-links li { position:relative; height:100%; display:flex; align-items:center; }
+    .nav-links > li > a { color:rgba(255,255,255,.65); text-decoration:none; font-size:.82rem; font-weight:500; padding:0 .75rem; height:100%; display:flex; align-items:center; transition:color .2s; white-space:nowrap; }
+    .nav-links > li > a:hover { color:#fff; }
+    .has-drop > a::after { content:'▾'; font-size:.55rem; opacity:.5; margin-left:3px; }
+    .nav-drop { display:none; position:absolute; top:calc(100% + 6px); left:0; background:#111; border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:.4rem 0; min-width:185px; box-shadow:0 20px 50px rgba(0,0,0,.5); }
+    .has-drop:hover .nav-drop { display:block; }
+    .nav-drop a { display:block; padding:.55rem 1.1rem; font-size:.81rem; color:rgba(255,255,255,.6); text-decoration:none; transition:color .15s, background .15s; }
+    .nav-drop a:hover { color:#fff; background:rgba(255,255,255,.06); }
+    .nav-right { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
+    .nav-ghost { color:rgba(255,255,255,.65); text-decoration:none; font-size:.81rem; font-weight:500; padding:.4rem .75rem; border-radius:6px; transition:color .2s, background .2s; }
+    .nav-ghost:hover { color:#fff; background:rgba(255,255,255,.07); }
+    .nav-cta { background:#c9a84c; color:#05070f; padding:.44rem 1rem; border-radius:6px; font-weight:700; font-size:.81rem; text-decoration:none; transition:background .2s; }
+    .nav-cta:hover { background:#e8c97a; }
+    /* ── FOOTER ── */
+    footer { background:#05070f; border-top:1px solid rgba(255,255,255,.07); padding:2.5rem 4%; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .footer-logo { font-size:.9rem; font-weight:800; color:#fff; }
+    .footer-logo span { color:#c9a84c; }
+    footer p { font-size:.73rem; color:rgba(255,255,255,.3); }
+    .footer-links { display:flex; gap:1.5rem; }
+    .footer-links a { font-size:.73rem; color:rgba(255,255,255,.35); text-decoration:none; transition:color .2s; }
+    .footer-links a:hover { color:#c9a84c; }
   </style>
 </head>
 <body>
-  <nav>
-    <div class="nav-logo">Andrés <span>Cestona</span></div>
-
+    <nav id="mainNav">
+    <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
     <ul class="nav-links">
       <li class="has-drop">
         <a href="#">Nosotros</a>
         <div class="nav-drop">
           <a href="index.html#quien">¿Quién es Andrés?</a>
-          <a href="index.html#media">Prensa</a>
+          <a href="index.html#platforms">Plataformas</a>
         </div>
       </li>
       <li><a href="index.html#markets">Markets</a></li>
+      <li><a href="trades.html">Diario de Trades</a></li>
       <li><a href="estadisticas.html">Estadísticas</a></li>
       <li><a href="calculadora.html">Calculadora</a></li>
       <li class="has-drop">
@@ -98,12 +132,10 @@
           <a href="eventos.html">Eventos</a>
         </div>
       </li>
-      <li><a href="#">Contacto</a></li>
     </ul>
-
     <div class="nav-right">
-      <a href="estadisticas.html" class="nav-tienda">Ver estadísticas</a>
-      <a href="index.html#markets" class="nav-estudiante">Markets by Andrés</a>
+      <a href="estadisticas.html" class="nav-ghost">Estadísticas</a>
+      <a href="trades.html" class="nav-cta">Diario de Trades</a>
     </div>
   </nav>
 
@@ -178,6 +210,15 @@
     </div>
   </section>
 
-  <footer><p>&copy; 2026 <strong>Andrés Cestona</strong> — Todos los derechos reservados.</p></footer>
+    <footer>
+    <div class="footer-logo">Andrés <span>Cestona</span></div>
+    <p>&copy; 2026 Andrés Cestona. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="trades.html">Diario de Trades</a>
+      <a href="estadisticas.html">Estadísticas</a>
+      <a href="calculadora.html">Calculadora</a>
+      <a href="testimonios.html">Comunidad</a>
+    </div>
+  </footer>
 </body>
 </html>
