@@ -144,6 +144,13 @@
     const SUPABASE_KEY = 'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP';
     const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // Manejar callback de verificación de email (token en la URL)
+    sb.auth.onAuthStateChange((event, session) => {
+      if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session) {
+        location.href = 'dashboard.html';
+      }
+    });
+
     // Si ya está logueado, redirigir al dashboard
     sb.auth.getSession().then(({ data }) => {
       if (data.session) location.href = 'dashboard.html';
