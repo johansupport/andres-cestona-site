@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diario de Trades — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:  #0a0a0a;
+      --dark:   #1a1a1a;
+      --mid:    #4a4a4a;
+      --muted:  #8a8a8a;
+      --border: #e8e8e8;
+      --bg:     #ffffff;
+      --bg2:    #f7f7f5;
+      --gold:   #c9a84c;
+      --gold2:  #e8c97a;
+      --green:  #16a34a;
+      --red:    #dc2626;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--dark); overflow-x:hidden; }
+
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 4%; background:var(--black); }
+    .nav-logo { font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; text-decoration:none; }
+    .nav-logo span { color:var(--gold); }
+    .nav-links { display:flex; align-items:center; list-style:none; gap:.1rem; flex:1; justify-content:center; height:100%; }
+    .nav-links li { position:relative; height:100%; display:flex; align-items:center; }
+    .nav-links > li > a { color:rgba(255,255,255,.65); text-decoration:none; font-size:.82rem; font-weight:500; padding:0 .75rem; height:100%; display:flex; align-items:center; transition:color .2s; white-space:nowrap; }
+    .nav-links > li > a:hover,.nav-links > li > a.active { color:#fff; }
+    .has-drop > a::after { content:'▾'; font-size:.55rem; opacity:.5; margin-left:3px; }
+    .nav-drop { display:none; position:absolute; top:calc(100% + 6px); left:0; background:#111; border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:.4rem 0; min-width:185px; box-shadow:0 20px 50px rgba(0,0,0,.5); }
+    .has-drop:hover .nav-drop { display:block; }
+    .nav-drop a { display:block; padding:.55rem 1.1rem; font-size:.81rem; color:rgba(255,255,255,.6); text-decoration:none; transition:color .15s, background .15s; }
+    .nav-drop a:hover { color:#fff; background:rgba(255,255,255,.06); }
+    .nav-right { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
+    .nav-ghost { color:rgba(255,255,255,.65); text-decoration:none; font-size:.81rem; font-weight:500; padding:.4rem .75rem; border-radius:6px; transition:color .2s, background .2s; }
+    .nav-ghost:hover { color:#fff; background:rgba(255,255,255,.07); }
+    .nav-cta { background:var(--gold); color:var(--black); padding:.44rem 1rem; border-radius:6px; font-weight:700; font-size:.81rem; text-decoration:none; }
+
+    /* PAGE HEADER */
+    .page-header { background:var(--black); padding:9rem 4% 5rem; position:relative; overflow:hidden; }
+    .page-header-bg { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,.025) 1px, transparent 1px); background-size:80px 80px; pointer-events:none; }
+    .page-header-inner { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
+    .page-tag { display:inline-flex; align-items:center; gap:.5rem; margin-bottom:1.2rem; }
+    .page-tag::before { content:''; width:20px; height:1px; background:var(--gold); }
+    .page-tag span { font-size:.62rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2.5px; }
+    .page-header h1 { font-family:'Playfair Display',serif; font-size:clamp(2.8rem,5vw,4.5rem); font-weight:900; color:#fff; line-height:1.08; letter-spacing:-1px; margin-bottom:1rem; }
+    .page-header h1 em { color:var(--gold); font-style:italic; }
+    .page-header-sub { font-size:.95rem; color:rgba(255,255,255,.45); max-width:520px; line-height:1.8; }
+    .page-header-meta { display:flex; gap:3rem; margin-top:2.5rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,.08); }
+    .ph-stat-num { font-size:1.8rem; font-weight:900; color:#fff; line-height:1; }
+    .ph-stat-lbl { font-size:.63rem; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1px; margin-top:.3rem; font-weight:500; }
+
+    /* FILTERS */
+    .filters-bar { background:var(--bg); border-bottom:1px solid var(--border); position:sticky; top:64px; z-index:100; }
+    .filters-inner { max-width:1100px; margin:0 auto; padding:0 4%; display:flex; align-items:center; gap:.6rem; overflow-x:auto; height:56px; scrollbar-width:none; }
+    .filters-inner::-webkit-scrollbar { display:none; }
+    .filter-label { font-size:.68rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-right:.4rem; flex-shrink:0; }
+    .filter-btn { flex-shrink:0; padding:.35rem .9rem; border-radius:100px; border:1px solid var(--border); background:var(--bg); color:var(--muted); font-size:.75rem; font-weight:500; cursor:pointer; transition:all .2s; white-space:nowrap; }
+    .filter-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .filter-btn.active { background:var(--black); border-color:var(--black); color:#fff; }
+    .filter-sep { width:1px; height:20px; background:var(--border); flex-shrink:0; }
+
+    /* RESULTS SUMMARY */
+    .results-bar { max-width:1100px; margin:0 auto; padding:2rem 4% .5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .results-count { font-size:.8rem; color:var(--muted); }
+    .results-count strong { color:var(--dark); font-weight:700; }
+    .view-toggle { display:flex; gap:.3rem; }
+    .view-btn { width:32px; height:32px; border:1px solid var(--border); border-radius:6px; background:var(--bg); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; color:var(--muted); font-size:.8rem; }
+    .view-btn.active { background:var(--black); border-color:var(--black); color:#fff; }
+
+    /* TRADES CONTAINER */
+    .trades-container { max-width:1100px; margin:0 auto; padding:1rem 4% 5rem; }
+    .trades-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+    .trades-grid.view-list { grid-template-columns:1fr; }
+
+    /* TRADE CARD */
+    .trade-card { background:var(--bg); border:1px solid var(--border); border-radius:16px; overflow:hidden; text-decoration:none; color:inherit; transition:box-shadow .3s, transform .3s; display:flex; flex-direction:column; }
+    .trade-card:hover { box-shadow:0 12px 40px rgba(0,0,0,.09); transform:translateY(-3px); }
+    .trades-grid.view-list .trade-card { flex-direction:row; }
+    .trade-card-img { aspect-ratio:16/9; background:var(--bg2); overflow:hidden; position:relative; flex-shrink:0; }
+    .trades-grid.view-list .trade-card-img { width:220px; aspect-ratio:unset; }
+    .trade-card-img img { width:100%; height:100%; object-fit:cover; }
+    .trade-card-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#f3f3f1,#eaeae6); }
+    .trade-card-badge { position:absolute; top:.75rem; left:.75rem; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:.25rem .65rem; border-radius:100px; }
+    .badge-win { background:#dcfce7; color:#15803d; }
+    .badge-loss { background:#fee2e2; color:#b91c1c; }
+    .trade-card-body { padding:1.4rem 1.6rem 1.6rem; flex:1; display:flex; flex-direction:column; }
+    .trade-card-meta { display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; margin-bottom:.8rem; }
+    .trade-card-date { font-size:.68rem; color:var(--muted); }
+    .trade-card-asset { font-size:.68rem; font-weight:700; color:var(--gold); background:rgba(201,168,76,.1); padding:.15rem .5rem; border-radius:4px; }
+    .trade-card-tags { display:flex; gap:.3rem; flex-wrap:wrap; }
+    .tag-pill { font-size:.6rem; color:var(--muted); background:var(--bg2); border:1px solid var(--border); padding:.12rem .5rem; border-radius:100px; }
+    .trade-card-title { font-size:.98rem; font-weight:700; color:var(--black); line-height:1.4; margin-bottom:.5rem; flex:1; }
+    .trade-card-excerpt { font-size:.79rem; color:var(--muted); line-height:1.75; }
+    .trade-card-footer { display:flex; justify-content:space-between; align-items:center; margin-top:1.1rem; padding-top:.9rem; border-top:1px solid var(--border); }
+    .trade-details { display:flex; gap:1.2rem; }
+    .td-item { font-size:.68rem; color:var(--muted); }
+    .td-item strong { color:var(--dark); font-weight:600; display:block; font-size:.72rem; }
+    .trade-result { font-size:.88rem; font-weight:800; }
+    .trade-result.pos { color:var(--green); }
+    .trade-result.neg { color:var(--red); }
+    .trade-read { font-size:.75rem; color:var(--muted); font-weight:500; display:flex; align-items:center; gap:.3rem; text-decoration:none; color:var(--dark); transition:color .2s; }
+    .trade-read:hover { color:var(--gold); }
+
+    /* MODAL */
+    .modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.6); backdrop-filter:blur(4px); overflow-y:auto; }
+    .modal-overlay.open { display:flex; align-items:flex-start; justify-content:center; padding:2rem 1rem; }
+    .modal { background:var(--bg); border-radius:20px; max-width:720px; width:100%; overflow:hidden; position:relative; margin:auto; }
+    .modal-close { position:absolute; top:1.2rem; right:1.2rem; width:36px; height:36px; border-radius:50%; background:var(--bg2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1.1rem; color:var(--muted); transition:all .2s; z-index:10; }
+    .modal-close:hover { background:var(--black); color:#fff; border-color:var(--black); }
+    .modal-header { background:var(--black); padding:2.5rem 2.5rem 2rem; }
+    .modal-badge { display:inline-flex; align-items:center; gap:.4rem; margin-bottom:1rem; }
+    .modal-badge-pill { font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:.25rem .7rem; border-radius:100px; }
+    .modal-date { font-size:.72rem; color:rgba(255,255,255,.35); }
+    .modal-title { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:800; color:#fff; line-height:1.25; margin-bottom:.5rem; }
+    .modal-asset { font-size:.75rem; color:var(--gold); font-weight:600; }
+    .modal-body { padding:2rem 2.5rem 2.5rem; }
+    .modal-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; padding:1.5rem; background:var(--bg2); border-radius:12px; border:1px solid var(--border); }
+    .mstat { text-align:center; }
+    .mstat-val { font-size:1.25rem; font-weight:800; color:var(--black); }
+    .mstat-val.pos { color:var(--green); }
+    .mstat-val.neg { color:var(--red); }
+    .mstat-lbl { font-size:.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:.8px; margin-top:.25rem; }
+    .modal-analysis-title { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:.8rem; }
+    .modal-analysis { font-size:.88rem; color:var(--dark); line-height:1.9; margin-bottom:1.8rem; }
+    .modal-chart-link { display:inline-flex; align-items:center; gap:.5rem; background:var(--black); color:#fff; text-decoration:none; padding:.75rem 1.4rem; border-radius:8px; font-size:.82rem; font-weight:600; transition:background .2s, transform .2s; }
+    .modal-chart-link:hover { background:var(--dark); transform:translateY(-1px); }
+    .modal-tags { display:flex; gap:.4rem; flex-wrap:wrap; margin-top:1.5rem; }
+
+    /* EMPTY STATE */
+    .empty-state { grid-column:1/-1; text-align:center; padding:5rem 2rem; }
+    .empty-state p { color:var(--muted); font-size:.9rem; }
+
+    /* FOOTER */
+    footer { background:var(--black); border-top:1px solid rgba(255,255,255,.07); padding:2.5rem 4%; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .footer-logo { font-size:.9rem; font-weight:800; color:#fff; }
+    .footer-logo span { color:var(--gold); }
+    footer p { font-size:.73rem; color:rgba(255,255,255,.3); }
+    .footer-links { display:flex; gap:1.5rem; }
+    .footer-links a { font-size:.73rem; color:rgba(255,255,255,.35); text-decoration:none; transition:color .2s; }
+    .footer-links a:hover { color:var(--gold); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="#">Nosotros</a>
+        <div class="nav-drop">
+          <a href="index.html#quien">¿Quién es Andrés?</a>
+          <a href="index.html#platforms">Plataformas</a>
+        </div>
+      </li>
+      <li><a href="index.html#markets">Markets</a></li>
+      <li><a href="trades.html" class="active">Diario de Trades</a></li>
+      <li><a href="estadisticas.html">Estadísticas</a></li>
+      <li><a href="calculadora.html">Calculadora</a></li>
+      <li class="has-drop">
+        <a href="#">Comunidad</a>
+        <div class="nav-drop">
+          <a href="testimonios.html">Testimonios</a>
+          <a href="canales.html">Canales</a>
+          <a href="eventos.html">Eventos</a>
+        </div>
+      </li>
+    </ul>
+    <div class="nav-right">
+      <a href="estadisticas.html" class="nav-ghost">Estadísticas</a>
+      <a href="calculadora.html" class="nav-cta">Calculadora</a>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="page-header-bg"></div>
+    <div class="page-header-inner">
+      <div class="page-tag"><span>Operaciones reales</span></div>
+      <h1>Diario de<br/><em>Trades</em></h1>
+      <p class="page-header-sub">Cada operación documentada con análisis técnico, niveles clave y resultado real. Sin filtros.</p>
+      <div class="page-header-meta" id="header-stats">
+        <div><div class="ph-stat-num" id="hstat-total">—</div><div class="ph-stat-lbl">Operaciones</div></div>
+        <div><div class="ph-stat-num" id="hstat-wr">—</div><div class="ph-stat-lbl">Winrate</div></div>
+        <div><div class="ph-stat-num" id="hstat-avg">—</div><div class="ph-stat-lbl">R promedio</div></div>
+        <div><div class="ph-stat-num" id="hstat-total-r">—</div><div class="ph-stat-lbl">R total acumulado</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTERS -->
+  <div class="filters-bar">
+    <div class="filters-inner">
+      <span class="filter-label">Filtrar</span>
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="win">Solo WIN</button>
+      <button class="filter-btn" data-filter="loss">Solo LOSS</button>
+      <div class="filter-sep"></div>
+      <button class="filter-btn" data-month="2026-06">Jun 2026</button>
+      <button class="filter-btn" data-month="2026-05">May 2026</button>
+      <button class="filter-btn" data-month="2026-04">Abr 2026</button>
+      <div class="filter-sep"></div>
+      <button class="filter-btn" data-asset="XAU/USD">XAU/USD</button>
+    </div>
+  </div>
+
+  <!-- RESULTS BAR -->
+  <div class="results-bar">
+    <p class="results-count"><strong id="visible-count">0</strong> operaciones</p>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-grid" title="Vista cuadrícula">⊞</button>
+      <button class="view-btn" id="btn-list" title="Vista lista">☰</button>
+    </div>
+  </div>
+
+  <!-- TRADES GRID -->
+  <div class="trades-container">
+    <div class="trades-grid" id="trades-grid"></div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal-content">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div class="modal-header" id="modal-header"></div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Andrés <span>Cestona</span></div>
+    <p>&copy; 2026 Andrés Cestona. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="index.html">Inicio</a>
+      <a href="estadisticas.html">Estadísticas</a>
+      <a href="calculadora.html">Calculadora</a>
+    </div>
+  </footer>
+
+  <script>
+    let allTrades = [];
+    let activeFilter = 'all';
+    let activeMonth = null;
+    let activeAsset = null;
+
+    async function init() {
+      const res = await fetch('./data/trades-journal.json');
+      allTrades = await res.json();
+      updateStats(allTrades);
+      renderTrades(allTrades);
+      checkURLParam();
+    }
+
+    function checkURLParam() {
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id');
+      if(id) {
+        const t = allTrades.find(t => t.id === id);
+        if(t) openModal(t);
+      }
+    }
+
+    function updateStats(trades) {
+      const wins = trades.filter(t => t.resultado === 'win');
+      const wr = trades.length ? Math.round(wins.length / trades.length * 100) : 0;
+      const totalR = trades.reduce((s,t) => s + t.resultado_r, 0);
+      const avgR = trades.length ? (totalR / trades.length).toFixed(1) : 0;
+      document.getElementById('hstat-total').textContent = trades.length;
+      document.getElementById('hstat-wr').textContent = wr + '%';
+      document.getElementById('hstat-avg').textContent = (avgR > 0 ? '+' : '') + avgR + 'R';
+      document.getElementById('hstat-total-r').textContent = (totalR > 0 ? '+' : '') + totalR.toFixed(1) + 'R';
+    }
+
+    function getFiltered() {
+      return allTrades.filter(t => {
+        if(activeFilter === 'win' && t.resultado !== 'win') return false;
+        if(activeFilter === 'loss' && t.resultado !== 'loss') return false;
+        if(activeMonth && !t.id.startsWith(activeMonth)) return false;
+        if(activeAsset && t.activo !== activeAsset) return false;
+        return true;
+      });
+    }
+
+    function renderTrades(trades) {
+      const grid = document.getElementById('trades-grid');
+      document.getElementById('visible-count').textContent = trades.length;
+      if(!trades.length) {
+        grid.innerHTML = '<div class="empty-state"><p>No hay operaciones con los filtros seleccionados.</p></div>';
+        return;
+      }
+      grid.innerHTML = trades.map(t => {
+        const isWin = t.resultado === 'win';
+        return `
+          <a class="trade-card" href="javascript:void(0)" onclick="openModal(allTrades.find(x=>x.id==='${t.id}'))">
+            <div class="trade-card-img">
+              ${t.imagen
+                ? `<img src="${t.imagen}" alt="${t.titulo}" loading="lazy"/>`
+                : `<div class="trade-card-img-placeholder"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>`}
+              <span class="trade-card-badge ${isWin?'badge-win':'badge-loss'}">${isWin?'WIN':'LOSS'}</span>
+            </div>
+            <div class="trade-card-body">
+              <div class="trade-card-meta">
+                <span class="trade-card-date">${t.fecha}</span>
+                <span class="trade-card-asset">${t.activo}</span>
+              </div>
+              <div class="trade-card-title">${t.titulo}</div>
+              <div class="trade-card-excerpt">${t.extracto}</div>
+              <div class="trade-card-footer">
+                <div class="trade-details">
+                  <div class="td-item"><strong>${t.entrada}</strong>Entrada</div>
+                  <div class="td-item"><strong>${t.stop}</strong>Stop</div>
+                  <div class="td-item"><strong>${t.target}</strong>Target</div>
+                </div>
+                <span class="trade-result ${isWin?'pos':'neg'}">${t.resultado_r > 0?'+':''}${t.resultado_r}R</span>
+              </div>
+            </div>
+          </a>`;
+      }).join('');
+    }
+
+    // Filters
+    document.querySelectorAll('[data-filter]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+        renderTrades(getFiltered());
+      });
+    });
+    document.querySelectorAll('[data-month]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(btn.classList.contains('active')) {
+          btn.classList.remove('active');
+          activeMonth = null;
+        } else {
+          document.querySelectorAll('[data-month]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeMonth = btn.dataset.month;
+        }
+        renderTrades(getFiltered());
+      });
+    });
+    document.querySelectorAll('[data-asset]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(btn.classList.contains('active')) {
+          btn.classList.remove('active');
+          activeAsset = null;
+        } else {
+          document.querySelectorAll('[data-asset]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          activeAsset = btn.dataset.asset;
+        }
+        renderTrades(getFiltered());
+      });
+    });
+
+    // View toggle
+    const grid = document.getElementById('trades-grid');
+    document.getElementById('btn-grid').addEventListener('click', () => {
+      grid.classList.remove('view-list');
+      document.getElementById('btn-grid').classList.add('active');
+      document.getElementById('btn-list').classList.remove('active');
+    });
+    document.getElementById('btn-list').addEventListener('click', () => {
+      grid.classList.add('view-list');
+      document.getElementById('btn-list').classList.add('active');
+      document.getElementById('btn-grid').classList.remove('active');
+    });
+
+    // Modal
+    function openModal(t) {
+      if(!t) return;
+      const isWin = t.resultado === 'win';
+      document.getElementById('modal-header').innerHTML = `
+        <div class="modal-badge">
+          <span class="modal-badge-pill ${isWin?'badge-win':'badge-loss'}">${isWin?'WIN':'LOSS'}</span>
+          <span class="modal-date">${t.fecha}</span>
+        </div>
+        <div class="modal-title">${t.titulo}</div>
+        <div class="modal-asset">${t.activo}</div>`;
+      document.getElementById('modal-body').innerHTML = `
+        <div class="modal-stats">
+          <div class="mstat"><div class="mstat-val ${isWin?'pos':'neg'}">${t.resultado_r>0?'+':''}${t.resultado_r}R</div><div class="mstat-lbl">Resultado</div></div>
+          <div class="mstat"><div class="mstat-val">${t.entrada}</div><div class="mstat-lbl">Entrada</div></div>
+          <div class="mstat"><div class="mstat-val">${t.stop}</div><div class="mstat-lbl">Stop Loss</div></div>
+          <div class="mstat"><div class="mstat-val">${t.target}</div><div class="mstat-lbl">Target</div></div>
+        </div>
+        <div class="modal-analysis-title">Análisis de la operación</div>
+        <div class="modal-analysis">${t.analisis}</div>
+        ${t.url ? `<a href="${t.url}" target="_blank" rel="noopener" class="modal-chart-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Ver gráfico en TradingView
+        </a>` : ''}
+        <div class="modal-tags">${(t.tags||[]).map(tag=>`<span class="tag-pill">${tag}</span>`).join('')}</div>`;
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(e) {
+      if(e && e.target !== document.getElementById('modal-overlay') && e.type !== 'click') return;
+      if(e && e.target === document.getElementById('modal-content')) return;
+      if(e && document.getElementById('modal-content').contains(e.target) && e.target.id !== 'modal-overlay') return;
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+    init();
+  </script>
+</body>
+</html>
