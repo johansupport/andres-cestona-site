@@ -4,241 +4,240 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Andrés Cestona — Inversor Independiente</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
     :root {
-      --black:  #0a0a0a;
-      --dark:   #1a1a1a;
-      --mid:    #4a4a4a;
-      --muted:  #8a8a8a;
-      --border: #e8e8e8;
+      --black:  #111111;
+      --dark:   #222222;
+      --mid:    #555555;
+      --muted:  #999999;
+      --light:  #cccccc;
+      --border: #ebebeb;
       --bg:     #ffffff;
-      --bg2:    #f7f7f5;
-      --gold:   #c9a84c;
-      --gold2:  #e8c97a;
-      --green:  #16a34a;
-      --red:    #dc2626;
+      --bg2:    #f9f9f8;
+      --gold:   #b8933e;
+      --gold2:  #d4aa5a;
+      --green:  #1a7a4a;
+      --red:    #cc2222;
     }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); overflow-x: hidden; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--dark); overflow-x:hidden; -webkit-font-smoothing:antialiased; }
 
-    /* ── REVEAL ── */
-    .reveal { opacity:0; transform:translateY(28px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
-    .reveal.visible { opacity:1; transform:none; }
-    .reveal-l { opacity:0; transform:translateX(-32px); transition: opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1); }
-    .reveal-l.visible { opacity:1; transform:none; }
-    .reveal-r { opacity:0; transform:translateX(32px); transition: opacity .75s cubic-bezier(.22,1,.36,1), transform .75s cubic-bezier(.22,1,.36,1); }
-    .reveal-r.visible { opacity:1; transform:none; }
-    .d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s} .d4{transition-delay:.32s}
+    /* REVEAL */
+    .rev { opacity:0; transform:translateY(22px); transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1); }
+    .rev.on { opacity:1; transform:none; }
+    .d1{transition-delay:.1s} .d2{transition-delay:.2s} .d3{transition-delay:.3s}
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
-      position: fixed; top:0; left:0; right:0; z-index:200;
-      height: 64px;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 4%;
-      background: var(--black);
-      transition: background .3s;
+      position:fixed; top:0; left:0; right:0; z-index:200;
+      height:60px; display:flex; align-items:center; justify-content:space-between;
+      padding:0 5%;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+      transition:background .3s;
     }
-    .nav-logo { font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; text-decoration:none; }
-    .nav-logo span { color: var(--gold); }
-    .nav-links { display:flex; align-items:center; list-style:none; gap:.1rem; flex:1; justify-content:center; height:100%; }
-    .nav-links li { position:relative; height:100%; display:flex; align-items:center; }
-    .nav-links > li > a { color:rgba(255,255,255,.65); text-decoration:none; font-size:.82rem; font-weight:500; padding:0 .75rem; height:100%; display:flex; align-items:center; transition:color .2s; white-space:nowrap; }
-    .nav-links > li > a:hover { color:#fff; }
-    .has-drop > a::after { content:'▾'; font-size:.55rem; opacity:.5; margin-left:3px; }
-    .nav-drop { display:none; position:absolute; top:calc(100% + 6px); left:0; background:#111; border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:.4rem 0; min-width:185px; box-shadow:0 20px 50px rgba(0,0,0,.5); }
+    .nav-logo { font-size:.85rem; font-weight:800; color:var(--black); letter-spacing:-.2px; text-decoration:none; text-transform:uppercase; letter-spacing:1.5px; }
+    .nav-logo span { color:var(--gold); }
+    .nav-links { display:flex; align-items:center; list-style:none; gap:0; height:100%; }
+    .nav-links > li { position:relative; height:100%; display:flex; align-items:center; }
+    .nav-links > li > a { color:var(--mid); text-decoration:none; font-size:.78rem; font-weight:500; padding:0 .9rem; height:100%; display:flex; align-items:center; transition:color .2s; letter-spacing:.3px; }
+    .nav-links > li > a:hover { color:var(--black); }
+    .has-drop > a::after { content:''; display:inline-block; width:4px; height:4px; border-right:1px solid currentColor; border-bottom:1px solid currentColor; transform:rotate(45deg) translateY(-2px); margin-left:5px; opacity:.5; }
+    .nav-drop { display:none; position:absolute; top:calc(100% + 8px); left:0; background:#fff; border:1px solid var(--border); border-radius:10px; padding:.5rem 0; min-width:190px; box-shadow:0 12px 40px rgba(0,0,0,.1); }
     .has-drop:hover .nav-drop { display:block; }
-    .nav-drop a { display:block; padding:.55rem 1.1rem; font-size:.81rem; color:rgba(255,255,255,.6); text-decoration:none; transition:color .15s, background .15s; }
-    .nav-drop a:hover { color:#fff; background:rgba(255,255,255,.06); }
-    .nav-right { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
-    .nav-ghost { color:rgba(255,255,255,.65); text-decoration:none; font-size:.81rem; font-weight:500; padding:.4rem .75rem; border-radius:6px; transition:color .2s, background .2s; }
-    .nav-ghost:hover { color:#fff; background:rgba(255,255,255,.07); }
-    .nav-cta { background:var(--gold); color:var(--black); padding:.44rem 1rem; border-radius:6px; font-weight:700; font-size:.81rem; text-decoration:none; transition:background .2s, transform .2s; }
-    .nav-cta:hover { background:var(--gold2); transform:translateY(-1px); }
+    .nav-drop a { display:block; padding:.55rem 1.2rem; font-size:.78rem; color:var(--mid); text-decoration:none; transition:color .15s; }
+    .nav-drop a:hover { color:var(--black); }
+    .nav-right { display:flex; align-items:center; gap:.4rem; }
+    .nav-ghost { color:var(--mid); text-decoration:none; font-size:.78rem; font-weight:500; padding:.4rem .8rem; border-radius:6px; transition:color .2s; }
+    .nav-ghost:hover { color:var(--black); }
+    .nav-cta { background:var(--black); color:#fff; padding:.44rem 1rem; border-radius:6px; font-weight:600; font-size:.78rem; text-decoration:none; transition:background .2s; letter-spacing:.3px; }
+    .nav-cta:hover { background:var(--gold); }
 
-    /* ── HERO ── */
+    /* HERO */
     .hero {
-      min-height: 100vh;
-      background: var(--black);
-      display: flex; align-items: center;
-      padding: 8rem 4% 5rem;
-      position: relative; overflow: hidden;
+      min-height:100vh; display:flex; align-items:center;
+      padding:8rem 5% 5rem;
+      background:var(--bg);
+      border-bottom:1px solid var(--border);
     }
-    .hero-grid-bg {
-      position:absolute; inset:0; pointer-events:none;
-      background-image: linear-gradient(rgba(201,168,76,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,.035) 1px, transparent 1px);
-      background-size: 80px 80px;
+    .hero-inner { max-width:1200px; margin:0 auto; width:100%; display:grid; grid-template-columns:1.1fr 1fr; gap:6rem; align-items:center; }
+    .hero-eyebrow { display:flex; align-items:center; gap:.7rem; margin-bottom:2rem; }
+    .hero-eyebrow-line { width:32px; height:1px; background:var(--gold); }
+    .hero-eyebrow span { font-size:.65rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:3px; }
+    h1 {
+      font-family:'Playfair Display',serif;
+      font-size:clamp(3.5rem,6vw,6rem);
+      font-weight:900; line-height:1.03;
+      letter-spacing:-2px;
+      color:var(--black);
+      margin-bottom:1.8rem;
     }
-    .hero-glow { position:absolute; top:-10%; right:-8%; width:700px; height:700px; border-radius:50%; background:radial-gradient(circle, rgba(201,168,76,.07) 0%, transparent 65%); pointer-events:none; }
-    .hero-inner { max-width:1200px; margin:0 auto; width:100%; display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; position:relative; z-index:1; }
-    .hero-tag { display:inline-flex; align-items:center; gap:.5rem; margin-bottom:2rem; }
-    .hero-tag::before { content:''; width:28px; height:1px; background:var(--gold); }
-    .hero-tag span { font-size:.68rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2.5px; }
-    h1 { font-family:'Playfair Display',serif; font-size:clamp(3.2rem,5.5vw,5.2rem); font-weight:900; color:#fff; line-height:1.06; letter-spacing:-1.5px; margin-bottom:1.8rem; }
     h1 em { color:var(--gold); font-style:italic; }
-    .hero-sub { font-size:1rem; color:rgba(255,255,255,.5); line-height:1.9; margin-bottom:2.8rem; max-width:460px; }
-    .hero-btns { display:flex; gap:.8rem; flex-wrap:wrap; margin-bottom:3.5rem; }
-    .btn-gold { background:var(--gold); color:var(--black); padding:.85rem 1.8rem; border-radius:8px; font-weight:700; font-size:.88rem; text-decoration:none; display:inline-flex; align-items:center; gap:.4rem; transition:background .2s, transform .2s, box-shadow .2s; }
-    .btn-gold:hover { background:var(--gold2); transform:translateY(-2px); box-shadow:0 8px 28px rgba(201,168,76,.3); }
-    .btn-outline-w { background:transparent; color:rgba(255,255,255,.8); padding:.85rem 1.8rem; border-radius:8px; font-weight:600; font-size:.88rem; text-decoration:none; border:1px solid rgba(255,255,255,.15); transition:all .2s; }
-    .btn-outline-w:hover { border-color:var(--gold); color:var(--gold); }
-    .hero-sep { height:1px; background:rgba(255,255,255,.07); margin-bottom:2.5rem; }
-    .hero-stats { display:flex; gap:3rem; }
-    .stat-num { font-size:2.1rem; font-weight:900; color:#fff; line-height:1; }
-    .stat-num sup { color:var(--gold); font-size:1.1rem; }
-    .stat-label { font-size:.68rem; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:1.2px; margin-top:.3rem; font-weight:500; }
-    /* Hero right */
-    .hero-panel { display:flex; flex-direction:column; gap:1rem; }
-    .panel-main { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:2rem 2.2rem; }
-    .panel-main-eyebrow { font-size:.62rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:.6rem; }
-    .panel-main-val { font-family:'Playfair Display',serif; font-size:3.2rem; font-weight:900; color:#fff; line-height:1; }
-    .panel-main-sub { font-size:.76rem; color:rgba(255,255,255,.4); margin-top:.5rem; }
-    .panel-rows { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.2rem 1.6rem; display:flex; flex-direction:column; gap:0; }
-    .prow { display:flex; justify-content:space-between; padding:.55rem 0; border-bottom:1px solid rgba(255,255,255,.06); }
-    .prow:last-child { border-bottom:none; }
-    .prow-label { font-size:.76rem; color:rgba(255,255,255,.4); }
-    .prow-val { font-size:.8rem; font-weight:700; color:#fff; }
-    .prow-val.pos { color:#4ade80; }
+    .hero-sub { font-size:.93rem; color:var(--muted); line-height:1.9; max-width:440px; margin-bottom:2.8rem; font-weight:400; }
+    .hero-actions { display:flex; gap:.7rem; align-items:center; margin-bottom:4rem; flex-wrap:wrap; }
+    .btn-primary { background:var(--black); color:#fff; padding:.8rem 1.7rem; border-radius:7px; font-weight:600; font-size:.83rem; text-decoration:none; letter-spacing:.3px; transition:background .2s, transform .15s; }
+    .btn-primary:hover { background:var(--gold); transform:translateY(-1px); }
+    .btn-text { color:var(--mid); font-size:.83rem; font-weight:500; text-decoration:none; display:flex; align-items:center; gap:.4rem; transition:color .2s; }
+    .btn-text:hover { color:var(--black); }
+    .btn-text::after { content:'→'; transition:transform .2s; }
+    .btn-text:hover::after { transform:translateX(3px); }
+    .hero-divider { height:1px; background:var(--border); margin-bottom:2.5rem; }
+    .hero-nums { display:flex; gap:3.5rem; }
+    .hnum-val { font-size:2.2rem; font-weight:900; color:var(--black); line-height:1; letter-spacing:-1px; }
+    .hnum-val sup { font-size:.9rem; color:var(--gold); font-weight:700; letter-spacing:0; }
+    .hnum-label { font-size:.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-top:.4rem; font-weight:500; }
 
-    /* ── PLATFORMS ── */
-    .platforms { background:rgba(255,255,255,.03); border-top:1px solid rgba(255,255,255,.07); border-bottom:1px solid rgba(255,255,255,.07); padding:2rem 4%; }
-    .plat-label { text-align:center; font-size:.6rem; font-weight:600; color:rgba(255,255,255,.2); text-transform:uppercase; letter-spacing:3px; margin-bottom:1.8rem; }
-    .logo-track-wrapper { overflow:hidden; mask-image:linear-gradient(to right, transparent, black 12%, black 88%, transparent); -webkit-mask-image:linear-gradient(to right, transparent, black 12%, black 88%, transparent); }
-    .logo-track { display:flex; align-items:center; gap:5rem; width:max-content; animation:scroll-logos 18s linear infinite; }
+    /* Hero right — performance card */
+    .perf-card {
+      background:var(--bg2); border:1px solid var(--border); border-radius:20px; padding:2.2rem;
+      display:flex; flex-direction:column; gap:1.2rem;
+    }
+    .perf-card-header { display:flex; justify-content:space-between; align-items:flex-start; }
+    .perf-card-eyebrow { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--muted); margin-bottom:.4rem; }
+    .perf-card-total { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; color:var(--black); line-height:1; letter-spacing:-2px; }
+    .perf-card-since { font-size:.72rem; color:var(--muted); margin-top:.3rem; }
+    .perf-badge { background:rgba(26,122,74,.08); color:var(--green); border:1px solid rgba(26,122,74,.15); font-size:.65rem; font-weight:700; padding:.3rem .7rem; border-radius:100px; align-self:flex-start; }
+    .perf-rows { display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border); padding-top:1.2rem; }
+    .perf-row { display:flex; justify-content:space-between; align-items:center; padding:.55rem 0; border-bottom:1px solid var(--border); }
+    .perf-row:last-child { border-bottom:none; }
+    .perf-year { font-size:.77rem; color:var(--mid); font-weight:500; }
+    .perf-pct { font-size:.8rem; font-weight:700; color:var(--green); }
+    .perf-bar-wrap { flex:1; margin:0 1.2rem; height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .perf-bar { height:100%; background:var(--gold); border-radius:2px; }
+
+    /* PLATAFORMAS */
+    .plat-section { padding:2.5rem 5%; border-bottom:1px solid var(--border); background:var(--bg); }
+    .plat-label { font-size:.58rem; font-weight:600; color:var(--light); text-transform:uppercase; letter-spacing:3px; text-align:center; margin-bottom:1.8rem; }
+    .logo-track-wrapper { overflow:hidden; mask-image:linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image:linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+    .logo-track { display:flex; align-items:center; gap:4.5rem; width:max-content; animation:marquee 18s linear infinite; }
     .logo-track:hover { animation-play-state:paused; }
-    @keyframes scroll-logos { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-    .logo-item { flex-shrink:0; opacity:.3; transition:opacity .3s; }
-    .logo-item a { display:flex; align-items:center; gap:.55rem; text-decoration:none; }
-    .logo-item:hover { opacity:.75; }
-    .logo-name { font-size:.9rem; font-weight:700; color:rgba(255,255,255,.7); letter-spacing:.3px; }
+    @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .logo-item a { display:flex; align-items:center; gap:.5rem; text-decoration:none; opacity:.25; transition:opacity .3s; }
+    .logo-item a:hover { opacity:.7; }
+    .logo-name { font-size:.8rem; font-weight:700; color:var(--dark); letter-spacing:.5px; }
 
-    /* ── SECTION COMMONS (light) ── */
-    .section-tag { display:inline-flex; align-items:center; gap:.5rem; margin-bottom:1rem; }
-    .section-tag::before { content:''; width:20px; height:1px; background:var(--gold); }
-    .section-tag span { font-size:.65rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2px; }
-    .section-h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:900; color:var(--black); line-height:1.15; letter-spacing:-.5px; }
-    .section-h2 em { color:var(--gold); font-style:italic; }
-    .section-lead { font-size:.95rem; color:var(--muted); line-height:1.85; margin-top:.8rem; }
+    /* STATS ROW */
+    .stats-row { padding:5rem 5%; background:var(--bg2); border-bottom:1px solid var(--border); }
+    .stats-row-inner { max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+    .stat-cell { background:var(--bg2); padding:2.5rem 2rem; text-align:center; }
+    .stat-cell-num { font-family:'Playfair Display',serif; font-size:3rem; font-weight:900; color:var(--black); line-height:1; letter-spacing:-1.5px; }
+    .stat-cell-num span { color:var(--gold); }
+    .stat-cell-lbl { font-size:.63rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-top:.6rem; }
 
-    /* ── STATS BAND ── */
-    .stats-band { background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:4rem 4%; }
-    .stats-band-inner { max-width:960px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; text-align:center; }
-    .band-num { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:900; color:var(--black); line-height:1; }
-    .band-num span { color:var(--gold); }
-    .band-lbl { font-size:.7rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-top:.5rem; }
+    /* MARKETS */
+    .markets-section { padding:7rem 5%; background:var(--bg); border-bottom:1px solid var(--border); }
+    .markets-inner { max-width:1100px; margin:0 auto; }
+    .sec-eyebrow { display:flex; align-items:center; gap:.6rem; margin-bottom:.8rem; }
+    .sec-eyebrow::before { content:''; width:18px; height:1px; background:var(--gold); }
+    .sec-eyebrow span { font-size:.6rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2.5px; }
+    h2 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,4vw,3.5rem); font-weight:900; color:var(--black); line-height:1.1; letter-spacing:-1px; }
+    h2 em { font-style:italic; color:var(--gold); }
+    .sec-lead { font-size:.9rem; color:var(--muted); line-height:1.85; margin-top:.7rem; }
+    .markets-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3.5rem; gap:2rem; }
+    .link-arrow { font-size:.78rem; font-weight:600; color:var(--mid); text-decoration:none; display:flex; align-items:center; gap:.4rem; transition:color .2s; white-space:nowrap; align-self:flex-end; padding-bottom:2px; border-bottom:1px solid var(--border); }
+    .link-arrow:hover { color:var(--black); border-color:var(--black); }
+    .link-arrow::after { content:'→'; }
+    .markets-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:3rem; }
+    .mkt-cell { background:var(--bg); padding:2.2rem 2rem; display:flex; flex-direction:column; transition:background .2s; }
+    .mkt-cell:hover { background:var(--bg2); }
+    .mkt-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:1.2rem; }
+    .mkt-title { font-size:1.05rem; font-weight:700; color:var(--black); line-height:1.4; margin-bottom:.7rem; }
+    .mkt-desc { font-size:.79rem; color:var(--muted); line-height:1.8; flex:1; }
+    .mkt-foot { display:flex; justify-content:space-between; align-items:center; margin-top:1.8rem; padding-top:1.2rem; border-top:1px solid var(--border); }
+    .mkt-num { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:var(--black); line-height:1; }
+    .mkt-num-lbl { font-size:.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-top:.2rem; }
+    .mkt-link { font-size:.72rem; color:var(--muted); text-decoration:none; font-weight:500; }
+    .mkt-link:hover { color:var(--gold); }
+    /* ticker */
+    .ticker-bar { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem; }
+    .ticker-items { display:flex; gap:3rem; flex-wrap:wrap; }
+    .ticker-lbl { font-size:.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:.2rem; }
+    .ticker-val { font-size:.95rem; font-weight:700; color:var(--green); }
 
-    /* ── MARKETS ── */
-    .markets-section { background:var(--bg); padding:7rem 4%; }
-    .markets-inner { max-width:1200px; margin:0 auto; }
-    .markets-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3rem; gap:2rem; }
-    .markets-link { color:var(--dark); text-decoration:none; font-size:.82rem; font-weight:600; border-bottom:1px solid var(--border); padding-bottom:2px; transition:border-color .2s, color .2s; white-space:nowrap; align-self:flex-end; }
-    .markets-link:hover { color:var(--gold); border-color:var(--gold); }
-    .markets-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:3rem; }
-    .mkt-card { background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:2rem; transition:box-shadow .3s, transform .3s, border-color .3s; }
-    .mkt-card:hover { box-shadow:0 12px 40px rgba(0,0,0,.08); transform:translateY(-4px); border-color:var(--gold); }
-    .mkt-tag { display:inline-block; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; padding:.25rem .7rem; border-radius:100px; margin-bottom:1.2rem; }
-    .tag-s { background:rgba(201,168,76,.1); color:#a0820a; border:1px solid rgba(201,168,76,.25); }
-    .tag-a { background:rgba(22,163,74,.08); color:#15803d; border:1px solid rgba(22,163,74,.15); }
-    .tag-p { background:rgba(37,99,235,.08); color:#1d4ed8; border:1px solid rgba(37,99,235,.15); }
-    .mkt-card-title { font-size:1rem; font-weight:700; color:var(--black); margin-bottom:.7rem; line-height:1.35; }
-    .mkt-card-desc  { font-size:.81rem; color:var(--muted); line-height:1.8; margin-bottom:1.5rem; }
-    .mkt-card-meta  { display:flex; justify-content:space-between; align-items:center; padding-top:1.2rem; border-top:1px solid var(--border); }
-    .mkt-stat { font-size:1.4rem; font-weight:800; color:var(--black); }
-    .mkt-stat-lbl { font-size:.65rem; color:var(--muted); margin-top:.2rem; }
-    .mkt-arrow { width:34px; height:34px; border-radius:50%; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--muted); text-decoration:none; font-size:.9rem; transition:all .2s; }
-    .mkt-arrow:hover { background:var(--gold); color:var(--black); border-color:var(--gold); }
-    .mkt-divider { border:none; border-top:1px solid var(--border); margin-bottom:2rem; }
-    .mkt-bottom { display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; }
-    .mkt-ticker { display:flex; gap:2.5rem; flex-wrap:wrap; }
-    .tick-lbl { font-size:.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:.2rem; }
-    .tick-val { font-size:.95rem; font-weight:700; color:var(--black); }
-    .tick-val.pos { color:var(--green); }
-
-    /* ── TRADES PREVIEW ── */
-    .trades-section { background:var(--bg2); padding:7rem 4%; border-top:1px solid var(--border); }
+    /* TRADES PREVIEW */
+    .trades-section { padding:7rem 5%; background:var(--bg2); border-bottom:1px solid var(--border); }
     .trades-inner { max-width:1100px; margin:0 auto; }
-    .trades-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3rem; }
-    .trades-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:2.5rem; }
+    .trades-head { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3.5rem; gap:2rem; }
+    .trades-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:3rem; }
     .trade-card { background:var(--bg); border:1px solid var(--border); border-radius:14px; overflow:hidden; text-decoration:none; color:inherit; transition:box-shadow .3s, transform .3s; display:flex; flex-direction:column; }
-    .trade-card:hover { box-shadow:0 10px 36px rgba(0,0,0,.09); transform:translateY(-3px); }
-    .trade-card-img { aspect-ratio:16/9; background:var(--bg2); overflow:hidden; position:relative; }
-    .trade-card-img img { width:100%; height:100%; object-fit:cover; }
-    .trade-card-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#f0f0ee,#e8e8e4); }
-    .trade-img-icon { opacity:.25; }
-    .trade-card-badge { position:absolute; top:.75rem; left:.75rem; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:.25rem .65rem; border-radius:100px; }
-    .badge-win { background:#dcfce7; color:#15803d; }
-    .badge-loss { background:#fee2e2; color:#b91c1c; }
-    .trade-card-body { padding:1.3rem 1.5rem 1.5rem; flex:1; display:flex; flex-direction:column; }
-    .trade-card-meta { display:flex; gap:.6rem; align-items:center; margin-bottom:.75rem; }
-    .trade-card-date { font-size:.68rem; color:var(--muted); }
-    .trade-card-asset { font-size:.68rem; font-weight:700; color:var(--gold); background:rgba(201,168,76,.1); padding:.15rem .5rem; border-radius:4px; }
-    .trade-card-title { font-size:.95rem; font-weight:700; color:var(--black); line-height:1.4; margin-bottom:.5rem; flex:1; }
-    .trade-card-excerpt { font-size:.78rem; color:var(--muted); line-height:1.7; }
-    .trade-card-footer { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:.9rem; border-top:1px solid var(--border); }
-    .trade-card-result { font-size:.8rem; font-weight:700; }
-    .trade-card-result.pos { color:var(--green); }
-    .trade-card-result.neg { color:var(--red); }
-    .trade-card-read { font-size:.75rem; color:var(--muted); font-weight:500; }
+    .trade-card:hover { box-shadow:0 8px 32px rgba(0,0,0,.08); transform:translateY(-3px); }
+    .trade-img { aspect-ratio:16/9; background:var(--bg2); position:relative; overflow:hidden; }
+    .trade-img-ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+    .trade-badge { position:absolute; top:.7rem; left:.7rem; font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; padding:.22rem .6rem; border-radius:100px; }
+    .b-win { background:#e6f4ec; color:#1a7a4a; }
+    .b-loss { background:#fce8e8; color:#cc2222; }
+    .trade-body { padding:1.3rem 1.5rem 1.5rem; flex:1; display:flex; flex-direction:column; }
+    .trade-meta { display:flex; gap:.5rem; align-items:center; margin-bottom:.7rem; }
+    .trade-date { font-size:.65rem; color:var(--muted); }
+    .trade-asset { font-size:.65rem; font-weight:700; color:var(--gold); }
+    .trade-title { font-size:.93rem; font-weight:700; color:var(--black); line-height:1.4; flex:1; margin-bottom:.45rem; }
+    .trade-excerpt { font-size:.77rem; color:var(--muted); line-height:1.75; }
+    .trade-foot { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:.8rem; border-top:1px solid var(--border); }
+    .trade-r.pos { font-size:.82rem; font-weight:800; color:var(--green); }
+    .trade-r.neg { font-size:.82rem; font-weight:800; color:var(--red); }
+    .trade-read { font-size:.72rem; color:var(--muted); }
     .trades-cta { text-align:center; }
 
-    /* ── QUIEN ── */
-    .quien-section { background:var(--black); padding:7rem 4%; }
-    .quien-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1.5fr; gap:6rem; align-items:center; }
-    .quien-left { display:flex; flex-direction:column; gap:1.2rem; }
-    .quien-profile { background:rgba(201,168,76,.08); border:1px solid rgba(201,168,76,.2); border-radius:18px; padding:2rem; }
-    .quien-initials { width:68px; height:68px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; font-size:1.35rem; font-weight:900; color:var(--black); margin-bottom:1.2rem; }
-    .quien-name { font-size:1.1rem; font-weight:700; color:#fff; }
-    .quien-role { font-size:.76rem; color:var(--gold); margin-top:.25rem; font-weight:500; }
-    .quien-stats-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.4rem 1.6rem; display:flex; align-items:center; gap:1.2rem; }
-    .quien-stat-big { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:900; color:var(--gold); line-height:1; }
-    .quien-stat-txt { font-size:.78rem; color:rgba(255,255,255,.4); line-height:1.6; }
-    .quien-right .section-tag { }
-    .quien-right h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3vw,2.8rem); font-weight:900; color:#fff; line-height:1.2; letter-spacing:-.5px; margin-bottom:.5rem; margin-top:.3rem; }
-    .quien-tagline { font-size:.88rem; color:var(--gold); font-weight:500; margin-bottom:2rem; }
-    .quien-bio p { font-size:.9rem; color:rgba(255,255,255,.5); line-height:1.9; margin-bottom:1rem; }
-    .quien-bio p strong { color:#fff; font-weight:600; }
-    .quien-bio p em { color:var(--gold); font-style:normal; }
-    .quien-pillars { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; margin-top:2rem; }
-    .pillar { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:12px; padding:1.1rem; transition:border-color .25s, background .25s; }
-    .pillar:hover { border-color:rgba(201,168,76,.3); background:rgba(201,168,76,.04); }
-    .pillar-icon { font-size:1.2rem; margin-bottom:.45rem; }
-    .pillar-title { font-size:.8rem; font-weight:700; color:#fff; margin-bottom:.25rem; }
-    .pillar-desc  { font-size:.71rem; color:rgba(255,255,255,.4); line-height:1.6; }
+    /* QUIEN */
+    .quien-section { padding:7rem 5%; background:var(--bg); border-bottom:1px solid var(--border); }
+    .quien-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1.4fr; gap:6rem; align-items:center; }
+    .quien-photo-wrap { position:relative; }
+    .quien-photo { width:100%; aspect-ratio:3/4; background:var(--bg2); border:1px solid var(--border); border-radius:18px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .quien-initials { font-family:'Playfair Display',serif; font-size:5rem; font-weight:900; color:var(--border); }
+    .quien-badge { position:absolute; bottom:-1rem; right:-1rem; background:var(--bg); border:1px solid var(--border); border-radius:14px; padding:1.2rem 1.5rem; box-shadow:0 4px 20px rgba(0,0,0,.07); }
+    .quien-badge-num { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--black); line-height:1; }
+    .quien-badge-lbl { font-size:.6rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-top:.25rem; }
+    .quien-text h2 { margin-bottom:.4rem; margin-top:.3rem; }
+    .quien-tagline { font-size:.85rem; color:var(--gold); font-weight:500; margin-bottom:2rem; }
+    .quien-bio p { font-size:.88rem; color:var(--mid); line-height:1.95; margin-bottom:.9rem; }
+    .quien-bio p strong { color:var(--black); font-weight:600; }
+    .quien-pillars { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; margin-top:2.2rem; }
+    .pillar { border:1px solid var(--border); border-radius:12px; padding:1.2rem; transition:border-color .2s, background .2s; background:var(--bg); }
+    .pillar:hover { border-color:var(--gold); background:rgba(184,147,62,.03); }
+    .pillar-icon { font-size:1.1rem; margin-bottom:.4rem; }
+    .pillar-title { font-size:.78rem; font-weight:700; color:var(--black); margin-bottom:.2rem; }
+    .pillar-desc { font-size:.7rem; color:var(--muted); line-height:1.6; }
 
-    /* ── CTA ── */
-    .cta-section { background:var(--bg); padding:7rem 4%; text-align:center; }
-    .cta-inner { max-width:640px; margin:0 auto; }
-    .cta-section h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:900; color:var(--black); line-height:1.2; margin-bottom:1.1rem; letter-spacing:-.5px; }
-    .cta-section h2 em { color:var(--gold); font-style:italic; }
-    .cta-section p { font-size:.93rem; color:var(--muted); line-height:1.8; margin-bottom:2.5rem; }
-    .cta-btns { display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; }
-    .btn-dark { background:var(--black); color:#fff; padding:.85rem 1.8rem; border-radius:8px; font-weight:700; font-size:.88rem; text-decoration:none; transition:background .2s, transform .2s; }
-    .btn-dark:hover { background:var(--dark); transform:translateY(-2px); }
-    .btn-outline-d { background:transparent; color:var(--dark); padding:.85rem 1.8rem; border-radius:8px; font-weight:600; font-size:.88rem; text-decoration:none; border:1px solid var(--border); transition:all .2s; }
-    .btn-outline-d:hover { border-color:var(--gold); color:var(--gold); }
+    /* CTA */
+    .cta-section { padding:8rem 5%; background:var(--black); text-align:center; }
+    .cta-inner { max-width:600px; margin:0 auto; }
+    .cta-eyebrow { display:inline-flex; align-items:center; gap:.6rem; margin-bottom:1.5rem; }
+    .cta-eyebrow::before,.cta-eyebrow::after { content:''; width:20px; height:1px; background:rgba(255,255,255,.2); }
+    .cta-eyebrow span { font-size:.6rem; font-weight:600; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:2.5px; }
+    .cta-section h2 { color:#fff; margin-bottom:1rem; }
+    .cta-section h2 em { color:var(--gold2); }
+    .cta-section p { font-size:.9rem; color:rgba(255,255,255,.45); line-height:1.85; margin-bottom:2.5rem; }
+    .cta-btns { display:flex; gap:.7rem; justify-content:center; flex-wrap:wrap; }
+    .btn-white { background:#fff; color:var(--black); padding:.8rem 1.7rem; border-radius:7px; font-weight:700; font-size:.83rem; text-decoration:none; transition:background .2s; }
+    .btn-white:hover { background:var(--gold2); }
+    .btn-border-w { background:transparent; color:rgba(255,255,255,.6); padding:.8rem 1.7rem; border-radius:7px; font-weight:500; font-size:.83rem; text-decoration:none; border:1px solid rgba(255,255,255,.15); transition:all .2s; }
+    .btn-border-w:hover { border-color:rgba(255,255,255,.5); color:#fff; }
 
-    /* ── FOOTER ── */
-    footer { background:var(--black); border-top:1px solid rgba(255,255,255,.07); padding:2.5rem 4%; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
-    .footer-logo { font-size:.9rem; font-weight:800; color:#fff; }
+    /* FOOTER */
+    footer { background:#0a0a0a; border-top:1px solid rgba(255,255,255,.06); padding:2rem 5%; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .footer-logo { font-size:.8rem; font-weight:800; color:#fff; text-transform:uppercase; letter-spacing:1.5px; }
     .footer-logo span { color:var(--gold); }
-    footer p { font-size:.73rem; color:rgba(255,255,255,.3); }
+    footer p { font-size:.7rem; color:rgba(255,255,255,.25); }
     .footer-links { display:flex; gap:1.5rem; }
-    .footer-links a { font-size:.73rem; color:rgba(255,255,255,.35); text-decoration:none; transition:color .2s; }
+    .footer-links a { font-size:.7rem; color:rgba(255,255,255,.3); text-decoration:none; transition:color .2s; }
     .footer-links a:hover { color:var(--gold); }
   </style>
 </head>
 <body>
 
-  <nav id="mainNav">
+  <!-- NAV -->
+  <nav>
     <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
     <ul class="nav-links">
       <li class="has-drop">
         <a href="#">Nosotros</a>
         <div class="nav-drop">
           <a href="#quien">¿Quién es Andrés?</a>
-          <a href="#platforms">Plataformas</a>
+          <a href="#plat">Plataformas</a>
         </div>
       </li>
       <li><a href="#markets">Markets</a></li>
@@ -262,119 +261,121 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-grid-bg"></div>
-    <div class="hero-glow"></div>
     <div class="hero-inner">
       <div>
-        <div class="hero-tag reveal"><span>Inversor Independiente · XAUUSD</span></div>
-        <h1 class="reveal d1">Gestión activa<br/>del capital<br/>con <em>convicción</em></h1>
-        <p class="hero-sub reveal d2">Estrategias cuantitativas sobre oro verificadas desde 2022. Transparencia total en cada operación.</p>
-        <div class="hero-btns reveal d3">
-          <a href="estadisticas.html" class="btn-gold">Ver estadísticas →</a>
-          <a href="trades.html" class="btn-outline-w">Diario de Trades</a>
+        <div class="hero-eyebrow rev"><div class="hero-eyebrow-line"></div><span>Inversor Independiente · XAU/USD</span></div>
+        <h1 class="rev d1">Gestión activa<br/>del capital<br/>con <em>convicción.</em></h1>
+        <p class="hero-sub rev d2">Estrategia cuantitativa sobre oro verificada desde 2022. Cada operación documentada. Cada resultado real.</p>
+        <div class="hero-actions rev d3">
+          <a href="estadisticas.html" class="btn-primary">Ver estadísticas</a>
+          <a href="trades.html" class="btn-text">Diario de trades</a>
         </div>
-        <div class="hero-sep reveal d4"></div>
-        <div class="hero-stats reveal d4">
+        <div class="hero-divider rev d3"></div>
+        <div class="hero-nums rev d3">
           <div>
-            <div class="stat-num"><span class="counter" data-target="337">0</span><sup>%</sup></div>
-            <div class="stat-label">Desde inicio · 2022</div>
+            <div class="hnum-val"><span class="counter" data-target="337">0</span><sup>%</sup></div>
+            <div class="hnum-label">Desde inicio 2022</div>
           </div>
           <div>
-            <div class="stat-num"><span class="counter" data-target="857">0</span></div>
-            <div class="stat-label">Trades verificados</div>
+            <div class="hnum-val"><span class="counter" data-target="857">0</span></div>
+            <div class="hnum-label">Trades verificados</div>
           </div>
           <div>
-            <div class="stat-num"><span class="counter" data-target="71">0</span><sup>.5%</sup></div>
-            <div class="stat-label">Winrate histórico</div>
+            <div class="hnum-val"><span class="counter" data-target="71">0</span><sup>.5%</sup></div>
+            <div class="hnum-label">Winrate histórico</div>
           </div>
         </div>
       </div>
-      <div class="hero-panel reveal-r d1">
-        <div class="panel-main">
-          <div class="panel-main-eyebrow">Rendimiento total</div>
-          <div class="panel-main-val">+337%</div>
-          <div class="panel-main-sub">desde 2022 · capital inicial $1,000</div>
-        </div>
-        <div class="panel-rows">
-          <div class="prow"><span class="prow-label">2022</span><span class="prow-val pos">+76.4%</span></div>
-          <div class="prow"><span class="prow-label">2023</span><span class="prow-val pos">+85.8%</span></div>
-          <div class="prow"><span class="prow-label">2024</span><span class="prow-val pos">+70.2%</span></div>
-          <div class="prow"><span class="prow-label">2025</span><span class="prow-val pos">+70.4%</span></div>
-          <div class="prow"><span class="prow-label">2026 YTD</span><span class="prow-val pos">+34.6%</span></div>
+      <div class="rev d2">
+        <div class="perf-card">
+          <div class="perf-card-header">
+            <div>
+              <div class="perf-card-eyebrow">Rendimiento total</div>
+              <div class="perf-card-total">+337%</div>
+              <div class="perf-card-since">Capital inicial $1,000 · 2022–2026</div>
+            </div>
+            <div class="perf-badge">Verificado</div>
+          </div>
+          <div class="perf-rows">
+            <div class="perf-row"><span class="perf-year">2022</span><div class="perf-bar-wrap"><div class="perf-bar" style="width:40%"></div></div><span class="perf-pct">+76.4%</span></div>
+            <div class="perf-row"><span class="perf-year">2023</span><div class="perf-bar-wrap"><div class="perf-bar" style="width:46%"></div></div><span class="perf-pct">+85.8%</span></div>
+            <div class="perf-row"><span class="perf-year">2024</span><div class="perf-bar-wrap"><div class="perf-bar" style="width:37%"></div></div><span class="perf-pct">+70.2%</span></div>
+            <div class="perf-row"><span class="perf-year">2025</span><div class="perf-bar-wrap"><div class="perf-bar" style="width:37%"></div></div><span class="perf-pct">+70.4%</span></div>
+            <div class="perf-row"><span class="perf-year">2026 YTD</span><div class="perf-bar-wrap"><div class="perf-bar" style="width:18%"></div></div><span class="perf-pct">+34.6%</span></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- PLATFORMS -->
-  <section class="platforms" id="platforms">
-    <div class="plat-label">Plataformas y brokers</div>
+  <!-- PLATAFORMAS -->
+  <section class="plat-section" id="plat">
+    <div class="plat-label">Plataformas y brokers verificados</div>
     <div class="logo-track-wrapper">
       <div class="logo-track">
-        <div class="logo-item"><a href="https://www.binance.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 4l3.6 3.6-7.2 7.2-3.6-3.6L16 4zm-8 8l3.6 3.6-3.6 3.6L4 16l4-4zm16 0l4 4-3.6 3.6L20.4 16 24 12zm-8 8l7.2-7.2 3.6 3.6L16 28l-6.8-6.8 3.6-3.6L16 20z" fill="rgba(255,255,255,.55)"/></svg></span><span class="logo-name">Binance</span></a></div>
-        <div class="logo-item"><a href="https://www.axi.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="rgba(255,255,255,.12)"/><path d="M10 22l6-12 6 12M12.5 18h7" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round"/></svg></span><span class="logo-name">AXI</span></a></div>
-        <div class="logo-item"><a href="https://ftmo.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(255,255,255,.1)"/><path d="M7 11h8M7 16h6M7 21h8" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round"/><path d="M19 11l6 10M25 11l-6 10" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="logo-name">FTMO</span></a></div>
-        <div class="logo-item"><a href="https://www.tradingview.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="rgba(255,255,255,.1)"/><path d="M8 20l5-6 4 4 7-9" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="logo-name">TradingView</span></a></div>
-        <div class="logo-item"><a href="https://www.binance.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 4l3.6 3.6-7.2 7.2-3.6-3.6L16 4zm-8 8l3.6 3.6-3.6 3.6L4 16l4-4zm16 0l4 4-3.6 3.6L20.4 16 24 12zm-8 8l7.2-7.2 3.6 3.6L16 28l-6.8-6.8 3.6-3.6L16 20z" fill="rgba(255,255,255,.55)"/></svg></span><span class="logo-name">Binance</span></a></div>
-        <div class="logo-item"><a href="https://www.axi.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="rgba(255,255,255,.12)"/><path d="M10 22l6-12 6 12M12.5 18h7" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round"/></svg></span><span class="logo-name">AXI</span></a></div>
-        <div class="logo-item"><a href="https://ftmo.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(255,255,255,.1)"/><path d="M7 11h8M7 16h6M7 21h8" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round"/><path d="M19 11l6 10M25 11l-6 10" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="logo-name">FTMO</span></a></div>
-        <div class="logo-item"><a href="https://www.tradingview.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="rgba(255,255,255,.1)"/><path d="M8 20l5-6 4 4 7-9" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="logo-name">TradingView</span></a></div>
+        <div class="logo-item"><a href="https://www.binance.com" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M16 4l3.6 3.6-7.2 7.2-3.6-3.6L16 4zm-8 8l3.6 3.6-3.6 3.6L4 16l4-4zm16 0l4 4-3.6 3.6L20.4 16 24 12zm-8 8l7.2-7.2 3.6 3.6L16 28l-6.8-6.8 3.6-3.6L16 20z" fill="#888"/></svg><span class="logo-name">Binance</span></a></div>
+        <div class="logo-item"><a href="https://www.axi.com" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="#888" stroke-width="1.5"/><path d="M10 22l6-12 6 12M12.5 18h7" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg><span class="logo-name">AXI</span></a></div>
+        <div class="logo-item"><a href="https://ftmo.com" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="7" stroke="#888" stroke-width="1.5"/><path d="M7 11h8M7 16h6M7 21h8" stroke="#888" stroke-width="2" stroke-linecap="round"/><path d="M19 11l6 10M25 11l-6 10" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg><span class="logo-name">FTMO</span></a></div>
+        <div class="logo-item"><a href="https://www.tradingview.com" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="#888" stroke-width="1.5"/><path d="M8 20l5-6 4 4 7-9" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="logo-name">TradingView</span></a></div>
+        <!-- duplicates for loop -->
+        <div class="logo-item"><a href="https://www.binance.com" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M16 4l3.6 3.6-7.2 7.2-3.6-3.6L16 4zm-8 8l3.6 3.6-3.6 3.6L4 16l4-4zm16 0l4 4-3.6 3.6L20.4 16 24 12zm-8 8l7.2-7.2 3.6 3.6L16 28l-6.8-6.8 3.6-3.6L16 20z" fill="#888"/></svg><span class="logo-name">Binance</span></a></div>
+        <div class="logo-item"><a href="https://www.axi.com" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="#888" stroke-width="1.5"/><path d="M10 22l6-12 6 12M12.5 18h7" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg><span class="logo-name">AXI</span></a></div>
+        <div class="logo-item"><a href="https://ftmo.com" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect x="2" y="2" width="28" height="28" rx="7" stroke="#888" stroke-width="1.5"/><path d="M7 11h8M7 16h6M7 21h8" stroke="#888" stroke-width="2" stroke-linecap="round"/><path d="M19 11l6 10M25 11l-6 10" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg><span class="logo-name">FTMO</span></a></div>
+        <div class="logo-item"><a href="https://www.tradingview.com" target="_blank" rel="noopener"><svg width="20" height="20" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="#888" stroke-width="1.5"/><path d="M8 20l5-6 4 4 7-9" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="logo-name">TradingView</span></a></div>
       </div>
     </div>
   </section>
 
-  <!-- STATS BAND -->
-  <section class="stats-band">
-    <div class="stats-band-inner">
-      <div class="reveal"><div class="band-num">857</div><div class="band-lbl">Trades verificados</div></div>
-      <div class="reveal d1"><div class="band-num">71<span>.5%</span></div><div class="band-lbl">Winrate histórico</div></div>
-      <div class="reveal d2"><div class="band-num">+337<span>%</span></div><div class="band-lbl">Rendimiento total</div></div>
-      <div class="reveal d3"><div class="band-num">5 <span style="font-size:1.8rem">años</span></div><div class="band-lbl">Historial auditado</div></div>
+  <!-- STATS ROW -->
+  <section class="stats-row">
+    <div class="stats-row-inner">
+      <div class="stat-cell rev"><div class="stat-cell-num">857</div><div class="stat-cell-lbl">Trades verificados</div></div>
+      <div class="stat-cell rev d1"><div class="stat-cell-num">71<span>.5%</span></div><div class="stat-cell-lbl">Winrate histórico</div></div>
+      <div class="stat-cell rev d2"><div class="stat-cell-num">+337<span>%</span></div><div class="stat-cell-lbl">Rendimiento total</div></div>
+      <div class="stat-cell rev d3"><div class="stat-cell-num">5<span style="font-size:1.8rem"> años</span></div><div class="stat-cell-lbl">Historial auditado</div></div>
     </div>
   </section>
 
   <!-- MARKETS -->
   <section class="markets-section" id="markets">
     <div class="markets-inner">
-      <div class="markets-top">
-        <div class="reveal">
-          <div class="section-tag"><span>Markets by Andrés</span></div>
-          <h2 class="section-h2">Análisis. Estrategia.<br/><em>Resultados reales.</em></h2>
-          <p class="section-lead" style="max-width:480px">Operativa activa sobre XAU/USD. Cada decisión documentada, cada resultado verificado.</p>
+      <div class="markets-head">
+        <div class="rev">
+          <div class="sec-eyebrow"><span>Markets by Andrés</span></div>
+          <h2>Análisis. Estrategia.<br/><em>Resultados reales.</em></h2>
+          <p class="sec-lead" style="max-width:440px">Operativa activa sobre XAU/USD. Cada decisión documentada, cada resultado verificado.</p>
         </div>
-        <a href="estadisticas.html" class="markets-link reveal d2">Ver historial completo →</a>
+        <a href="estadisticas.html" class="link-arrow rev d2">Ver historial completo</a>
       </div>
-      <div class="markets-grid">
-        <div class="mkt-card reveal d1">
-          <div class="mkt-tag tag-s">Estrategia</div>
-          <div class="mkt-card-title">XAUUSD Swing Trading</div>
-          <div class="mkt-card-desc">Operativa multiday sobre oro con confluencias técnicas semanales. Riesgo fijo por operación, sin apalancamiento excesivo.</div>
-          <div class="mkt-card-meta"><div><div class="mkt-stat">~16/mes</div><div class="mkt-stat-lbl">Trades promedio</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+      <div class="markets-grid rev">
+        <div class="mkt-cell">
+          <div class="mkt-tag">Estrategia</div>
+          <div class="mkt-title">XAUUSD Swing Trading</div>
+          <div class="mkt-desc">Operativa multiday sobre oro con confluencias técnicas semanales. Riesgo fijo por operación, sin apalancamiento excesivo.</div>
+          <div class="mkt-foot"><div><div class="mkt-num">~16</div><div class="mkt-num-lbl">Trades / mes</div></div><a href="estadisticas.html" class="mkt-link">Ver detalles →</a></div>
         </div>
-        <div class="mkt-card reveal d2">
-          <div class="mkt-tag tag-a">Análisis</div>
-          <div class="mkt-card-title">Historial verificado 2022–2026</div>
-          <div class="mkt-card-desc">857 trades documentados. Winrate del 71.5% histórico. Todos los meses publicados con detalle operación a operación.</div>
-          <div class="mkt-card-meta"><div><div class="mkt-stat">71.5%</div><div class="mkt-stat-lbl">Winrate histórico</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+        <div class="mkt-cell">
+          <div class="mkt-tag">Historial</div>
+          <div class="mkt-title">Verificado 2022–2026</div>
+          <div class="mkt-desc">857 trades documentados. Winrate del 71.5% histórico. Todos los meses publicados con detalle operación a operación.</div>
+          <div class="mkt-foot"><div><div class="mkt-num">71.5%</div><div class="mkt-num-lbl">Winrate</div></div><a href="estadisticas.html" class="mkt-link">Ver estadísticas →</a></div>
         </div>
-        <div class="mkt-card reveal d3">
-          <div class="mkt-tag tag-p">Rendimiento</div>
-          <div class="mkt-card-title">+337% desde inicio</div>
-          <div class="mkt-card-desc">Capital inicial de $1,000 convertido en $4,374 en 4.5 años. Resultados auditables con la calculadora pública.</div>
-          <div class="mkt-card-meta"><div><div class="mkt-stat">$4,374</div><div class="mkt-stat-lbl">Balance final verificado</div></div><a href="calculadora.html" class="mkt-arrow">→</a></div>
+        <div class="mkt-cell">
+          <div class="mkt-tag">Rendimiento</div>
+          <div class="mkt-title">+337% desde inicio</div>
+          <div class="mkt-desc">Capital inicial de $1,000 convertido en $4,374 en 4.5 años. Resultados auditables con la calculadora pública.</div>
+          <div class="mkt-foot"><div><div class="mkt-num">$4,374</div><div class="mkt-num-lbl">Balance final</div></div><a href="calculadora.html" class="mkt-link">Simular →</a></div>
         </div>
       </div>
-      <hr class="mkt-divider"/>
-      <div class="mkt-bottom reveal">
-        <div class="mkt-ticker">
-          <div><div class="tick-lbl">2022</div><div class="tick-val pos">+76.4%</div></div>
-          <div><div class="tick-lbl">2023</div><div class="tick-val pos">+85.8%</div></div>
-          <div><div class="tick-lbl">2024</div><div class="tick-val pos">+70.2%</div></div>
-          <div><div class="tick-lbl">2025</div><div class="tick-val pos">+70.4%</div></div>
-          <div><div class="tick-lbl">2026 YTD</div><div class="tick-val pos">+34.6%</div></div>
-          <div><div class="tick-lbl">Activo</div><div class="tick-val">XAU/USD</div></div>
+      <div class="ticker-bar rev">
+        <div class="ticker-items">
+          <div><div class="ticker-lbl">2022</div><div class="ticker-val">+76.4%</div></div>
+          <div><div class="ticker-lbl">2023</div><div class="ticker-val">+85.8%</div></div>
+          <div><div class="ticker-lbl">2024</div><div class="ticker-val">+70.2%</div></div>
+          <div><div class="ticker-lbl">2025</div><div class="ticker-val">+70.4%</div></div>
+          <div><div class="ticker-lbl">2026 YTD</div><div class="ticker-val">+34.6%</div></div>
         </div>
-        <a href="calculadora.html" class="btn-gold" style="font-size:.84rem;padding:.72rem 1.5rem">Simula tu capital →</a>
+        <a href="calculadora.html" class="btn-primary" style="font-size:.8rem;padding:.7rem 1.4rem">Simula tu capital →</a>
       </div>
     </div>
   </section>
@@ -382,51 +383,44 @@
   <!-- TRADES PREVIEW -->
   <section class="trades-section">
     <div class="trades-inner">
-      <div class="trades-top">
-        <div class="reveal">
-          <div class="section-tag"><span>Diario de Trades</span></div>
-          <h2 class="section-h2">Últimas <em>operaciones</em></h2>
-          <p class="section-lead">Cada trade documentado con análisis, gráfico y resultado real.</p>
+      <div class="trades-head">
+        <div class="rev">
+          <div class="sec-eyebrow"><span>Diario de Trades</span></div>
+          <h2>Últimas <em>operaciones</em></h2>
+          <p class="sec-lead">Cada trade documentado con análisis, niveles y resultado real.</p>
         </div>
-        <a href="trades.html" class="markets-link reveal d2">Ver todas las operaciones →</a>
+        <a href="trades.html" class="link-arrow rev d2">Ver todas las operaciones</a>
       </div>
-      <div class="trades-grid" id="trades-preview">
-        <!-- Se cargan dinámicamente desde trades-data.js -->
-      </div>
-      <div class="trades-cta reveal">
-        <a href="trades.html" class="btn-dark">Ver diario completo →</a>
+      <div class="trades-grid" id="trades-preview"></div>
+      <div class="trades-cta rev">
+        <a href="trades.html" class="btn-primary">Ver diario completo →</a>
       </div>
     </div>
   </section>
 
-  <!-- QUIEN ES -->
+  <!-- QUIEN -->
   <section class="quien-section" id="quien">
     <div class="quien-inner">
-      <div class="quien-left">
-        <div class="quien-profile reveal-l">
-          <div class="quien-initials">AC</div>
-          <div class="quien-name">Andrés Cestona</div>
-          <div class="quien-role">Inversor Independiente · XAUUSD</div>
-        </div>
-        <div class="quien-stats-card reveal-l d2">
-          <div class="quien-stat-big">10+</div>
-          <div class="quien-stat-txt">años operando<br/>en mercados<br/>financieros</div>
+      <div class="quien-photo-wrap rev">
+        <div class="quien-photo"><div class="quien-initials">AC</div></div>
+        <div class="quien-badge">
+          <div class="quien-badge-num">10+</div>
+          <div class="quien-badge-lbl">años en mercados</div>
         </div>
       </div>
-      <div class="quien-right">
-        <div class="section-tag reveal" style="--gold:var(--gold)"><span>Quién es</span></div>
-        <h2 class="reveal d1">Andrés Cestona</h2>
-        <p class="quien-tagline reveal d1">Inversor independiente. Operativa verificada.</p>
-        <div class="quien-bio reveal d2">
+      <div class="quien-text">
+        <div class="sec-eyebrow rev"><span>Quién es</span></div>
+        <h2 class="rev d1">Andrés Cestona</h2>
+        <p class="quien-tagline rev d1">Inversor independiente. Operativa verificada.</p>
+        <div class="quien-bio rev d2">
           <p>Andrés Cestona es un <strong>inversor activo</strong> especializado en materias primas, con más de una década operando en los mercados financieros. Su enfoque es cuantitativo, disciplinado y orientado al largo plazo.</p>
-          <p>Desde 2022 opera y documenta su estrategia <em>XAUUSD Swing</em> de forma pública, con resultados auditables mes a mes.</p>
-          <p>Su sello es la <strong>consistencia sobre el tiempo</strong>: +337% acumulado desde $1,000, con 71.5% de winrate histórico sobre 857 operaciones verificadas.</p>
+          <p>Desde 2022 opera y documenta su estrategia <strong>XAUUSD Swing</strong> de forma pública, con resultados auditables mes a mes. Su sello es la <strong>consistencia sobre el tiempo</strong>: +337% acumulado desde $1,000.</p>
         </div>
-        <div class="quien-pillars reveal d3">
+        <div class="quien-pillars rev d3">
           <div class="pillar"><div class="pillar-icon">📊</div><div class="pillar-title">Operativa activa</div><div class="pillar-desc">Swing trading sobre XAU/USD con análisis técnico institucional</div></div>
-          <div class="pillar"><div class="pillar-icon">🔒</div><div class="pillar-title">Gestión del riesgo</div><div class="pillar-desc">Riesgo fijo por operación, drawdown controlado siempre</div></div>
+          <div class="pillar"><div class="pillar-icon">🔒</div><div class="pillar-title">Gestión del riesgo</div><div class="pillar-desc">Riesgo fijo por operación, drawdown controlado</div></div>
           <div class="pillar"><div class="pillar-icon">📋</div><div class="pillar-title">Transparencia total</div><div class="pillar-desc">Cada trade documentado y publicado desde 2022</div></div>
-          <div class="pillar"><div class="pillar-icon">📈</div><div class="pillar-title">Resultados verificables</div><div class="pillar-desc">Calculadora pública con datos reales</div></div>
+          <div class="pillar"><div class="pillar-icon">📈</div><div class="pillar-title">Resultados reales</div><div class="pillar-desc">Calculadora pública con datos verificables</div></div>
         </div>
       </div>
     </div>
@@ -435,12 +429,12 @@
   <!-- CTA -->
   <section class="cta-section">
     <div class="cta-inner">
-      <div class="section-tag reveal" style="justify-content:center"><span>Empieza ahora</span></div>
-      <h2 class="reveal d1">¿Cuánto habrías<br/>ganado con <em>esta estrategia</em>?</h2>
-      <p class="reveal d2">Usa la calculadora pública para simular tu capital inicial con los datos reales de 857 trades verificados desde 2022.</p>
-      <div class="cta-btns reveal d3">
-        <a href="calculadora.html" class="btn-gold">Simula tu capital →</a>
-        <a href="estadisticas.html" class="btn-outline-d">Ver estadísticas completas</a>
+      <div class="cta-eyebrow rev"><span>Empieza ahora</span></div>
+      <h2 class="rev d1">¿Cuánto habrías<br/>ganado con <em>esta estrategia?</em></h2>
+      <p class="rev d2">Usa la calculadora pública para simular tu capital inicial con los datos reales de 857 trades verificados desde 2022.</p>
+      <div class="cta-btns rev d3">
+        <a href="calculadora.html" class="btn-white">Simula tu capital</a>
+        <a href="estadisticas.html" class="btn-border-w">Ver estadísticas completas</a>
       </div>
     </div>
   </section>
@@ -452,40 +446,34 @@
       <a href="trades.html">Diario de Trades</a>
       <a href="estadisticas.html">Estadísticas</a>
       <a href="calculadora.html">Calculadora</a>
-      <a href="testimonios.html">Comunidad</a>
     </div>
   </footer>
 
   <script>
-    // Nav scroll
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => nav.style.background = window.scrollY > 40 ? '#0a0a0a' : '#0a0a0a', {passive:true});
-
-    // Reveal on scroll
+    // Reveal
     const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, {threshold:.1});
-    document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el => obs.observe(el));
+      entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('on'); obs.unobserve(e.target); } });
+    }, {threshold:.08});
+    document.querySelectorAll('.rev').forEach(el => obs.observe(el));
 
-    // Counter animation
-    function animateCount(el) {
-      const target = +el.dataset.target, dur = 1600;
+    // Counters
+    function animCount(el) {
+      const target = +el.dataset.target, dur = 1400;
       const start = performance.now();
-      const tick = now => {
-        const p = Math.min((now-start)/dur, 1);
-        const ease = 1 - Math.pow(1-p, 3);
-        el.textContent = Math.floor(ease * target);
-        if(p < 1) requestAnimationFrame(tick);
+      const run = now => {
+        const p = Math.min((now-start)/dur,1);
+        el.textContent = Math.floor((1-Math.pow(1-p,3))*target);
+        if(p<1) requestAnimationFrame(run);
       };
-      requestAnimationFrame(tick);
+      requestAnimationFrame(run);
     }
-    const cObs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if(e.isIntersecting){ animateCount(e.target); cObs.unobserve(e.target); } });
+    const cobs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){ animCount(e.target); cobs.unobserve(e.target); } });
     }, {threshold:.5});
-    document.querySelectorAll('.counter').forEach(el => cObs.observe(el));
+    document.querySelectorAll('.counter').forEach(el => cobs.observe(el));
 
-    // Load preview trades
-    async function loadTradesPreview() {
+    // Trades preview
+    async function loadPreview() {
       try {
         const res = await fetch('./data/trades-journal.json');
         const trades = await res.json();
@@ -493,31 +481,28 @@
         trades.slice(0,3).forEach(t => {
           const isWin = t.resultado === 'win';
           container.innerHTML += `
-            <a href="trades.html?id=${t.id}" class="trade-card reveal">
-              <div class="trade-card-img">
-                ${t.imagen ? `<img src="${t.imagen}" alt="${t.titulo}" loading="lazy"/>` : `<div class="trade-card-img-placeholder"><svg class="trade-img-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>`}
-                <span class="trade-card-badge ${isWin?'badge-win':'badge-loss'}">${isWin?'WIN':'LOSS'}</span>
+            <a href="trades.html?id=${t.id}" class="trade-card rev">
+              <div class="trade-img">
+                ${t.imagen ? `<img src="${t.imagen}" alt="" loading="lazy"/>` : `<div class="trade-img-ph"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>`}
+                <span class="trade-badge ${isWin?'b-win':'b-loss'}">${isWin?'WIN':'LOSS'}</span>
               </div>
-              <div class="trade-card-body">
-                <div class="trade-card-meta">
-                  <span class="trade-card-date">${t.fecha}</span>
-                  <span class="trade-card-asset">${t.activo}</span>
-                </div>
-                <div class="trade-card-title">${t.titulo}</div>
-                <div class="trade-card-excerpt">${t.extracto}</div>
-                <div class="trade-card-footer">
-                  <span class="trade-card-result ${isWin?'pos':'neg'}">${isWin?'+':'-'}${Math.abs(t.resultado_r)}R</span>
-                  <span class="trade-card-read">Leer análisis →</span>
+              <div class="trade-body">
+                <div class="trade-meta"><span class="trade-date">${t.fecha}</span><span class="trade-asset">${t.activo}</span></div>
+                <div class="trade-title">${t.titulo}</div>
+                <div class="trade-excerpt">${t.extracto}</div>
+                <div class="trade-foot">
+                  <span class="trade-r ${isWin?'pos':'neg'}">${t.resultado_r>0?'+':''}${t.resultado_r}R</span>
+                  <span class="trade-read">Leer análisis →</span>
                 </div>
               </div>
             </a>`;
         });
-        document.querySelectorAll('#trades-preview .reveal').forEach(el => obs.observe(el));
+        container.querySelectorAll('.rev').forEach(el => obs.observe(el));
       } catch(e) {
-        document.getElementById('trades-preview').innerHTML = '<p style="color:var(--muted);font-size:.85rem;text-align:center;grid-column:1/-1;padding:2rem">Cargando operaciones...</p>';
+        document.getElementById('trades-preview').innerHTML = '<p style="color:#999;text-align:center;grid-column:1/-1;padding:3rem;font-size:.85rem">Cargando operaciones...</p>';
       }
     }
-    loadTradesPreview();
+    loadPreview();
   </script>
 </body>
 </html>
