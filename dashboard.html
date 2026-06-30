@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --black: #05070f; --dark: #111; --mid: #555;
+      --muted: #999; --border: #e8e8e8; --bg: #fff; --bg2: #f7f7f5;
+      --gold: #c9a84c; --gold2: #e8c97a; --green: #16a34a; --red: #dc2626;
+    }
+    body { font-family:'Inter',sans-serif; background:var(--black); min-height:100vh; -webkit-font-smoothing:antialiased; }
+
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 4%; background:var(--black); border-bottom:1px solid rgba(255,255,255,.06); }
+    .nav-logo { font-size:.95rem; font-weight:800; color:#fff; text-decoration:none; }
+    .nav-logo span { color:var(--gold); }
+    .nav-right { display:flex; align-items:center; gap:1rem; }
+    .nav-user { font-size:.78rem; color:rgba(255,255,255,.45); }
+    .nav-user strong { color:rgba(255,255,255,.8); font-weight:600; }
+    .btn-logout { background:transparent; border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.5); padding:.38rem .9rem; border-radius:6px; font-size:.76rem; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
+    .btn-logout:hover { border-color:rgba(255,255,255,.4); color:#fff; }
+
+    /* LOADING */
+    #loading-screen { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:500; }
+    .loading-logo { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#fff; }
+    .loading-logo span { color:var(--gold); }
+    .loading-dot { animation:blink 1.2s infinite; margin-left:2px; color:var(--gold); }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* LAYOUT */
+    .dash-layout { padding-top:64px; display:flex; min-height:100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width:220px; flex-shrink:0; background:rgba(255,255,255,.02); border-right:1px solid rgba(255,255,255,.06); padding:2rem 0; position:sticky; top:64px; height:calc(100vh - 64px); }
+    .sidebar-label { font-size:.58rem; font-weight:700; color:rgba(255,255,255,.2); text-transform:uppercase; letter-spacing:2px; padding:0 1.5rem; margin-bottom:.6rem; margin-top:1.2rem; }
+    .sidebar-label:first-child { margin-top:0; }
+    .sidebar-link { display:flex; align-items:center; gap:.7rem; padding:.6rem 1.5rem; font-size:.8rem; color:rgba(255,255,255,.45); text-decoration:none; transition:all .2s; cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; width:100%; }
+    .sidebar-link:hover { color:#fff; background:rgba(255,255,255,.04); }
+    .sidebar-link.active { color:#fff; background:rgba(201,168,76,.1); border-right:2px solid var(--gold); }
+    .sidebar-link svg { flex-shrink:0; opacity:.6; }
+    .sidebar-link.active svg { opacity:1; }
+
+    /* CONTENT */
+    .dash-content { flex:1; padding:2.5rem 3rem; overflow-x:hidden; }
+
+    /* WELCOME */
+    .welcome-band { margin-bottom:2.5rem; }
+    .welcome-tag { font-size:.62rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:.5rem; }
+    .welcome-title { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#fff; letter-spacing:-.5px; }
+    .welcome-sub { font-size:.83rem; color:rgba(255,255,255,.35); margin-top:.3rem; }
+
+    /* STATS GRID */
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
+    .stat-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.5rem; transition:border-color .2s; }
+    .stat-card:hover { border-color:rgba(201,168,76,.25); }
+    .stat-eyebrow { font-size:.6rem; font-weight:600; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:.6rem; }
+    .stat-val { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#fff; line-height:1; }
+    .stat-val.gold { color:var(--gold); }
+    .stat-val.green { color:#4ade80; }
+    .stat-sub { font-size:.68rem; color:rgba(255,255,255,.3); margin-top:.4rem; }
+
+    /* SECTIONS */
+    .dash-section { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); border-radius:16px; padding:1.8rem; margin-bottom:1.5rem; }
+    .dash-section-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
+    .dash-section-title { font-size:.88rem; font-weight:700; color:#fff; }
+    .dash-section-link { font-size:.73rem; color:rgba(255,255,255,.3); text-decoration:none; transition:color .2s; }
+    .dash-section-link:hover { color:var(--gold); }
+
+    /* RECENT TRADES */
+    .trade-row { display:flex; align-items:center; gap:1rem; padding:.7rem 0; border-bottom:1px solid rgba(255,255,255,.05); }
+    .trade-row:last-child { border-bottom:none; }
+    .trade-badge-sm { font-size:.58rem; font-weight:700; text-transform:uppercase; padding:.2rem .55rem; border-radius:100px; flex-shrink:0; }
+    .b-win { background:rgba(74,222,128,.1); color:#4ade80; }
+    .b-loss { background:rgba(248,113,113,.1); color:#f87171; }
+    .trade-row-date { font-size:.72rem; color:rgba(255,255,255,.3); flex-shrink:0; width:80px; }
+    .trade-row-title { font-size:.78rem; color:rgba(255,255,255,.7); flex:1; }
+    .trade-row-r { font-size:.78rem; font-weight:700; flex-shrink:0; }
+    .trade-row-r.pos { color:#4ade80; }
+    .trade-row-r.neg { color:#f87171; }
+
+    /* PERFORMANCE TABLE */
+    .perf-table { width:100%; border-collapse:collapse; }
+    .perf-table th { font-size:.62rem; font-weight:600; color:rgba(255,255,255,.25); text-transform:uppercase; letter-spacing:1px; text-align:left; padding:.5rem 0; border-bottom:1px solid rgba(255,255,255,.06); }
+    .perf-table td { font-size:.8rem; color:rgba(255,255,255,.65); padding:.65rem 0; border-bottom:1px solid rgba(255,255,255,.04); }
+    .perf-table td.pos { color:#4ade80; font-weight:700; }
+    .perf-table td.year { color:#fff; font-weight:700; }
+    .perf-bar-wrap { width:100px; height:4px; background:rgba(255,255,255,.06); border-radius:2px; display:inline-block; vertical-align:middle; margin-right:.5rem; }
+    .perf-bar-fill { height:100%; background:var(--gold); border-radius:2px; }
+
+    /* PROFILE */
+    .profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .profile-field { display:flex; flex-direction:column; gap:.4rem; }
+    .profile-label { font-size:.62rem; font-weight:600; color:rgba(255,255,255,.25); text-transform:uppercase; letter-spacing:1px; }
+    .profile-val { font-size:.84rem; color:rgba(255,255,255,.7); }
+
+    /* VIEWS */
+    .view { display:none; }
+    .view.active { display:block; }
+  </style>
+</head>
+<body>
+
+  <!-- Loading -->
+  <div id="loading-screen">
+    <div class="loading-logo">Andrés <span>Cestona</span><span class="loading-dot">.</span></div>
+  </div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
+    <div class="nav-right">
+      <span class="nav-user">Hola, <strong id="nav-name">—</strong></span>
+      <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </nav>
+
+  <div class="dash-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-label">Principal</div>
+      <button class="sidebar-link active" onclick="showView('overview')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Resumen
+      </button>
+      <button class="sidebar-link" onclick="showView('trades')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Trades recientes
+      </button>
+      <button class="sidebar-link" onclick="showView('performance')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Rendimiento
+      </button>
+      <div class="sidebar-label">Cuenta</div>
+      <button class="sidebar-link" onclick="showView('profile')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Mi perfil
+      </button>
+      <div class="sidebar-label">Sitio</div>
+      <a href="estadisticas.html" class="sidebar-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        Estadísticas
+      </a>
+      <a href="trades.html" class="sidebar-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Diario de Trades
+      </a>
+      <a href="calculadora.html" class="sidebar-link">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+        Calculadora
+      </a>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="dash-content">
+
+      <!-- OVERVIEW -->
+      <div class="view active" id="view-overview">
+        <div class="welcome-band">
+          <div class="welcome-tag">Dashboard</div>
+          <div class="welcome-title" id="welcome-title">Bienvenido</div>
+          <div class="welcome-sub">Resumen de la estrategia XAUUSD Swing · Actualizado en tiempo real</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-eyebrow">Rendimiento total</div>
+            <div class="stat-val gold">+337%</div>
+            <div class="stat-sub">desde $1,000 inicial · 2022</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-eyebrow">Winrate histórico</div>
+            <div class="stat-val green">71.5%</div>
+            <div class="stat-sub">sobre 857 trades</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-eyebrow">Balance final</div>
+            <div class="stat-val">$4,374</div>
+            <div class="stat-sub">capital verificado</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-eyebrow">2026 YTD</div>
+            <div class="stat-val green">+34.6%</div>
+            <div class="stat-sub">rendimiento este año</div>
+          </div>
+        </div>
+
+        <div class="dash-section">
+          <div class="dash-section-head">
+            <span class="dash-section-title">Últimas operaciones</span>
+            <a href="trades.html" class="dash-section-link">Ver todas →</a>
+          </div>
+          <div id="dash-trades-list"></div>
+        </div>
+      </div>
+
+      <!-- TRADES -->
+      <div class="view" id="view-trades">
+        <div class="welcome-band">
+          <div class="welcome-tag">Operaciones</div>
+          <div class="welcome-title">Trades recientes</div>
+          <div class="welcome-sub">Historial completo de operaciones documentadas</div>
+        </div>
+        <div class="dash-section">
+          <div id="dash-trades-full"></div>
+        </div>
+      </div>
+
+      <!-- PERFORMANCE -->
+      <div class="view" id="view-performance">
+        <div class="welcome-band">
+          <div class="welcome-tag">Rendimiento</div>
+          <div class="welcome-title">Historial anual</div>
+          <div class="welcome-sub">Rendimiento verificado año a año · Sin interés compuesto</div>
+        </div>
+        <div class="dash-section">
+          <table class="perf-table">
+            <thead><tr><th>Año</th><th>Rendimiento</th><th>Barra</th><th>Trades</th></tr></thead>
+            <tbody>
+              <tr><td class="year">2022</td><td class="pos">+76.4%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:60%"></div></div></td><td>~190</td></tr>
+              <tr><td class="year">2023</td><td class="pos">+85.8%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:68%"></div></div></td><td>~200</td></tr>
+              <tr><td class="year">2024</td><td class="pos">+70.2%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:55%"></div></div></td><td>~200</td></tr>
+              <tr><td class="year">2025</td><td class="pos">+70.4%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:56%"></div></div></td><td>~200</td></tr>
+              <tr><td class="year">2026 YTD</td><td class="pos">+34.6%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:27%"></div></div></td><td>~67</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div class="view" id="view-profile">
+        <div class="welcome-band">
+          <div class="welcome-tag">Cuenta</div>
+          <div class="welcome-title">Mi perfil</div>
+          <div class="welcome-sub">Información de tu cuenta</div>
+        </div>
+        <div class="dash-section">
+          <div class="profile-grid">
+            <div class="profile-field"><div class="profile-label">Nombre</div><div class="profile-val" id="prof-name">—</div></div>
+            <div class="profile-field"><div class="profile-label">Email</div><div class="profile-val" id="prof-email">—</div></div>
+            <div class="profile-field"><div class="profile-label">Miembro desde</div><div class="profile-val" id="prof-since">—</div></div>
+            <div class="profile-field"><div class="profile-label">Estado</div><div class="profile-val" style="color:#4ade80">Activo</div></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script>
+    const SUPABASE_URL = 'https://uhjxybyzpqksyysifatn.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentUser = null;
+
+    async function init() {
+      const { data } = await sb.auth.getSession();
+      if (!data.session) {
+        location.href = 'auth.html';
+        return;
+      }
+      currentUser = data.session.user;
+      const name = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
+      document.getElementById('nav-name').textContent = name;
+      document.getElementById('welcome-title').textContent = 'Hola, ' + name;
+      document.getElementById('prof-name').textContent = name;
+      document.getElementById('prof-email').textContent = currentUser.email;
+      document.getElementById('prof-since').textContent = new Date(currentUser.created_at).toLocaleDateString('es-ES', {year:'numeric',month:'long',day:'numeric'});
+      await loadTrades();
+      document.getElementById('loading-screen').style.display = 'none';
+    }
+
+    async function loadTrades() {
+      try {
+        const res = await fetch('./data/trades-journal.json');
+        const trades = await res.json();
+        // Overview list (last 5)
+        const list = document.getElementById('dash-trades-list');
+        trades.slice(0,5).forEach(t => {
+          const isWin = t.resultado === 'win';
+          list.innerHTML += `<div class="trade-row">
+            <span class="trade-badge-sm ${isWin?'b-win':'b-loss'}">${isWin?'WIN':'LOSS'}</span>
+            <span class="trade-row-date">${t.fecha}</span>
+            <span class="trade-row-title">${t.titulo}</span>
+            <span class="trade-row-r ${isWin?'pos':'neg'}">${t.resultado_r>0?'+':''}${t.resultado_r}R</span>
+          </div>`;
+        });
+        // Full list
+        const full = document.getElementById('dash-trades-full');
+        trades.forEach(t => {
+          const isWin = t.resultado === 'win';
+          full.innerHTML += `<div class="trade-row">
+            <span class="trade-badge-sm ${isWin?'b-win':'b-loss'}">${isWin?'WIN':'LOSS'}</span>
+            <span class="trade-row-date">${t.fecha}</span>
+            <span class="trade-row-title">${t.titulo}</span>
+            <span class="trade-row-r ${isWin?'pos':'neg'}">${t.resultado_r>0?'+':''}${t.resultado_r}R</span>
+          </div>`;
+        });
+      } catch(e) {}
+    }
+
+    function showView(name) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      document.getElementById('view-' + name).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    async function logout() {
+      await sb.auth.signOut();
+      location.href = 'index.html';
+    }
+
+    init();
+  </script>
+</body>
+</html>
