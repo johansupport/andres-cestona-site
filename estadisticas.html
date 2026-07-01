@@ -293,7 +293,7 @@
     async function loadData(strategy) {
       const file = strategy === 'daily' ? 'xauusd-daily.json' : 'xauusd-swing.json';
       try {
-        const res = await fetch(`./data/${file}`);
+        const res = await fetch(`./data/${file}?v=${Date.now()}`);
         data = await res.json();
         renderAll();
       } catch(e) {
