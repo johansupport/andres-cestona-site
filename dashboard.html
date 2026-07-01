@@ -105,21 +105,57 @@
     .perf-year-bar-fill { height:100%; background:var(--gold); border-radius:2px; }
     .perf-trades { font-size:.65rem; color:rgba(255,255,255,.2); margin-top:.3rem; }
 
-    /* SIMULATIONS GRID */
-    .sims-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
-    .sim-card { background:rgba(255,255,255,.02); padding:1.4rem; transition:background .2s; }
-    .sim-card:hover { background:rgba(255,255,255,.04); }
-    .sim-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:.8rem; }
-    .sim-name { font-size:.9rem; font-weight:700; color:#fff; margin-bottom:.3rem; line-height:1.3; }
-    .sim-meta { font-size:.68rem; color:rgba(255,255,255,.25); }
-    .sim-foot { display:flex; justify-content:space-between; align-items:flex-end; margin-top:1.2rem; padding-top:.9rem; border-top:1px solid var(--border); }
-    .sim-return { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:var(--green); line-height:1; }
-    .sim-final { font-size:.68rem; color:rgba(255,255,255,.3); }
-    .sim-del { background:transparent; border:1px solid var(--border); border-radius:6px; padding:.28rem .55rem; color:rgba(255,255,255,.2); font-size:.68rem; cursor:pointer; transition:all .2s; }
-    .sim-del:hover { border-color:#f87171; color:#f87171; }
-    .sims-empty { padding:2.5rem 1.6rem; }
-    .sims-empty p { font-size:.82rem; color:rgba(255,255,255,.25); }
+    /* SIMULATIONS */
+    .sims-list { display:flex; flex-direction:column; gap:0; }
+    .sim-card { display:grid; grid-template-columns:1fr auto; align-items:center; gap:2rem; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); transition:background .2s; cursor:pointer; }
+    .sim-card:last-child { border-bottom:none; }
+    .sim-card:hover { background:rgba(255,255,255,.03); }
+    .sim-left { display:flex; flex-direction:column; gap:.5rem; }
+    .sim-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); }
+    .sim-name { font-size:.95rem; font-weight:700; color:#fff; }
+    .sim-metrics { display:flex; gap:1.8rem; margin-top:.3rem; }
+    .sim-metric { display:flex; flex-direction:column; gap:.15rem; }
+    .sim-metric-label { font-size:.58rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); }
+    .sim-metric-val { font-size:.82rem; font-weight:700; color:rgba(255,255,255,.7); }
+    .sim-metric-val.green { color:var(--green); }
+    .sim-right { display:flex; flex-direction:column; align-items:flex-end; gap:.6rem; flex-shrink:0; }
+    .sim-return { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--green); line-height:1; letter-spacing:-1px; }
+    .sim-final-val { font-size:.72rem; color:rgba(255,255,255,.3); }
+    .sim-actions { display:flex; gap:.5rem; }
+    .sim-btn { border-radius:7px; padding:.35rem .8rem; font-size:.72rem; font-weight:600; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; border:none; }
+    .sim-btn-detail { background:rgba(201,168,76,.12); color:var(--gold); border:1px solid rgba(201,168,76,.2); }
+    .sim-btn-detail:hover { background:rgba(201,168,76,.2); }
+    .sim-btn-del { background:transparent; color:rgba(255,255,255,.2); border:1px solid var(--border); }
+    .sim-btn-del:hover { border-color:#f87171; color:#f87171; }
+    .sims-empty { padding:3rem 1.6rem; text-align:center; }
+    .sims-empty p { font-size:.85rem; color:rgba(255,255,255,.25); }
     .sims-empty a { color:var(--gold); text-decoration:none; }
+
+    /* SIM MODAL */
+    .sim-modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:2rem; }
+    .sim-modal-overlay.open { display:flex; }
+    .sim-modal { background:#0d0f1a; border:1px solid var(--border); border-radius:20px; max-width:640px; width:100%; overflow:hidden; position:relative; }
+    .sim-modal-header { background:rgba(201,168,76,.06); border-bottom:1px solid var(--border); padding:2rem 2.2rem; }
+    .sim-modal-tag { font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:.6rem; }
+    .sim-modal-name { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:#fff; letter-spacing:-.5px; }
+    .sim-modal-date { font-size:.72rem; color:rgba(255,255,255,.3); margin-top:.3rem; }
+    .sim-modal-close { position:absolute; top:1.2rem; right:1.2rem; width:32px; height:32px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,.4); font-size:1rem; transition:all .2s; }
+    .sim-modal-close:hover { background:rgba(255,255,255,.12); color:#fff; }
+    .sim-modal-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
+    .sim-modal-stat { background:#0d0f1a; padding:1.4rem 1.6rem; }
+    .sim-modal-stat-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); margin-bottom:.5rem; }
+    .sim-modal-stat-val { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; line-height:1; }
+    .sim-modal-stat-val.green { color:var(--green); }
+    .sim-modal-stat-val.gold { color:var(--gold); }
+    .sim-modal-stat-val.white { color:#fff; }
+    .sim-modal-body { padding:1.8rem 2.2rem; }
+    .sim-modal-row { display:flex; justify-content:space-between; align-items:center; padding:.65rem 0; border-bottom:1px solid var(--border); }
+    .sim-modal-row:last-child { border-bottom:none; }
+    .sim-modal-row-label { font-size:.75rem; color:rgba(255,255,255,.35); }
+    .sim-modal-row-val { font-size:.8rem; font-weight:600; color:rgba(255,255,255,.8); }
+    .sim-modal-foot { padding:1.2rem 2.2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .btn-gold { background:var(--gold); color:#05070f; border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; text-decoration:none; display:inline-block; }
+    .btn-gold:hover { background:var(--gold2); }
 
     /* PROFILE */
     .profile-cards { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:1.2rem 1.6rem; }
@@ -354,6 +390,34 @@
     </main>
   </div>
 
+  <!-- SIM DETAIL MODAL -->
+  <div class="sim-modal-overlay" id="sim-modal" onclick="closeSimModal(event)">
+    <div class="sim-modal">
+      <div class="sim-modal-close" onclick="closeSimModal()">✕</div>
+      <div class="sim-modal-header">
+        <div class="sim-modal-tag">Simulación guardada</div>
+        <div class="sim-modal-name" id="sm-name">—</div>
+        <div class="sim-modal-date" id="sm-date">—</div>
+      </div>
+      <div class="sim-modal-stats">
+        <div class="sim-modal-stat"><div class="sim-modal-stat-label">Rendimiento</div><div class="sim-modal-stat-val green" id="sm-pct">—</div></div>
+        <div class="sim-modal-stat"><div class="sim-modal-stat-label">Balance final</div><div class="sim-modal-stat-val white" id="sm-final">—</div></div>
+        <div class="sim-modal-stat"><div class="sim-modal-stat-label">Capital inicial</div><div class="sim-modal-stat-val gold" id="sm-capital">—</div></div>
+      </div>
+      <div class="sim-modal-body">
+        <div class="sim-modal-row"><span class="sim-modal-row-label">Riesgo por operación</span><span class="sim-modal-row-val" id="sm-riesgo">—</span></div>
+        <div class="sim-modal-row"><span class="sim-modal-row-label">Reinversión de ganancias</span><span class="sim-modal-row-val" id="sm-reinversion">—</span></div>
+        <div class="sim-modal-row"><span class="sim-modal-row-label">Periodo simulado</span><span class="sim-modal-row-val" id="sm-periodo">—</span></div>
+        <div class="sim-modal-row"><span class="sim-modal-row-label">Total de trades</span><span class="sim-modal-row-val" id="sm-trades">—</span></div>
+        <div class="sim-modal-row"><span class="sim-modal-row-label">Ganancia neta</span><span class="sim-modal-row-val green" id="sm-ganancia">—</span></div>
+      </div>
+      <div class="sim-modal-foot">
+        <a href="calculadora.html" class="btn-gold">Repetir en calculadora →</a>
+        <button class="sim-btn sim-btn-del" id="sm-del-btn">✕ Eliminar simulación</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
     const sb = supabase.createClient(
@@ -395,26 +459,69 @@
       } catch(e) {}
     }
 
+    let simsData = [];
+
     async function loadSimulations() {
       const { data: sims } = await sb.from('simulations').select('*').eq('user_id', currentUser.id).order('created_at',{ascending:false});
+      simsData = sims || [];
       const el = document.getElementById('sims-container');
-      if (!sims?.length) {
-        el.innerHTML = `<div class="sims-empty"><p>No tienes simulaciones guardadas. <a href="calculadora.html">Ir a la calculadora →</a></p></div>`;
+      if (!simsData.length) {
+        el.innerHTML = `<div class="sims-empty"><p>No tienes simulaciones guardadas aún.<br/><a href="calculadora.html">Ir a la calculadora para crear una →</a></p></div>`;
         return;
       }
-      el.innerHTML = `<div class="sims-grid">${sims.map(s => `
-        <div class="sim-card">
-          <div class="sim-tag">Simulación</div>
-          <div class="sim-name">${s.nombre}</div>
-          <div class="sim-meta">$${Number(s.capital_inicial).toLocaleString()} · ${s.riesgo_pct}% riesgo · ${new Date(s.created_at).toLocaleDateString('es-ES')}</div>
-          <div class="sim-foot">
-            <div>
-              <div class="sim-return">+${Number(s.rendimiento_pct).toFixed(1)}%</div>
-              <div class="sim-final">$${Number(s.resultado_final).toLocaleString('es-ES',{maximumFractionDigits:0})} final</div>
+      el.innerHTML = `<div class="sims-list">${simsData.map(s => {
+        const pct = Number(s.rendimiento_pct).toFixed(1);
+        const final = Number(s.resultado_final).toLocaleString('es-ES',{maximumFractionDigits:0});
+        const ganancia = (Number(s.resultado_final) - Number(s.capital_inicial)).toLocaleString('es-ES',{maximumFractionDigits:0});
+        return `
+        <div class="sim-card" onclick="openSimModal('${s.id}')">
+          <div class="sim-left">
+            <div class="sim-tag">Simulación · ${new Date(s.created_at).toLocaleDateString('es-ES')}</div>
+            <div class="sim-name">${s.nombre}</div>
+            <div class="sim-metrics">
+              <div class="sim-metric"><span class="sim-metric-label">Capital inicial</span><span class="sim-metric-val">$${Number(s.capital_inicial).toLocaleString()}</span></div>
+              <div class="sim-metric"><span class="sim-metric-label">Riesgo/op</span><span class="sim-metric-val">${s.riesgo_pct}%</span></div>
+              <div class="sim-metric"><span class="sim-metric-label">Ganancia neta</span><span class="sim-metric-val green">+$${ganancia}</span></div>
+              <div class="sim-metric"><span class="sim-metric-label">Balance final</span><span class="sim-metric-val">$${final}</span></div>
             </div>
-            <button class="sim-del" onclick="deleteSim('${s.id}')">✕ Eliminar</button>
           </div>
-        </div>`).join('')}</div>`;
+          <div class="sim-right">
+            <div class="sim-return">+${pct}%</div>
+            <div class="sim-final-val">rendimiento total</div>
+            <div class="sim-actions" onclick="event.stopPropagation()">
+              <button class="sim-btn sim-btn-detail" onclick="openSimModal('${s.id}')">Ver detalles</button>
+              <button class="sim-btn sim-btn-del" onclick="deleteSim('${s.id}')">✕</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('')}</div>`;
+    }
+
+    function openSimModal(id) {
+      const s = simsData.find(x => x.id === id);
+      if (!s) return;
+      const pct = Number(s.rendimiento_pct).toFixed(1);
+      const final = Number(s.resultado_final).toLocaleString('es-ES',{maximumFractionDigits:0});
+      const ganancia = (Number(s.resultado_final) - Number(s.capital_inicial)).toLocaleString('es-ES',{maximumFractionDigits:0});
+      document.getElementById('sm-name').textContent = s.nombre;
+      document.getElementById('sm-date').textContent = 'Guardada el ' + new Date(s.created_at).toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'});
+      document.getElementById('sm-pct').textContent = '+' + pct + '%';
+      document.getElementById('sm-final').textContent = '$' + final;
+      document.getElementById('sm-capital').textContent = '$' + Number(s.capital_inicial).toLocaleString();
+      document.getElementById('sm-riesgo').textContent = s.riesgo_pct + '% del capital por operación';
+      document.getElementById('sm-reinversion').textContent = s.reinversion > 0 ? s.reinversion + '% de reinversión' : 'Sin reinversión';
+      document.getElementById('sm-periodo').textContent = s.fecha_inicio && s.fecha_fin ? `${s.fecha_inicio} → ${s.fecha_fin}` : 'Historial completo 2022–2026';
+      document.getElementById('sm-trades').textContent = s.trades_totales ? s.trades_totales + ' operaciones' : '857 operaciones';
+      document.getElementById('sm-ganancia').textContent = '+$' + ganancia;
+      document.getElementById('sm-del-btn').onclick = () => { deleteSim(s.id); closeSimModal(); };
+      document.getElementById('sim-modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSimModal(e) {
+      if (e && e.target !== document.getElementById('sim-modal')) return;
+      document.getElementById('sim-modal').classList.remove('open');
+      document.body.style.overflow = '';
     }
 
     async function deleteSim(id) {
