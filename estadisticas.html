@@ -766,10 +766,10 @@
       renderAll();
     }
 
-    // Init — default to swing (real data)
-    document.querySelectorAll('.strategy-btn').forEach(b => b.classList.toggle('active', b.textContent.includes('Swing')));
-    currentStrategy = 'swing';
-    loadData('swing');
+    // Init
+    document.querySelectorAll('.strategy-btn').forEach(b => b.classList.toggle('active', b.textContent.includes('Daily')));
+    currentStrategy = 'daily';
+    loadData('daily');
   </script>
 </body>
 </html>
