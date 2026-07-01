@@ -9,93 +9,131 @@
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
     :root {
       --black: #05070f; --dark: #111; --mid: #555;
-      --muted: #999; --border: #e8e8e8; --bg: #fff; --bg2: #f7f7f5;
-      --gold: #c9a84c; --gold2: #e8c97a; --green: #16a34a; --red: #dc2626;
+      --muted: #999; --border: rgba(255,255,255,.08); --bg: #fff; --bg2: #f7f7f5;
+      --gold: #c9a84c; --gold2: #e8c97a; --green: #4ade80; --red: #f87171;
     }
-    body { font-family:'Inter',sans-serif; background:var(--black); min-height:100vh; -webkit-font-smoothing:antialiased; }
-
-    /* NAV */
-    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 4%; background:var(--black); border-bottom:1px solid rgba(255,255,255,.06); }
-    .nav-logo { font-size:.95rem; font-weight:800; color:#fff; text-decoration:none; }
-    .nav-logo span { color:var(--gold); }
-    .nav-right { display:flex; align-items:center; gap:1rem; }
-    .nav-user { font-size:.78rem; color:rgba(255,255,255,.45); }
-    .nav-user strong { color:rgba(255,255,255,.8); font-weight:600; }
-    .btn-logout { background:transparent; border:1px solid rgba(255,255,255,.15); color:rgba(255,255,255,.5); padding:.38rem .9rem; border-radius:6px; font-size:.76rem; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
-    .btn-logout:hover { border-color:rgba(255,255,255,.4); color:#fff; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter',sans-serif; background:var(--black); min-height:100vh; -webkit-font-smoothing:antialiased; color:#fff; }
 
     /* LOADING */
-    #loading-screen { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:500; }
+    #loading-screen { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:999; }
     .loading-logo { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#fff; }
     .loading-logo span { color:var(--gold); }
-    .loading-dot { animation:blink 1.2s infinite; margin-left:2px; color:var(--gold); }
+    .loading-dot { animation:blink 1.2s infinite; color:var(--gold); }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* NAV */
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 2rem 0 0; background:var(--black); border-bottom:1px solid var(--border); }
+    .nav-logo-area { width:220px; flex-shrink:0; display:flex; align-items:center; padding:0 1.5rem; height:100%; border-right:1px solid var(--border); }
+    .nav-logo { font-size:.95rem; font-weight:800; color:#fff; text-decoration:none; }
+    .nav-logo span { color:var(--gold); }
+    .nav-right { display:flex; align-items:center; gap:1rem; margin-left:auto; }
+    .nav-user { font-size:.78rem; color:rgba(255,255,255,.4); }
+    .nav-user strong { color:rgba(255,255,255,.85); font-weight:600; }
+    .btn-logout { background:transparent; border:1px solid var(--border); color:rgba(255,255,255,.4); padding:.38rem .9rem; border-radius:6px; font-size:.75rem; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
+    .btn-logout:hover { border-color:rgba(255,255,255,.3); color:#fff; }
 
     /* LAYOUT */
     .dash-layout { padding-top:64px; display:flex; min-height:100vh; }
 
     /* SIDEBAR */
-    .sidebar { width:220px; flex-shrink:0; background:rgba(255,255,255,.02); border-right:1px solid rgba(255,255,255,.06); padding:2rem 0; position:sticky; top:64px; height:calc(100vh - 64px); }
-    .sidebar-label { font-size:.58rem; font-weight:700; color:rgba(255,255,255,.2); text-transform:uppercase; letter-spacing:2px; padding:0 1.5rem; margin-bottom:.6rem; margin-top:1.2rem; }
-    .sidebar-label:first-child { margin-top:0; }
-    .sidebar-link { display:flex; align-items:center; gap:.7rem; padding:.6rem 1.5rem; font-size:.8rem; color:rgba(255,255,255,.45); text-decoration:none; transition:all .2s; cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; width:100%; }
-    .sidebar-link:hover { color:#fff; background:rgba(255,255,255,.04); }
-    .sidebar-link.active { color:#fff; background:rgba(201,168,76,.1); border-right:2px solid var(--gold); }
-    .sidebar-link svg { flex-shrink:0; opacity:.6; }
-    .sidebar-link.active svg { opacity:1; }
+    .sidebar { width:220px; flex-shrink:0; background:rgba(255,255,255,.015); border-right:1px solid var(--border); padding:1.5rem 0; position:sticky; top:64px; height:calc(100vh - 64px); overflow-y:auto; }
+    .sidebar-section { padding:0 1rem; margin-bottom:1.5rem; }
+    .sidebar-label { font-size:.55rem; font-weight:700; color:rgba(255,255,255,.18); text-transform:uppercase; letter-spacing:2.5px; padding:0 .6rem; margin-bottom:.5rem; display:block; }
+    .sidebar-link { display:flex; align-items:center; gap:.65rem; padding:.55rem .6rem; border-radius:8px; font-size:.78rem; color:rgba(255,255,255,.4); text-decoration:none; transition:all .2s; cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; width:100%; text-align:left; }
+    .sidebar-link:hover { color:rgba(255,255,255,.85); background:rgba(255,255,255,.05); }
+    .sidebar-link.active { color:#fff; background:rgba(201,168,76,.12); }
+    .sidebar-link.active svg { color:var(--gold); }
+    .sidebar-link svg { flex-shrink:0; opacity:.5; transition:opacity .2s; }
+    .sidebar-link:hover svg { opacity:.8; }
+    .sidebar-divider { height:1px; background:var(--border); margin:1rem 1rem; }
 
     /* CONTENT */
-    .dash-content { flex:1; padding:2.5rem 3rem; overflow-x:hidden; }
+    .dash-content { flex:1; padding:2.5rem; overflow-x:hidden; max-width:calc(100vw - 220px); }
 
-    /* WELCOME */
-    .welcome-band { margin-bottom:2.5rem; }
-    .welcome-tag { font-size:.62rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2px; margin-bottom:.5rem; }
-    .welcome-title { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#fff; letter-spacing:-.5px; }
-    .welcome-sub { font-size:.83rem; color:rgba(255,255,255,.35); margin-top:.3rem; }
+    /* PAGE HEADER */
+    .page-head { margin-bottom:2.5rem; }
+    .page-eyebrow { font-size:.6rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2.5px; margin-bottom:.5rem; display:flex; align-items:center; gap:.5rem; }
+    .page-eyebrow::before { content:''; width:16px; height:1px; background:var(--gold); }
+    .page-title { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:#fff; letter-spacing:-.5px; line-height:1.1; }
+    .page-sub { font-size:.82rem; color:rgba(255,255,255,.3); margin-top:.4rem; }
 
-    /* STATS GRID */
-    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:2rem; }
-    .stat-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.5rem; transition:border-color .2s; }
-    .stat-card:hover { border-color:rgba(201,168,76,.25); }
-    .stat-eyebrow { font-size:.6rem; font-weight:600; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:.6rem; }
-    .stat-val { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#fff; line-height:1; }
-    .stat-val.gold { color:var(--gold); }
-    .stat-val.green { color:#4ade80; }
-    .stat-sub { font-size:.68rem; color:rgba(255,255,255,.3); margin-top:.4rem; }
+    /* STATS GRID — cards estilo index */
+    .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:2rem; }
+    .stat-card { background:rgba(255,255,255,.02); padding:1.8rem 1.6rem; transition:background .2s; }
+    .stat-card:hover { background:rgba(255,255,255,.04); }
+    .stat-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,.25); margin-bottom:1rem; }
+    .stat-num { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900; line-height:1; letter-spacing:-1px; }
+    .stat-num.gold { color:var(--gold); }
+    .stat-num.green { color:var(--green); }
+    .stat-num.white { color:#fff; }
+    .stat-desc { font-size:.68rem; color:rgba(255,255,255,.25); margin-top:.55rem; line-height:1.5; }
+    .stat-foot { display:flex; justify-content:space-between; align-items:center; margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--border); }
+    .stat-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
+    .stat-link:hover { color:var(--gold); }
 
-    /* SECTIONS */
-    .dash-section { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); border-radius:16px; padding:1.8rem; margin-bottom:1.5rem; }
-    .dash-section-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; }
-    .dash-section-title { font-size:.88rem; font-weight:700; color:#fff; }
-    .dash-section-link { font-size:.73rem; color:rgba(255,255,255,.3); text-decoration:none; transition:color .2s; }
-    .dash-section-link:hover { color:var(--gold); }
+    /* CONTENT GRID */
+    .content-grid { display:grid; grid-template-columns:1.6fr 1fr; gap:1.5rem; }
 
-    /* RECENT TRADES */
-    .trade-row { display:flex; align-items:center; gap:1rem; padding:.7rem 0; border-bottom:1px solid rgba(255,255,255,.05); }
+    /* CARDS */
+    .card { background:rgba(255,255,255,.025); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+    .card-head { display:flex; justify-content:space-between; align-items:center; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
+    .card-title { font-size:.82rem; font-weight:700; color:#fff; }
+    .card-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
+    .card-link:hover { color:var(--gold); }
+    .card-body { padding:0 1.6rem; }
+
+    /* TRADE ROWS */
+    .trade-row { display:flex; align-items:center; gap:.9rem; padding:.85rem 0; border-bottom:1px solid var(--border); }
     .trade-row:last-child { border-bottom:none; }
-    .trade-badge-sm { font-size:.58rem; font-weight:700; text-transform:uppercase; padding:.2rem .55rem; border-radius:100px; flex-shrink:0; }
-    .b-win { background:rgba(74,222,128,.1); color:#4ade80; }
-    .b-loss { background:rgba(248,113,113,.1); color:#f87171; }
-    .trade-row-date { font-size:.72rem; color:rgba(255,255,255,.3); flex-shrink:0; width:80px; }
-    .trade-row-title { font-size:.78rem; color:rgba(255,255,255,.7); flex:1; }
-    .trade-row-r { font-size:.78rem; font-weight:700; flex-shrink:0; }
-    .trade-row-r.pos { color:#4ade80; }
-    .trade-row-r.neg { color:#f87171; }
+    .badge { font-size:.55rem; font-weight:800; text-transform:uppercase; letter-spacing:.8px; padding:.22rem .6rem; border-radius:100px; flex-shrink:0; }
+    .b-win { background:rgba(74,222,128,.1); color:#4ade80; border:1px solid rgba(74,222,128,.15); }
+    .b-loss { background:rgba(248,113,113,.1); color:#f87171; border:1px solid rgba(248,113,113,.15); }
+    .trade-date { font-size:.68rem; color:rgba(255,255,255,.25); flex-shrink:0; width:72px; }
+    .trade-title { font-size:.78rem; color:rgba(255,255,255,.65); flex:1; line-height:1.4; }
+    .trade-r { font-size:.78rem; font-weight:800; flex-shrink:0; }
+    .trade-r.pos { color:var(--green); }
+    .trade-r.neg { color:var(--red); }
 
-    /* PERFORMANCE TABLE */
-    .perf-table { width:100%; border-collapse:collapse; }
-    .perf-table th { font-size:.62rem; font-weight:600; color:rgba(255,255,255,.25); text-transform:uppercase; letter-spacing:1px; text-align:left; padding:.5rem 0; border-bottom:1px solid rgba(255,255,255,.06); }
-    .perf-table td { font-size:.8rem; color:rgba(255,255,255,.65); padding:.65rem 0; border-bottom:1px solid rgba(255,255,255,.04); }
-    .perf-table td.pos { color:#4ade80; font-weight:700; }
-    .perf-table td.year { color:#fff; font-weight:700; }
-    .perf-bar-wrap { width:100px; height:4px; background:rgba(255,255,255,.06); border-radius:2px; display:inline-block; vertical-align:middle; margin-right:.5rem; }
-    .perf-bar-fill { height:100%; background:var(--gold); border-radius:2px; }
+    /* PERFORMANCE — mini cards */
+    .perf-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:1.2rem 1.6rem; }
+    .perf-cell { background:rgba(255,255,255,.02); padding:1.2rem; }
+    .perf-cell:hover { background:rgba(255,255,255,.04); }
+    .perf-year-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.25); margin-bottom:.4rem; }
+    .perf-year-num { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:var(--green); line-height:1; }
+    .perf-year-bar { height:3px; background:var(--border); border-radius:2px; margin-top:.6rem; }
+    .perf-year-bar-fill { height:100%; background:var(--gold); border-radius:2px; }
+    .perf-trades { font-size:.65rem; color:rgba(255,255,255,.2); margin-top:.3rem; }
+
+    /* SIMULATIONS GRID */
+    .sims-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
+    .sim-card { background:rgba(255,255,255,.02); padding:1.4rem; transition:background .2s; }
+    .sim-card:hover { background:rgba(255,255,255,.04); }
+    .sim-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); margin-bottom:.8rem; }
+    .sim-name { font-size:.9rem; font-weight:700; color:#fff; margin-bottom:.3rem; line-height:1.3; }
+    .sim-meta { font-size:.68rem; color:rgba(255,255,255,.25); }
+    .sim-foot { display:flex; justify-content:space-between; align-items:flex-end; margin-top:1.2rem; padding-top:.9rem; border-top:1px solid var(--border); }
+    .sim-return { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:var(--green); line-height:1; }
+    .sim-final { font-size:.68rem; color:rgba(255,255,255,.3); }
+    .sim-del { background:transparent; border:1px solid var(--border); border-radius:6px; padding:.28rem .55rem; color:rgba(255,255,255,.2); font-size:.68rem; cursor:pointer; transition:all .2s; }
+    .sim-del:hover { border-color:#f87171; color:#f87171; }
+    .sims-empty { padding:2.5rem 1.6rem; }
+    .sims-empty p { font-size:.82rem; color:rgba(255,255,255,.25); }
+    .sims-empty a { color:var(--gold); text-decoration:none; }
 
     /* PROFILE */
-    .profile-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-    .profile-field { display:flex; flex-direction:column; gap:.4rem; }
-    .profile-label { font-size:.62rem; font-weight:600; color:rgba(255,255,255,.25); text-transform:uppercase; letter-spacing:1px; }
-    .profile-val { font-size:.84rem; color:rgba(255,255,255,.7); }
+    .profile-cards { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:1.2rem 1.6rem; }
+    .profile-cell { background:rgba(255,255,255,.02); padding:1.4rem; }
+    .profile-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,.2); margin-bottom:.6rem; display:block; }
+    .profile-val { font-size:.88rem; color:rgba(255,255,255,.7); }
+    .profile-input { background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:8px; padding:.6rem .9rem; color:#fff; font-size:.86rem; font-family:Inter,sans-serif; outline:none; width:100%; transition:border-color .2s; }
+    .profile-input:focus { border-color:var(--gold); }
+    .profile-save-area { padding:1.2rem 1.6rem 1.4rem; display:flex; align-items:center; gap:1rem; }
+    .btn-gold { background:var(--gold); color:var(--black); border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; }
+    .btn-gold:hover { background:var(--gold2); }
+    .save-msg { font-size:.75rem; }
+    .save-msg.ok { color:var(--green); }
+    .save-msg.err { color:var(--red); }
 
     /* VIEWS */
     .view { display:none; }
@@ -104,13 +142,14 @@
 </head>
 <body>
 
-  <!-- Loading -->
   <div id="loading-screen">
     <div class="loading-logo">Andrés <span>Cestona</span><span class="loading-dot">.</span></div>
   </div>
 
   <nav>
-    <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
+    <div class="nav-logo-area">
+      <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
+    </div>
     <div class="nav-right">
       <span class="nav-user">Hola, <strong id="nav-name">—</strong></span>
       <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
@@ -118,43 +157,52 @@
   </nav>
 
   <div class="dash-layout">
+
     <!-- SIDEBAR -->
     <aside class="sidebar">
-      <div class="sidebar-label">Principal</div>
-      <button class="sidebar-link active" onclick="showView('overview')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Resumen
-      </button>
-      <button class="sidebar-link" onclick="showView('trades')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Trades recientes
-      </button>
-      <button class="sidebar-link" onclick="showView('performance')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        Rendimiento
-      </button>
-      <button class="sidebar-link" onclick="showView('simulations')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-        Mis simulaciones
-      </button>
-      <div class="sidebar-label">Cuenta</div>
-      <button class="sidebar-link" onclick="showView('profile')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Mi perfil
-      </button>
-      <div class="sidebar-label">Sitio</div>
-      <a href="estadisticas.html" class="sidebar-link">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-        Estadísticas
-      </a>
-      <a href="trades.html" class="sidebar-link">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Diario de Trades
-      </a>
-      <a href="calculadora.html" class="sidebar-link">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
-        Calculadora
-      </a>
+      <div class="sidebar-section">
+        <span class="sidebar-label">Principal</span>
+        <button class="sidebar-link active" onclick="showView('overview',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Resumen
+        </button>
+        <button class="sidebar-link" onclick="showView('trades',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Trades recientes
+        </button>
+        <button class="sidebar-link" onclick="showView('performance',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Rendimiento
+        </button>
+        <button class="sidebar-link" onclick="showView('simulations',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          Mis simulaciones
+        </button>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <span class="sidebar-label">Cuenta</span>
+        <button class="sidebar-link" onclick="showView('profile',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Mi perfil
+        </button>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <span class="sidebar-label">Sitio</span>
+        <a href="estadisticas.html" class="sidebar-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Estadísticas
+        </a>
+        <a href="trades.html" class="sidebar-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Diario de Trades
+        </a>
+        <a href="calculadora.html" class="sidebar-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+          Calculadora
+        </a>
+      </div>
     </aside>
 
     <!-- CONTENT -->
@@ -162,113 +210,143 @@
 
       <!-- OVERVIEW -->
       <div class="view active" id="view-overview">
-        <div class="welcome-band">
-          <div class="welcome-tag">Dashboard</div>
-          <div class="welcome-title" id="welcome-title">Bienvenido</div>
-          <div class="welcome-sub">Resumen de la estrategia XAUUSD Swing · Actualizado en tiempo real</div>
+        <div class="page-head">
+          <div class="page-eyebrow">Dashboard</div>
+          <div class="page-title" id="welcome-title">Bienvenido</div>
+          <div class="page-sub">Estrategia XAUUSD Swing · Datos actualizados</div>
         </div>
 
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-eyebrow">Rendimiento total</div>
-            <div class="stat-val gold">+337%</div>
-            <div class="stat-sub">desde $1,000 inicial · 2022</div>
+            <div class="stat-tag">Rendimiento total</div>
+            <div class="stat-num gold">+337%</div>
+            <div class="stat-desc">desde $1,000 inicial · 2022–2026</div>
+            <div class="stat-foot"><a href="estadisticas.html" class="stat-link">Ver estadísticas →</a></div>
           </div>
           <div class="stat-card">
-            <div class="stat-eyebrow">Winrate histórico</div>
-            <div class="stat-val green">71.5%</div>
-            <div class="stat-sub">sobre 857 trades</div>
+            <div class="stat-tag">Winrate histórico</div>
+            <div class="stat-num green">71.5%</div>
+            <div class="stat-desc">sobre 857 trades verificados</div>
+            <div class="stat-foot"><a href="trades.html" class="stat-link">Ver trades →</a></div>
           </div>
           <div class="stat-card">
-            <div class="stat-eyebrow">Balance final</div>
-            <div class="stat-val">$4,374</div>
-            <div class="stat-sub">capital verificado</div>
+            <div class="stat-tag">Balance final</div>
+            <div class="stat-num white">$4,374</div>
+            <div class="stat-desc">capital verificado · no compuesto</div>
+            <div class="stat-foot"><a href="calculadora.html" class="stat-link">Simular →</a></div>
           </div>
           <div class="stat-card">
-            <div class="stat-eyebrow">2026 YTD</div>
-            <div class="stat-val green">+34.6%</div>
-            <div class="stat-sub">rendimiento este año</div>
+            <div class="stat-tag">2026 YTD</div>
+            <div class="stat-num green">+34.6%</div>
+            <div class="stat-desc">rendimiento acumulado este año</div>
+            <div class="stat-foot"><a href="estadisticas.html" class="stat-link">Ver detalles →</a></div>
           </div>
         </div>
 
-        <div class="dash-section">
-          <div class="dash-section-head">
-            <span class="dash-section-title">Últimas operaciones</span>
-            <a href="trades.html" class="dash-section-link">Ver todas →</a>
+        <div class="content-grid">
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Últimas operaciones</span>
+              <a href="trades.html" class="card-link">Ver todas →</a>
+            </div>
+            <div class="card-body" id="dash-trades-list"></div>
           </div>
-          <div id="dash-trades-list"></div>
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title">Rendimiento anual</span>
+              <a href="estadisticas.html" class="card-link">Ver más →</a>
+            </div>
+            <div class="perf-grid">
+              <div class="perf-cell"><div class="perf-year-label">2022</div><div class="perf-year-num">+76.4%</div><div class="perf-year-bar"><div class="perf-year-bar-fill" style="width:60%"></div></div><div class="perf-trades">~190 trades</div></div>
+              <div class="perf-cell"><div class="perf-year-label">2023</div><div class="perf-year-num">+85.8%</div><div class="perf-year-bar"><div class="perf-year-bar-fill" style="width:68%"></div></div><div class="perf-trades">~200 trades</div></div>
+              <div class="perf-cell"><div class="perf-year-label">2024</div><div class="perf-year-num">+70.2%</div><div class="perf-year-bar"><div class="perf-year-bar-fill" style="width:55%"></div></div><div class="perf-trades">~200 trades</div></div>
+              <div class="perf-cell"><div class="perf-year-label">2025</div><div class="perf-year-num">+70.4%</div><div class="perf-year-bar"><div class="perf-year-bar-fill" style="width:56%"></div></div><div class="perf-trades">~200 trades</div></div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- TRADES -->
       <div class="view" id="view-trades">
-        <div class="welcome-band">
-          <div class="welcome-tag">Operaciones</div>
-          <div class="welcome-title">Trades recientes</div>
-          <div class="welcome-sub">Historial completo de operaciones documentadas</div>
+        <div class="page-head">
+          <div class="page-eyebrow">Operaciones</div>
+          <div class="page-title">Trades recientes</div>
+          <div class="page-sub">Historial completo de operaciones documentadas</div>
         </div>
-        <div class="dash-section">
-          <div id="dash-trades-full"></div>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Todas las operaciones</span>
+            <a href="trades.html" class="card-link">Ver diario completo →</a>
+          </div>
+          <div class="card-body" id="dash-trades-full"></div>
         </div>
       </div>
 
       <!-- PERFORMANCE -->
       <div class="view" id="view-performance">
-        <div class="welcome-band">
-          <div class="welcome-tag">Rendimiento</div>
-          <div class="welcome-title">Historial anual</div>
-          <div class="welcome-sub">Rendimiento verificado año a año · Sin interés compuesto</div>
+        <div class="page-head">
+          <div class="page-eyebrow">Rendimiento</div>
+          <div class="page-title">Historial anual</div>
+          <div class="page-sub">Rendimiento verificado año a año · Sin interés compuesto</div>
         </div>
-        <div class="dash-section">
-          <table class="perf-table">
-            <thead><tr><th>Año</th><th>Rendimiento</th><th>Barra</th><th>Trades</th></tr></thead>
-            <tbody>
-              <tr><td class="year">2022</td><td class="pos">+76.4%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:60%"></div></div></td><td>~190</td></tr>
-              <tr><td class="year">2023</td><td class="pos">+85.8%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:68%"></div></div></td><td>~200</td></tr>
-              <tr><td class="year">2024</td><td class="pos">+70.2%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:55%"></div></div></td><td>~200</td></tr>
-              <tr><td class="year">2025</td><td class="pos">+70.4%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:56%"></div></div></td><td>~200</td></tr>
-              <tr><td class="year">2026 YTD</td><td class="pos">+34.6%</td><td><div class="perf-bar-wrap"><div class="perf-bar-fill" style="width:27%"></div></div></td><td>~67</td></tr>
-            </tbody>
-          </table>
+        <div class="stats-grid" style="margin-bottom:0">
+          <div class="stat-card"><div class="stat-tag">2022</div><div class="stat-num green">+76.4%</div><div class="stat-desc">~190 trades · Inicio de historial</div></div>
+          <div class="stat-card"><div class="stat-tag">2023</div><div class="stat-num green">+85.8%</div><div class="stat-desc">~200 trades · Mejor año</div></div>
+          <div class="stat-card"><div class="stat-tag">2024</div><div class="stat-num green">+70.2%</div><div class="stat-desc">~200 trades · Consistencia</div></div>
+          <div class="stat-card"><div class="stat-tag">2025</div><div class="stat-num green">+70.4%</div><div class="stat-desc">~200 trades · Año completo</div></div>
+        </div>
+        <div class="stats-grid" style="margin-top:1px;border-top:none;border-radius:0 0 16px 16px;">
+          <div class="stat-card" style="grid-column:1/3"><div class="stat-tag">2026 YTD</div><div class="stat-num green">+34.6%</div><div class="stat-desc">~67 trades · Año en curso</div></div>
+          <div class="stat-card" style="grid-column:3/5"><div class="stat-tag">Total acumulado</div><div class="stat-num gold">+337%</div><div class="stat-desc">$1,000 → $4,374 · 2022–2026</div></div>
         </div>
       </div>
 
       <!-- SIMULACIONES -->
       <div class="view" id="view-simulations">
-        <div class="welcome-band">
-          <div class="welcome-tag">Mis simulaciones</div>
-          <div class="welcome-title">Simulaciones guardadas</div>
-          <div class="welcome-sub">Tus simulaciones de la calculadora guardadas para comparar</div>
+        <div class="page-head">
+          <div class="page-eyebrow">Mis simulaciones</div>
+          <div class="page-title">Simulaciones guardadas</div>
+          <div class="page-sub">Tus simulaciones guardadas desde la calculadora</div>
         </div>
-        <div class="dash-section">
-          <div class="dash-section-head">
-            <span class="dash-section-title">Historial de simulaciones</span>
-            <a href="calculadora.html" class="dash-section-link">Nueva simulación →</a>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Historial</span>
+            <a href="calculadora.html" class="card-link">Nueva simulación →</a>
           </div>
-          <div id="sims-list"><p style="color:rgba(255,255,255,.3);font-size:.82rem">Cargando...</p></div>
+          <div id="sims-container"></div>
         </div>
       </div>
 
       <!-- PROFILE -->
       <div class="view" id="view-profile">
-        <div class="welcome-band">
-          <div class="welcome-tag">Cuenta</div>
-          <div class="welcome-title">Mi perfil</div>
-          <div class="welcome-sub">Información de tu cuenta</div>
+        <div class="page-head">
+          <div class="page-eyebrow">Cuenta</div>
+          <div class="page-title">Mi perfil</div>
+          <div class="page-sub">Gestiona la información de tu cuenta</div>
         </div>
-        <div class="dash-section">
-          <div class="profile-grid">
-            <div class="profile-field">
-              <div class="profile-label">Nombre</div>
-              <input id="prof-name-input" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.6rem .9rem;color:#fff;font-size:.84rem;font-family:Inter,sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#c9a84c'" onblur="this.style.borderColor='rgba(255,255,255,.1)'" />
+        <div class="card">
+          <div class="card-head"><span class="card-title">Información personal</span></div>
+          <div class="profile-cards">
+            <div class="profile-cell">
+              <label class="profile-label">Nombre</label>
+              <input id="prof-name-input" class="profile-input" placeholder="Tu nombre"/>
             </div>
-            <div class="profile-field"><div class="profile-label">Email</div><div class="profile-val" id="prof-email">—</div></div>
-            <div class="profile-field"><div class="profile-label">Miembro desde</div><div class="profile-val" id="prof-since">—</div></div>
-            <div class="profile-field"><div class="profile-label">Estado</div><div class="profile-val" style="color:#4ade80">Activo</div></div>
+            <div class="profile-cell">
+              <label class="profile-label">Email</label>
+              <div class="profile-val" id="prof-email">—</div>
+            </div>
+            <div class="profile-cell">
+              <label class="profile-label">Miembro desde</label>
+              <div class="profile-val" id="prof-since">—</div>
+            </div>
+            <div class="profile-cell">
+              <label class="profile-label">Estado</label>
+              <div class="profile-val" style="color:var(--green)">● Activo</div>
+            </div>
           </div>
-          <div style="margin-top:1.5rem;display:flex;align-items:center;gap:1rem;">
-            <button onclick="saveProfile()" style="background:#c9a84c;color:#05070f;border:none;border-radius:8px;padding:.6rem 1.3rem;font-size:.8rem;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s;" onmouseover="this.style.background='#e8c97a'" onmouseout="this.style.background='#c9a84c'">Guardar cambios</button>
-            <span id="prof-msg" style="font-size:.75rem;display:none;color:#4ade80"></span>
+          <div class="profile-save-area">
+            <button class="btn-gold" onclick="saveProfile()">Guardar cambios</button>
+            <span id="prof-msg" class="save-msg" style="display:none"></span>
           </div>
         </div>
       </div>
@@ -278,27 +356,23 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
-    const SUPABASE_URL = 'https://uhjxybyzpqksyysifatn.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP';
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
+    const sb = supabase.createClient(
+      'https://uhjxybyzpqksyysifatn.supabase.co',
+      'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP'
+    );
     let currentUser = null;
 
     async function init() {
       const { data } = await sb.auth.getSession();
-      if (!data.session) {
-        location.href = 'auth.html';
-        return;
-      }
+      if (!data.session) { location.href = 'auth.html'; return; }
       currentUser = data.session.user;
-      // Load profile from DB
       const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
       const name = profile?.nombre || currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
       document.getElementById('nav-name').textContent = name;
       document.getElementById('welcome-title').textContent = 'Hola, ' + name;
       document.getElementById('prof-name-input').value = name;
       document.getElementById('prof-email').textContent = currentUser.email;
-      document.getElementById('prof-since').textContent = new Date(currentUser.created_at).toLocaleDateString('es-ES', {year:'numeric',month:'long',day:'numeric'});
+      document.getElementById('prof-since').textContent = new Date(currentUser.created_at).toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'});
       await loadTrades();
       await loadSimulations();
       document.getElementById('loading-screen').style.display = 'none';
@@ -306,63 +380,41 @@
 
     async function loadTrades() {
       try {
-        const res = await fetch('./data/trades-journal.json');
-        const trades = await res.json();
-        // Overview list (last 5)
-        const list = document.getElementById('dash-trades-list');
-        trades.slice(0,5).forEach(t => {
-          const isWin = t.resultado === 'win';
-          list.innerHTML += `<div class="trade-row">
-            <span class="trade-badge-sm ${isWin?'b-win':'b-loss'}">${isWin?'WIN':'LOSS'}</span>
-            <span class="trade-row-date">${t.fecha}</span>
-            <span class="trade-row-title">${t.titulo}</span>
-            <span class="trade-row-r ${isWin?'pos':'neg'}">${t.resultado_r>0?'+':''}${t.resultado_r}R</span>
+        const trades = await (await fetch('./data/trades-journal.json')).json();
+        const renderRow = t => {
+          const w = t.resultado === 'win';
+          return `<div class="trade-row">
+            <span class="badge ${w?'b-win':'b-loss'}">${w?'WIN':'LOSS'}</span>
+            <span class="trade-date">${t.fecha}</span>
+            <span class="trade-title">${t.titulo}</span>
+            <span class="trade-r ${w?'pos':'neg'}">${t.resultado_r>0?'+':''}${t.resultado_r}R</span>
           </div>`;
-        });
-        // Full list
-        const full = document.getElementById('dash-trades-full');
-        trades.forEach(t => {
-          const isWin = t.resultado === 'win';
-          full.innerHTML += `<div class="trade-row">
-            <span class="trade-badge-sm ${isWin?'b-win':'b-loss'}">${isWin?'WIN':'LOSS'}</span>
-            <span class="trade-row-date">${t.fecha}</span>
-            <span class="trade-row-title">${t.titulo}</span>
-            <span class="trade-row-r ${isWin?'pos':'neg'}">${t.resultado_r>0?'+':''}${t.resultado_r}R</span>
-          </div>`;
-        });
+        };
+        document.getElementById('dash-trades-list').innerHTML = trades.slice(0,5).map(renderRow).join('');
+        document.getElementById('dash-trades-full').innerHTML = trades.map(renderRow).join('');
       } catch(e) {}
     }
 
-    function showView(name) {
-      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-      document.getElementById('view-' + name).classList.add('active');
-      event.currentTarget.classList.add('active');
-    }
-
     async function loadSimulations() {
-      const { data: sims, error } = await sb.from('simulations')
-        .select('*').eq('user_id', currentUser.id)
-        .order('created_at', { ascending: false });
-      const el = document.getElementById('sims-list');
-      if (error || !sims?.length) {
-        el.innerHTML = `<p style="color:rgba(255,255,255,.3);font-size:.82rem;padding:1rem 0">No tienes simulaciones guardadas. <a href="calculadora.html" style="color:#c9a84c;text-decoration:none;">Ir a la calculadora →</a></p>`;
+      const { data: sims } = await sb.from('simulations').select('*').eq('user_id', currentUser.id).order('created_at',{ascending:false});
+      const el = document.getElementById('sims-container');
+      if (!sims?.length) {
+        el.innerHTML = `<div class="sims-empty"><p>No tienes simulaciones guardadas. <a href="calculadora.html">Ir a la calculadora →</a></p></div>`;
         return;
       }
-      el.innerHTML = sims.map(s => `
-        <div style="display:flex;align-items:center;gap:1rem;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.05);">
-          <div style="flex:1;">
-            <div style="font-size:.82rem;font-weight:600;color:#fff;">${s.nombre}</div>
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);margin-top:.2rem;">
-              $${s.capital_inicial.toLocaleString()} inicial · ${s.riesgo_pct}% riesgo · ${new Date(s.created_at).toLocaleDateString('es-ES')}
+      el.innerHTML = `<div class="sims-grid">${sims.map(s => `
+        <div class="sim-card">
+          <div class="sim-tag">Simulación</div>
+          <div class="sim-name">${s.nombre}</div>
+          <div class="sim-meta">$${Number(s.capital_inicial).toLocaleString()} · ${s.riesgo_pct}% riesgo · ${new Date(s.created_at).toLocaleDateString('es-ES')}</div>
+          <div class="sim-foot">
+            <div>
+              <div class="sim-return">+${Number(s.rendimiento_pct).toFixed(1)}%</div>
+              <div class="sim-final">$${Number(s.resultado_final).toLocaleString('es-ES',{maximumFractionDigits:0})} final</div>
             </div>
+            <button class="sim-del" onclick="deleteSim('${s.id}')">✕ Eliminar</button>
           </div>
-          <div style="text-align:right;flex-shrink:0;">
-            <div style="font-size:1rem;font-weight:800;color:#4ade80;">+${s.rendimiento_pct?.toFixed(1) ?? '—'}%</div>
-            <div style="font-size:.68rem;color:rgba(255,255,255,.3);">$${s.resultado_final?.toLocaleString('es-ES', {maximumFractionDigits:0}) ?? '—'} final</div>
-          </div>
-          <button onclick="deleteSim('${s.id}')" style="background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .6rem;color:rgba(255,255,255,.3);font-size:.7rem;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='#dc2626';this.style.color='#f87171'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)';this.style.color='rgba(255,255,255,.3)'">✕</button>
-        </div>`).join('');
+        </div>`).join('')}</div>`;
     }
 
     async function deleteSim(id) {
@@ -375,18 +427,22 @@
       const msg = document.getElementById('prof-msg');
       const { error } = await sb.from('profiles').upsert({ id: currentUser.id, nombre, email: currentUser.email });
       msg.style.display = 'inline';
-      if (error) { msg.textContent = 'Error al guardar.'; msg.style.color = '#f87171'; }
+      if (error) { msg.textContent = 'Error al guardar.'; msg.className = 'save-msg err'; }
       else {
-        msg.textContent = '¡Guardado!'; msg.style.color = '#4ade80';
+        msg.textContent = '¡Guardado correctamente!'; msg.className = 'save-msg ok';
         document.getElementById('nav-name').textContent = nombre;
         setTimeout(() => msg.style.display = 'none', 2500);
       }
     }
 
-    async function logout() {
-      await sb.auth.signOut();
-      location.href = 'index.html';
+    function showView(name, btn) {
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      document.getElementById('view-' + name).classList.add('active');
+      btn.classList.add('active');
     }
+
+    async function logout() { await sb.auth.signOut(); location.href = 'index.html'; }
 
     init();
   </script>
