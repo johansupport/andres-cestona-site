@@ -133,6 +133,10 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         Rendimiento
       </button>
+      <button class="sidebar-link" onclick="showView('simulations')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        Mis simulaciones
+      </button>
       <div class="sidebar-label">Cuenta</div>
       <button class="sidebar-link" onclick="showView('profile')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -229,6 +233,22 @@
         </div>
       </div>
 
+      <!-- SIMULACIONES -->
+      <div class="view" id="view-simulations">
+        <div class="welcome-band">
+          <div class="welcome-tag">Mis simulaciones</div>
+          <div class="welcome-title">Simulaciones guardadas</div>
+          <div class="welcome-sub">Tus simulaciones de la calculadora guardadas para comparar</div>
+        </div>
+        <div class="dash-section">
+          <div class="dash-section-head">
+            <span class="dash-section-title">Historial de simulaciones</span>
+            <a href="calculadora.html" class="dash-section-link">Nueva simulación →</a>
+          </div>
+          <div id="sims-list"><p style="color:rgba(255,255,255,.3);font-size:.82rem">Cargando...</p></div>
+        </div>
+      </div>
+
       <!-- PROFILE -->
       <div class="view" id="view-profile">
         <div class="welcome-band">
@@ -238,10 +258,17 @@
         </div>
         <div class="dash-section">
           <div class="profile-grid">
-            <div class="profile-field"><div class="profile-label">Nombre</div><div class="profile-val" id="prof-name">—</div></div>
+            <div class="profile-field">
+              <div class="profile-label">Nombre</div>
+              <input id="prof-name-input" style="background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:.6rem .9rem;color:#fff;font-size:.84rem;font-family:Inter,sans-serif;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='#c9a84c'" onblur="this.style.borderColor='rgba(255,255,255,.1)'" />
+            </div>
             <div class="profile-field"><div class="profile-label">Email</div><div class="profile-val" id="prof-email">—</div></div>
             <div class="profile-field"><div class="profile-label">Miembro desde</div><div class="profile-val" id="prof-since">—</div></div>
             <div class="profile-field"><div class="profile-label">Estado</div><div class="profile-val" style="color:#4ade80">Activo</div></div>
+          </div>
+          <div style="margin-top:1.5rem;display:flex;align-items:center;gap:1rem;">
+            <button onclick="saveProfile()" style="background:#c9a84c;color:#05070f;border:none;border-radius:8px;padding:.6rem 1.3rem;font-size:.8rem;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:background .2s;" onmouseover="this.style.background='#e8c97a'" onmouseout="this.style.background='#c9a84c'">Guardar cambios</button>
+            <span id="prof-msg" style="font-size:.75rem;display:none;color:#4ade80"></span>
           </div>
         </div>
       </div>
@@ -264,13 +291,16 @@
         return;
       }
       currentUser = data.session.user;
-      const name = currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
+      // Load profile from DB
+      const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+      const name = profile?.nombre || currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
       document.getElementById('nav-name').textContent = name;
       document.getElementById('welcome-title').textContent = 'Hola, ' + name;
-      document.getElementById('prof-name').textContent = name;
+      document.getElementById('prof-name-input').value = name;
       document.getElementById('prof-email').textContent = currentUser.email;
       document.getElementById('prof-since').textContent = new Date(currentUser.created_at).toLocaleDateString('es-ES', {year:'numeric',month:'long',day:'numeric'});
       await loadTrades();
+      await loadSimulations();
       document.getElementById('loading-screen').style.display = 'none';
     }
 
@@ -308,6 +338,49 @@
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
       document.getElementById('view-' + name).classList.add('active');
       event.currentTarget.classList.add('active');
+    }
+
+    async function loadSimulations() {
+      const { data: sims, error } = await sb.from('simulations')
+        .select('*').eq('user_id', currentUser.id)
+        .order('created_at', { ascending: false });
+      const el = document.getElementById('sims-list');
+      if (error || !sims?.length) {
+        el.innerHTML = `<p style="color:rgba(255,255,255,.3);font-size:.82rem;padding:1rem 0">No tienes simulaciones guardadas. <a href="calculadora.html" style="color:#c9a84c;text-decoration:none;">Ir a la calculadora →</a></p>`;
+        return;
+      }
+      el.innerHTML = sims.map(s => `
+        <div style="display:flex;align-items:center;gap:1rem;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,.05);">
+          <div style="flex:1;">
+            <div style="font-size:.82rem;font-weight:600;color:#fff;">${s.nombre}</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);margin-top:.2rem;">
+              $${s.capital_inicial.toLocaleString()} inicial · ${s.riesgo_pct}% riesgo · ${new Date(s.created_at).toLocaleDateString('es-ES')}
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-size:1rem;font-weight:800;color:#4ade80;">+${s.rendimiento_pct?.toFixed(1) ?? '—'}%</div>
+            <div style="font-size:.68rem;color:rgba(255,255,255,.3);">$${s.resultado_final?.toLocaleString('es-ES', {maximumFractionDigits:0}) ?? '—'} final</div>
+          </div>
+          <button onclick="deleteSim('${s.id}')" style="background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.3rem .6rem;color:rgba(255,255,255,.3);font-size:.7rem;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor='#dc2626';this.style.color='#f87171'" onmouseout="this.style.borderColor='rgba(255,255,255,.1)';this.style.color='rgba(255,255,255,.3)'">✕</button>
+        </div>`).join('');
+    }
+
+    async function deleteSim(id) {
+      await sb.from('simulations').delete().eq('id', id);
+      await loadSimulations();
+    }
+
+    async function saveProfile() {
+      const nombre = document.getElementById('prof-name-input').value.trim();
+      const msg = document.getElementById('prof-msg');
+      const { error } = await sb.from('profiles').upsert({ id: currentUser.id, nombre, email: currentUser.email });
+      msg.style.display = 'inline';
+      if (error) { msg.textContent = 'Error al guardar.'; msg.style.color = '#f87171'; }
+      else {
+        msg.textContent = '¡Guardado!'; msg.style.color = '#4ade80';
+        document.getElementById('nav-name').textContent = nombre;
+        setTimeout(() => msg.style.display = 'none', 2500);
+      }
     }
 
     async function logout() {
