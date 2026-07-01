@@ -291,7 +291,7 @@
     const pcls = n => n >= 0 ? 'pos' : 'neg';
 
     async function loadData(strategy) {
-      const file = strategy === 'daily' ? 'xauusd-daily.json' : 'xauusd-swing.json';
+      const file = strategy === 'daily' ? 'xauusd-daily-v2.json' : 'xauusd-swing.json';
       try {
         const res = await fetch(`./data/${file}?v=${Date.now()}`);
         data = await res.json();
