@@ -2,11 +2,17 @@
   "estrategia": "XAUUSD Swing",
   "activo": "XAUUSD",
   "tipo": "Swing",
-  "inicio": "2022-01-03",
-  "capitalInicial": 1000.0,
-  "sinCompuesto": true,
-  "riskPct": 1.0,
+  "inicio": "2021-01-01",
+  "capitalInicial": 1000,
   "resumenAnual": [
+    {
+      "año": 2021,
+      "trades": 194,
+      "wins": 140,
+      "losses": 54,
+      "winrate": 72.2,
+      "rendimiento": 76.4
+    },
     {
       "año": 2022,
       "trades": 204,
@@ -50,11 +56,143 @@
   ],
   "meses": [
     {
+      "año": 2021,
+      "mes": "Enero",
+      "wins": 11,
+      "losses": 5,
+      "winrate": 68.8,
+      "porcentaje": 5.2,
+      "mesNum": 1,
+      "inicio": 1000.0,
+      "fin": 1052.0
+    },
+    {
+      "año": 2021,
+      "mes": "Febrero",
+      "wins": 11,
+      "losses": 6,
+      "winrate": 64.7,
+      "porcentaje": 4.6,
+      "mesNum": 2,
+      "inicio": 1052.0,
+      "fin": 1098.0
+    },
+    {
+      "año": 2021,
+      "mes": "Marzo",
+      "wins": 13,
+      "losses": 3,
+      "winrate": 81.2,
+      "porcentaje": 9.2,
+      "mesNum": 3,
+      "inicio": 1098.0,
+      "fin": 1190.0
+    },
+    {
+      "año": 2021,
+      "mes": "Abril",
+      "wins": 8,
+      "losses": 6,
+      "winrate": 57.1,
+      "porcentaje": 2.0,
+      "mesNum": 4,
+      "inicio": 1190.0,
+      "fin": 1210.0
+    },
+    {
+      "año": 2021,
+      "mes": "Mayo",
+      "wins": 13,
+      "losses": 5,
+      "winrate": 72.2,
+      "porcentaje": 7.4,
+      "mesNum": 5,
+      "inicio": 1210.0,
+      "fin": 1284.0
+    },
+    {
+      "año": 2021,
+      "mes": "Junio",
+      "wins": 8,
+      "losses": 7,
+      "winrate": 53.3,
+      "porcentaje": 0.4,
+      "mesNum": 6,
+      "inicio": 1284.0,
+      "fin": 1288.0
+    },
+    {
+      "año": 2021,
+      "mes": "Julio",
+      "wins": 16,
+      "losses": 1,
+      "winrate": 94.1,
+      "porcentaje": 14.0,
+      "mesNum": 7,
+      "inicio": 1288.0,
+      "fin": 1428.0
+    },
+    {
+      "año": 2021,
+      "mes": "Agosto",
+      "wins": 16,
+      "losses": 1,
+      "winrate": 94.1,
+      "porcentaje": 13.8,
+      "mesNum": 8,
+      "inicio": 1428.0,
+      "fin": 1566.0
+    },
+    {
+      "año": 2021,
+      "mes": "Septiembre",
+      "wins": 8,
+      "losses": 8,
+      "winrate": 50.0,
+      "porcentaje": -0.6,
+      "mesNum": 9,
+      "inicio": 1566.0,
+      "fin": 1560.0
+    },
+    {
+      "año": 2021,
+      "mes": "Octubre",
+      "wins": 9,
+      "losses": 5,
+      "winrate": 64.3,
+      "porcentaje": 3.2,
+      "mesNum": 10,
+      "inicio": 1560.0,
+      "fin": 1592.0
+    },
+    {
+      "año": 2021,
+      "mes": "Noviembre",
+      "wins": 17,
+      "losses": 0,
+      "winrate": 100.0,
+      "porcentaje": 15.4,
+      "mesNum": 11,
+      "inicio": 1592.0,
+      "fin": 1746.0
+    },
+    {
+      "año": 2021,
+      "mes": "Diciembre",
+      "wins": 10,
+      "losses": 7,
+      "winrate": 58.8,
+      "porcentaje": 1.8,
+      "mesNum": 12,
+      "inicio": 1746.0,
+      "fin": 1764.0
+    },
+    {
       "año": 2022,
       "mes": "Enero",
       "mesNum": 1,
-      "inicio": 1000.0,
-      "fin": 1058.0,
+      "inicio": 1764.0,
+      "fin": 1822.0,
       "ganancia": 58.0,
       "wins": 12,
       "losses": 6,
@@ -65,8 +203,8 @@
       "año": 2022,
       "mes": "Febrero",
       "mesNum": 2,
-      "inicio": 1058.0,
-      "fin": 1082.0,
+      "inicio": 1822.0,
+      "fin": 1846.0,
       "ganancia": 24.0,
       "wins": 10,
       "losses": 7,
@@ -77,8 +215,8 @@
       "año": 2022,
       "mes": "Marzo",
       "mesNum": 3,
-      "inicio": 1082.0,
-      "fin": 1116.0,
+      "inicio": 1846.0,
+      "fin": 1880.0,
       "ganancia": 34.0,
       "wins": 10,
       "losses": 6,
@@ -89,8 +227,8 @@
       "año": 2022,
       "mes": "Abril",
       "mesNum": 4,
-      "inicio": 1116.0,
-      "fin": 1216.0,
+      "inicio": 1880.0,
+      "fin": 1980.0,
       "ganancia": 100.0,
       "wins": 14,
       "losses": 3,
@@ -101,8 +239,8 @@
       "año": 2022,
       "mes": "Mayo",
       "mesNum": 5,
-      "inicio": 1216.0,
-      "fin": 1262.0,
+      "inicio": 1980.0,
+      "fin": 2026.0,
       "ganancia": 46.0,
       "wins": 12,
       "losses": 6,
@@ -113,8 +251,8 @@
       "año": 2022,
       "mes": "Junio",
       "mesNum": 6,
-      "inicio": 1262.0,
-      "fin": 1346.0,
+      "inicio": 2026.0,
+      "fin": 2110.0,
       "ganancia": 84.0,
       "wins": 14,
       "losses": 4,
@@ -125,8 +263,8 @@
       "año": 2022,
       "mes": "Julio",
       "mesNum": 7,
-      "inicio": 1346.0,
-      "fin": 1424.0,
+      "inicio": 2110.0,
+      "fin": 2188.0,
       "ganancia": 78.0,
       "wins": 13,
       "losses": 4,
@@ -137,8 +275,8 @@
       "año": 2022,
       "mes": "Agosto",
       "mesNum": 8,
-      "inicio": 1424.0,
-      "fin": 1494.0,
+      "inicio": 2188.0,
+      "fin": 2258.0,
       "ganancia": 70.0,
       "wins": 13,
       "losses": 5,
@@ -149,8 +287,8 @@
       "año": 2022,
       "mes": "Septiembre",
       "mesNum": 9,
-      "inicio": 1494.0,
-      "fin": 1560.0,
+      "inicio": 2258.0,
+      "fin": 2324.0,
       "ganancia": 66.0,
       "wins": 11,
       "losses": 4,
@@ -161,8 +299,8 @@
       "año": 2022,
       "mes": "Octubre",
       "mesNum": 10,
-      "inicio": 1560.0,
-      "fin": 1612.0,
+      "inicio": 2324.0,
+      "fin": 2376.0,
       "ganancia": 52.0,
       "wins": 10,
       "losses": 4,
@@ -173,8 +311,8 @@
       "año": 2022,
       "mes": "Noviembre",
       "mesNum": 11,
-      "inicio": 1612.0,
-      "fin": 1692.0,
+      "inicio": 2376.0,
+      "fin": 2456.0,
       "ganancia": 80.0,
       "wins": 13,
       "losses": 5,
@@ -185,8 +323,8 @@
       "año": 2022,
       "mes": "Diciembre",
       "mesNum": 12,
-      "inicio": 1692.0,
-      "fin": 1764.0,
+      "inicio": 2456.0,
+      "fin": 2528.0,
       "ganancia": 72.0,
       "wins": 13,
       "losses": 5,
@@ -197,8 +335,8 @@
       "año": 2023,
       "mes": "Enero",
       "mesNum": 1,
-      "inicio": 1764.0,
-      "fin": 1894.0,
+      "inicio": 2528.0,
+      "fin": 2658.0,
       "ganancia": 130.0,
       "wins": 17,
       "losses": 4,
@@ -209,8 +347,8 @@
       "año": 2023,
       "mes": "Febrero",
       "mesNum": 2,
-      "inicio": 1894.0,
-      "fin": 1944.0,
+      "inicio": 2658.0,
+      "fin": 2708.0,
       "ganancia": 50.0,
       "wins": 12,
       "losses": 7,
@@ -221,8 +359,8 @@
       "año": 2023,
       "mes": "Marzo",
       "mesNum": 3,
-      "inicio": 1944.0,
-      "fin": 2048.0,
+      "inicio": 2708.0,
+      "fin": 2812.0,
       "ganancia": 104.0,
       "wins": 15,
       "losses": 4,
@@ -233,8 +371,8 @@
       "año": 2023,
       "mes": "Abril",
       "mesNum": 4,
-      "inicio": 2048.0,
-      "fin": 2144.0,
+      "inicio": 2812.0,
+      "fin": 2908.0,
       "ganancia": 96.0,
       "wins": 14,
       "losses": 4,
@@ -245,8 +383,8 @@
       "año": 2023,
       "mes": "Mayo",
       "mesNum": 5,
-      "inicio": 2144.0,
-      "fin": 2176.0,
+      "inicio": 2908.0,
+      "fin": 2940.0,
       "ganancia": 32.0,
       "wins": 12,
       "losses": 8,
@@ -257,8 +395,8 @@
       "año": 2023,
       "mes": "Junio",
       "mesNum": 6,
-      "inicio": 2176.0,
-      "fin": 2232.0,
+      "inicio": 2940.0,
+      "fin": 2996.0,
       "ganancia": 56.0,
       "wins": 13,
       "losses": 7,
@@ -269,8 +407,8 @@
       "año": 2023,
       "mes": "Julio",
       "mesNum": 7,
-      "inicio": 2232.0,
-      "fin": 2270.0,
+      "inicio": 2996.0,
+      "fin": 3034.0,
       "ganancia": 38.0,
       "wins": 11,
       "losses": 7,
@@ -281,8 +419,8 @@
       "año": 2023,
       "mes": "Agosto",
       "mesNum": 8,
-      "inicio": 2270.0,
-      "fin": 2342.0,
+      "inicio": 3034.0,
+      "fin": 3106.0,
       "ganancia": 72.0,
       "wins": 14,
       "losses": 6,
@@ -293,8 +431,8 @@
       "año": 2023,
       "mes": "Septiembre",
       "mesNum": 9,
-      "inicio": 2342.0,
-      "fin": 2400.0,
+      "inicio": 3106.0,
+      "fin": 3164.0,
       "ganancia": 58.0,
       "wins": 11,
       "losses": 5,
@@ -305,8 +443,8 @@
       "año": 2023,
       "mes": "Octubre",
       "mesNum": 10,
-      "inicio": 2400.0,
-      "fin": 2478.0,
+      "inicio": 3164.0,
+      "fin": 3242.0,
       "ganancia": 78.0,
       "wins": 12,
       "losses": 3,
@@ -317,8 +455,8 @@
       "año": 2023,
       "mes": "Noviembre",
       "mesNum": 11,
-      "inicio": 2478.0,
-      "fin": 2634.0,
+      "inicio": 3242.0,
+      "fin": 3398.0,
       "ganancia": 156.0,
       "wins": 18,
       "losses": 2,
@@ -329,8 +467,8 @@
       "año": 2023,
       "mes": "Diciembre",
       "mesNum": 12,
-      "inicio": 2634.0,
-      "fin": 2622.0,
+      "inicio": 3398.0,
+      "fin": 3386.0,
       "ganancia": -12.0,
       "wins": 7,
       "losses": 8,
@@ -341,8 +479,8 @@
       "año": 2024,
       "mes": "Enero",
       "mesNum": 1,
-      "inicio": 2622.0,
-      "fin": 2680.0,
+      "inicio": 3386.0,
+      "fin": 3444.0,
       "ganancia": 58.0,
       "wins": 13,
       "losses": 7,
@@ -353,8 +491,8 @@
       "año": 2024,
       "mes": "Febrero",
       "mesNum": 2,
-      "inicio": 2680.0,
-      "fin": 2722.0,
+      "inicio": 3444.0,
+      "fin": 3486.0,
       "ganancia": 42.0,
       "wins": 12,
       "losses": 7,
@@ -365,8 +503,8 @@
       "año": 2024,
       "mes": "Marzo",
       "mesNum": 3,
-      "inicio": 2722.0,
-      "fin": 2760.0,
+      "inicio": 3486.0,
+      "fin": 3524.0,
       "ganancia": 38.0,
       "wins": 10,
       "losses": 6,
@@ -377,8 +515,8 @@
       "año": 2024,
       "mes": "Abril",
       "mesNum": 4,
-      "inicio": 2760.0,
-      "fin": 2856.0,
+      "inicio": 3524.0,
+      "fin": 3620.0,
       "ganancia": 96.0,
       "wins": 13,
       "losses": 3,
@@ -389,8 +527,8 @@
       "año": 2024,
       "mes": "Mayo",
       "mesNum": 5,
-      "inicio": 2856.0,
-      "fin": 2950.0,
+      "inicio": 3620.0,
+      "fin": 3714.0,
       "ganancia": 94.0,
       "wins": 12,
       "losses": 2,
@@ -401,8 +539,8 @@
       "año": 2024,
       "mes": "Junio",
       "mesNum": 6,
-      "inicio": 2950.0,
-      "fin": 3020.0,
+      "inicio": 3714.0,
+      "fin": 3784.0,
       "ganancia": 70.0,
       "wins": 11,
       "losses": 3,
@@ -413,8 +551,8 @@
       "año": 2024,
       "mes": "Julio",
       "mesNum": 7,
-      "inicio": 3020.0,
-      "fin": 3076.0,
+      "inicio": 3784.0,
+      "fin": 3840.0,
       "ganancia": 56.0,
       "wins": 10,
       "losses": 4,
@@ -425,8 +563,8 @@
       "año": 2024,
       "mes": "Agosto",
       "mesNum": 8,
-      "inicio": 3076.0,
-      "fin": 3042.0,
+      "inicio": 3840.0,
+      "fin": 3806.0,
       "ganancia": -34.0,
       "wins": 5,
       "losses": 8,
@@ -437,8 +575,8 @@
       "año": 2024,
       "mes": "Septiembre",
       "mesNum": 9,
-      "inicio": 3042.0,
-      "fin": 3138.0,
+      "inicio": 3806.0,
+      "fin": 3902.0,
       "ganancia": 96.0,
       "wins": 15,
       "losses": 4,
@@ -449,8 +587,8 @@
       "año": 2024,
       "mes": "Octubre",
       "mesNum": 10,
-      "inicio": 3138.0,
-      "fin": 3230.0,
+      "inicio": 3902.0,
+      "fin": 3994.0,
       "ganancia": 92.0,
       "wins": 14,
       "losses": 4,
@@ -461,8 +599,8 @@
       "año": 2024,
       "mes": "Noviembre",
       "mesNum": 11,
-      "inicio": 3230.0,
-      "fin": 3296.0,
+      "inicio": 3994.0,
+      "fin": 4060.0,
       "ganancia": 66.0,
       "wins": 12,
       "losses": 5,
@@ -473,8 +611,8 @@
       "año": 2024,
       "mes": "Diciembre",
       "mesNum": 12,
-      "inicio": 3296.0,
-      "fin": 3324.0,
+      "inicio": 4060.0,
+      "fin": 4088.0,
       "ganancia": 28.0,
       "wins": 9,
       "losses": 5,
@@ -485,8 +623,8 @@
       "año": 2025,
       "mes": "Enero",
       "mesNum": 1,
-      "inicio": 3324.0,
-      "fin": 3408.0,
+      "inicio": 4088.0,
+      "fin": 4172.0,
       "ganancia": 84.0,
       "wins": 12,
       "losses": 3,
@@ -497,8 +635,8 @@
       "año": 2025,
       "mes": "Febrero",
       "mesNum": 2,
-      "inicio": 3408.0,
-      "fin": 3454.0,
+      "inicio": 4172.0,
+      "fin": 4218.0,
       "ganancia": 46.0,
       "wins": 8,
       "losses": 3,
@@ -509,8 +647,8 @@
       "año": 2025,
       "mes": "Marzo",
       "mesNum": 3,
-      "inicio": 3454.0,
-      "fin": 3504.0,
+      "inicio": 4218.0,
+      "fin": 4268.0,
       "ganancia": 50.0,
       "wins": 9,
       "losses": 4,
@@ -521,8 +659,8 @@
       "año": 2025,
       "mes": "Abril",
       "mesNum": 4,
-      "inicio": 3504.0,
-      "fin": 3530.0,
+      "inicio": 4268.0,
+      "fin": 4294.0,
       "ganancia": 26.0,
       "wins": 8,
       "losses": 5,
@@ -533,8 +671,8 @@
       "año": 2025,
       "mes": "Mayo",
       "mesNum": 5,
-      "inicio": 3530.0,
-      "fin": 3576.0,
+      "inicio": 4294.0,
+      "fin": 4340.0,
       "ganancia": 46.0,
       "wins": 7,
       "losses": 2,
@@ -545,8 +683,8 @@
       "año": 2025,
       "mes": "Junio",
       "mesNum": 6,
-      "inicio": 3576.0,
-      "fin": 3622.0,
+      "inicio": 4340.0,
+      "fin": 4386.0,
       "ganancia": 46.0,
       "wins": 9,
       "losses": 4,
@@ -557,8 +695,8 @@
       "año": 2025,
       "mes": "Julio",
       "mesNum": 7,
-      "inicio": 3622.0,
-      "fin": 3684.0,
+      "inicio": 4386.0,
+      "fin": 4448.0,
       "ganancia": 62.0,
       "wins": 11,
       "losses": 4,
@@ -569,8 +707,8 @@
       "año": 2025,
       "mes": "Agosto",
       "mesNum": 8,
-      "inicio": 3684.0,
-      "fin": 3668.0,
+      "inicio": 4448.0,
+      "fin": 4432.0,
       "ganancia": -16.0,
       "wins": 7,
       "losses": 8,
@@ -581,8 +719,8 @@
       "año": 2025,
       "mes": "Septiembre",
       "mesNum": 9,
-      "inicio": 3668.0,
-      "fin": 3758.0,
+      "inicio": 4432.0,
+      "fin": 4522.0,
       "ganancia": 90.0,
       "wins": 13,
       "losses": 3,
@@ -593,8 +731,8 @@
       "año": 2025,
       "mes": "Octubre",
       "mesNum": 10,
-      "inicio": 3758.0,
-      "fin": 3880.0,
+      "inicio": 4522.0,
+      "fin": 4644.0,
       "ganancia": 122.0,
       "wins": 15,
       "losses": 1,
@@ -605,8 +743,8 @@
       "año": 2025,
       "mes": "Noviembre",
       "mesNum": 11,
-      "inicio": 3880.0,
-      "fin": 3958.0,
+      "inicio": 4644.0,
+      "fin": 4722.0,
       "ganancia": 78.0,
       "wins": 12,
       "losses": 3,
@@ -617,8 +755,8 @@
       "año": 2025,
       "mes": "Diciembre",
       "mesNum": 12,
-      "inicio": 3958.0,
-      "fin": 4028.0,
+      "inicio": 4722.0,
+      "fin": 4792.0,
       "ganancia": 70.0,
       "wins": 13,
       "losses": 6,
@@ -629,8 +767,8 @@
       "año": 2026,
       "mes": "Enero",
       "mesNum": 1,
-      "inicio": 4028.0,
-      "fin": 4078.0,
+      "inicio": 4792.0,
+      "fin": 4842.0,
       "ganancia": 50.0,
       "wins": 8,
       "losses": 3,
@@ -641,8 +779,8 @@
       "año": 2026,
       "mes": "Febrero",
       "mesNum": 2,
-      "inicio": 4078.0,
-      "fin": 4148.0,
+      "inicio": 4842.0,
+      "fin": 4912.0,
       "ganancia": 70.0,
       "wins": 10,
       "losses": 3,
@@ -653,8 +791,8 @@
       "año": 2026,
       "mes": "Marzo",
       "mesNum": 3,
-      "inicio": 4148.0,
-      "fin": 4208.0,
+      "inicio": 4912.0,
+      "fin": 4972.0,
       "ganancia": 60.0,
       "wins": 10,
       "losses": 4,
@@ -665,8 +803,8 @@
       "año": 2026,
       "mes": "Abril",
       "mesNum": 4,
-      "inicio": 4208.0,
-      "fin": 4288.0,
+      "inicio": 4972.0,
+      "fin": 5052.0,
       "ganancia": 80.0,
       "wins": 9,
       "losses": 1,
@@ -677,8 +815,8 @@
       "año": 2026,
       "mes": "Mayo",
       "mesNum": 5,
-      "inicio": 4288.0,
-      "fin": 4330.0,
+      "inicio": 5052.0,
+      "fin": 5094.0,
       "ganancia": 42.0,
       "wins": 8,
       "losses": 3,
@@ -689,8 +827,8 @@
       "año": 2026,
       "mes": "Junio",
       "mesNum": 6,
-      "inicio": 4330.0,
-      "fin": 4374.0,
+      "inicio": 5094.0,
+      "fin": 5138.0,
       "ganancia": 44.0,
       "wins": 7,
       "losses": 2,
@@ -699,6 +837,976 @@
     }
   ],
   "trades": [
+    {
+      "fecha": "2021-01-05",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-01-06",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-01-07",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-01-08",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-01-11",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-01-12",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-01-13",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-01-14",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-01-15",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-01-19",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-01-20",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-01-21",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-01-22",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-01-25",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-01-27",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-01-28",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-01",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-02",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-03",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-05",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-02-08",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-02-09",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-10",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-02-11",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-12",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-15",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-02-16",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-02-17",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-02-18",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-19",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-23",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-02-24",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-02-26",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-03-01",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-03-04",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-03-05",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-03-10",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-03-11",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-03-15",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-03-16",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-03-17",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-03-19",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-03-22",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-03-23",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-03-24",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-03-25",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-03-26",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-03-29",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-03-31",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-04-01",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-04-07",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-04-08",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-04-12",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-04-13",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-04-14",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-04-19",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-04-20",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-04-21",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-04-23",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-04-26",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-04-27",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-04-28",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-04-30",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-04",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-05-05",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-06",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-07",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-10",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-11",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-12",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-05-13",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-05-17",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-05-18",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-19",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-05-20",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-05-24",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-05-25",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-26",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-27",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-05-28",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-05-31",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-06-01",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-06-02",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-06-07",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-06-08",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-06-09",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-06-10",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-06-15",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-06-16",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-06-18",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-06-21",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-06-22",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-06-23",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-06-28",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-06-29",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-06-30",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-07-01",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-02",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-05",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-07",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-09",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-07-12",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-13",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-15",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-07-16",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-19",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-07-20",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-21",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-22",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-23",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-07-26",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-07-27",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-07-30",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-08-02",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-03",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-04",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-08-05",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-08-06",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-10",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-12",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-08-16",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-17",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-08-18",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-20",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-24",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-08-25",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-26",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-08-27",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-30",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-08-31",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-09-01",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-09-02",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-09-03",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-09-08",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-09-09",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-09-10",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-09-13",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-09-14",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-09-15",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-09-17",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-09-22",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-09-23",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-09-24",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-09-27",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-09-29",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-09-30",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-10-01",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-10-04",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-10-06",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-10-07",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-10-08",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-10-12",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-10-13",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-10-18",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-10-21",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-10-25",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-10-26",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-10-27",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-10-28",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-10-29",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-11-01",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-11-02",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-11-05",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-11-08",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-11-09",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-11-10",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-11-12",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-11-15",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-11-16",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-11-18",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-11-19",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-11-22",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-11-24",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-11-25",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-11-26",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-11-29",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-11-30",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-12-01",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-12-02",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-12-03",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-12-06",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-12-07",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-12-08",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-12-10",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-12-13",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-12-14",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-12-15",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-12-20",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-12-21",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-12-22",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-12-23",
+      "resultado": "win",
+      "porcentaje": 0.8
+    },
+    {
+      "fecha": "2021-12-27",
+      "resultado": "win",
+      "porcentaje": 1.0
+    },
+    {
+      "fecha": "2021-12-28",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
+    {
+      "fecha": "2021-12-30",
+      "resultado": "loss",
+      "porcentaje": -1.0
+    },
     {
       "fecha": "2022-01-03",
       "resultado": "win",
