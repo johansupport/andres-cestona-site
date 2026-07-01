@@ -243,15 +243,21 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
+    const sb = supabase.createClient(
+      'https://uhjxybyzpqksyysifatn.supabase.co',
+      'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP'
+    );
+
     let allTrades = [];
     let activeFilter = 'all';
     let activeMonth = null;
     let activeAsset = null;
 
     async function init() {
-      const res = await fetch('./data/trades-journal.json');
-      allTrades = await res.json();
+      const { data, error } = await sb.from('trades').select('*').eq('publicado', true).order('fecha', { ascending: false });
+      allTrades = data || [];
       updateStats(allTrades);
       renderTrades(allTrades);
       checkURLParam();
@@ -261,7 +267,7 @@
       const params = new URLSearchParams(location.search);
       const id = params.get('id');
       if(id) {
-        const t = allTrades.find(t => t.id === id);
+        const t = allTrades.find(t => String(t.id) === String(id));
         if(t) openModal(t);
       }
     }
@@ -281,7 +287,7 @@
       return allTrades.filter(t => {
         if(activeFilter === 'win' && t.resultado !== 'win') return false;
         if(activeFilter === 'loss' && t.resultado !== 'loss') return false;
-        if(activeMonth && !t.id.startsWith(activeMonth)) return false;
+        if(activeMonth && !(t.fecha || '').startsWith(activeMonth)) return false;
         if(activeAsset && t.activo !== activeAsset) return false;
         return true;
       });
