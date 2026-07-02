@@ -7,53 +7,43 @@
   "resumenAnual": [
     {
       "año": 2021,
-      "trades": 177,
+      "trades": 194,
       "wins": 140,
       "losses": 54,
       "winrate": 72.2,
-      "rendimiento": 62.6,
-      "totalTrades": 194,
-      "porcentaje": 74.4
+      "rendimiento": 74.4
     },
     {
       "año": 2022,
-      "trades": 186,
+      "trades": 204,
       "wins": 145,
       "losses": 59,
       "winrate": 71.1,
-      "rendimiento": 69.4,
-      "totalTrades": 204,
-      "porcentaje": 76.4
+      "rendimiento": 76.4
     },
     {
       "año": 2023,
-      "trades": 201,
+      "trades": 221,
       "wins": 156,
       "losses": 65,
       "winrate": 70.6,
-      "rendimiento": 78.6,
-      "totalTrades": 221,
-      "porcentaje": 85.8
+      "rendimiento": 85.8
     },
     {
       "año": 2024,
-      "trades": 181,
+      "trades": 194,
       "wins": 136,
       "losses": 58,
       "winrate": 70.1,
-      "rendimiento": 73.6,
-      "totalTrades": 194,
-      "porcentaje": 70.2
+      "rendimiento": 70.2
     },
     {
       "año": 2025,
-      "trades": 155,
+      "trades": 170,
       "wins": 124,
       "losses": 46,
       "winrate": 72.9,
-      "rendimiento": 72.0,
-      "totalTrades": 170,
-      "porcentaje": 70.4
+      "rendimiento": 70.4
     },
     {
       "año": 2026,
@@ -61,9 +51,7 @@
       "wins": 52,
       "losses": 16,
       "winrate": 76.5,
-      "rendimiento": 34.6,
-      "totalTrades": 68,
-      "porcentaje": 34.6
+      "rendimiento": 34.6
     }
   ],
   "meses": [
