@@ -202,6 +202,23 @@
     .cal-summary { display: flex; gap: 1.5rem; margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--gray-100); flex-wrap: wrap; align-items: center; }
     .cal-sum-item { font-size: 0.78rem; color: var(--gray-600); display: flex; align-items: center; gap: 0.3rem; }
     @media (max-width: 600px) { .cal-cell { min-height: 40px; } .cal-pct { font-size: 0.62rem; } }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .strategy-selector { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; }
+      .tabs-bar { overflow-x: auto; flex-wrap: nowrap; }
+      .tab-btn { flex: 0 0 auto; }
+      .stats-content { padding: 2rem 4% 3rem; }
+      .period-cards { grid-template-columns: repeat(2, 1fr); }
+      .char-grid { grid-template-columns: 1fr; }
+      .strat-grid { grid-template-columns: 1fr; }
+      .docs-nav-grid { grid-template-columns: repeat(2, 1fr); }
+      .data-table { font-size: 0.75rem; }
+      .data-table thead th, .data-table tbody td { padding: 0.6rem 0.5rem; }
+      .cal-wrap { overflow-x: auto; }
+      .cal-grid { min-width: 420px; }
+      .page-hero { padding: 5rem 4% 2.5rem; }
+    }
   </style>
 </head>
 <body>

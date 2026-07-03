@@ -144,6 +144,21 @@
     .footer-links { display:flex; gap:1.5rem; }
     .footer-links a { font-size:.73rem; color:rgba(255,255,255,.35); text-decoration:none; transition:color .2s; }
     .footer-links a:hover { color:var(--gold); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .page-header { padding: 6rem 5% 3rem; }
+      .page-header-meta { gap: 1.5rem; flex-wrap: wrap; }
+      .filters-inner { height: auto; padding: .75rem 4%; flex-wrap: nowrap; overflow-x: auto; }
+      .trades-grid { grid-template-columns: 1fr; }
+      .trades-grid.view-list .trade-card { flex-direction: column; }
+      .trades-grid.view-list .trade-card-img { width: 100%; aspect-ratio: 16/9; }
+      .modal { border-radius: 14px; }
+      .modal-stats { grid-template-columns: repeat(2, 1fr); }
+      .modal-header { padding: 1.5rem 1.5rem 1.2rem; }
+      .modal-body { padding: 1.4rem 1.5rem 1.8rem; }
+      footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
   </style>
 </head>
 <body>

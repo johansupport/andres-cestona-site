@@ -227,6 +227,27 @@
     .footer-links { display:flex; gap:1.5rem; }
     .footer-links a { font-size:.73rem; color:rgba(255,255,255,.35); text-decoration:none; transition:color .2s; }
     .footer-links a:hover { color:var(--gold); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 6rem 5% 4rem; }
+      .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-panel { display: none; }
+      .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+      .stats-band { padding: 3rem 5%; }
+      .stats-band-inner { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .markets-section { padding: 4rem 5%; }
+      .markets-top { flex-direction: column; align-items: flex-start; }
+      .markets-grid { grid-template-columns: 1fr; }
+      .trades-section { padding: 4rem 5%; }
+      .trades-grid { grid-template-columns: 1fr; }
+      .trades-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .quien-section { padding: 4rem 5%; }
+      .quien-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .quien-pillars { grid-template-columns: 1fr; }
+      .cta-section { padding: 4rem 5%; }
+      footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    }
   </style>
 </head>
 <body>
