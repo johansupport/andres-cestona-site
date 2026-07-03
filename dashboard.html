@@ -375,6 +375,12 @@
           <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Saldo</div><div style="font-size:1.05rem;font-weight:800" id="mt-saldo">$1,000</div></div>
         </div>
 
+        <!-- Plantillas -->
+        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap">
+          <div id="mt-plantillas-list" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
+          <button onclick="mtNuevaPlantilla()" style="background:transparent;border:1px dashed rgba(255,255,255,.15);color:rgba(255,255,255,.4);padding:.35rem .8rem;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.4)'">+ Nueva tabla</button>
+        </div>
+
         <!-- Controles -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
           <div style="display:flex;align-items:center;gap:.7rem">
@@ -591,7 +597,7 @@
     }
 
     function showView(name, btn) {
-      if (name === 'mytrades' && currentUser) mtLoadMonth();
+      if (name === 'mytrades' && currentUser) { if(!mtActivePlantilla) mtLoadPlantillas(); else mtLoadMonth(); }
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
       document.getElementById('view-' + name).classList.add('active');
@@ -604,6 +610,70 @@
     let mtTrades = [], mtEditId = null, mtSelDate = null, mtSelType = 'win';
 
     let mtCapital = parseFloat(localStorage.getItem('mt_capital') || '1000');
+    let mtPlantillas = [], mtActivePlantilla = null;
+
+    async function mtLoadPlantillas() {
+      const { data } = await sb.from('mt_plantillas').select('*').eq('user_id', currentUser.id).order('created_at');
+      mtPlantillas = data || [];
+      if(!mtPlantillas.length) {
+        // Crear plantilla por defecto
+        const { data: nueva } = await sb.from('mt_plantillas').insert({ user_id: currentUser.id, nombre: 'Mi diario' }).select().single();
+        if(nueva) { mtPlantillas = [nueva]; }
+      }
+      // Restaurar plantilla activa
+      const savedId = localStorage.getItem('mt_plantilla_id');
+      mtActivePlantilla = mtPlantillas.find(p => p.id === savedId) || mtPlantillas[0];
+      mtCapital = parseFloat(localStorage.getItem('mt_capital_' + mtActivePlantilla?.id) || '1000');
+      mtRenderPlantillas();
+    }
+
+    function mtRenderPlantillas() {
+      const el = document.getElementById('mt-plantillas-list');
+      if(!el) return;
+      el.innerHTML = mtPlantillas.map(p => {
+        const active = p.id === mtActivePlantilla?.id;
+        return `<div style="display:flex;align-items:center;gap:.3rem">
+          <button onclick="mtSwitchPlantilla('${p.id}')" style="padding:.35rem .85rem;border-radius:7px;font-size:.78rem;font-weight:${active?'700':'500'};cursor:pointer;background:${active?'rgba(201,168,76,.15)':'rgba(255,255,255,.05)'};border:1px solid ${active?'var(--gold)':'rgba(255,255,255,.08)'};color:${active?'var(--gold)':'rgba(255,255,255,.5)'};transition:all .2s">${p.nombre}</button>
+          <button onclick="mtRenamePlantilla('${p.id}','${p.nombre.replace(/'/g,"\'")}')" style="background:transparent;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:.7rem;padding:.2rem" title="Renombrar">✎</button>
+          ${mtPlantillas.length > 1 ? `<button onclick="mtDeletePlantilla('${p.id}')" style="background:transparent;border:none;color:rgba(248,113,113,.3);cursor:pointer;font-size:.7rem;padding:.2rem" title="Eliminar">✕</button>` : ''}
+        </div>`;
+      }).join('');
+    }
+
+    async function mtSwitchPlantilla(id) {
+      mtActivePlantilla = mtPlantillas.find(p => p.id === id);
+      localStorage.setItem('mt_plantilla_id', id);
+      mtCapital = parseFloat(localStorage.getItem('mt_capital_' + id) || '1000');
+      document.getElementById('mt-capital').textContent = '$' + mtCapital.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+      mtRenderPlantillas();
+      mtLoadMonth();
+    }
+
+    async function mtNuevaPlantilla() {
+      const nombre = prompt('Nombre de la nueva tabla:', 'Nueva tabla');
+      if(!nombre) return;
+      const { data } = await sb.from('mt_plantillas').insert({ user_id: currentUser.id, nombre }).select().single();
+      if(data) { mtPlantillas.push(data); mtSwitchPlantilla(data.id); }
+    }
+
+    async function mtRenamePlantilla(id, current) {
+      const nombre = prompt('Nuevo nombre:', current);
+      if(!nombre || nombre === current) return;
+      await sb.from('mt_plantillas').update({ nombre }).eq('id', id);
+      const p = mtPlantillas.find(p => p.id === id);
+      if(p) p.nombre = nombre;
+      mtRenderPlantillas();
+    }
+
+    async function mtDeletePlantilla(id) {
+      if(!confirm('¿Eliminar esta tabla y todos sus trades?')) return;
+      await sb.from('user_trades').delete().eq('plantilla_id', id);
+      await sb.from('mt_plantillas').delete().eq('id', id);
+      mtPlantillas = mtPlantillas.filter(p => p.id !== id);
+      if(mtActivePlantilla?.id === id) { mtActivePlantilla = mtPlantillas[0]; localStorage.setItem('mt_plantilla_id', mtActivePlantilla.id); }
+      mtRenderPlantillas();
+      mtLoadMonth();
+    }
 
     function mtEditCapital() {
       const val = prompt('Introduce tu capital inicial ($):', mtCapital);
@@ -612,6 +682,7 @@
       if(isNaN(num) || num <= 0) return;
       mtCapital = num;
       localStorage.setItem('mt_capital', num);
+      if(mtActivePlantilla) localStorage.setItem('mt_capital_' + mtActivePlantilla.id, num);
       mtRenderCal();
       mtRenderStats();
     }
@@ -625,7 +696,7 @@
       const from = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-01`;
       const last = new Date(mtYear, mtMonth+1, 0).getDate();
       const to = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(last).padStart(2,'0')}`;
-      const { data } = await sb.from('user_trades').select('*').eq('user_id', currentUser.id).gte('fecha', from).lte('fecha', to).order('fecha');
+      let q = sb.from('user_trades').select('*').eq('user_id', currentUser.id).gte('fecha', from).lte('fecha', to).order('fecha'); if(mtActivePlantilla) q = q.eq('plantilla_id', mtActivePlantilla.id); const { data } = await q;
       mtTrades = data || [];
       mtRenderCal();
       mtRenderStats();
@@ -737,7 +808,7 @@
       const pct = parseFloat(document.getElementById('mt-f-pct').value);
       if(isNaN(res)||isNaN(pct)) { alert('Completa resultado y porcentaje.'); return; }
       const sign = mtSelType==='win'?1:-1;
-      const payload = { user_id: currentUser.id, fecha: mtSelDate, resultado: sign*Math.abs(res), porcentaje: sign*Math.abs(pct) };
+      const payload = { user_id: currentUser.id, fecha: mtSelDate, resultado: sign*Math.abs(res), porcentaje: sign*Math.abs(pct), plantilla_id: mtActivePlantilla?.id || null };
       let error;
       if(mtEditId) { ({ error } = await sb.from('user_trades').update(payload).eq('id',mtEditId)); }
       else { ({ error } = await sb.from('user_trades').insert(payload)); }

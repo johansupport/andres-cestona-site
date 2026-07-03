@@ -281,7 +281,7 @@
             <div class="stat-label">Desde inicio · 2021</div>
           </div>
           <div>
-            <div class="stat-num"><span class="counter" data-target="1.051">0</span></div>
+            <div class="stat-num"><span class="counter" data-target="1051">0</span></div>
             <div class="stat-label">Trades verificados</div>
           </div>
           <div>
@@ -474,10 +474,11 @@
     function animateCount(el) {
       const target = +el.dataset.target, dur = 1600;
       const start = performance.now();
+      const fmt = n => n >= 1000 ? Math.floor(n).toLocaleString('de-DE') : Math.floor(n);
       const tick = now => {
         const p = Math.min((now-start)/dur, 1);
         const ease = 1 - Math.pow(1-p, 3);
-        el.textContent = Math.floor(ease * target);
+        el.textContent = fmt(ease * target);
         if(p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
