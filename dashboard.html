@@ -733,11 +733,13 @@
     async function mtSave() {
       const res = parseFloat(document.getElementById('mt-f-res').value);
       const pct = parseFloat(document.getElementById('mt-f-pct').value);
-      if(isNaN(res)||isNaN(pct)) return;
+      if(isNaN(res)||isNaN(pct)) { alert('Completa resultado y porcentaje.'); return; }
       const sign = mtSelType==='win'?1:-1;
       const payload = { user_id: currentUser.id, fecha: mtSelDate, resultado: sign*Math.abs(res), porcentaje: sign*Math.abs(pct) };
-      if(mtEditId) { await sb.from('user_trades').update(payload).eq('id',mtEditId); }
-      else { await sb.from('user_trades').insert(payload); }
+      let error;
+      if(mtEditId) { ({ error } = await sb.from('user_trades').update(payload).eq('id',mtEditId)); }
+      else { ({ error } = await sb.from('user_trades').insert(payload)); }
+      if(error) { alert('Error al guardar: ' + error.message); return; }
       document.getElementById('mt-modal').remove();
       mtLoadMonth();
     }
