@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mis Trades — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #07080f;
+      --bg2: #0d0f1a;
+      --bg3: #13162a;
+      --gold: #c9a84c;
+      --gold2: #e8c97a;
+      --white: #ffffff;
+      --muted: rgba(255,255,255,.4);
+      --border: rgba(255,255,255,.07);
+      --green: #4ade80;
+      --green-bg: rgba(74,222,128,.1);
+      --red: #f87171;
+      --red-bg: rgba(248,113,113,.1);
+      --sidebar-w: 240px;
+    }
+    html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); overflow-x: hidden; }
+
+    /* ── AUTH SCREEN ── */
+    #auth-screen {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(140deg, #05070f 0%, #0c0f26 60%, #0e1440 100%);
+    }
+    .auth-box {
+      width: 100%; max-width: 380px; padding: 2.5rem;
+      background: rgba(255,255,255,.03); border: 1px solid var(--border);
+      border-radius: 20px; backdrop-filter: blur(10px);
+    }
+    .auth-logo { font-size: 1.1rem; font-weight: 800; margin-bottom: 1.8rem; }
+    .auth-logo span { color: var(--gold); }
+    .auth-title { font-size: 1.4rem; font-weight: 800; margin-bottom: .4rem; }
+    .auth-sub { font-size: .83rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
+    .auth-field { margin-bottom: 1rem; }
+    .auth-field label { display: block; font-size: .75rem; font-weight: 600; color: var(--muted); margin-bottom: .4rem; letter-spacing: .5px; text-transform: uppercase; }
+    .auth-field input {
+      width: 100%; background: rgba(255,255,255,.05); border: 1px solid var(--border);
+      border-radius: 9px; padding: .7rem 1rem; color: var(--white); font-size: .9rem;
+      outline: none; transition: border-color .2s;
+    }
+    .auth-field input:focus { border-color: var(--gold); }
+    .auth-btn {
+      width: 100%; background: var(--gold); color: #05070f; border: none;
+      padding: .75rem; border-radius: 9px; font-weight: 800; font-size: .9rem;
+      cursor: pointer; transition: background .2s; margin-top: .5rem;
+    }
+    .auth-btn:hover { background: var(--gold2); }
+    .auth-toggle { text-align: center; margin-top: 1.2rem; font-size: .8rem; color: var(--muted); }
+    .auth-toggle a { color: var(--gold); cursor: pointer; text-decoration: none; }
+    .auth-err { background: var(--red-bg); border: 1px solid rgba(248,113,113,.3); color: var(--red); padding: .6rem .9rem; border-radius: 8px; font-size: .8rem; margin-bottom: 1rem; display: none; }
+
+    /* ── APP LAYOUT ── */
+    #app { display: none; height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+      background: var(--bg2); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: 1.5rem 0; z-index: 100;
+    }
+    .sidebar-logo { font-size: .95rem; font-weight: 800; padding: 0 1.4rem 1.5rem; border-bottom: 1px solid var(--border); }
+    .sidebar-logo span { color: var(--gold); }
+    .sidebar-section { padding: 1.2rem 1rem .5rem; font-size: .62rem; font-weight: 700; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
+    .sidebar-item {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .65rem 1rem; margin: .1rem .6rem; border-radius: 9px;
+      font-size: .84rem; font-weight: 500; color: rgba(255,255,255,.6);
+      cursor: pointer; transition: all .15s; text-decoration: none;
+    }
+    .sidebar-item:hover { background: rgba(255,255,255,.05); color: var(--white); }
+    .sidebar-item.active { background: rgba(201,168,76,.12); color: var(--gold); font-weight: 700; }
+    .sidebar-item svg { width: 16px; height: 16px; flex-shrink: 0; opacity: .7; }
+    .sidebar-item.active svg { opacity: 1; }
+    .sidebar-footer { margin-top: auto; padding: 1rem 1rem 0; border-top: 1px solid var(--border); }
+    .sidebar-user { font-size: .78rem; color: var(--muted); margin-bottom: .6rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-signout {
+      width: 100%; background: rgba(255,255,255,.05); border: 1px solid var(--border);
+      color: rgba(255,255,255,.5); padding: .45rem; border-radius: 7px;
+      font-size: .78rem; cursor: pointer; transition: all .15s;
+    }
+    .sidebar-signout:hover { background: rgba(255,255,255,.08); color: var(--white); }
+
+    /* MAIN */
+    .main { margin-left: var(--sidebar-w); padding: 2rem 2.5rem; min-height: 100vh; }
+
+    /* STATS BAR */
+    .stats-bar {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: .8rem; margin-bottom: 2rem;
+    }
+    .stat-box {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1rem 1.1rem;
+    }
+    .stat-box-label { font-size: .65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
+    .stat-box-val { font-size: 1.1rem; font-weight: 800; }
+    .stat-box-val.pos { color: var(--green); }
+    .stat-box-val.neg { color: var(--red); }
+    .stat-box-val.gold { color: var(--gold); }
+
+    /* CONTROLS */
+    .controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+    .month-nav { display: flex; align-items: center; gap: .8rem; }
+    .month-nav button {
+      background: var(--bg2); border: 1px solid var(--border); color: var(--white);
+      width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+      font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: background .15s;
+    }
+    .month-nav button:hover { background: var(--bg3); }
+    .month-title { font-size: 1.1rem; font-weight: 800; min-width: 160px; text-align: center; }
+    .add-btn {
+      background: var(--gold); color: #05070f; border: none; padding: .55rem 1.2rem;
+      border-radius: 9px; font-weight: 700; font-size: .84rem; cursor: pointer; transition: background .2s;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .add-btn:hover { background: var(--gold2); }
+
+    /* CALENDAR */
+    .calendar-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .cal-header {
+      display: grid; grid-template-columns: repeat(7, 1fr) 120px;
+      background: var(--bg3); border-bottom: 1px solid var(--border);
+    }
+    .cal-header-cell { padding: .7rem .5rem; text-align: center; font-size: .65rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    .cal-header-cell.week-col { border-left: 1px solid var(--border); }
+
+    .cal-body {}
+    .cal-row { display: grid; grid-template-columns: repeat(7, 1fr) 120px; border-bottom: 1px solid var(--border); min-height: 80px; }
+    .cal-row:last-child { border-bottom: none; }
+
+    .cal-cell {
+      border-right: 1px solid var(--border); padding: .5rem;
+      position: relative; cursor: pointer; transition: background .15s;
+      min-height: 80px;
+    }
+    .cal-cell:last-child { border-right: none; }
+    .cal-cell:hover { background: rgba(255,255,255,.03); }
+    .cal-cell.empty { cursor: default; }
+    .cal-cell.empty:hover { background: transparent; }
+    .cal-cell.today { background: rgba(201,168,76,.05); }
+
+    .cell-day { font-size: .7rem; color: var(--muted); margin-bottom: .3rem; }
+    .cell-day.today-num { color: var(--gold); font-weight: 700; }
+
+    .trade-chip {
+      border-radius: 6px; padding: .25rem .4rem; margin-top: .2rem;
+      font-size: .75rem; font-weight: 700;
+    }
+    .trade-chip.win { background: var(--green-bg); color: var(--green); }
+    .trade-chip.loss { background: var(--red-bg); color: var(--red); }
+    .trade-pct { font-size: .65rem; font-weight: 500; opacity: .8; }
+
+    /* WEEK SUMMARY */
+    .week-cell {
+      border-left: 1px solid var(--border); padding: .5rem .6rem;
+      display: flex; flex-direction: column; justify-content: center; gap: .2rem;
+    }
+    .week-label { font-size: .6rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); }
+    .week-val { font-size: .88rem; font-weight: 800; }
+    .week-pct { font-size: .7rem; font-weight: 600; }
+
+    /* MODAL */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,.7); z-index: 200;
+      display: none; align-items: center; justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 18px; padding: 2rem; width: 100%; max-width: 400px;
+      position: relative;
+    }
+    .modal-title { font-size: 1.1rem; font-weight: 800; margin-bottom: .3rem; }
+    .modal-date { font-size: .8rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .modal-close {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(255,255,255,.06); border: none; color: var(--white);
+      width: 30px; height: 30px; border-radius: 7px; cursor: pointer; font-size: 1rem;
+    }
+    .form-field { margin-bottom: 1rem; }
+    .form-field label { display: block; font-size: .72rem; font-weight: 600; color: var(--muted); margin-bottom: .35rem; letter-spacing: .5px; text-transform: uppercase; }
+    .form-field input, .form-field textarea, .form-field select {
+      width: 100%; background: rgba(255,255,255,.05); border: 1px solid var(--border);
+      border-radius: 9px; padding: .65rem .9rem; color: var(--white); font-size: .9rem;
+      outline: none; transition: border-color .2s; font-family: 'Inter', sans-serif;
+    }
+    .form-field input:focus, .form-field textarea:focus, .form-field select:focus { border-color: var(--gold); }
+    .form-field select option { background: #1a1f3a; }
+    .form-field textarea { resize: none; height: 72px; }
+
+    .win-loss-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
+    .wl-btn {
+      padding: .6rem; border-radius: 8px; border: 1px solid var(--border);
+      background: transparent; color: rgba(255,255,255,.5); font-weight: 700;
+      font-size: .84rem; cursor: pointer; transition: all .2s;
+    }
+    .wl-btn.win-sel { background: var(--green-bg); border-color: var(--green); color: var(--green); }
+    .wl-btn.loss-sel { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+
+    .modal-actions { display: flex; gap: .7rem; margin-top: 1.5rem; }
+    .modal-save {
+      flex: 1; background: var(--gold); color: #05070f; border: none;
+      padding: .7rem; border-radius: 9px; font-weight: 800; font-size: .88rem; cursor: pointer;
+      transition: background .2s;
+    }
+    .modal-save:hover { background: var(--gold2); }
+    .modal-delete {
+      background: var(--red-bg); border: 1px solid rgba(248,113,113,.3); color: var(--red);
+      padding: .7rem 1rem; border-radius: 9px; font-weight: 700; font-size: .84rem;
+      cursor: pointer; transition: all .2s; display: none;
+    }
+    .modal-delete:hover { background: rgba(248,113,113,.2); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 300;
+      background: var(--bg3); border: 1px solid var(--border);
+      padding: .8rem 1.2rem; border-radius: 10px; font-size: .84rem;
+      transform: translateY(80px); opacity: 0; transition: all .3s;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* MOBILE */
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); transition: transform .3s; }
+      .sidebar.open { transform: translateX(0); }
+      .main { margin-left: 0; padding: 1rem; }
+      .stats-bar { grid-template-columns: repeat(3, 1fr); }
+      .cal-header { grid-template-columns: repeat(7, 1fr); }
+      .cal-row { grid-template-columns: repeat(7, 1fr); }
+      .week-cell { display: none; }
+      .cal-header-cell.week-col { display: none; }
+      .hamburger { display: flex; }
+    }
+    .hamburger {
+      display: none; position: fixed; top: 1rem; left: 1rem; z-index: 99;
+      background: var(--bg2); border: 1px solid var(--border);
+      width: 40px; height: 40px; border-radius: 10px; align-items: center;
+      justify-content: center; cursor: pointer; flex-direction: column; gap: 5px;
+    }
+    .hamburger span { width: 18px; height: 2px; background: var(--white); border-radius: 2px; }
+    .loading { display: flex; align-items: center; justify-content: center; height: 200px; color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">Andrés <span>Cestona</span></div>
+    <div class="auth-title" id="auth-title">Accede a tu cuenta</div>
+    <div class="auth-sub" id="auth-sub">Lleva el control de tus trades y analiza tu rendimiento personal.</div>
+    <div class="auth-err" id="auth-err"></div>
+    <div class="auth-field">
+      <label>Email</label>
+      <input type="email" id="auth-email" placeholder="tu@email.com"/>
+    </div>
+    <div class="auth-field">
+      <label>Contraseña</label>
+      <input type="password" id="auth-pass" placeholder="••••••••"/>
+    </div>
+    <div class="auth-field" id="auth-pass2-wrap" style="display:none">
+      <label>Confirmar contraseña</label>
+      <input type="password" id="auth-pass2" placeholder="••••••••"/>
+    </div>
+    <button class="auth-btn" id="auth-submit">Entrar</button>
+    <div class="auth-toggle">
+      <span id="auth-toggle-text">¿No tienes cuenta?</span>
+      <a id="auth-toggle-link"> Regístrate</a>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">Andrés <span>Cestona</span></div>
+
+    <div class="sidebar-section">Principal</div>
+    <a class="sidebar-item active" onclick="showSection('trades')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Mis Trades
+    </a>
+    <a class="sidebar-item" onclick="showSection('stats')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      Rendimiento
+    </a>
+
+    <div class="sidebar-section">Sitio</div>
+    <a class="sidebar-item" href="estadisticas.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      Estadísticas
+    </a>
+    <a class="sidebar-item" href="trades.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Diario de Trades
+    </a>
+    <a class="sidebar-item" href="calculadora.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+      Calculadora
+    </a>
+    <a class="sidebar-item" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      Inicio
+    </a>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user" id="sidebar-email"></div>
+      <button class="sidebar-signout" onclick="signOut()">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main-content">
+
+    <!-- SECCIÓN TRADES -->
+    <div id="section-trades">
+      <!-- Stats bar -->
+      <div class="stats-bar" id="stats-bar">
+        <div class="stat-box">
+          <div class="stat-box-label">Net P&L</div>
+          <div class="stat-box-val gold" id="s-netpnl">$0.00</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Saldo inicial</div>
+          <div class="stat-box-val" id="s-inicial">$1,000.00</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Total positivo</div>
+          <div class="stat-box-val pos" id="s-pos">$0.00</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Total negativo</div>
+          <div class="stat-box-val neg" id="s-neg">$0.00</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Porcentaje</div>
+          <div class="stat-box-val gold" id="s-pct">0.0%</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-label">Saldo actual</div>
+          <div class="stat-box-val" id="s-saldo">$1,000.00</div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls">
+        <div class="month-nav">
+          <button onclick="prevMonth()">‹</button>
+          <div class="month-title" id="month-title">—</div>
+          <button onclick="nextMonth()">›</button>
+        </div>
+        <button class="add-btn" onclick="openAddModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Añadir trade
+        </button>
+      </div>
+
+      <!-- Calendar -->
+      <div class="calendar-wrap">
+        <div class="cal-header">
+          <div class="cal-header-cell">Dom</div>
+          <div class="cal-header-cell">Lun</div>
+          <div class="cal-header-cell">Mar</div>
+          <div class="cal-header-cell">Mié</div>
+          <div class="cal-header-cell">Jue</div>
+          <div class="cal-header-cell">Vie</div>
+          <div class="cal-header-cell">Sáb</div>
+          <div class="cal-header-cell week-col">Semana</div>
+        </div>
+        <div class="cal-body" id="cal-body">
+          <div class="loading">Cargando...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN RENDIMIENTO -->
+    <div id="section-stats" style="display:none">
+      <h2 style="font-size:1.4rem;font-weight:800;margin-bottom:1.5rem">Rendimiento histórico</h2>
+      <div id="stats-content">
+        <div class="loading">Cargando estadísticas...</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MODAL AÑADIR/EDITAR TRADE -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title" id="modal-title">Añadir trade</div>
+    <div class="modal-date" id="modal-date-display"></div>
+
+    <div class="form-field">
+      <label>Resultado (€/$)</label>
+      <input type="number" id="f-resultado" placeholder="10.00" step="0.01"/>
+    </div>
+    <div class="form-field">
+      <label>% sobre capital</label>
+      <input type="number" id="f-porcentaje" placeholder="1.00" step="0.01"/>
+    </div>
+    <div class="form-field">
+      <label>Tipo</label>
+      <div class="win-loss-toggle">
+        <button class="wl-btn win-sel" id="btn-win" onclick="selectWL('win')">WIN</button>
+        <button class="wl-btn" id="btn-loss" onclick="selectWL('loss')">LOSS</button>
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Notas (opcional)</label>
+      <textarea id="f-notas" placeholder="Descripción del trade..."></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="modal-delete" id="btn-delete" onclick="deleteTrade()">Eliminar</button>
+      <button class="modal-save" onclick="saveTrade()">Guardar trade</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://uhjxybyzpqksyysifatn.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let currentYear = new Date().getFullYear();
+let currentMonth = new Date().getMonth(); // 0-indexed
+let monthTrades = [];
+let allTrades = [];
+let editingId = null;
+let selectedType = 'win';
+let selectedDate = null;
+let isRegister = false;
+
+const CAPITAL_INICIAL = 1000;
+
+// ── AUTH ──
+const authScreen = document.getElementById('auth-screen');
+const appEl = document.getElementById('app');
+
+async function checkSession() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) { enterApp(session.user); }
+}
+checkSession();
+
+sb.auth.onAuthStateChange((event, session) => {
+  if (session) { enterApp(session.user); }
+  else { authScreen.style.display = 'flex'; appEl.style.display = 'none'; }
+});
+
+async function authSubmit() {
+  const email = document.getElementById('auth-email').value.trim();
+  const pass = document.getElementById('auth-pass').value;
+  const errEl = document.getElementById('auth-err');
+  errEl.style.display = 'none';
+
+  if (isRegister) {
+    const pass2 = document.getElementById('auth-pass2').value;
+    if (pass !== pass2) { errEl.textContent = 'Las contraseñas no coinciden.'; errEl.style.display = 'block'; return; }
+    const { error } = await sb.auth.signUp({ email, password: pass });
+    if (error) { errEl.textContent = error.message; errEl.style.display = 'block'; return; }
+    errEl.style.cssText = 'display:block;background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.3);color:#4ade80';
+    errEl.textContent = '¡Cuenta creada! Revisa tu email para confirmar.';
+  } else {
+    const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+    if (error) { errEl.textContent = 'Email o contraseña incorrectos.'; errEl.style.display = 'block'; return; }
+  }
+}
+
+document.getElementById('auth-submit').addEventListener('click', authSubmit);
+document.getElementById('auth-email').addEventListener('keydown', e => e.key === 'Enter' && authSubmit());
+document.getElementById('auth-pass').addEventListener('keydown', e => e.key === 'Enter' && authSubmit());
+
+document.getElementById('auth-toggle-link').addEventListener('click', () => {
+  isRegister = !isRegister;
+  document.getElementById('auth-title').textContent = isRegister ? 'Crear cuenta' : 'Accede a tu cuenta';
+  document.getElementById('auth-sub').textContent = isRegister ? 'Crea tu cuenta gratuita para empezar a registrar tus trades.' : 'Lleva el control de tus trades y analiza tu rendimiento personal.';
+  document.getElementById('auth-submit').textContent = isRegister ? 'Crear cuenta' : 'Entrar';
+  document.getElementById('auth-toggle-text').textContent = isRegister ? '¿Ya tienes cuenta?' : '¿No tienes cuenta?';
+  document.getElementById('auth-toggle-link').textContent = isRegister ? ' Inicia sesión' : ' Regístrate';
+  document.getElementById('auth-pass2-wrap').style.display = isRegister ? 'block' : 'none';
+  document.getElementById('auth-err').style.display = 'none';
+});
+
+function enterApp(user) {
+  currentUser = user;
+  authScreen.style.display = 'none';
+  appEl.style.display = 'block';
+  document.getElementById('sidebar-email').textContent = user.email;
+  loadMonth();
+}
+
+async function signOut() {
+  await sb.auth.signOut();
+}
+
+// ── NAVIGATION ──
+function showSection(s) {
+  document.getElementById('section-trades').style.display = s === 'trades' ? 'block' : 'none';
+  document.getElementById('section-stats').style.display = s === 'stats' ? 'block' : 'none';
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  if (s === 'stats') loadStatsSection();
+}
+
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// ── CALENDAR ──
+function prevMonth() {
+  currentMonth--;
+  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+  loadMonth();
+}
+function nextMonth() {
+  currentMonth++;
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  loadMonth();
+}
+
+const MONTHS_ES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+async function loadMonth() {
+  document.getElementById('month-title').textContent = `${MONTHS_ES[currentMonth]} ${currentYear}`;
+  document.getElementById('cal-body').innerHTML = '<div class="loading">Cargando...</div>';
+
+  const from = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-01`;
+  const lastDay = new Date(currentYear, currentMonth+1, 0).getDate();
+  const to = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(lastDay).padStart(2,'0')}`;
+
+  const { data, error } = await sb.from('user_trades').select('*')
+    .eq('user_id', currentUser.id)
+    .gte('fecha', from).lte('fecha', to)
+    .order('fecha', { ascending: true });
+
+  monthTrades = data || [];
+  renderCalendar();
+  renderStats();
+}
+
+function renderCalendar() {
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth+1, 0).getDate();
+  const today = new Date();
+  const tradeMap = {};
+  monthTrades.forEach(t => { tradeMap[t.fecha] = t; });
+
+  let rows = '';
+  let day = 1;
+  let weekNum = 1;
+  let cells = [];
+
+  // Fill first row with empty cells before month starts
+  for (let i = 0; i < firstDay; i++) cells.push('');
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    cells.push(d);
+    if (cells.length === 7 || d === daysInMonth) {
+      while (cells.length < 7) cells.push('');
+      const rowHtml = cells.map(c => {
+        if (c === '') return `<div class="cal-cell empty"></div>`;
+        const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(c).padStart(2,'0')}`;
+        const trade = tradeMap[dateStr];
+        const isToday = today.getFullYear() === currentYear && today.getMonth() === currentMonth && today.getDate() === c;
+        const todayCls = isToday ? ' today' : '';
+        const dayNumCls = isToday ? 'cell-day today-num' : 'cell-day';
+        let chip = '';
+        if (trade) {
+          const cls = trade.resultado >= 0 ? 'win' : 'loss';
+          const sign = trade.resultado >= 0 ? '+' : '';
+          chip = `<div class="trade-chip ${cls}">${sign}$${Math.abs(trade.resultado).toFixed(2)}<div class="trade-pct">${sign}${trade.porcentaje.toFixed(2)}%</div></div>`;
+        }
+        return `<div class="cal-cell${todayCls}" onclick="openCellModal('${dateStr}')">
+          <div class="${dayNumCls}">${c}</div>${chip}
+        </div>`;
+      }).join('');
+
+      // Week summary
+      const weekTrades = cells.filter(c => c !== '').map(c => {
+        if (!c) return null;
+        const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(c).padStart(2,'0')}`;
+        return tradeMap[dateStr];
+      }).filter(Boolean);
+
+      const weekTotal = weekTrades.reduce((s, t) => s + Number(t.resultado), 0);
+      const weekPct = weekTrades.reduce((s, t) => s + Number(t.porcentaje), 0);
+      const wCls = weekTotal >= 0 ? 'pos' : 'neg';
+      const wSign = weekTotal >= 0 ? '+' : '';
+      const weekCell = `<div class="week-cell">
+        <div class="week-label">Semana ${weekNum}</div>
+        <div class="week-val ${wCls}">${weekTrades.length ? wSign + '$' + Math.abs(weekTotal).toFixed(2) : '—'}</div>
+        <div class="week-pct ${wCls}">${weekTrades.length ? wSign + weekPct.toFixed(2) + '%' : ''}</div>
+      </div>`;
+
+      rows += `<div class="cal-row">${rowHtml}${weekCell}</div>`;
+      cells = [];
+      weekNum++;
+    }
+  }
+
+  document.getElementById('cal-body').innerHTML = rows;
+}
+
+function renderStats() {
+  const pos = monthTrades.filter(t => t.resultado > 0).reduce((s, t) => s + Number(t.resultado), 0);
+  const neg = monthTrades.filter(t => t.resultado < 0).reduce((s, t) => s + Number(t.resultado), 0);
+  const netpnl = pos + neg;
+  const pct = monthTrades.reduce((s, t) => s + Number(t.porcentaje), 0);
+  const saldo = CAPITAL_INICIAL + netpnl;
+
+  document.getElementById('s-netpnl').textContent = (netpnl >= 0 ? '+' : '') + '$' + netpnl.toFixed(2);
+  document.getElementById('s-netpnl').className = 'stat-box-val ' + (netpnl >= 0 ? 'pos' : 'neg');
+  document.getElementById('s-inicial').textContent = '$' + CAPITAL_INICIAL.toFixed(2);
+  document.getElementById('s-pos').textContent = '+$' + pos.toFixed(2);
+  document.getElementById('s-neg').textContent = '-$' + Math.abs(neg).toFixed(2);
+  document.getElementById('s-pct').textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
+  document.getElementById('s-pct').className = 'stat-box-val ' + (pct >= 0 ? 'pos' : 'neg');
+  document.getElementById('s-saldo').textContent = '$' + saldo.toFixed(2);
+}
+
+// ── MODAL ──
+function openCellModal(dateStr) {
+  const trade = monthTrades.find(t => t.fecha === dateStr);
+  selectedDate = dateStr;
+  editingId = trade ? trade.id : null;
+
+  const parts = dateStr.split('-');
+  const d = new Date(+parts[0], +parts[1]-1, +parts[2]);
+  document.getElementById('modal-date-display').textContent = d.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('modal-title').textContent = trade ? 'Editar trade' : 'Añadir trade';
+  document.getElementById('btn-delete').style.display = trade ? 'block' : 'none';
+
+  if (trade) {
+    document.getElementById('f-resultado').value = Math.abs(trade.resultado).toFixed(2);
+    document.getElementById('f-porcentaje').value = Math.abs(trade.porcentaje).toFixed(2);
+    selectWL(trade.resultado >= 0 ? 'win' : 'loss');
+    document.getElementById('f-notas').value = trade.notas || '';
+  } else {
+    document.getElementById('f-resultado').value = '';
+    document.getElementById('f-porcentaje').value = '';
+    selectWL('win');
+    document.getElementById('f-notas').value = '';
+  }
+
+  document.getElementById('modal').classList.add('open');
+  setTimeout(() => document.getElementById('f-resultado').focus(), 100);
+}
+
+function openAddModal() {
+  const today = new Date();
+  const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  openCellModal(dateStr);
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+function selectWL(type) {
+  selectedType = type;
+  document.getElementById('btn-win').className = 'wl-btn' + (type === 'win' ? ' win-sel' : '');
+  document.getElementById('btn-loss').className = 'wl-btn' + (type === 'loss' ? ' loss-sel' : '');
+}
+
+async function saveTrade() {
+  const res = parseFloat(document.getElementById('f-resultado').value);
+  const pct = parseFloat(document.getElementById('f-porcentaje').value);
+  const notas = document.getElementById('f-notas').value.trim();
+
+  if (isNaN(res) || isNaN(pct)) { showToast('Completa resultado y porcentaje.'); return; }
+
+  const signo = selectedType === 'win' ? 1 : -1;
+  const payload = {
+    user_id: currentUser.id,
+    fecha: selectedDate,
+    resultado: signo * Math.abs(res),
+    porcentaje: signo * Math.abs(pct),
+    notas: notas || null,
+  };
+
+  let error;
+  if (editingId) {
+    ({ error } = await sb.from('user_trades').update(payload).eq('id', editingId));
+  } else {
+    ({ error } = await sb.from('user_trades').insert(payload));
+  }
+
+  if (error) { showToast('Error: ' + error.message); return; }
+  closeModal();
+  showToast(editingId ? 'Trade actualizado ✓' : 'Trade guardado ✓');
+  loadMonth();
+}
+
+async function deleteTrade() {
+  if (!editingId) return;
+  if (!confirm('¿Eliminar este trade?')) return;
+  const { error } = await sb.from('user_trades').delete().eq('id', editingId);
+  if (error) { showToast('Error al eliminar'); return; }
+  closeModal();
+  showToast('Trade eliminado');
+  loadMonth();
+}
+
+// ── STATS SECTION ──
+async function loadStatsSection() {
+  const el = document.getElementById('stats-content');
+  el.innerHTML = '<div class="loading">Cargando...</div>';
+
+  const { data } = await sb.from('user_trades').select('*').eq('user_id', currentUser.id).order('fecha');
+  allTrades = data || [];
+
+  if (!allTrades.length) {
+    el.innerHTML = '<p style="color:var(--muted);padding:2rem 0">Aún no tienes trades registrados.</p>';
+    return;
+  }
+
+  const totalWins = allTrades.filter(t => t.resultado > 0).length;
+  const totalLosses = allTrades.filter(t => t.resultado <= 0).length;
+  const totalPnl = allTrades.reduce((s, t) => s + Number(t.resultado), 0);
+  const totalPct = allTrades.reduce((s, t) => s + Number(t.porcentaje), 0);
+  const winrate = totalWins / allTrades.length * 100;
+
+  // Group by month
+  const byMonth = {};
+  allTrades.forEach(t => {
+    const key = t.fecha.slice(0, 7);
+    if (!byMonth[key]) byMonth[key] = [];
+    byMonth[key].push(t);
+  });
+
+  let monthRows = Object.keys(byMonth).sort().reverse().map(key => {
+    const trades = byMonth[key];
+    const pnl = trades.reduce((s, t) => s + Number(t.resultado), 0);
+    const pct = trades.reduce((s, t) => s + Number(t.porcentaje), 0);
+    const wins = trades.filter(t => t.resultado > 0).length;
+    const wr = (wins / trades.length * 100).toFixed(0);
+    const cls = pnl >= 0 ? 'pos' : 'neg';
+    const sign = pnl >= 0 ? '+' : '';
+    const [yr, mo] = key.split('-');
+    return `<tr>
+      <td style="padding:.7rem 1rem;color:var(--muted);font-size:.85rem">${MONTHS_ES[+mo-1]} ${yr}</td>
+      <td style="padding:.7rem 1rem;text-align:center;font-size:.85rem">${trades.length}</td>
+      <td style="padding:.7rem 1rem;text-align:center;font-size:.85rem">${wr}%</td>
+      <td style="padding:.7rem 1rem;text-align:right;font-weight:700;color:var(--${cls})">${sign}$${Math.abs(pnl).toFixed(2)}</td>
+      <td style="padding:.7rem 1rem;text-align:right;font-weight:700;color:var(--${cls})">${sign}${pct.toFixed(1)}%</td>
+    </tr>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;margin-bottom:2rem">
+      <div class="stat-box"><div class="stat-box-label">Total trades</div><div class="stat-box-val">${allTrades.length}</div></div>
+      <div class="stat-box"><div class="stat-box-label">Winrate</div><div class="stat-box-val gold">${winrate.toFixed(1)}%</div></div>
+      <div class="stat-box"><div class="stat-box-label">Net P&L total</div><div class="stat-box-val ${totalPnl>=0?'pos':'neg'}">${totalPnl>=0?'+':''}$${Math.abs(totalPnl).toFixed(2)}</div></div>
+      <div class="stat-box"><div class="stat-box-label">Rendimiento</div><div class="stat-box-val ${totalPct>=0?'pos':'neg'}">${totalPct>=0?'+':''}${totalPct.toFixed(1)}%</div></div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden">
+      <table style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr style="border-bottom:1px solid var(--border)">
+            <th style="padding:.7rem 1rem;text-align:left;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Mes</th>
+            <th style="padding:.7rem 1rem;text-align:center;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Trades</th>
+            <th style="padding:.7rem 1rem;text-align:center;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Winrate</th>
+            <th style="padding:.7rem 1rem;text-align:right;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">P&L</th>
+            <th style="padding:.7rem 1rem;text-align:right;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">%</th>
+          </tr>
+        </thead>
+        <tbody>${monthRows}</tbody>
+      </table>
+    </div>`;
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
