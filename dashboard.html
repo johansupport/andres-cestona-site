@@ -214,6 +214,10 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
           Mis simulaciones
         </button>
+        <button class="sidebar-link" onclick="showView('mytrades',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Mis Trades
+        </button>
       </div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">
@@ -350,6 +354,50 @@
             <a href="calculadora.html" class="card-link">Nueva simulación →</a>
           </div>
           <div id="sims-container"></div>
+        </div>
+      </div>
+
+      <!-- MIS TRADES -->
+      <div class="view" id="view-mytrades">
+        <div class="page-head">
+          <div class="page-eyebrow">Mi diario</div>
+          <div class="page-title">Mis Trades</div>
+          <div class="page-sub">Registra y lleva el control de tus operaciones mes a mes</div>
+        </div>
+
+        <!-- Stats bar -->
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin-bottom:1.5rem" id="mt-stats-bar">
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Net P&L</div><div style="font-size:1.05rem;font-weight:800" id="mt-netpnl">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Capital</div><div style="font-size:1.05rem;font-weight:800" id="mt-capital">$1,000</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Positivo</div><div style="font-size:1.05rem;font-weight:800;color:#4ade80" id="mt-pos">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Negativo</div><div style="font-size:1.05rem;font-weight:800;color:#f87171" id="mt-neg">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">%</div><div style="font-size:1.05rem;font-weight:800" id="mt-pct">0.0%</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Saldo</div><div style="font-size:1.05rem;font-weight:800" id="mt-saldo">$1,000</div></div>
+        </div>
+
+        <!-- Controles -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
+          <div style="display:flex;align-items:center;gap:.7rem">
+            <button onclick="mtPrev()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">‹</button>
+            <span style="font-size:1rem;font-weight:800;min-width:150px;text-align:center" id="mt-month-title">—</span>
+            <button onclick="mtNext()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">›</button>
+          </div>
+          <button onclick="mtOpenModal(null)" style="background:var(--gold);color:#05070f;border:none;padding:.5rem 1.1rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">+ Añadir trade</button>
+        </div>
+
+        <!-- Calendario -->
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)">
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">DOM</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">LUN</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">MAR</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">MIÉ</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">JUE</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">VIE</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">SÁB</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25);border-left:1px solid var(--border)">SEMANA</div>
+          </div>
+          <div id="mt-cal-body" style="color:rgba(255,255,255,.4);padding:1rem;font-size:.85rem">Cargando...</div>
         </div>
       </div>
 
@@ -543,10 +591,150 @@
     }
 
     function showView(name, btn) {
+      if (name === 'mytrades' && currentUser) mtLoadMonth();
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
       document.getElementById('view-' + name).classList.add('active');
       btn.classList.add('active');
+    }
+
+    // ── MIS TRADES ──
+    const MT_MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    let mtYear = new Date().getFullYear(), mtMonth = new Date().getMonth();
+    let mtTrades = [], mtEditId = null, mtSelDate = null, mtSelType = 'win';
+
+    function mtPrev() { mtMonth--; if(mtMonth<0){mtMonth=11;mtYear--;} mtLoadMonth(); }
+    function mtNext() { mtMonth++; if(mtMonth>11){mtMonth=0;mtYear++;} mtLoadMonth(); }
+
+    async function mtLoadMonth() {
+      document.getElementById('mt-month-title').textContent = MT_MONTHS[mtMonth] + ' ' + mtYear;
+      document.getElementById('mt-cal-body').innerHTML = '<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.3)">Cargando...</div>';
+      const from = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-01`;
+      const last = new Date(mtYear, mtMonth+1, 0).getDate();
+      const to = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(last).padStart(2,'0')}`;
+      const { data } = await sb.from('user_trades').select('*').eq('user_id', currentUser.id).gte('fecha', from).lte('fecha', to).order('fecha');
+      mtTrades = data || [];
+      mtRenderCal();
+      mtRenderStats();
+    }
+
+    function mtRenderCal() {
+      const firstDay = new Date(mtYear, mtMonth, 1).getDay();
+      const days = new Date(mtYear, mtMonth+1, 0).getDate();
+      const today = new Date();
+      const map = {};
+      mtTrades.forEach(t => { map[t.fecha] = t; });
+      let html = '', cells = [], week = 1;
+      for(let i=0;i<firstDay;i++) cells.push('');
+      for(let d=1;d<=days;d++) {
+        cells.push(d);
+        if(cells.length===7||d===days) {
+          while(cells.length<7) cells.push('');
+          const rowCells = cells.map(c => {
+            if(c==='') return `<div style="border-right:1px solid var(--border);min-height:70px"></div>`;
+            const ds = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(c).padStart(2,'0')}`;
+            const t = map[ds];
+            const isToday = today.getFullYear()===mtYear&&today.getMonth()===mtMonth&&today.getDate()===c;
+            const bg = isToday ? 'background:rgba(201,168,76,.06);' : '';
+            let chip = '';
+            if(t) {
+              const pos = t.resultado>=0;
+              const sign = pos?'+':'';
+              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'rgba(74,222,128,.12)':'rgba(248,113,113,.12)'};color:${pos?'#4ade80':'#f87171'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${t.porcentaje.toFixed(1)}%</div></div>`;
+            }
+            return `<div onclick="mtOpenModal('${ds}')" style="border-right:1px solid var(--border);min-height:70px;padding:.4rem .35rem;cursor:pointer;${bg}transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='${isToday?'rgba(201,168,76,.06)':'transparent'}'">
+              <div style="font-size:.65rem;color:${isToday?'var(--gold)':'rgba(255,255,255,.25)'}${isToday?';font-weight:700':''}">${c}</div>${chip}
+            </div>`;
+          }).join('');
+          const weekTrades = cells.filter(c=>c!=='').map(c=>{
+            const ds=`${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(c).padStart(2,'0')}`;
+            return map[ds];
+          }).filter(Boolean);
+          const wPnl = weekTrades.reduce((s,t)=>s+Number(t.resultado),0);
+          const wPct = weekTrades.reduce((s,t)=>s+Number(t.porcentaje),0);
+          const wPos = wPnl>=0;
+          const wSign = wPos?'+':'';
+          const weekCol = `<div style="border-left:1px solid var(--border);min-height:70px;padding:.4rem .5rem;display:flex;flex-direction:column;justify-content:center;gap:.15rem">
+            <div style="font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.2)">Sem ${week}</div>
+            <div style="font-size:.82rem;font-weight:800;color:${weekTrades.length?(wPos?'#4ade80':'#f87171'):'rgba(255,255,255,.2)'}">${weekTrades.length?(wSign+'$'+Math.abs(wPnl).toFixed(2)):'—'}</div>
+            <div style="font-size:.65rem;font-weight:600;color:${weekTrades.length?(wPos?'#4ade80':'#f87171'):'transparent'}">${weekTrades.length?(wSign+wPct.toFixed(1)+'%'):''}</div>
+          </div>`;
+          html += `<div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;border-bottom:1px solid var(--border)">${rowCells}${weekCol}</div>`;
+          cells=[]; week++;
+        }
+      }
+      document.getElementById('mt-cal-body').innerHTML = html || '<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.3)">Sin trades este mes</div>';
+    }
+
+    function mtRenderStats() {
+      const pos = mtTrades.filter(t=>t.resultado>0).reduce((s,t)=>s+Number(t.resultado),0);
+      const neg = mtTrades.filter(t=>t.resultado<0).reduce((s,t)=>s+Number(t.resultado),0);
+      const pnl = pos+neg, pct = mtTrades.reduce((s,t)=>s+Number(t.porcentaje),0);
+      const cap = 1000, saldo = cap+pnl;
+      const pnlEl = document.getElementById('mt-netpnl');
+      pnlEl.textContent = (pnl>=0?'+':'')+'$'+Math.abs(pnl).toFixed(2);
+      pnlEl.style.color = pnl>=0?'#4ade80':'#f87171';
+      document.getElementById('mt-capital').textContent = '$'+cap.toFixed(2);
+      document.getElementById('mt-pos').textContent = '+$'+pos.toFixed(2);
+      document.getElementById('mt-neg').textContent = '-$'+Math.abs(neg).toFixed(2);
+      const pctEl = document.getElementById('mt-pct');
+      pctEl.textContent = (pct>=0?'+':'')+pct.toFixed(1)+'%';
+      pctEl.style.color = pct>=0?'#4ade80':'#f87171';
+      document.getElementById('mt-saldo').textContent = '$'+saldo.toFixed(2);
+    }
+
+    // Modal
+    let mtModal = null;
+    function mtOpenModal(dateStr) {
+      const date = dateStr || (()=>{ const n=new Date(); return `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; })();
+      mtSelDate = date; mtEditId = null; mtSelType = 'win';
+      const existing = mtTrades.find(t=>t.fecha===date);
+      if(existing){ mtEditId=existing.id; mtSelType=existing.resultado>=0?'win':'loss'; }
+      const parts = date.split('-');
+      const label = new Date(+parts[0],+parts[1]-1,+parts[2]).toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+      const overlay = document.createElement('div');
+      overlay.id = 'mt-modal';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+      overlay.innerHTML = `<div style="background:#0d0f1a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:2rem;width:100%;max-width:380px;position:relative">
+        <button onclick="document.getElementById('mt-modal').remove()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.06);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.9rem">✕</button>
+        <div style="font-size:1rem;font-weight:800;margin-bottom:.2rem">${existing?'Editar trade':'Añadir trade'}</div>
+        <div style="font-size:.78rem;color:rgba(255,255,255,.4);margin-bottom:1.4rem;text-transform:capitalize">${label}</div>
+        <div style="margin-bottom:.9rem"><label style="font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:.3rem">Resultado ($)</label>
+          <input id="mt-f-res" type="number" step="0.01" placeholder="10.00" value="${existing?Math.abs(existing.resultado):''}" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.6rem .8rem;color:#fff;font-size:.88rem;outline:none"></div>
+        <div style="margin-bottom:.9rem"><label style="font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:.3rem">Porcentaje (%)</label>
+          <input id="mt-f-pct" type="number" step="0.01" placeholder="1.00" value="${existing?Math.abs(existing.porcentaje):''}" style="width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.6rem .8rem;color:#fff;font-size:.88rem;outline:none"></div>
+        <div style="margin-bottom:1.2rem"><label style="font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:.3rem">Tipo</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+            <button id="mt-btn-win" onclick="mtSelType='win';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(74,222,128,.12);border:1px solid #4ade80;color:#4ade80';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${!existing||existing.resultado>=0?'rgba(74,222,128,.12)':'transparent'};border:1px solid ${!existing||existing.resultado>=0?'#4ade80':'rgba(255,255,255,.08)'};color:${!existing||existing.resultado>=0?'#4ade80':'rgba(255,255,255,.4)'}">WIN</button>
+            <button id="mt-btn-loss" onclick="mtSelType='loss';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(248,113,113,.12);border:1px solid #f87171;color:#f87171';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${existing&&existing.resultado<0?'rgba(248,113,113,.12)':'transparent'};border:1px solid ${existing&&existing.resultado<0?'#f87171':'rgba(255,255,255,.08)'};color:${existing&&existing.resultado<0?'#f87171':'rgba(255,255,255,.4)'}">LOSS</button>
+          </div></div>
+        <div style="display:flex;gap:.6rem">
+          ${existing?`<button onclick="mtDelete()" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>`:''}
+          <button onclick="mtSave()" style="flex:1;background:var(--gold);color:#05070f;border:none;padding:.65rem;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer">Guardar</button>
+        </div>
+      </div>`;
+      overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
+      document.body.appendChild(overlay);
+      setTimeout(()=>document.getElementById('mt-f-res').focus(),100);
+    }
+
+    async function mtSave() {
+      const res = parseFloat(document.getElementById('mt-f-res').value);
+      const pct = parseFloat(document.getElementById('mt-f-pct').value);
+      if(isNaN(res)||isNaN(pct)) return;
+      const sign = mtSelType==='win'?1:-1;
+      const payload = { user_id: currentUser.id, fecha: mtSelDate, resultado: sign*Math.abs(res), porcentaje: sign*Math.abs(pct) };
+      if(mtEditId) { await sb.from('user_trades').update(payload).eq('id',mtEditId); }
+      else { await sb.from('user_trades').insert(payload); }
+      document.getElementById('mt-modal').remove();
+      mtLoadMonth();
+    }
+
+    async function mtDelete() {
+      if(!confirm('¿Eliminar este trade?')) return;
+      await sb.from('user_trades').delete().eq('id',mtEditId);
+      document.getElementById('mt-modal').remove();
+      mtLoadMonth();
     }
 
     async function logout() { await sb.auth.signOut(); location.href = 'index.html'; }
