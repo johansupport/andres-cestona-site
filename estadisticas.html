@@ -322,8 +322,8 @@
     <h1>Estadísticas reales</h1>
     <p>Resultados auditados desde 2021. Transparencia total, sin filtros.</p>
     <div class="strategy-selector">
-      <button class="strategy-btn active" onclick="switchStrategy('daily')">XAUUSD Daily</button>
-      <button class="strategy-btn" onclick="switchStrategy('swing')">XAUUSD Swing</button>
+      
+      <button class="strategy-btn active" onclick="switchStrategy('swing')">XAUUSD Swing</button>
     </div>
   </section>
 
@@ -342,12 +342,12 @@
   </div>
 
   <!-- CTA -->
-  <section class="cta-section">
+  <section class="cta-section" style="display:none">
     <div class="cta-inner">
-      <div class="cta-eyebrow">Simulador personalizado</div>
+      <div class="cta-eyebrow" style="display:none">Simulador personalizado</div>
       <h2>¿Cuánto hubieras ganado tú?</h2>
       <p>Calcula tu proyección personalizada con datos reales desde 2021. Elige tu capital y riesgo por operación.</p>
-      <a href="calculadora.html" class="cta-btn" id="cta-sim-link">Ir al Simulador →</a>
+      
     </div>
   </section>
 
@@ -355,7 +355,7 @@
 
   <script>
     let data = null;
-    let currentStrategy = 'daily';
+    let currentStrategy = 'swing';
     let currentTab = 'rendimiento';
     let chartInstance = null;
     let currentPeriod = 'ALL';
@@ -859,8 +859,8 @@
     }
 
     // Init
-    document.querySelectorAll('.strategy-btn').forEach(b => b.classList.toggle('active', b.textContent.includes('Daily')));
-    currentStrategy = 'daily';
+    document.querySelectorAll('.strategy-btn').forEach(b => b.classList.toggle('active', b.textContent.includes('Swing')));
+    currentStrategy = 'swing';
     loadData('daily');
   </script>
 
