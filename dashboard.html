@@ -652,7 +652,8 @@
             if(t) {
               const pos = t.resultado>=0;
               const sign = pos?'+':'';
-              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'rgba(74,222,128,.12)':'rgba(248,113,113,.12)'};color:${pos?'#4ade80':'#f87171'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${t.porcentaje.toFixed(1)}%</div></div>`;
+              const pct = mtCapital>0 ? (t.resultado/mtCapital*100) : t.porcentaje;
+              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'rgba(74,222,128,.12)':'rgba(248,113,113,.12)'};color:${pos?'#4ade80':'#f87171'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${pct.toFixed(1)}%</div></div>`;
             }
             return `<div onclick="mtOpenModal('${ds}')" style="border-right:1px solid var(--border);min-height:70px;padding:.4rem .35rem;cursor:pointer;${bg}transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='${isToday?'rgba(201,168,76,.06)':'transparent'}'">
               <div style="font-size:.65rem;color:${isToday?'var(--gold)':'rgba(255,255,255,.25)'}${isToday?';font-weight:700':''}">${c}</div>${chip}
@@ -663,7 +664,7 @@
             return map[ds];
           }).filter(Boolean);
           const wPnl = weekTrades.reduce((s,t)=>s+Number(t.resultado),0);
-          const wPct = weekTrades.reduce((s,t)=>s+Number(t.porcentaje),0);
+          const wPct = mtCapital>0 ? (wPnl/mtCapital*100) : weekTrades.reduce((s,t)=>s+Number(t.porcentaje),0);
           const wPos = wPnl>=0;
           const wSign = wPos?'+':'';
           const weekCol = `<div style="border-left:1px solid var(--border);min-height:70px;padding:.4rem .5rem;display:flex;flex-direction:column;justify-content:center;gap:.15rem">
@@ -681,7 +682,7 @@
     function mtRenderStats() {
       const pos = mtTrades.filter(t=>t.resultado>0).reduce((s,t)=>s+Number(t.resultado),0);
       const neg = mtTrades.filter(t=>t.resultado<0).reduce((s,t)=>s+Number(t.resultado),0);
-      const pnl = pos+neg, pct = mtTrades.reduce((s,t)=>s+Number(t.porcentaje),0);
+      const pnl = pos+neg, pct = mtCapital>0 ? (pnl/mtCapital*100) : mtTrades.reduce((s,t)=>s+Number(t.porcentaje),0);
       const cap = mtCapital, saldo = cap+pnl;
       const pnlEl = document.getElementById('mt-netpnl');
       pnlEl.textContent = (pnl>=0?'+':'')+'$'+Math.abs(pnl).toFixed(2);
