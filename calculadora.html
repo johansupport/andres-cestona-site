@@ -386,15 +386,11 @@
     </div>
   </nav>
   <div class="mobile-nav" id="mobile-nav">
-    <span class="mobile-sub">NOSOTROS</span>
     <a href="index.html#quien">¿Quién es Andrés?</a>
-    <a href="index.html#platforms">Plataformas</a>
     <a href="index.html#markets">Markets</a>
     <a href="trades.html">Diario de Trades</a>
     <a href="estadisticas.html">Estadísticas</a>
     <a href="calculadora.html">Calculadora</a>
-    <span class="mobile-sub">COMUNIDAD</span>
-    <a href="testimonios.html">Testimonios</a>
     <a href="canales.html">Canales</a>
     <a href="eventos.html">Eventos</a>
   </div>
@@ -1082,11 +1078,13 @@ function hideError()     { document.getElementById('errorMsg').style.display='no
         spans[2].style.transform = '';
       }
     }
-    // Close menu when clicking a link
+    // Close menu when clicking a link (delay so anchor scroll works)
     document.querySelectorAll('.mobile-nav a').forEach(a => {
       a.addEventListener('click', () => {
-        document.getElementById('mobile-nav').classList.remove('open');
-        document.querySelectorAll('.hamburger-btn span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        setTimeout(() => {
+          document.getElementById('mobile-nav').classList.remove('open');
+          document.querySelectorAll('.hamburger-btn span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        }, 80);
       });
     });
   </script>
