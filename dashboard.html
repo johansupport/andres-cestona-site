@@ -612,6 +612,7 @@
       if(isNaN(num) || num <= 0) return;
       mtCapital = num;
       localStorage.setItem('mt_capital', num);
+      mtRenderCal();
       mtRenderStats();
     }
 
