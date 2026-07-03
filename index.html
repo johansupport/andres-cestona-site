@@ -248,6 +248,56 @@
       .cta-section { padding: 4rem 5%; }
       footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
     }
+  
+    /* ── HAMBURGER MENU ── */
+    .hamburger-btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: .4rem;
+      background: none;
+      border: none;
+      z-index: 201;
+    }
+    .hamburger-btn span {
+      display: block; width: 22px; height: 2px;
+      background: #fff; border-radius: 2px;
+      transition: all .3s;
+    }
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: #05070f;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      padding: 1rem 0;
+      z-index: 199;
+      flex-direction: column;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      color: rgba(255,255,255,.75);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      padding: .75rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      transition: color .15s;
+    }
+    .mobile-nav a:hover { color: #c9a84c; }
+    .mobile-nav .mobile-sub {
+      font-size: .75rem;
+      color: rgba(255,255,255,.35);
+      padding: .4rem 1.5rem .4rem 2.5rem;
+      letter-spacing: .3px;
+    }
+    @media (max-width: 768px) {
+      .hamburger-btn { display: flex; }
+      .nav-links { display: none !important; }
+      .nav-ghost { display: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -281,6 +331,24 @@
       <a href="trades.html" class="nav-cta">Diario de Trades</a>
     </div>
   </nav>
+  <!-- Mobile nav -->
+  <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="mobile-nav" id="mobile-nav">
+    <span class="mobile-sub">NOSOTROS</span>
+    <a href="index.html#quien">¿Quién es Andrés?</a>
+    <a href="index.html#platforms">Plataformas</a>
+    <a href="index.html#markets">Markets</a>
+    <a href="trades.html">Diario de Trades</a>
+    <a href="estadisticas.html">Estadísticas</a>
+    <a href="calculadora.html">Calculadora</a>
+    <span class="mobile-sub">COMUNIDAD</span>
+    <a href="testimonios.html">Testimonios</a>
+    <a href="canales.html">Canales</a>
+    <a href="eventos.html">Eventos</a>
+  </div>
+
 
   <!-- HERO -->
   <section class="hero">
@@ -544,5 +612,31 @@
     }
     loadTradesPreview();
   </script>
+
+  <script>
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobile-nav');
+      const btn = document.getElementById('hamburger-btn');
+      nav.classList.toggle('open');
+      const spans = btn.querySelectorAll('span');
+      if(nav.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+      } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+      }
+    }
+    // Close menu when clicking a link
+    document.querySelectorAll('.mobile-nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('mobile-nav').classList.remove('open');
+        document.querySelectorAll('.hamburger-btn span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+      });
+    });
+  </script>
+
 </body>
 </html>
