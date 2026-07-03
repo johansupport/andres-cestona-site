@@ -207,6 +207,7 @@
       .hamburger-btn { display: flex; }
       .nav-links { display: none !important; }
       .nav-ghost { display: none; }
+      .nav-cta { display: none; }
     }
 
   </style>
@@ -240,12 +241,11 @@
       <a href="estadisticas.html" class="nav-ghost">Estadísticas</a>
       <a href="auth.html" class="nav-ghost">Acceder</a>
       <a href="calculadora.html" class="nav-cta">Calculadora</a>
+      <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
-  <!-- Mobile nav -->
-  <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
   <div class="mobile-nav" id="mobile-nav">
     <span class="mobile-sub">NOSOTROS</span>
     <a href="index.html#quien">¿Quién es Andrés?</a>
@@ -259,7 +259,7 @@
     <a href="canales.html">Canales</a>
     <a href="eventos.html">Eventos</a>
   </div>
-
+  <!-- Mobile nav -->
 
   <!-- PAGE HEADER -->
   <section class="page-header">
