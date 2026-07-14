@@ -270,6 +270,20 @@
       .nav-cta { display: none; }
     }
 
+
+    /* ── NAV SCROLL ── */
+    nav { transition: background .35s, box-shadow .35s, border-color .35s; }
+    nav.nav-scrolled { background: #fff !important; box-shadow: 0 2px 20px rgba(0,0,0,.08); border-bottom: 1px solid #e8e8e5; }
+    nav.nav-scrolled .nav-logo { color: #05070f !important; }
+    nav.nav-scrolled .nav-logo span { color: #c9a84c; }
+    nav.nav-scrolled .nav-links > li > a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
+    nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
+    nav.nav-scrolled .nav-drop { background: #fff !important; border-color: #e8e8e5 !important; }
+    nav.nav-scrolled .nav-drop a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-drop a:hover { color: #05070f !important; background: #f5f4f1 !important; }
+    nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
   </style>
 </head>
 <body>
@@ -454,7 +468,7 @@
       <p class="strat-lead">
         ${isDaily
           ? 'La estrategia <strong>XAUUSD Daily</strong> se basa en el análisis técnico del oro en marcos temporales de 1H a Daily. Operamos a favor de la tendencia principal con entradas precisas en zonas de demanda/oferta institucional, usando gestión de riesgo fija para preservar el capital a largo plazo.'
-          : 'La estrategia <strong>XAUUSD Swing</strong> busca capturar movimientos de mayor amplitud en el oro, manteniendo posiciones de 2 a 7 días. Se apoya en análisis macro, niveles semanales/mensuales y confluencias técnicas de alto impacto para maximizar el ratio riesgo/beneficio.'}
+          : 'La estrategia <strong>XAUUSD Swing</strong> busca capturar movimientos de alta probabilidad en el oro con trades de máximo 1 día. Se apoya en análisis técnico de precisión, niveles clave y confluencias de alto impacto con una media de ~16 trades al mes.'}
       </p>
 
       <div class="strat-grid">
@@ -466,10 +480,10 @@
           <div class="strat-card-body">
             <div class="strat-row"><span>Instrumento</span><span>XAU/USD</span></div>
             <div class="strat-row"><span>Timeframe principal</span><span>${isDaily ? '1H / 4H / Daily' : 'Daily / Weekly'}</span></div>
-            <div class="strat-row"><span>Duración media trade</span><span>${isDaily ? 'Horas / 1-2 días' : '2-7 días'}</span></div>
+            <div class="strat-row"><span>Duración media trade</span><span>${isDaily ? 'Horas / 1-2 días' : 'Máximo 1 día'}</span></div>
             <div class="strat-row"><span>Frecuencia</span><span>~${avgPerMonth} trades/mes</span></div>
             <div class="strat-row"><span>Winrate histórico</span><span>${overallWR}%</span></div>
-            <div class="strat-row"><span>Ratio R:R medio</span><span>${isDaily ? '1:2' : '1:2.5'}</span></div>
+            <div class="strat-row"><span>Ratio R:R medio</span><span>${isDaily ? '1:2' : '1:1'}</span></div>
           </div>
         </div>
         <div class="strat-card">
@@ -861,7 +875,7 @@
     // Init
     document.querySelectorAll('.strategy-btn').forEach(b => b.classList.toggle('active', b.textContent.includes('Swing')));
     currentStrategy = 'swing';
-    loadData('daily');
+    loadData('swing');
   </script>
 
   <script>
@@ -891,5 +905,13 @@
     });
   </script>
 
+
+    // Nav scroll effect
+    (function(){
+      var nav = document.querySelector('nav');
+      function onScroll(){ nav.classList.toggle('nav-scrolled', window.scrollY > 60); }
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    })();
 </body>
 </html>

@@ -73,7 +73,7 @@
     footer { background: var(--navy); color: rgba(255,255,255,0.45); text-align: center; padding: 2.5rem 4%; font-size: 0.82rem; }
     footer strong { color: rgba(255,255,255,0.85); }
     @media (max-width: 640px) { .nav-links { display: none; } }
-  
+
     /* ── NAV ── */
     nav {
       position: fixed; top:0; left:0; right:0; z-index:200;
@@ -107,6 +107,20 @@
     .footer-links { display:flex; gap:1.5rem; }
     .footer-links a { font-size:.73rem; color:rgba(255,255,255,.35); text-decoration:none; transition:color .2s; }
     .footer-links a:hover { color:#c9a84c; }
+
+    /* ── NAV SCROLL ── */
+    nav { transition: background .35s, box-shadow .35s, border-color .35s; }
+    nav.nav-scrolled { background: #fff !important; box-shadow: 0 2px 20px rgba(0,0,0,.08); border-bottom: 1px solid #e8e8e5; }
+    nav.nav-scrolled .nav-logo { color: #05070f !important; }
+    nav.nav-scrolled .nav-logo span { color: #c9a84c; }
+    nav.nav-scrolled .nav-links > li > a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
+    nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
+    nav.nav-scrolled .nav-drop { background: #fff !important; border-color: #e8e8e5 !important; }
+    nav.nav-scrolled .nav-drop a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-drop a:hover { color: #05070f !important; background: #f5f4f1 !important; }
+    nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
   </style>
 </head>
 <body>
@@ -134,8 +148,8 @@
       </li>
     </ul>
     <div class="nav-right">
-      <a href="estadisticas.html" class="nav-ghost">Estadísticas</a>
-      <a href="trades.html" class="nav-cta">Diario de Trades</a>
+      <a href="auth.html?tab=login" class="nav-ghost">Ingresar</a>
+      <a href="auth.html" class="nav-cta">Registrarse</a>
     </div>
   </nav>
 

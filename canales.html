@@ -37,6 +37,20 @@
     .nav-cta:hover { background:#e8c97a; }
     @media (max-width: 768px) { .nav-links { display: none; } }
 
+
+    /* ── NAV SCROLL ── */
+    nav { transition: background .35s, box-shadow .35s, border-color .35s; }
+    nav.nav-scrolled { background: #fff !important; box-shadow: 0 2px 20px rgba(0,0,0,.08); border-bottom: 1px solid #e8e8e5; }
+    nav.nav-scrolled .nav-logo { color: #05070f !important; }
+    nav.nav-scrolled .nav-logo span { color: #c9a84c; }
+    nav.nav-scrolled .nav-links > li > a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
+    nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
+    nav.nav-scrolled .nav-drop { background: #fff !important; border-color: #e8e8e5 !important; }
+    nav.nav-scrolled .nav-drop a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-drop a:hover { color: #05070f !important; background: #f5f4f1 !important; }
+    nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
     /* ── HERO ── */
     .page-hero {
       background: linear-gradient(140deg, #05070f 0%, #0c0f26 55%, #0e1440 100%);
@@ -275,8 +289,8 @@
       </li>
     </ul>
     <div class="nav-right">
-      <a href="estadisticas.html" class="nav-ghost">Estadísticas</a>
-      <a href="trades.html" class="nav-cta">Diario de Trades</a>
+      <a href="auth.html?tab=login" class="nav-ghost">Ingresar</a>
+      <a href="auth.html" class="nav-cta">Registrarse</a>
       <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -472,6 +486,5 @@
       });
     });
   </script>
-
 </body>
 </html>

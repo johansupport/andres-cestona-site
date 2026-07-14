@@ -4,48 +4,49 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard — Andrés Cestona</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
     :root {
-      --black: #05070f; --dark: #111; --mid: #555;
-      --muted: #999; --border: rgba(255,255,255,.08); --bg: #fff; --bg2: #f7f7f5;
-      --gold: #c9a84c; --gold2: #e8c97a; --green: #4ade80; --red: #f87171;
+      --black: #05070f; --dark: #0a0a0a; --mid: #4a4a4a;
+      --muted: #8a8a8a; --border: rgba(0,0,0,.08); --border-dark: rgba(255,255,255,.08); --bg: #fff; --bg2: #f7f7f5;
+      --gold: #2563eb; --gold2: #1d4ed8; --green: #16a34a; --red: #dc2626;
     }
     html { scroll-behavior:smooth; }
-    body { font-family:'Inter',sans-serif; background:var(--black); min-height:100vh; -webkit-font-smoothing:antialiased; color:#fff; }
+    body { font-family:'Inter',sans-serif; background:var(--bg2); min-height:100vh; -webkit-font-smoothing:antialiased; color:var(--dark); }
 
     /* LOADING */
     #loading-screen { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:999; }
-    .loading-logo { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#fff; }
+    .loading-logo { font-family:'Inter',sans-serif; font-size:2rem; font-weight:900; color:#fff; }
     .loading-logo span { color:var(--gold); }
     .loading-dot { animation:blink 1.2s infinite; color:var(--gold); }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     /* NAV */
-    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 2rem 0 0; background:var(--black); border-bottom:1px solid var(--border); }
-    .nav-logo-area { width:220px; flex-shrink:0; display:flex; align-items:center; padding:0 1.5rem; height:100%; border-right:1px solid var(--border); }
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 2rem 0 0; background:var(--black); border-bottom:1px solid var(--border-dark); }
+    .nav-logo-area { width:220px; flex-shrink:0; display:flex; align-items:center; padding:0 1.5rem; height:100%; border-right:1px solid var(--border-dark); }
     .nav-logo { font-size:.95rem; font-weight:800; color:#fff; text-decoration:none; }
     .nav-logo span { color:var(--gold); }
     .nav-right { display:flex; align-items:center; gap:1rem; margin-left:auto; }
     .nav-user { font-size:.78rem; color:rgba(255,255,255,.4); }
     .nav-user strong { color:rgba(255,255,255,.85); font-weight:600; }
-    .btn-logout { background:transparent; border:1px solid var(--border); color:rgba(255,255,255,.4); padding:.38rem .9rem; border-radius:6px; font-size:.75rem; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
+    .btn-logout { background:transparent; border:1px solid var(--border-dark); color:rgba(255,255,255,.4); padding:.38rem .9rem; border-radius:6px; font-size:.75rem; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
     .btn-logout:hover { border-color:rgba(255,255,255,.3); color:#fff; }
 
     /* LAYOUT */
     .dash-layout { padding-top:64px; display:flex; min-height:100vh; }
 
     /* SIDEBAR */
-    .sidebar { width:220px; flex-shrink:0; background:rgba(255,255,255,.015); border-right:1px solid var(--border); padding:1.5rem 0; position:sticky; top:64px; height:calc(100vh - 64px); overflow-y:auto; }
+    .sidebar { width:220px; flex-shrink:0; background:var(--bg); border-right:1px solid var(--border); padding:1.5rem 0; position:sticky; top:64px; height:calc(100vh - 64px); overflow-y:auto; }
     .sidebar-section { padding:0 1rem; margin-bottom:1.5rem; }
-    .sidebar-label { font-size:.55rem; font-weight:700; color:rgba(255,255,255,.18); text-transform:uppercase; letter-spacing:2.5px; padding:0 .6rem; margin-bottom:.5rem; display:block; }
-    .sidebar-link { display:flex; align-items:center; gap:.65rem; padding:.55rem .6rem; border-radius:8px; font-size:.78rem; color:rgba(255,255,255,.4); text-decoration:none; transition:all .2s; cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; width:100%; text-align:left; }
-    .sidebar-link:hover { color:rgba(255,255,255,.85); background:rgba(255,255,255,.05); }
-    .sidebar-link.active { color:#fff; background:rgba(201,168,76,.12); }
+    .sidebar-label { font-size:.55rem; font-weight:700; color:rgba(0,0,0,.3); text-transform:uppercase; letter-spacing:2.5px; padding:0 .6rem; margin-bottom:.5rem; display:block; }
+    .sidebar-link { display:flex; align-items:center; gap:.65rem; padding:.55rem .6rem; border-radius:8px; font-size:.78rem; color:var(--mid); text-decoration:none; transition:all .2s; cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; width:100%; text-align:left; }
+    .sidebar-link:hover { color:var(--dark); background:rgba(0,0,0,.04); }
+    .sidebar-link.active { color:var(--gold); background:rgba(37,99,235,.1); }
     .sidebar-link.active svg { color:var(--gold); }
-    .sidebar-link svg { flex-shrink:0; opacity:.5; transition:opacity .2s; }
-    .sidebar-link:hover svg { opacity:.8; }
+    .sidebar-link svg { flex-shrink:0; opacity:.6; transition:opacity .2s; }
+    .sidebar-link:hover svg { opacity:.9; }
     .sidebar-divider { height:1px; background:var(--border); margin:1rem 1rem; }
 
     /* CONTENT */
@@ -55,31 +56,31 @@
     .page-head { margin-bottom:2.5rem; }
     .page-eyebrow { font-size:.6rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2.5px; margin-bottom:.5rem; display:flex; align-items:center; gap:.5rem; }
     .page-eyebrow::before { content:''; width:16px; height:1px; background:var(--gold); }
-    .page-title { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:#fff; letter-spacing:-.5px; line-height:1.1; }
-    .page-sub { font-size:.82rem; color:rgba(255,255,255,.3); margin-top:.4rem; }
+    .page-title { font-family:'Inter',sans-serif; font-size:2.2rem; font-weight:900; color:var(--dark); letter-spacing:-.5px; line-height:1.1; }
+    .page-sub { font-size:.82rem; color:var(--muted); margin-top:.4rem; }
 
     /* STATS GRID — cards estilo index */
     .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:2rem; }
-    .stat-card { background:rgba(255,255,255,.02); padding:1.8rem 1.6rem; transition:background .2s; }
-    .stat-card:hover { background:rgba(255,255,255,.04); }
-    .stat-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,.25); margin-bottom:1rem; }
-    .stat-num { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900; line-height:1; letter-spacing:-1px; }
+    .stat-card { background:var(--bg); padding:1.8rem 1.6rem; transition:background .2s; }
+    .stat-card:hover { background:var(--bg2); }
+    .stat-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:1rem; }
+    .stat-num { font-family:'Inter',sans-serif; font-size:2.4rem; font-weight:900; line-height:1; letter-spacing:-1px; }
     .stat-num.gold { color:var(--gold); }
     .stat-num.green { color:var(--green); }
-    .stat-num.white { color:#fff; }
-    .stat-desc { font-size:.68rem; color:rgba(255,255,255,.25); margin-top:.55rem; line-height:1.5; }
+    .stat-num.white { color:var(--dark); }
+    .stat-desc { font-size:.68rem; color:var(--muted); margin-top:.55rem; line-height:1.5; }
     .stat-foot { display:flex; justify-content:space-between; align-items:center; margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--border); }
-    .stat-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
+    .stat-link { font-size:.7rem; color:var(--muted); text-decoration:none; transition:color .2s; }
     .stat-link:hover { color:var(--gold); }
 
     /* CONTENT GRID */
     .content-grid { display:grid; grid-template-columns:1.6fr 1fr; gap:1.5rem; }
 
     /* CARDS */
-    .card { background:rgba(255,255,255,.025); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+    .card { background:var(--bg); border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.04); }
     .card-head { display:flex; justify-content:space-between; align-items:center; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
-    .card-title { font-size:.82rem; font-weight:700; color:#fff; }
-    .card-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
+    .card-title { font-size:.82rem; font-weight:700; color:var(--dark); }
+    .card-link { font-size:.7rem; color:var(--muted); text-decoration:none; transition:color .2s; }
     .card-link:hover { color:var(--gold); }
     .card-body { padding:0 1.6rem; }
 
@@ -87,89 +88,162 @@
     .trade-row { display:flex; align-items:center; gap:.9rem; padding:.85rem 0; border-bottom:1px solid var(--border); }
     .trade-row:last-child { border-bottom:none; }
     .badge { font-size:.55rem; font-weight:800; text-transform:uppercase; letter-spacing:.8px; padding:.22rem .6rem; border-radius:100px; flex-shrink:0; }
-    .b-win { background:rgba(74,222,128,.1); color:#4ade80; border:1px solid rgba(74,222,128,.15); }
-    .b-loss { background:rgba(248,113,113,.1); color:#f87171; border:1px solid rgba(248,113,113,.15); }
-    .trade-date { font-size:.68rem; color:rgba(255,255,255,.25); flex-shrink:0; width:72px; }
-    .trade-title { font-size:.78rem; color:rgba(255,255,255,.65); flex:1; line-height:1.4; }
+    .b-win { background:#dcfce7; color:#15803d; border:1px solid #86efac; }
+    .b-loss { background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; }
+    .trade-date { font-size:.68rem; color:var(--muted); flex-shrink:0; width:72px; }
+    .trade-title { font-size:.78rem; color:var(--mid); flex:1; line-height:1.4; }
     .trade-r { font-size:.78rem; font-weight:800; flex-shrink:0; }
     .trade-r.pos { color:var(--green); }
     .trade-r.neg { color:var(--red); }
 
     /* PERFORMANCE — mini cards */
     .perf-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:1.2rem 1.6rem; }
-    .perf-cell { background:rgba(255,255,255,.02); padding:1.2rem; }
-    .perf-cell:hover { background:rgba(255,255,255,.04); }
-    .perf-year-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.25); margin-bottom:.4rem; }
-    .perf-year-num { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:var(--green); line-height:1; }
+    .perf-cell { background:var(--bg); padding:1.2rem; }
+    .perf-cell:hover { background:var(--bg2); }
+    .perf-year-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:.4rem; }
+    .perf-year-num { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:900; color:var(--green); line-height:1; }
     .perf-year-bar { height:3px; background:var(--border); border-radius:2px; margin-top:.6rem; }
     .perf-year-bar-fill { height:100%; background:var(--gold); border-radius:2px; }
-    .perf-trades { font-size:.65rem; color:rgba(255,255,255,.2); margin-top:.3rem; }
+    .perf-trades { font-size:.65rem; color:var(--muted); margin-top:.3rem; }
 
     /* SIMULATIONS */
     .sims-list { display:flex; flex-direction:column; gap:0; }
     .sim-card { display:grid; grid-template-columns:1fr auto; align-items:center; gap:2rem; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); transition:background .2s; cursor:pointer; }
     .sim-card:last-child { border-bottom:none; }
-    .sim-card:hover { background:rgba(255,255,255,.03); }
+    .sim-card:hover { background:var(--bg2); }
     .sim-left { display:flex; flex-direction:column; gap:.5rem; }
     .sim-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); }
-    .sim-name { font-size:.95rem; font-weight:700; color:#fff; }
+    .sim-name { font-size:.95rem; font-weight:700; color:var(--dark); }
     .sim-metrics { display:flex; gap:1.8rem; margin-top:.3rem; }
     .sim-metric { display:flex; flex-direction:column; gap:.15rem; }
-    .sim-metric-label { font-size:.58rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); }
-    .sim-metric-val { font-size:.82rem; font-weight:700; color:rgba(255,255,255,.7); }
+    .sim-metric-label { font-size:.58rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
+    .sim-metric-val { font-size:.82rem; font-weight:700; color:var(--mid); }
     .sim-metric-val.green { color:var(--green); }
     .sim-right { display:flex; flex-direction:column; align-items:flex-end; gap:.6rem; flex-shrink:0; }
-    .sim-return { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--green); line-height:1; letter-spacing:-1px; }
-    .sim-final-val { font-size:.72rem; color:rgba(255,255,255,.3); }
+    .sim-return { font-family:'Inter',sans-serif; font-size:2.2rem; font-weight:900; color:var(--green); line-height:1; letter-spacing:-1px; }
+    .sim-final-val { font-size:.72rem; color:var(--muted); }
     .sim-actions { display:flex; gap:.5rem; }
     .sim-btn { border-radius:7px; padding:.35rem .8rem; font-size:.72rem; font-weight:600; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; border:none; }
-    .sim-btn-detail { background:rgba(201,168,76,.12); color:var(--gold); border:1px solid rgba(201,168,76,.2); }
-    .sim-btn-detail:hover { background:rgba(201,168,76,.2); }
-    .sim-btn-del { background:transparent; color:rgba(255,255,255,.2); border:1px solid var(--border); }
-    .sim-btn-del:hover { border-color:#f87171; color:#f87171; }
+    .sim-btn-detail { background:rgba(37,99,235,.1); color:var(--gold); border:1px solid rgba(37,99,235,.2); }
+    .sim-btn-detail:hover { background:rgba(37,99,235,.18); }
+    .sim-btn-del { background:transparent; color:var(--muted); border:1px solid var(--border); }
+    .sim-btn-del:hover { border-color:#dc2626; color:#dc2626; }
     .sims-empty { padding:3rem 1.6rem; text-align:center; }
-    .sims-empty p { font-size:.85rem; color:rgba(255,255,255,.25); }
+    .sims-empty p { font-size:.85rem; color:var(--muted); }
     .sims-empty a { color:var(--gold); text-decoration:none; }
 
     /* SIM MODAL */
     .sim-modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:2rem; }
     .sim-modal-overlay.open { display:flex; }
-    .sim-modal { background:#0d0f1a; border:1px solid var(--border); border-radius:20px; max-width:640px; width:100%; overflow:hidden; position:relative; }
-    .sim-modal-header { background:rgba(201,168,76,.06); border-bottom:1px solid var(--border); padding:2rem 2.2rem; }
+    .sim-modal { background:#0d0f1a; border:1px solid var(--border-dark); border-radius:20px; max-width:640px; width:100%; overflow:hidden; position:relative; }
+    .sim-modal-header { background:rgba(37,99,235,.1); border-bottom:1px solid var(--border-dark); padding:2rem 2.2rem; }
     .sim-modal-tag { font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:.6rem; }
-    .sim-modal-name { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:#fff; letter-spacing:-.5px; }
+    .sim-modal-name { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:900; color:#fff; letter-spacing:-.5px; }
     .sim-modal-date { font-size:.72rem; color:rgba(255,255,255,.3); margin-top:.3rem; }
-    .sim-modal-close { position:absolute; top:1.2rem; right:1.2rem; width:32px; height:32px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,.4); font-size:1rem; transition:all .2s; }
+    .sim-modal-close { position:absolute; top:1.2rem; right:1.2rem; width:32px; height:32px; background:rgba(255,255,255,.06); border:1px solid var(--border-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,.4); font-size:1rem; transition:all .2s; }
     .sim-modal-close:hover { background:rgba(255,255,255,.12); color:#fff; }
-    .sim-modal-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
+    .sim-modal-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border-dark); }
     .sim-modal-stat { background:#0d0f1a; padding:1.4rem 1.6rem; }
     .sim-modal-stat-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); margin-bottom:.5rem; }
-    .sim-modal-stat-val { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; line-height:1; }
+    .sim-modal-stat-val { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:900; line-height:1; }
     .sim-modal-stat-val.green { color:var(--green); }
     .sim-modal-stat-val.gold { color:var(--gold); }
     .sim-modal-stat-val.white { color:#fff; }
     .sim-modal-body { padding:1.8rem 2.2rem; }
-    .sim-modal-row { display:flex; justify-content:space-between; align-items:center; padding:.65rem 0; border-bottom:1px solid var(--border); }
+    .sim-modal-row { display:flex; justify-content:space-between; align-items:center; padding:.65rem 0; border-bottom:1px solid var(--border-dark); }
     .sim-modal-row:last-child { border-bottom:none; }
     .sim-modal-row-label { font-size:.75rem; color:rgba(255,255,255,.35); }
     .sim-modal-row-val { font-size:.8rem; font-weight:600; color:rgba(255,255,255,.8); }
-    .sim-modal-foot { padding:1.2rem 2.2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
-    .btn-gold { background:var(--gold); color:#05070f; border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; text-decoration:none; display:inline-block; }
+    .sim-modal-foot { padding:1.2rem 2.2rem; border-top:1px solid var(--border-dark); display:flex; justify-content:space-between; align-items:center; }
+    .btn-gold { background:var(--gold); color:#fff; border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; text-decoration:none; display:inline-block; }
     .btn-gold:hover { background:var(--gold2); }
 
     /* PROFILE */
     .profile-cards { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:1.2rem 1.6rem; }
-    .profile-cell { background:rgba(255,255,255,.02); padding:1.4rem; }
-    .profile-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,.2); margin-bottom:.6rem; display:block; }
-    .profile-val { font-size:.88rem; color:rgba(255,255,255,.7); }
-    .profile-input { background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:8px; padding:.6rem .9rem; color:#fff; font-size:.86rem; font-family:Inter,sans-serif; outline:none; width:100%; transition:border-color .2s; }
+    .profile-cell { background:var(--bg); padding:1.4rem; }
+    .profile-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:.6rem; display:block; }
+    .profile-val { font-size:.88rem; color:var(--mid); }
+    .profile-input { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:.6rem .9rem; color:var(--dark); font-size:.86rem; font-family:Inter,sans-serif; outline:none; width:100%; transition:border-color .2s; }
     .profile-input:focus { border-color:var(--gold); }
     .profile-save-area { padding:1.2rem 1.6rem 1.4rem; display:flex; align-items:center; gap:1rem; }
-    .btn-gold { background:var(--gold); color:var(--black); border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; }
-    .btn-gold:hover { background:var(--gold2); }
     .save-msg { font-size:.75rem; }
     .save-msg.ok { color:var(--green); }
     .save-msg.err { color:var(--red); }
+
+    /* ACCOUNTS */
+    .acc-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; flex-wrap:wrap; gap:.8rem; }
+    .acc-toolbar-left { display:flex; align-items:center; gap:.5rem; font-size:.85rem; font-weight:700; color:var(--dark); }
+    .acc-toolbar-left::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; }
+    .acc-toolbar-right { display:flex; align-items:center; gap:1rem; }
+    .acc-check-label { display:flex; align-items:center; gap:.5rem; font-size:.75rem; color:var(--muted); cursor:pointer; user-select:none; }
+    .acc-check-label input { accent-color:var(--gold); width:14px; height:14px; }
+    .acc-switch { position:relative; display:inline-block; width:34px; height:19px; flex-shrink:0; }
+    .acc-switch input { opacity:0; width:0; height:0; }
+    .acc-switch-slider { position:absolute; inset:0; background:rgba(0,0,0,.15); border-radius:100px; transition:.2s; cursor:pointer; }
+    .acc-switch-slider::before { content:''; position:absolute; width:14px; height:14px; left:2.5px; top:2.5px; background:#fff; border-radius:50%; transition:.2s; }
+    .acc-switch input:checked + .acc-switch-slider { background:var(--gold); }
+    .acc-switch input:checked + .acc-switch-slider::before { transform:translateX(15px); }
+    .acc-list { display:flex; flex-direction:column; gap:1.2rem; margin-bottom:1rem; }
+    .acc-card { padding:1.5rem 1.7rem; }
+    .acc-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1rem; }
+    .acc-badges { display:flex; gap:.5rem; align-items:center; }
+    .acc-badge { font-size:.62rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px; padding:.32rem .75rem; border-radius:100px; }
+    .acc-badge-active { background:#dcfce7; color:#15803d; border:1px solid #86efac; }
+    .acc-badge-closed { background:var(--bg2); color:var(--muted); border:1px solid var(--border); }
+    .acc-badge-kind { background:rgba(37,99,235,.1); color:var(--gold); border:1px solid rgba(37,99,235,.2); }
+    .acc-switch-label { display:flex; align-items:center; gap:.6rem; font-size:.7rem; color:var(--muted); }
+    .acc-card-title { font-family:'Inter',sans-serif; font-size:1.25rem; font-weight:900; color:var(--dark); letter-spacing:-.3px; cursor:pointer; }
+    .acc-card-title:hover { color:var(--gold); }
+    .acc-card-sub { font-size:.78rem; color:var(--muted); margin-top:.2rem; }
+    .acc-divider { height:1px; background:var(--border); margin:1.1rem 0; }
+    .acc-row-info { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .acc-info-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.3px; color:var(--muted); display:block; margin-bottom:.3rem; }
+    .acc-info-val { font-size:.92rem; font-weight:700; color:var(--dark); }
+    .acc-row-chart { display:flex; align-items:center; gap:1.5rem; margin-top:1.3rem; flex-wrap:wrap; }
+    .acc-row-chart canvas { flex-shrink:0; }
+    .acc-actions { display:flex; gap:.5rem; flex-wrap:wrap; flex:1; }
+    .acc-action-btn { display:flex; align-items:center; gap:.4rem; background:var(--bg2); border:1px solid var(--border); color:var(--mid); padding:.5rem .85rem; border-radius:8px; font-size:.72rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; }
+    .acc-action-btn:hover { border-color:rgba(0,0,0,.2); color:var(--dark); }
+    .acc-detail-btn { background:transparent; border:1px solid var(--gold); color:var(--gold); padding:.5rem 1rem; border-radius:8px; font-size:.75rem; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; }
+    .acc-detail-btn:hover { background:rgba(37,99,235,.1); }
+    .acc-metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--border); }
+    .acc-hidden-row { display:flex; align-items:center; gap:.7rem; background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:.9rem 1.2rem; cursor:pointer; font-size:.82rem; color:var(--mid); margin-bottom:1rem; }
+    .acc-hidden-row strong { color:var(--dark); }
+    .acc-history-row { display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.6rem; border-bottom:1px solid var(--border); cursor:pointer; font-size:.82rem; transition:background .2s; }
+    .acc-history-row:last-child { border-bottom:none; }
+    .acc-history-row:hover { background:var(--bg2); }
+    .acc-history-left { display:flex; flex-direction:column; gap:.2rem; }
+    .acc-history-name { color:var(--dark); font-weight:700; }
+    .acc-history-meta { color:var(--muted); font-size:.72rem; }
+    .acc-empty { padding:3rem 1.6rem; text-align:center; font-size:.85rem; color:var(--muted); }
+
+    /* ACCOUNT DETAIL */
+    .acc-detail-back { display:inline-flex; align-items:center; gap:.4rem; font-size:.78rem; color:var(--muted); background:none; border:none; cursor:pointer; font-family:'Inter',sans-serif; margin-bottom:1rem; transition:color .2s; }
+    .acc-detail-back:hover { color:var(--gold); }
+    .acc-tabs { display:flex; gap:.4rem; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:.35rem; margin-bottom:1.5rem; overflow-x:auto; }
+    .acc-tab { background:none; border:none; color:var(--muted); padding:.55rem 1rem; border-radius:8px; font-size:.78rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; white-space:nowrap; transition:all .2s; }
+    .acc-tab.active { background:rgba(37,99,235,.1); color:var(--gold); }
+    .acc-detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+    .acc-detail-val { font-family:'Inter',sans-serif; font-size:1.7rem; font-weight:900; letter-spacing:-.5px; color:var(--dark); margin-top:.3rem; }
+    .acc-objectives { margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:.6rem; }
+    .acc-obj-row { display:flex; align-items:center; gap:.6rem; font-size:.78rem; color:var(--mid); }
+    .acc-obj-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+    .acc-cal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
+    .acc-cal-nav { display:flex; align-items:center; gap:.7rem; }
+    .acc-cal-btn { background:var(--bg2); border:1px solid var(--border); color:var(--dark); width:30px; height:30px; border-radius:7px; cursor:pointer; font-size:.95rem; }
+    .acc-cal-title { font-size:1rem; font-weight:800; min-width:150px; text-align:center; }
+    .acc-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:.5rem; }
+    .acc-cal-weekday { text-align:center; font-size:.58rem; font-weight:700; letter-spacing:1px; color:var(--muted); padding-bottom:.4rem; }
+    .acc-cal-cell { min-height:64px; border-radius:9px; padding:.4rem; cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:transform .15s; }
+    .acc-cal-cell.has-trade:hover { transform:scale(1.04); }
+    .acc-cal-cell.empty-day { cursor:pointer; }
+    .acc-cal-daynum { font-size:.7rem; color:var(--muted); }
+    .acc-cal-cell.has-trade .acc-cal-daynum { color:rgba(0,0,0,.55); font-weight:700; }
+    .acc-cal-amount { font-size:.7rem; font-weight:800; color:#05070f; margin-top:.15rem; }
+    .acc-cal-count { font-size:.58rem; color:rgba(0,0,0,.5); margin-top:.1rem; }
+    .acc-stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:1.5rem; }
+    .acc-stat-cell { background:var(--bg); padding:1.2rem; }
+    .acc-stat-cell .acc-info-val { font-size:1.1rem; }
 
     /* VIEWS */
     .view { display:none; }
@@ -178,7 +252,7 @@
     /* HAMBURGER */
     .hamburger {
       display: none; position: fixed; top: 14px; left: 14px; z-index: 300;
-      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+      background: rgba(255,255,255,.06); border: 1px solid var(--border-dark);
       width: 38px; height: 38px; border-radius: 9px; align-items: center;
       justify-content: center; cursor: pointer; flex-direction: column; gap: 5px;
     }
@@ -228,6 +302,10 @@
         <button class="sidebar-link active" onclick="showView('overview',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           Resumen
+        </button>
+        <button class="sidebar-link" data-view="accounts" onclick="showView('accounts',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          Cuentas
         </button>
         <button class="sidebar-link" onclick="showView('trades',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
@@ -333,6 +411,112 @@
         </div>
       </div>
 
+      <!-- ACCOUNTS OVERVIEW -->
+      <div class="view" id="view-accounts">
+        <div class="page-head">
+          <div class="page-eyebrow">Trader</div>
+          <div class="page-title">Cuentas</div>
+          <div class="page-sub">Tus cuentas de fondeo y capital propio, en un solo lugar</div>
+        </div>
+
+        <div class="acc-toolbar">
+          <div class="acc-toolbar-left">Cuentas activas</div>
+          <div class="acc-toolbar-right">
+            <label class="acc-check-label"><input type="checkbox" id="acc-visible-only" onchange="accRenderList()"/> Mostrar solo visibles</label>
+            <button class="btn-gold" onclick="accOpenForm('add')">+ Nueva cuenta</button>
+          </div>
+        </div>
+
+        <div class="acc-list" id="acc-active-list"></div>
+        <div id="acc-hidden-area"></div>
+
+        <div class="page-head" style="margin-top:2.5rem;margin-bottom:1.2rem">
+          <div class="page-eyebrow">Historial</div>
+          <div class="page-title" style="font-size:1.6rem">Cuentas cerradas</div>
+        </div>
+        <div class="card" id="acc-history-card"><div class="acc-empty">Cargando…</div></div>
+      </div>
+
+      <!-- ACCOUNT DETAIL -->
+      <div class="view" id="view-account-detail">
+        <button class="acc-detail-back" onclick="showView('accounts', document.querySelector('.sidebar-link[data-view=accounts]'))">← Volver a cuentas</button>
+        <div class="page-head">
+          <div class="page-eyebrow" id="acc-detail-eyebrow">Cuenta</div>
+          <div class="page-title" id="acc-detail-title">—</div>
+          <div class="page-sub" id="acc-detail-sub">—</div>
+        </div>
+
+        <div class="acc-tabs">
+          <button class="acc-tab active" onclick="accShowTab('overview',this)">Overview</button>
+          <button class="acc-tab" onclick="accShowTab('trades',this)">Trades</button>
+          <button class="acc-tab" onclick="accShowTab('calendar',this)">Calendar</button>
+          <button class="acc-tab" onclick="accShowTab('statistics',this)">Statistics</button>
+          <button class="acc-tab" onclick="accShowTab('account',this)">Account</button>
+        </div>
+
+        <!-- Overview -->
+        <div class="acc-tab-panel" id="acc-panel-overview">
+          <div class="card" style="padding:1.6rem;margin-bottom:1.5rem">
+            <div class="acc-detail-grid">
+              <div><span class="acc-info-label">Balance</span><div class="acc-detail-val" id="ad-balance">—</div></div>
+              <div><span class="acc-info-label">Unrealized PnL</span><div class="acc-detail-val" id="ad-unrealized">—</div></div>
+            </div>
+            <div class="acc-divider"></div>
+            <div class="acc-detail-grid">
+              <div><span class="acc-info-label">Equity</span><div class="acc-detail-val" id="ad-equity">—</div></div>
+              <div><span class="acc-info-label">Today's profit</span><div class="acc-detail-val" id="ad-today">—</div></div>
+            </div>
+          </div>
+          <div class="card" style="padding:1.6rem">
+            <div class="card-title" style="margin-bottom:1.2rem">Balance</div>
+            <div style="height:220px"><canvas id="acc-detail-chart"></canvas></div>
+            <div class="acc-objectives" id="ad-objectives"></div>
+          </div>
+        </div>
+
+        <!-- Trades -->
+        <div class="acc-tab-panel" id="acc-panel-trades" style="display:none">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:1.2rem">
+            <button class="btn-gold" onclick="accOpenTradeModal(null)">+ Añadir trade</button>
+          </div>
+          <div class="card" id="acc-trades-list"></div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="acc-tab-panel" id="acc-panel-calendar" style="display:none">
+          <div class="acc-cal-head">
+            <div class="acc-cal-nav">
+              <button class="acc-cal-btn" onclick="accCalPrev()">‹</button>
+              <span class="acc-cal-title" id="acc-cal-title">—</span>
+              <button class="acc-cal-btn" onclick="accCalNext()">›</button>
+            </div>
+          </div>
+          <div class="card" style="padding:1.2rem">
+            <div class="acc-cal-grid" id="acc-cal-weekdays"></div>
+            <div class="acc-cal-grid" id="acc-cal-body" style="margin-top:.5rem"></div>
+          </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="acc-tab-panel" id="acc-panel-statistics" style="display:none">
+          <div class="acc-stats-grid" id="acc-stats-grid"></div>
+          <div class="card">
+            <div class="card-head"><span class="card-title">Daily Summary</span></div>
+            <div class="card-body" id="acc-daily-summary" style="padding:0 1.6rem 1.2rem"></div>
+          </div>
+        </div>
+
+        <!-- Account -->
+        <div class="acc-tab-panel" id="acc-panel-account" style="display:none">
+          <div class="card" style="margin-bottom:1.2rem" id="acc-account-details"></div>
+          <div class="card" style="padding:1.2rem 1.6rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
+            <span class="acc-info-val">Visible en Cuentas</span>
+            <label class="acc-switch"><input type="checkbox" id="acc-visible-toggle" onchange="accToggleVisible(this.checked)"/><span class="acc-switch-slider"></span></label>
+          </div>
+          <div id="acc-danger-zone"></div>
+        </div>
+      </div>
+
       <!-- TRADES -->
       <div class="view" id="view-trades">
         <div class="page-head">
@@ -394,43 +578,43 @@
 
         <!-- Stats bar -->
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin-bottom:1.5rem" id="mt-stats-bar">
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Net P&L</div><div style="font-size:1.05rem;font-weight:800" id="mt-netpnl">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0;cursor:pointer" onclick="mtEditCapital()" title="Click para editar"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Capital <span style="color:var(--gold);font-size:.5rem">✎</span></div><div style="font-size:1.05rem;font-weight:800" id="mt-capital">$1,000</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Positivo</div><div style="font-size:1.05rem;font-weight:800;color:#4ade80" id="mt-pos">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Negativo</div><div style="font-size:1.05rem;font-weight:800;color:#f87171" id="mt-neg">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">%</div><div style="font-size:1.05rem;font-weight:800" id="mt-pct">0.0%</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Saldo</div><div style="font-size:1.05rem;font-weight:800" id="mt-saldo">$1,000</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Net P&L</div><div style="font-size:1.05rem;font-weight:800" id="mt-netpnl">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0;cursor:pointer" onclick="mtEditCapital()" title="Click para editar"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Capital <span style="color:var(--gold);font-size:.5rem">✎</span></div><div style="font-size:1.05rem;font-weight:800" id="mt-capital">$1,000</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Positivo</div><div style="font-size:1.05rem;font-weight:800;color:#16a34a" id="mt-pos">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Negativo</div><div style="font-size:1.05rem;font-weight:800;color:#dc2626" id="mt-neg">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">%</div><div style="font-size:1.05rem;font-weight:800" id="mt-pct">0.0%</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Saldo</div><div style="font-size:1.05rem;font-weight:800" id="mt-saldo">$1,000</div></div>
         </div>
 
         <!-- Plantillas -->
         <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap">
           <div id="mt-plantillas-list" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
-          <button onclick="mtNuevaPlantilla()" style="background:transparent;border:1px dashed rgba(255,255,255,.15);color:rgba(255,255,255,.4);padding:.35rem .8rem;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.4)'">+ Nueva tabla</button>
+          <button onclick="mtNuevaPlantilla()" style="background:transparent;border:1px dashed rgba(0,0,0,.15);color:var(--muted);padding:.35rem .8rem;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(0,0,0,.15)';this.style.color='var(--muted)'">+ Nueva tabla</button>
         </div>
 
         <!-- Controles -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
           <div style="display:flex;align-items:center;gap:.7rem">
-            <button onclick="mtPrev()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">‹</button>
+            <button onclick="mtPrev()" style="background:var(--bg2);border:1px solid var(--border);color:var(--dark);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">‹</button>
             <span style="font-size:1rem;font-weight:800;min-width:150px;text-align:center" id="mt-month-title">—</span>
-            <button onclick="mtNext()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">›</button>
+            <button onclick="mtNext()" style="background:var(--bg2);border:1px solid var(--border);color:var(--dark);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">›</button>
           </div>
-          <button onclick="mtOpenModal(null)" style="background:var(--gold);color:#05070f;border:none;padding:.5rem 1.1rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">+ Añadir trade</button>
+          <button onclick="mtOpenModal(null)" style="background:var(--gold);color:#fff;border:none;padding:.5rem 1.1rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">+ Añadir trade</button>
         </div>
 
         <!-- Calendario -->
         <div class="card" style="padding:0;overflow:hidden">
-          <div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)">
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">DOM</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">LUN</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">MAR</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">MIÉ</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">JUE</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">VIE</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">SÁB</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25);border-left:1px solid var(--border)">SEMANA</div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;background:var(--bg2);border-bottom:1px solid var(--border)">
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">DOM</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">LUN</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">MAR</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">MIÉ</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">JUE</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">VIE</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">SÁB</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted);border-left:1px solid var(--border)">SEMANA</div>
           </div>
-          <div id="mt-cal-body" style="color:rgba(255,255,255,.4);padding:1rem;font-size:.85rem">Cargando...</div>
+          <div id="mt-cal-body" style="color:var(--muted);padding:1rem;font-size:.85rem">Cargando...</div>
         </div>
       </div>
 
@@ -625,6 +809,7 @@
 
     function showView(name, btn) {
       if (name === 'mytrades' && currentUser) { if(!mtActivePlantilla) mtLoadPlantillas(); else mtLoadMonth(); }
+      if (name === 'accounts' && currentUser) { accLoadAll(); }
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
       document.getElementById('view-' + name).classList.add('active');
@@ -660,9 +845,9 @@
       el.innerHTML = mtPlantillas.map(p => {
         const active = p.id === mtActivePlantilla?.id;
         return `<div style="display:flex;align-items:center;gap:.3rem">
-          <button onclick="mtSwitchPlantilla('${p.id}')" style="padding:.35rem .85rem;border-radius:7px;font-size:.78rem;font-weight:${active?'700':'500'};cursor:pointer;background:${active?'rgba(201,168,76,.15)':'rgba(255,255,255,.05)'};border:1px solid ${active?'var(--gold)':'rgba(255,255,255,.08)'};color:${active?'var(--gold)':'rgba(255,255,255,.5)'};transition:all .2s">${p.nombre}</button>
-          <button onclick="mtRenamePlantilla('${p.id}','${p.nombre.replace(/'/g,"\'")}')" style="background:transparent;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:.7rem;padding:.2rem" title="Renombrar">✎</button>
-          ${mtPlantillas.length > 1 ? `<button onclick="mtDeletePlantilla('${p.id}')" style="background:transparent;border:none;color:rgba(248,113,113,.3);cursor:pointer;font-size:.7rem;padding:.2rem" title="Eliminar">✕</button>` : ''}
+          <button onclick="mtSwitchPlantilla('${p.id}')" style="padding:.35rem .85rem;border-radius:7px;font-size:.78rem;font-weight:${active?'700':'500'};cursor:pointer;background:${active?'rgba(37,99,235,.1)':'rgba(0,0,0,.04)'};border:1px solid ${active?'var(--gold)':'rgba(0,0,0,.08)'};color:${active?'var(--gold)':'rgba(0,0,0,.5)'};transition:all .2s">${p.nombre}</button>
+          <button onclick="mtRenamePlantilla('${p.id}','${p.nombre.replace(/'/g,"\'")}')" style="background:transparent;border:none;color:rgba(0,0,0,.25);cursor:pointer;font-size:.7rem;padding:.2rem" title="Renombrar">✎</button>
+          ${mtPlantillas.length > 1 ? `<button onclick="mtDeletePlantilla('${p.id}')" style="background:transparent;border:none;color:rgba(220,38,38,.4);cursor:pointer;font-size:.7rem;padding:.2rem" title="Eliminar">✕</button>` : ''}
         </div>`;
       }).join('');
     }
@@ -719,7 +904,7 @@
 
     async function mtLoadMonth() {
       document.getElementById('mt-month-title').textContent = MT_MONTHS[mtMonth] + ' ' + mtYear;
-      document.getElementById('mt-cal-body').innerHTML = '<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.3)">Cargando...</div>';
+      document.getElementById('mt-cal-body').innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted)">Cargando...</div>';
       const from = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-01`;
       const last = new Date(mtYear, mtMonth+1, 0).getDate();
       const to = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(last).padStart(2,'0')}`;
@@ -746,16 +931,16 @@
             const ds = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(c).padStart(2,'0')}`;
             const t = map[ds];
             const isToday = today.getFullYear()===mtYear&&today.getMonth()===mtMonth&&today.getDate()===c;
-            const bg = isToday ? 'background:rgba(201,168,76,.06);' : '';
+            const bg = isToday ? 'background:rgba(37,99,235,.06);' : '';
             let chip = '';
             if(t) {
               const pos = t.resultado>=0;
               const sign = pos?'+':'';
               const pct = mtCapital>0 ? (t.resultado/mtCapital*100) : t.porcentaje;
-              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'rgba(74,222,128,.12)':'rgba(248,113,113,.12)'};color:${pos?'#4ade80':'#f87171'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${pct.toFixed(1)}%</div></div>`;
+              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'rgba(22,163,74,.1)':'rgba(220,38,38,.1)'};color:${pos?'#16a34a':'#dc2626'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${pct.toFixed(1)}%</div></div>`;
             }
-            return `<div onclick="mtOpenModal('${ds}')" style="border-right:1px solid var(--border);min-height:70px;padding:.4rem .35rem;cursor:pointer;${bg}transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='${isToday?'rgba(201,168,76,.06)':'transparent'}'">
-              <div style="font-size:.65rem;color:${isToday?'var(--gold)':'rgba(255,255,255,.25)'}${isToday?';font-weight:700':''}">${c}</div>${chip}
+            return `<div onclick="mtOpenModal('${ds}')" style="border-right:1px solid var(--border);min-height:70px;padding:.4rem .35rem;cursor:pointer;${bg}transition:background .15s" onmouseover="this.style.background='rgba(0,0,0,.03)'" onmouseout="this.style.background='${isToday?'rgba(37,99,235,.06)':'transparent'}'">
+              <div style="font-size:.65rem;color:${isToday?'var(--gold)':'rgba(0,0,0,.3)'}${isToday?';font-weight:700':''}">${c}</div>${chip}
             </div>`;
           }).join('');
           const weekTrades = cells.filter(c=>c!=='').map(c=>{
@@ -767,15 +952,15 @@
           const wPos = wPnl>=0;
           const wSign = wPos?'+':'';
           const weekCol = `<div style="border-left:1px solid var(--border);min-height:70px;padding:.4rem .5rem;display:flex;flex-direction:column;justify-content:center;gap:.15rem">
-            <div style="font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.2)">Sem ${week}</div>
-            <div style="font-size:.82rem;font-weight:800;color:${weekTrades.length?(wPos?'#4ade80':'#f87171'):'rgba(255,255,255,.2)'}">${weekTrades.length?(wSign+'$'+Math.abs(wPnl).toFixed(2)):'—'}</div>
-            <div style="font-size:.65rem;font-weight:600;color:${weekTrades.length?(wPos?'#4ade80':'#f87171'):'transparent'}">${weekTrades.length?(wSign+wPct.toFixed(1)+'%'):''}</div>
+            <div style="font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(0,0,0,.3)">Sem ${week}</div>
+            <div style="font-size:.82rem;font-weight:800;color:${weekTrades.length?(wPos?'#16a34a':'#dc2626'):'rgba(0,0,0,.25)'}">${weekTrades.length?(wSign+'$'+Math.abs(wPnl).toFixed(2)):'—'}</div>
+            <div style="font-size:.65rem;font-weight:600;color:${weekTrades.length?(wPos?'#16a34a':'#dc2626'):'transparent'}">${weekTrades.length?(wSign+wPct.toFixed(1)+'%'):''}</div>
           </div>`;
           html += `<div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;border-bottom:1px solid var(--border)">${rowCells}${weekCol}</div>`;
           cells=[]; week++;
         }
       }
-      document.getElementById('mt-cal-body').innerHTML = html || '<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.3)">Sin trades este mes</div>';
+      document.getElementById('mt-cal-body').innerHTML = html || '<div style="padding:2rem;text-align:center;color:var(--muted)">Sin trades este mes</div>';
     }
 
     function mtRenderStats() {
@@ -785,13 +970,13 @@
       const cap = mtCapital, saldo = cap+pnl;
       const pnlEl = document.getElementById('mt-netpnl');
       pnlEl.textContent = (pnl>=0?'+':'')+'$'+Math.abs(pnl).toFixed(2);
-      pnlEl.style.color = pnl>=0?'#4ade80':'#f87171';
+      pnlEl.style.color = pnl>=0?'#16a34a':'#dc2626';
       document.getElementById('mt-capital').textContent = '$'+cap.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
       document.getElementById('mt-pos').textContent = '+$'+pos.toFixed(2);
       document.getElementById('mt-neg').textContent = '-$'+Math.abs(neg).toFixed(2);
       const pctEl = document.getElementById('mt-pct');
       pctEl.textContent = (pct>=0?'+':'')+pct.toFixed(1)+'%';
-      pctEl.style.color = pct>=0?'#4ade80':'#f87171';
+      pctEl.style.color = pct>=0?'#16a34a':'#dc2626';
       document.getElementById('mt-saldo').textContent = '$'+saldo.toFixed(2);
     }
 
@@ -817,12 +1002,12 @@
           <input id="mt-f-pct" type="number" step="0.01" placeholder="Auto" value="${existing?Math.abs(existing.porcentaje):''}" readonly style="width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:.6rem .8rem;color:rgba(255,255,255,.5);font-size:.88rem;outline:none;cursor:default"></div>
         <div style="margin-bottom:1.2rem"><label style="font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:.3rem">Tipo</label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
-            <button id="mt-btn-win" onclick="mtSelType='win';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(74,222,128,.12);border:1px solid #4ade80;color:#4ade80';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${!existing||existing.resultado>=0?'rgba(74,222,128,.12)':'transparent'};border:1px solid ${!existing||existing.resultado>=0?'#4ade80':'rgba(255,255,255,.08)'};color:${!existing||existing.resultado>=0?'#4ade80':'rgba(255,255,255,.4)'}">WIN</button>
-            <button id="mt-btn-loss" onclick="mtSelType='loss';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(248,113,113,.12);border:1px solid #f87171;color:#f87171';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${existing&&existing.resultado<0?'rgba(248,113,113,.12)':'transparent'};border:1px solid ${existing&&existing.resultado<0?'#f87171':'rgba(255,255,255,.08)'};color:${existing&&existing.resultado<0?'#f87171':'rgba(255,255,255,.4)'}">LOSS</button>
+            <button id="mt-btn-win" onclick="mtSelType='win';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(74,222,128,.12);border:1px solid #16a34a;color:#16a34a';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${!existing||existing.resultado>=0?'rgba(74,222,128,.12)':'transparent'};border:1px solid ${!existing||existing.resultado>=0?'#16a34a':'rgba(255,255,255,.08)'};color:${!existing||existing.resultado>=0?'#16a34a':'rgba(255,255,255,.4)'}">WIN</button>
+            <button id="mt-btn-loss" onclick="mtSelType='loss';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(248,113,113,.12);border:1px solid #dc2626;color:#dc2626';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${existing&&existing.resultado<0?'rgba(248,113,113,.12)':'transparent'};border:1px solid ${existing&&existing.resultado<0?'#dc2626':'rgba(255,255,255,.08)'};color:${existing&&existing.resultado<0?'#dc2626':'rgba(255,255,255,.4)'}">LOSS</button>
           </div></div>
         <div style="display:flex;gap:.6rem">
-          ${existing?`<button onclick="mtDelete()" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>`:''}
-          <button onclick="mtSave()" style="flex:1;background:var(--gold);color:#05070f;border:none;padding:.65rem;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer">Guardar</button>
+          ${existing?`<button onclick="mtDelete()" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#dc2626;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>`:''}
+          <button onclick="mtSave()" style="flex:1;background:var(--gold);color:#fff;border:none;padding:.65rem;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer">Guardar</button>
         </div>
       </div>`;
       overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
@@ -849,6 +1034,588 @@
       await sb.from('user_trades').delete().eq('id',mtEditId);
       document.getElementById('mt-modal').remove();
       mtLoadMonth();
+    }
+
+    // ── ACCOUNTS ──
+    let accAccounts = [];
+    let accTradesByAccount = {};
+    let accDetailChart = null;
+    let accCurrentAccountId = null;
+    let accCalYear = new Date().getFullYear();
+    let accCalMonth = new Date().getMonth();
+    const ACC_MONTH_NAMES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+    const ACC_WEEKDAYS = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+    const accLabelStyle = 'font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:.3rem';
+    const accInputStyle = 'width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:.6rem .8rem;color:#fff;font-size:.86rem;outline:none;font-family:Inter,sans-serif';
+
+    function accFmtMoney(v) {
+      const n = Number(v);
+      const safe = Number.isFinite(n) ? n : 0;
+      const sign = safe < 0 ? '-' : '';
+      return sign + '$' + Math.abs(safe).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function accValueColor(v) { const n = Number(v); return n > 0 ? '#16a34a' : n < 0 ? '#dc2626' : '#0a0a0a'; }
+    function accKindLabel(k) { return k === 'fondeo' ? 'Fondeo' : 'Capital propio'; }
+    function escAttr(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+    function accSparklineSVG(curve, w, h, color) {
+      if (!curve || curve.length < 2) return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="rgba(0,0,0,.15)" stroke-width="2"/></svg>`;
+      const min = Math.min(...curve), max = Math.max(...curve);
+      const range = (max - min) || 1;
+      const step = w / (curve.length - 1);
+      const pts = curve.map((v,i) => `${(i*step).toFixed(1)},${(h - ((v-min)/range)*h).toFixed(1)}`).join(' ');
+      return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    }
+
+    async function accLoadAll() {
+      const { data: accs } = await sb.from('trading_accounts').select('*').eq('user_id', currentUser.id).order('created_at');
+      accAccounts = accs || [];
+      const { data: trades } = await sb.from('account_trades').select('*').eq('user_id', currentUser.id).order('date');
+      accTradesByAccount = {};
+      (trades || []).forEach(t => { (accTradesByAccount[t.account_id] = accTradesByAccount[t.account_id] || []).push(t); });
+      accRenderList();
+      accRenderHistory();
+    }
+
+    function accGetTrades(id) { return accTradesByAccount[id] || []; }
+
+    function accComputeMetrics(startBalance, trades) {
+      const sorted = [...trades].sort((a,b) => a.date.localeCompare(b.date) || String(a.id).localeCompare(String(b.id)));
+      const curve = [Number(startBalance) || 0];
+      const curveDates = [sorted[0]?.date ?? ''];
+      let running = Number(startBalance) || 0;
+      sorted.forEach(t => { running += Number(t.pnl); curve.push(running); curveDates.push(t.date); });
+      const todayKey = new Date().toISOString().slice(0,10);
+      const todayProfit = sorted.filter(t => t.date === todayKey).reduce((s,t) => s + Number(t.pnl), 0);
+      return { balance: running, equity: running, unrealizedPnl: 0, todayProfit, curve, curveDates };
+    }
+
+    function accComputeStatistics(trades) {
+      const total = trades.length;
+      const wins = trades.filter(t => Number(t.pnl) > 0);
+      const losses = trades.filter(t => Number(t.pnl) < 0);
+      const averageProfit = wins.length ? wins.reduce((s,t)=>s+Number(t.pnl),0)/wins.length : 0;
+      const averageLoss = losses.length ? losses.reduce((s,t)=>s+Number(t.pnl),0)/losses.length : 0;
+      const winRate = total > 0 ? (wins.length/total)*100 : 0;
+      const lots = trades.reduce((s,t)=>s+Number(t.lots||0),0);
+      const grossWin = wins.reduce((s,t)=>s+Number(t.pnl),0);
+      const grossLoss = Math.abs(losses.reduce((s,t)=>s+Number(t.pnl),0));
+      const profitFactor = grossLoss > 0 ? grossWin/grossLoss : (grossWin > 0 ? Infinity : 0);
+      const averageRRR = averageLoss !== 0 ? Math.abs(averageProfit/averageLoss) : 0;
+      const winRateFraction = winRate/100;
+      const expectancy = winRateFraction*averageProfit + (1-winRateFraction)*averageLoss;
+      const mean = total > 0 ? trades.reduce((s,t)=>s+Number(t.pnl),0)/total : 0;
+      const variance = total > 0 ? trades.reduce((s,t)=>s+(Number(t.pnl)-mean)**2,0)/total : 0;
+      const stdDev = Math.sqrt(variance);
+      const sharpeRatio = stdDev > 0 ? mean/stdDev : 0;
+      return { averageProfit, averageLoss, winRate, numberOfTrades: total, lots, sharpeRatio, averageRRR, expectancy, profitFactor };
+    }
+
+    function accComputeDailySummary(trades) {
+      const map = new Map();
+      trades.forEach(t => {
+        const row = map.get(t.date) || { date: t.date, trades: 0, lots: 0, result: 0 };
+        row.trades += 1; row.lots += Number(t.lots||0); row.result += Number(t.pnl);
+        map.set(t.date, row);
+      });
+      return Array.from(map.values()).sort((a,b) => b.date.localeCompare(a.date));
+    }
+
+    // ── LIST ──
+    function accRenderList() {
+      const visibleOnly = document.getElementById('acc-visible-only')?.checked;
+      const active = accAccounts.filter(a => a.status === 'active');
+      const visible = active.filter(a => a.visible);
+      const hidden = active.filter(a => !a.visible);
+      const listEl = document.getElementById('acc-active-list');
+      listEl.innerHTML = visible.length ? visible.map(accCardHTML).join('') : '<div class="acc-empty">No tienes cuentas activas todavía. Crea una con "+ Nueva cuenta".</div>';
+      const hiddenArea = document.getElementById('acc-hidden-area');
+      if (visibleOnly || !hidden.length) {
+        hiddenArea.innerHTML = '';
+      } else {
+        hiddenArea.innerHTML = `<div class="acc-hidden-row" onclick="accToggleHiddenSection()">
+          <span>Cuentas ocultas · <strong>${hidden.length}</strong></span><span id="acc-hidden-chevron">▾</span>
+        </div><div class="acc-list" id="acc-hidden-list" style="display:none"></div>`;
+        document.getElementById('acc-hidden-list').innerHTML = hidden.map(accCardHTML).join('');
+      }
+    }
+
+    function accToggleHiddenSection() {
+      const el = document.getElementById('acc-hidden-list');
+      const chevron = document.getElementById('acc-hidden-chevron');
+      if (!el) return;
+      const open = el.style.display !== 'none';
+      el.style.display = open ? 'none' : 'flex';
+      el.style.flexDirection = 'column';
+      el.style.gap = '1.2rem';
+      chevron.textContent = open ? '▾' : '▴';
+    }
+
+    function accCardHTML(a) {
+      const trades = accGetTrades(a.id);
+      const m = accComputeMetrics(a.balance, trades);
+      const isFondeo = a.kind === 'fondeo';
+      const titleLine = isFondeo ? `${a.step || '2-Step'}: ${a.number}` : a.number;
+      const color = m.curve[m.curve.length-1] >= m.curve[0] ? '#16a34a' : '#dc2626';
+      const endLabel = a.end_date ? new Date(a.end_date).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'}) : 'Ilimitado';
+      return `<div class="card acc-card">
+        <div class="acc-card-top">
+          <div class="acc-badges">
+            <span class="acc-badge acc-badge-active">Activa</span>
+            <span class="acc-badge acc-badge-kind">${isFondeo ? (a.firm || 'Fondeo') : 'Capital propio'}</span>
+          </div>
+          <label class="acc-switch-label">Visible
+            <label class="acc-switch"><input type="checkbox" ${a.visible?'checked':''} onchange="accSetVisible('${a.id}', this.checked)"/><span class="acc-switch-slider"></span></label>
+          </label>
+        </div>
+        <div class="acc-card-title" onclick="accGotoDetail('${a.id}')">${titleLine}</div>
+        <div class="acc-card-sub">${a.name}</div>
+        <div class="acc-divider"></div>
+        <div class="acc-row-info">
+          <div><span class="acc-info-label">Balance</span><span class="acc-info-val">${accFmtMoney(a.balance)}</span></div>
+          <div><span class="acc-info-label">End</span><span class="acc-info-val">${endLabel}</span></div>
+          <div><span class="acc-info-label">Status</span><span class="acc-info-val" style="color:#16a34a">Activa</span></div>
+        </div>
+        <div class="acc-row-chart">
+          ${accSparklineSVG(m.curve, 130, 52, color)}
+          <div class="acc-actions">
+            <button class="acc-action-btn" onclick="accOpenCredentials('${a.id}')">Credenciales</button>
+            <button class="acc-action-btn" onclick="accGotoDetail('${a.id}','statistics')">Account MetriX</button>
+            <button class="acc-action-btn" onclick="accOpenMentor()">Mentor</button>
+          </div>
+          <button class="acc-detail-btn" onclick="accGotoDetail('${a.id}')">Detalle →</button>
+        </div>
+        <div class="acc-metrics-row">
+          <div><span class="acc-info-label">Today's profit</span><span class="acc-info-val" style="color:${accValueColor(m.todayProfit)}">${accFmtMoney(m.todayProfit)}</span></div>
+          <div><span class="acc-info-label">Equity</span><span class="acc-info-val">${accFmtMoney(m.equity)}</span></div>
+          <div><span class="acc-info-label">Unrealized PnL</span><span class="acc-info-val" style="color:var(--muted)">${trades.length ? accFmtMoney(m.unrealizedPnl) : 'Sin operaciones'}</span></div>
+        </div>
+      </div>`;
+    }
+
+    async function accSetVisible(id, val) {
+      await sb.from('trading_accounts').update({ visible: val }).eq('id', id);
+      const a = accAccounts.find(x => x.id === id);
+      if (a) a.visible = val;
+      accRenderList();
+    }
+
+    function accRenderHistory() {
+      const closed = accAccounts.filter(a => a.status === 'closed');
+      const el = document.getElementById('acc-history-card');
+      if (!closed.length) { el.innerHTML = '<div class="acc-empty">No tienes cuentas cerradas todavía.</div>'; return; }
+      el.innerHTML = closed.map(a => {
+        const trades = accGetTrades(a.id);
+        const m = accComputeMetrics(a.balance, trades);
+        const resultLabel = a.result === 'passing' ? 'Passing' : a.result === 'not_passing' ? 'Not passing' : '—';
+        const resultColor = a.result === 'passing' ? '#16a34a' : a.result === 'not_passing' ? '#dc2626' : '#8a8a8a';
+        return `<div class="acc-history-row" onclick="accGotoDetail('${a.id}')">
+          <div class="acc-history-left">
+            <span class="acc-history-name">${a.name}</span>
+            <span class="acc-history-meta">${accKindLabel(a.kind)} · ${a.number}</span>
+          </div>
+          <div style="text-align:right">
+            <div class="acc-info-val" style="color:${resultColor}">${resultLabel}</div>
+            <div class="acc-history-meta">${accFmtMoney(m.balance)}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── ADD / EDIT ──
+    function accFieldHTML(id, label, type, value, placeholder) {
+      return `<div style="margin-bottom:.9rem"><label style="${accLabelStyle}">${label}</label>
+        <input id="${id}" type="${type}" value="${escAttr(value)}" placeholder="${escAttr(placeholder)}" style="${accInputStyle}"/>
+      </div>`;
+    }
+    function accKindBtnStyle(active) {
+      return `padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:Inter,sans-serif;background:${active?'rgba(37,99,235,.14)':'transparent'};border:1px solid ${active?'var(--gold)':'rgba(255,255,255,.08)'};color:${active?'var(--gold)':'rgba(255,255,255,.4)'}`;
+    }
+    function accFormSetKind(kind) {
+      document.getElementById('acc-f-kind').value = kind;
+      document.getElementById('acc-f-kind-fondeo').setAttribute('style', accKindBtnStyle(kind==='fondeo'));
+      document.getElementById('acc-f-kind-propio').setAttribute('style', accKindBtnStyle(kind!=='fondeo'));
+      document.getElementById('acc-f-fondeo-fields').style.display = kind==='fondeo' ? 'block' : 'none';
+      document.getElementById('acc-f-objectives').style.display = kind==='fondeo' ? 'block' : 'none';
+      document.getElementById('acc-f-propio-fields').style.display = kind!=='fondeo' ? 'block' : 'none';
+    }
+
+    function accOpenForm(mode, id) {
+      const a = mode === 'edit' ? accAccounts.find(x => x.id === id) : null;
+      const kind = a?.kind || 'fondeo';
+      const overlay = document.createElement('div');
+      overlay.id = 'acc-modal';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);padding:2rem;overflow-y:auto';
+      overlay.innerHTML = `<div style="background:#0d0f1a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:2rem;width:100%;max-width:460px;position:relative;max-height:90vh;overflow-y:auto">
+        <button onclick="document.getElementById('acc-modal').remove()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.06);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.9rem">✕</button>
+        <div style="font-size:1.05rem;font-weight:800;margin-bottom:1.3rem">${mode === 'edit' ? 'Editar cuenta' : 'Nueva cuenta'}</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:1rem">
+          <button type="button" id="acc-f-kind-fondeo" onclick="accFormSetKind('fondeo')" style="${accKindBtnStyle(kind === 'fondeo')}">Fondeo</button>
+          <button type="button" id="acc-f-kind-propio" onclick="accFormSetKind('capital_propio')" style="${accKindBtnStyle(kind !== 'fondeo')}">Capital propio</button>
+        </div>
+        <input type="hidden" id="acc-f-kind" value="${kind}"/>
+
+        ${accFieldHTML('acc-f-name','Nombre de la cuenta','text', a?.name || '', 'Ej: FTMO 100K')}
+        ${accFieldHTML('acc-f-number','Número de cuenta','text', a?.number || '', 'Ej: 531284834')}
+
+        <div id="acc-f-fondeo-fields" style="display:${kind==='fondeo'?'block':'none'}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+            <div style="margin-bottom:.9rem"><label style="${accLabelStyle}">Step</label>
+              <select id="acc-f-step" style="${accInputStyle}">
+                <option value="1-Step" ${a?.step==='1-Step'?'selected':''}>1-Step</option>
+                <option value="2-Step" ${a?.step!=='1-Step'?'selected':''}>2-Step</option>
+              </select>
+            </div>
+            ${accFieldHTML('acc-f-firm','Prop firm','text', a?.firm || '', 'Ej: FTMO')}
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+          ${accFieldHTML('acc-f-balance','Balance / capital inicial ($)','number', a?.balance ?? '', '10000')}
+          ${accFieldHTML('acc-f-platform','Plataforma','text', a?.platform || '', 'MT4 / MT5')}
+        </div>
+
+        <div id="acc-f-propio-fields" style="display:${kind!=='fondeo'?'block':'none'}">
+          ${accFieldHTML('acc-f-accounttype','Tipo de cuenta','text', a?.account_type || '', 'Ej: Personal')}
+        </div>
+
+        ${accFieldHTML('acc-f-startdate','Fecha de inicio','date', a?.start_date || new Date().toISOString().slice(0,10), '')}
+
+        <div id="acc-f-objectives" style="display:${kind==='fondeo'?'block':'none'}">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.6rem">
+            ${accFieldHTML('acc-f-target','Profit target %','number', a?.profit_target_percent ?? '', '10')}
+            ${accFieldHTML('acc-f-dailyloss','Max daily loss %','number', a?.max_daily_loss_percent ?? '', '5')}
+            ${accFieldHTML('acc-f-maxloss','Max loss %','number', a?.max_loss_percent ?? '', '10')}
+          </div>
+        </div>
+
+        <button onclick="accSaveForm('${mode}'${a ? `,'${a.id}'` : ''})" style="width:100%;background:var(--gold);color:#05070f;border:none;padding:.75rem;border-radius:8px;font-weight:800;font-size:.88rem;cursor:pointer;margin-top:.4rem">${mode==='edit'?'Guardar cambios':'Crear cuenta'}</button>
+      </div>`;
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+      document.body.appendChild(overlay);
+    }
+
+    async function accSaveForm(mode, id) {
+      const kind = document.getElementById('acc-f-kind').value;
+      const name = document.getElementById('acc-f-name').value.trim();
+      const number = document.getElementById('acc-f-number').value.trim();
+      const balance = parseFloat(document.getElementById('acc-f-balance').value);
+      if (!name || !number || isNaN(balance)) { alert('Completa nombre, número y balance.'); return; }
+      const payload = {
+        user_id: currentUser.id,
+        kind, name, number, balance,
+        platform: document.getElementById('acc-f-platform').value.trim() || null,
+        start_date: document.getElementById('acc-f-startdate').value || new Date().toISOString().slice(0,10),
+      };
+      if (kind === 'fondeo') {
+        payload.step = document.getElementById('acc-f-step').value;
+        payload.firm = document.getElementById('acc-f-firm').value.trim() || null;
+        const target = parseFloat(document.getElementById('acc-f-target').value);
+        const dailyloss = parseFloat(document.getElementById('acc-f-dailyloss').value);
+        const maxloss = parseFloat(document.getElementById('acc-f-maxloss').value);
+        payload.profit_target_percent = isNaN(target) ? null : target;
+        payload.max_daily_loss_percent = isNaN(dailyloss) ? null : dailyloss;
+        payload.max_loss_percent = isNaN(maxloss) ? null : maxloss;
+        payload.account_type = null;
+      } else {
+        payload.account_type = document.getElementById('acc-f-accounttype').value.trim() || null;
+        payload.step = null; payload.firm = null;
+        payload.profit_target_percent = null; payload.max_daily_loss_percent = null; payload.max_loss_percent = null;
+      }
+      let error;
+      if (mode === 'edit') { ({ error } = await sb.from('trading_accounts').update(payload).eq('id', id)); }
+      else { ({ error } = await sb.from('trading_accounts').insert({ ...payload, status: 'active', visible: true })); }
+      if (error) { alert('Error al guardar: ' + error.message); return; }
+      document.getElementById('acc-modal').remove();
+      await accLoadAll();
+    }
+
+    // ── CREDENTIALS / MENTOR ──
+    function accOpenCredentials(id) {
+      const a = accAccounts.find(x => x.id === id);
+      if (!a) return;
+      const overlay = document.createElement('div');
+      overlay.id = 'acc-modal';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+      overlay.innerHTML = `<div style="background:#0d0f1a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:2rem;width:100%;max-width:380px;position:relative">
+        <button onclick="document.getElementById('acc-modal').remove()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.06);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.9rem">✕</button>
+        <div style="font-size:1rem;font-weight:800;margin-bottom:1.2rem">Credenciales</div>
+        <div style="display:flex;flex-direction:column;gap:.9rem">
+          <div><span class="acc-info-label">Plataforma</span><div class="acc-info-val">${a.platform || '—'}</div></div>
+          <div><span class="acc-info-label">Número de cuenta</span><div class="acc-info-val">${a.number}</div></div>
+          <div><span class="acc-info-label">Firma / Broker</span><div class="acc-info-val">${a.firm || '—'}</div></div>
+        </div>
+        <div style="margin-top:1.3rem;font-size:.7rem;color:rgba(255,255,255,.3);line-height:1.5">Por seguridad no guardamos usuario ni contraseña de la plataforma aquí. Consérvalos en tu gestor de contraseñas.</div>
+      </div>`;
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+      document.body.appendChild(overlay);
+    }
+
+    function accOpenMentor() {
+      const overlay = document.createElement('div');
+      overlay.id = 'acc-modal';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+      overlay.innerHTML = `<div style="background:#0d0f1a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:2rem;width:100%;max-width:380px;position:relative;text-align:center">
+        <button onclick="document.getElementById('acc-modal').remove()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.06);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.9rem">✕</button>
+        <div style="font-size:1rem;font-weight:800;margin-bottom:.5rem">Habla con tu mentor</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.4);margin-bottom:1.3rem;line-height:1.5">Accede a mentorías y clases en vivo para acelerar tu progreso.</div>
+        <a href="clases.html" class="btn-gold" style="display:inline-block">Ver clases →</a>
+      </div>`;
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+      document.body.appendChild(overlay);
+    }
+
+    // ── DETAIL ──
+    function accGotoDetail(id, tab) {
+      accCurrentAccountId = id;
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+      document.getElementById('view-account-detail').classList.add('active');
+      const link = document.querySelector('.sidebar-link[data-view="accounts"]');
+      if (link) link.classList.add('active');
+      accRenderDetail();
+      accShowTab(tab || 'overview');
+      window.scrollTo(0,0);
+    }
+
+    function accRenderDetail() {
+      const a = accAccounts.find(x => x.id === accCurrentAccountId);
+      if (!a) { showView('accounts', document.querySelector('.sidebar-link[data-view="accounts"]')); return; }
+      const trades = accGetTrades(a.id);
+      const isFondeo = a.kind === 'fondeo';
+      document.getElementById('acc-detail-eyebrow').textContent = isFondeo ? (a.firm || 'Fondeo') : 'Capital propio';
+      document.getElementById('acc-detail-title').textContent = a.name;
+      document.getElementById('acc-detail-sub').textContent = isFondeo ? `${a.step || '2-Step'} · #${a.number}` : `${a.account_type || 'Propio'} · #${a.number}`;
+
+      const m = accComputeMetrics(a.balance, trades);
+      document.getElementById('ad-balance').textContent = accFmtMoney(m.balance);
+      document.getElementById('ad-equity').textContent = accFmtMoney(m.equity);
+      const unrealEl = document.getElementById('ad-unrealized');
+      unrealEl.textContent = accFmtMoney(m.unrealizedPnl); unrealEl.style.color = accValueColor(m.unrealizedPnl);
+      const todayEl = document.getElementById('ad-today');
+      todayEl.textContent = accFmtMoney(m.todayProfit); todayEl.style.color = accValueColor(m.todayProfit);
+
+      const objEl = document.getElementById('ad-objectives');
+      if (isFondeo && (a.profit_target_percent || a.max_daily_loss_percent || a.max_loss_percent)) {
+        let html = '';
+        if (a.profit_target_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#16a34a"></span>Profit Target: ${accFmtMoney(a.balance * (1 + a.profit_target_percent/100))}</div>`;
+        if (a.max_daily_loss_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#dc2626"></span>Max Daily Loss: ${accFmtMoney(a.balance * (a.max_daily_loss_percent/100))}</div>`;
+        if (a.max_loss_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#dc2626"></span>Max Loss: ${accFmtMoney(a.balance * (1 - a.max_loss_percent/100))}</div>`;
+        objEl.innerHTML = html;
+      } else { objEl.innerHTML = ''; }
+
+      if (accDetailChart) { accDetailChart.destroy(); accDetailChart = null; }
+      const labels = m.curveDates.map((d,i) => i===0 ? 'Inicio' : d);
+      accDetailChart = new Chart(document.getElementById('acc-detail-chart'), {
+        type: 'line',
+        data: { labels, datasets: [{ data: m.curve, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.06)', borderWidth:2.5, pointRadius: labels.length>24?0:3, pointHoverRadius:5, pointBackgroundColor:'#2563eb', fill:true, tension:.1 }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display:false }, tooltip: { callbacks: { label: ctx => ' ' + accFmtMoney(ctx.parsed.y) }, backgroundColor:'#07091a', titleColor:'rgba(255,255,255,.6)', bodyColor:'#fff', borderColor:'rgba(255,255,255,.1)', borderWidth:1, padding:10 } },
+          scales: {
+            x: { grid: { color:'rgba(0,0,0,.04)' }, ticks: { font:{size:10}, color:'#8892aa', maxTicksLimit:10 } },
+            y: { grid: { color:'rgba(0,0,0,.05)' }, ticks: { callback: v => '$'+Number(v).toLocaleString(), font:{size:10}, color:'#8892aa' } }
+          }
+        }
+      });
+
+      accRenderTradesTab(a, trades);
+      accRenderStatisticsTab(trades, a);
+      accRenderAccountTab(a);
+      if (trades.length) {
+        const sorted = [...trades].sort((x,y) => x.date.localeCompare(y.date));
+        const last = sorted[sorted.length-1].date.split('-');
+        accCalYear = +last[0]; accCalMonth = +last[1]-1;
+      } else {
+        accCalYear = new Date().getFullYear(); accCalMonth = new Date().getMonth();
+      }
+      accRenderCalendar();
+    }
+
+    function accShowTab(tab) {
+      document.querySelectorAll('.acc-tab-panel').forEach(p => p.style.display = 'none');
+      document.getElementById('acc-panel-' + tab).style.display = 'block';
+      document.querySelectorAll('.acc-tab').forEach(b => b.classList.remove('active'));
+      const idx = { overview:0, trades:1, calendar:2, statistics:3, account:4 }[tab];
+      document.querySelectorAll('.acc-tab')[idx].classList.add('active');
+    }
+
+    // ── TRADES TAB ──
+    function accRenderTradesTab(a, trades) {
+      const el = document.getElementById('acc-trades-list');
+      const sorted = [...trades].sort((x,y) => y.date.localeCompare(x.date));
+      if (!sorted.length) { el.innerHTML = '<div class="acc-empty">No has registrado trades todavía.</div>'; return; }
+      el.innerHTML = sorted.map(t => `<div class="trade-row" style="cursor:pointer;padding:1rem 1.6rem" onclick="accOpenTradeModal('${t.id}')">
+        <span class="trade-date" style="width:90px">${t.date}</span>
+        <span class="trade-title">${t.lots ? Number(t.lots).toFixed(2) + ' lots' : ''}</span>
+        <span class="trade-r" style="color:${accValueColor(t.pnl)}">${accFmtMoney(t.pnl)}</span>
+      </div>`).join('');
+    }
+
+    function accOpenTradeModal(tradeId, presetDate) {
+      const trades = accGetTrades(accCurrentAccountId);
+      const t = tradeId ? trades.find(x => x.id === tradeId) : null;
+      const dateVal = t?.date || presetDate || new Date().toISOString().slice(0,10);
+      const overlay = document.createElement('div');
+      overlay.id = 'acc-modal';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+      overlay.innerHTML = `<div style="background:#0d0f1a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:2rem;width:100%;max-width:380px;position:relative">
+        <button onclick="document.getElementById('acc-modal').remove()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.06);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.9rem">✕</button>
+        <div style="font-size:1rem;font-weight:800;margin-bottom:1.3rem">${t ? 'Editar trade' : 'Añadir trade'}</div>
+        ${accFieldHTML('acc-t-date','Fecha','date', dateVal, '')}
+        ${accFieldHTML('acc-t-pnl','Resultado ($, negativo si es pérdida)','number', t?.pnl ?? '', '150')}
+        ${accFieldHTML('acc-t-lots','Lots (opcional)','number', t?.lots ?? '', '0.50')}
+        <div style="display:flex;gap:.6rem;margin-top:.4rem">
+          ${t ? `<button onclick="accDeleteTrade('${t.id}')" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#dc2626;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>` : ''}
+          <button onclick="accSaveTrade(${t ? `'${t.id}'` : 'null'})" style="flex:1;background:var(--gold);color:#05070f;border:none;padding:.65rem;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer">Guardar</button>
+        </div>
+      </div>`;
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+      document.body.appendChild(overlay);
+    }
+
+    async function accSaveTrade(id) {
+      const date = document.getElementById('acc-t-date').value;
+      const pnl = parseFloat(document.getElementById('acc-t-pnl').value);
+      const lotsVal = document.getElementById('acc-t-lots').value;
+      const lots = lotsVal === '' ? null : parseFloat(lotsVal);
+      if (!date || isNaN(pnl)) { alert('Completa fecha y resultado.'); return; }
+      const payload = { account_id: accCurrentAccountId, user_id: currentUser.id, date, pnl, lots };
+      let error;
+      if (id) { ({ error } = await sb.from('account_trades').update(payload).eq('id', id)); }
+      else { ({ error } = await sb.from('account_trades').insert(payload)); }
+      if (error) { alert('Error al guardar: ' + error.message); return; }
+      document.getElementById('acc-modal').remove();
+      await accReloadCurrentAccountTrades();
+    }
+
+    async function accDeleteTrade(id) {
+      if (!confirm('¿Eliminar este trade?')) return;
+      await sb.from('account_trades').delete().eq('id', id);
+      document.getElementById('acc-modal').remove();
+      await accReloadCurrentAccountTrades();
+    }
+
+    async function accReloadCurrentAccountTrades() {
+      const { data } = await sb.from('account_trades').select('*').eq('account_id', accCurrentAccountId).order('date');
+      accTradesByAccount[accCurrentAccountId] = data || [];
+      accRenderDetail();
+    }
+
+    // ── CALENDAR TAB ──
+    function accCalPrev() { accCalMonth--; if (accCalMonth<0){accCalMonth=11;accCalYear--;} accRenderCalendar(); }
+    function accCalNext() { accCalMonth++; if (accCalMonth>11){accCalMonth=0;accCalYear++;} accRenderCalendar(); }
+
+    function accRenderCalendar() {
+      document.getElementById('acc-cal-title').textContent = ACC_MONTH_NAMES[accCalMonth] + ' ' + accCalYear;
+      document.getElementById('acc-cal-weekdays').innerHTML = ACC_WEEKDAYS.map(w => `<div class="acc-cal-weekday">${w}</div>`).join('');
+      const trades = accGetTrades(accCurrentAccountId);
+      const map = {};
+      trades.forEach(t => { (map[t.date] = map[t.date] || []).push(t); });
+      const firstDay = new Date(accCalYear, accCalMonth, 1).getDay();
+      const days = new Date(accCalYear, accCalMonth+1, 0).getDate();
+      let html = '';
+      for (let i=0; i<firstDay; i++) html += '<div class="acc-cal-cell empty-day"></div>';
+      for (let d=1; d<=days; d++) {
+        const ds = `${accCalYear}-${String(accCalMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const dayTrades = map[ds];
+        if (dayTrades) {
+          const total = dayTrades.reduce((s,t) => s + Number(t.pnl), 0);
+          const isWin = total >= 0;
+          html += `<div class="acc-cal-cell has-trade" style="background:${isWin?'#4ade80':'#f87171'}" onclick="accOpenTradeModal('${dayTrades[0].id}')">
+            <div class="acc-cal-daynum">${d}</div>
+            <div class="acc-cal-amount">${accFmtMoney(total)}</div>
+            <div class="acc-cal-count">${dayTrades.length} ${dayTrades.length===1?'trade':'trades'}</div>
+          </div>`;
+        } else {
+          html += `<div class="acc-cal-cell empty-day" onclick="accOpenTradeModal(null,'${ds}')"><div class="acc-cal-daynum">${d}</div></div>`;
+        }
+      }
+      document.getElementById('acc-cal-body').innerHTML = html;
+    }
+
+    // ── STATISTICS TAB ──
+    function accRenderStatisticsTab(trades, a) {
+      const m = accComputeMetrics(a.balance, trades);
+      const s = accComputeStatistics(trades);
+      const cell = (label, val, color) => `<div class="acc-stat-cell"><span class="acc-info-label">${label}</span><span class="acc-info-val" style="${color?`color:${color}`:''}">${val}</span></div>`;
+      document.getElementById('acc-stats-grid').innerHTML = [
+        cell('Balance', accFmtMoney(m.balance)),
+        cell('Equity', accFmtMoney(m.equity)),
+        cell('Average profit', accFmtMoney(s.averageProfit), '#16a34a'),
+        cell('Average loss', accFmtMoney(s.averageLoss), '#dc2626'),
+        cell('Win rate', s.winRate.toFixed(2) + '%'),
+        cell('Number of trades', String(s.numberOfTrades)),
+        cell('Lots', s.lots.toFixed(2)),
+        cell('Sharpe Ratio', s.sharpeRatio.toFixed(2), s.sharpeRatio>=0?'#16a34a':'#dc2626'),
+        cell('Average RRR', s.averageRRR.toFixed(2)),
+        cell('Expectancy', accFmtMoney(s.expectancy), s.expectancy>=0?'#16a34a':'#dc2626'),
+        cell('Profit factor', Number.isFinite(s.profitFactor)?s.profitFactor.toFixed(2):'∞', s.profitFactor>=1?'#16a34a':'#dc2626'),
+      ].join('');
+
+      const daily = accComputeDailySummary(trades);
+      const el = document.getElementById('acc-daily-summary');
+      if (!daily.length) { el.innerHTML = '<div class="acc-empty">Sin datos todavía.</div>'; return; }
+      el.innerHTML = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.9rem 0;border-bottom:1px solid var(--border);font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">
+        <span>Fecha</span><span style="text-align:center">Trades</span><span style="text-align:center">Lots</span><span style="text-align:right">Resultado</span>
+      </div>` + daily.map(r => `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.8rem 0;border-bottom:1px solid var(--border);font-size:.8rem">
+        <span>${r.date}</span><span style="text-align:center">${r.trades}</span><span style="text-align:center">${r.lots.toFixed(2)}</span><span style="text-align:right;font-weight:700;color:${accValueColor(r.result)}">${accFmtMoney(r.result)}</span>
+      </div>`).join('');
+    }
+
+    // ── ACCOUNT TAB ──
+    function accRenderAccountTab(a) {
+      const isFondeo = a.kind === 'fondeo';
+      function row(label, val, color) {
+        const style = color ? `font-weight:700;font-size:.85rem;color:${color}` : 'font-weight:700;font-size:.85rem';
+        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.6rem;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-size:.82rem">${label}</span><span style="${style}">${val}</span></div>`;
+      }
+      const detailsEl = document.getElementById('acc-account-details');
+      detailsEl.innerHTML =
+        row('Status', a.status==='active' ? 'Activa' : 'Cerrada', a.status==='active'?'#16a34a':'#8a8a8a') +
+        row(isFondeo ? (a.firm || 'Prop firm') : 'Cuenta', a.number) +
+        row('Inicio', a.start_date) +
+        row('Fin', a.end_date || '—') +
+        row('Tamaño de cuenta', accFmtMoney(a.balance)) +
+        row('Tipo de cuenta', isFondeo ? (a.step||'2-Step') : (a.account_type || '—')) +
+        row('Plataforma', a.platform || '—');
+      if (detailsEl.lastElementChild) detailsEl.lastElementChild.style.borderBottom = 'none';
+      document.getElementById('acc-visible-toggle').checked = a.visible;
+
+      const danger = document.getElementById('acc-danger-zone');
+      if (a.status === 'active') {
+        danger.innerHTML = `
+          <div style="display:flex;gap:.7rem;margin-bottom:1.2rem">
+            <button onclick="accCloseAccount('passing')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.75rem;border-radius:10px;border:1px solid #16a34a;background:transparent;color:#16a34a;font-weight:700;font-size:.82rem;cursor:pointer">✓ Passing</button>
+            <button onclick="accCloseAccount('not_passing')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.75rem;border-radius:10px;border:1px solid #dc2626;background:transparent;color:#dc2626;font-weight:700;font-size:.82rem;cursor:pointer">✕ Not passing</button>
+          </div>
+          <button onclick="accDeleteAccount()" style="width:100%;background:transparent;border:none;color:#dc2626;padding:.8rem;font-weight:600;font-size:.82rem;cursor:pointer">Eliminar cuenta</button>`;
+      } else {
+        danger.innerHTML = `<button onclick="accDeleteAccount()" style="width:100%;background:transparent;border:none;color:#dc2626;padding:.8rem;font-weight:600;font-size:.82rem;cursor:pointer">Eliminar cuenta</button>`;
+      }
+    }
+
+    async function accToggleVisible(val) {
+      await sb.from('trading_accounts').update({ visible: val }).eq('id', accCurrentAccountId);
+      const a = accAccounts.find(x => x.id === accCurrentAccountId);
+      if (a) a.visible = val;
+    }
+
+    async function accCloseAccount(result) {
+      if (!confirm(result==='passing' ? '¿Marcar esta cuenta como Passing (superada)?' : '¿Marcar esta cuenta como Not passing (fallida)?')) return;
+      const today = new Date().toISOString().slice(0,10);
+      await sb.from('trading_accounts').update({ status:'closed', result, closed_at: new Date().toISOString(), end_date: today }).eq('id', accCurrentAccountId);
+      await accLoadAll();
+      showView('accounts', document.querySelector('.sidebar-link[data-view="accounts"]'));
+    }
+
+    async function accDeleteAccount() {
+      if (!confirm('¿Eliminar esta cuenta y todos sus trades? Esta acción no se puede deshacer.')) return;
+      await sb.from('account_trades').delete().eq('account_id', accCurrentAccountId);
+      await sb.from('trading_accounts').delete().eq('id', accCurrentAccountId);
+      await accLoadAll();
+      showView('accounts', document.querySelector('.sidebar-link[data-view="accounts"]'));
     }
 
     async function logout() { await sb.auth.signOut(); location.href = 'index.html'; }

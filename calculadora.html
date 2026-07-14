@@ -350,6 +350,20 @@
       .nav-cta { display: none; }
     }
 
+
+    /* ── NAV SCROLL ── */
+    nav { transition: background .35s, box-shadow .35s, border-color .35s; }
+    nav.nav-scrolled { background: #fff !important; box-shadow: 0 2px 20px rgba(0,0,0,.08); border-bottom: 1px solid #e8e8e5; }
+    nav.nav-scrolled .nav-logo { color: #05070f !important; }
+    nav.nav-scrolled .nav-logo span { color: #c9a84c; }
+    nav.nav-scrolled .nav-links > li > a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
+    nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
+    nav.nav-scrolled .nav-drop { background: #fff !important; border-color: #e8e8e5 !important; }
+    nav.nav-scrolled .nav-drop a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-drop a:hover { color: #05070f !important; background: #f5f4f1 !important; }
+    nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
   </style>
 </head>
 <body>
@@ -376,8 +390,8 @@
       </li>
     </ul>
     <div class="nav-right">
-      <a href="estadisticas.html" class="nav-ghost">Estadísticas</a>
-      <a href="trades.html" class="nav-cta">Diario de Trades</a>
+      <a href="auth.html?tab=login" class="nav-ghost">Ingresar</a>
+      <a href="auth.html" class="nav-cta">Registrarse</a>
       <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -407,13 +421,9 @@
       <div class="sim-card">
         <div class="sim-card-title">Configura tu simulación</div>
         <div class="strat-row">
-          <button class="strat-btn active" data-strategy="daily" onclick="selectStrategy('daily',this)">
-            <span class="strat-btn-name">XAUUSD Daily</span>
-            <span class="strat-btn-desc">Operativa diaria · Mayor frecuencia</span>
-          </button>
-          <button class="strat-btn" data-strategy="swing" onclick="selectStrategy('swing',this)">
+          <button class="strat-btn active" data-strategy="swing" onclick="selectStrategy('swing',this)">
             <span class="strat-btn-name">XAUUSD Swing</span>
-            <span class="strat-btn-desc">Operativa semanal · Menor frecuencia</span>
+            <span class="strat-btn-desc">Swing trading · ~16 trades/mes</span>
           </button>
         </div>
         <div class="form-grid">
@@ -443,7 +453,7 @@
         <div id="save-bar" style="display:none; background:rgba(201,168,76,.08); border:1px solid rgba(201,168,76,.2); border-radius:12px; padding:1rem 1.4rem; margin-bottom:1.2rem; display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
           <span id="save-bar-user" style="font-size:.78rem; color:rgba(255,255,255,.5); flex:1;">Guarda esta simulación en tu perfil</span>
           <input id="sim-name" placeholder="Nombre de la simulación" style="background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:8px; padding:.5rem .9rem; color:#fff; font-size:.8rem; font-family:Inter,sans-serif; outline:none; width:220px;" />
-          <button onclick="saveSimulation()" style="background:#c9a84c; color:#05070f; border:none; border-radius:8px; padding:.5rem 1.1rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s;" onmouseover="this.style.background='#e8c97a'" onmouseout="this.style.background='#c9a84c'">Guardar →</button>
+          <button onclick="saveSimulation()" style="background:#c9a84c; color:#05070f; border:none; border-radius:8px; padding:.5rem 1.1rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s;" onmouseover="this.style.background='#b8933e'" onmouseout="this.style.background='#c9a84c'">Guardar →</button>
           <span id="save-msg" style="font-size:.75rem; display:none;"></span>
         </div>
         <div id="save-login-bar" style="display:none; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:.9rem 1.4rem; margin-bottom:1.2rem; display:flex; align-items:center; justify-content:space-between; gap:1rem;">
@@ -511,7 +521,7 @@
 
 <script>
 /* ─── STATE ─── */
-let selectedStrategy = 'daily';
+let selectedStrategy = 'swing';
 let lastResult = null;
 const cache = {};
 
@@ -1086,6 +1096,5 @@ function hideError()     { document.getElementById('errorMsg').style.display='no
       });
     });
   </script>
-
 </body>
 </html>
