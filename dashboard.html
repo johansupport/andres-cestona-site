@@ -4,49 +4,49 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard — Andrés Cestona</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
     :root {
-      --black: #05070f; --dark: #0a0a0a; --mid: #4a4a4a;
-      --muted: #8a8a8a; --border: rgba(0,0,0,.08); --border-dark: rgba(255,255,255,.08); --bg: #fff; --bg2: #f7f7f5;
-      --gold: #2563eb; --gold2: #1d4ed8; --green: #16a34a; --red: #dc2626;
+      --black: #05070f; --dark: #111; --mid: #555;
+      --muted: #999; --border: rgba(255,255,255,.08); --bg: #fff; --bg2: #f7f7f5;
+      --gold: #c9a84c; --gold2: #e8c97a; --green: #4ade80; --red: #f87171;
     }
     html { scroll-behavior:smooth; }
-    body { font-family:'Inter',sans-serif; background:var(--bg2); min-height:100vh; -webkit-font-smoothing:antialiased; color:var(--dark); }
+    body { font-family:'Inter',sans-serif; background:var(--black); min-height:100vh; -webkit-font-smoothing:antialiased; color:#fff; }
 
     /* LOADING */
     #loading-screen { position:fixed; inset:0; background:var(--black); display:flex; align-items:center; justify-content:center; z-index:999; }
-    .loading-logo { font-family:'Inter',sans-serif; font-size:2rem; font-weight:900; color:#fff; }
+    .loading-logo { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:#fff; }
     .loading-logo span { color:var(--gold); }
     .loading-dot { animation:blink 1.2s infinite; color:var(--gold); }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     /* NAV */
-    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 2rem 0 0; background:var(--black); border-bottom:1px solid var(--border-dark); }
-    .nav-logo-area { width:220px; flex-shrink:0; display:flex; align-items:center; padding:0 1.5rem; height:100%; border-right:1px solid var(--border-dark); }
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 2rem 0 0; background:var(--black); border-bottom:1px solid var(--border); }
+    .nav-logo-area { width:220px; flex-shrink:0; display:flex; align-items:center; padding:0 1.5rem; height:100%; border-right:1px solid var(--border); }
     .nav-logo { font-size:.95rem; font-weight:800; color:#fff; text-decoration:none; }
     .nav-logo span { color:var(--gold); }
     .nav-right { display:flex; align-items:center; gap:1rem; margin-left:auto; }
     .nav-user { font-size:.78rem; color:rgba(255,255,255,.4); }
     .nav-user strong { color:rgba(255,255,255,.85); font-weight:600; }
-    .btn-logout { background:transparent; border:1px solid var(--border-dark); color:rgba(255,255,255,.4); padding:.38rem .9rem; border-radius:6px; font-size:.75rem; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
+    .btn-logout { background:transparent; border:1px solid var(--border); color:rgba(255,255,255,.4); padding:.38rem .9rem; border-radius:6px; font-size:.75rem; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
     .btn-logout:hover { border-color:rgba(255,255,255,.3); color:#fff; }
 
     /* LAYOUT */
     .dash-layout { padding-top:64px; display:flex; min-height:100vh; }
 
     /* SIDEBAR */
-    .sidebar { width:220px; flex-shrink:0; background:var(--bg); border-right:1px solid var(--border); padding:1.5rem 0; position:sticky; top:64px; height:calc(100vh - 64px); overflow-y:auto; }
+    .sidebar { width:220px; flex-shrink:0; background:rgba(255,255,255,.015); border-right:1px solid var(--border); padding:1.5rem 0; position:sticky; top:64px; height:calc(100vh - 64px); overflow-y:auto; }
     .sidebar-section { padding:0 1rem; margin-bottom:1.5rem; }
-    .sidebar-label { font-size:.55rem; font-weight:700; color:rgba(0,0,0,.3); text-transform:uppercase; letter-spacing:2.5px; padding:0 .6rem; margin-bottom:.5rem; display:block; }
-    .sidebar-link { display:flex; align-items:center; gap:.65rem; padding:.55rem .6rem; border-radius:8px; font-size:.78rem; color:var(--mid); text-decoration:none; transition:all .2s; cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; width:100%; text-align:left; }
-    .sidebar-link:hover { color:var(--dark); background:rgba(0,0,0,.04); }
-    .sidebar-link.active { color:var(--gold); background:rgba(37,99,235,.1); }
+    .sidebar-label { font-size:.55rem; font-weight:700; color:rgba(255,255,255,.18); text-transform:uppercase; letter-spacing:2.5px; padding:0 .6rem; margin-bottom:.5rem; display:block; }
+    .sidebar-link { display:flex; align-items:center; gap:.65rem; padding:.55rem .6rem; border-radius:8px; font-size:.78rem; color:rgba(255,255,255,.4); text-decoration:none; transition:all .2s; cursor:pointer; border:none; background:none; font-family:'Inter',sans-serif; width:100%; text-align:left; }
+    .sidebar-link:hover { color:rgba(255,255,255,.85); background:rgba(255,255,255,.05); }
+    .sidebar-link.active { color:#fff; background:rgba(201,168,76,.12); }
     .sidebar-link.active svg { color:var(--gold); }
-    .sidebar-link svg { flex-shrink:0; opacity:.6; transition:opacity .2s; }
-    .sidebar-link:hover svg { opacity:.9; }
+    .sidebar-link svg { flex-shrink:0; opacity:.5; transition:opacity .2s; }
+    .sidebar-link:hover svg { opacity:.8; }
     .sidebar-divider { height:1px; background:var(--border); margin:1rem 1rem; }
 
     /* CONTENT */
@@ -56,31 +56,31 @@
     .page-head { margin-bottom:2.5rem; }
     .page-eyebrow { font-size:.6rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2.5px; margin-bottom:.5rem; display:flex; align-items:center; gap:.5rem; }
     .page-eyebrow::before { content:''; width:16px; height:1px; background:var(--gold); }
-    .page-title { font-family:'Inter',sans-serif; font-size:2.2rem; font-weight:900; color:var(--dark); letter-spacing:-.5px; line-height:1.1; }
-    .page-sub { font-size:.82rem; color:var(--muted); margin-top:.4rem; }
+    .page-title { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:#fff; letter-spacing:-.5px; line-height:1.1; }
+    .page-sub { font-size:.82rem; color:rgba(255,255,255,.3); margin-top:.4rem; }
 
     /* STATS GRID — cards estilo index */
     .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:2rem; }
-    .stat-card { background:var(--bg); padding:1.8rem 1.6rem; transition:background .2s; }
-    .stat-card:hover { background:var(--bg2); }
-    .stat-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:1rem; }
-    .stat-num { font-family:'Inter',sans-serif; font-size:2.4rem; font-weight:900; line-height:1; letter-spacing:-1px; }
+    .stat-card { background:rgba(255,255,255,.02); padding:1.8rem 1.6rem; transition:background .2s; }
+    .stat-card:hover { background:rgba(255,255,255,.04); }
+    .stat-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,.25); margin-bottom:1rem; }
+    .stat-num { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900; line-height:1; letter-spacing:-1px; }
     .stat-num.gold { color:var(--gold); }
     .stat-num.green { color:var(--green); }
-    .stat-num.white { color:var(--dark); }
-    .stat-desc { font-size:.68rem; color:var(--muted); margin-top:.55rem; line-height:1.5; }
+    .stat-num.white { color:#fff; }
+    .stat-desc { font-size:.68rem; color:rgba(255,255,255,.25); margin-top:.55rem; line-height:1.5; }
     .stat-foot { display:flex; justify-content:space-between; align-items:center; margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--border); }
-    .stat-link { font-size:.7rem; color:var(--muted); text-decoration:none; transition:color .2s; }
+    .stat-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
     .stat-link:hover { color:var(--gold); }
 
     /* CONTENT GRID */
     .content-grid { display:grid; grid-template-columns:1.6fr 1fr; gap:1.5rem; }
 
     /* CARDS */
-    .card { background:var(--bg); border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.04); }
+    .card { background:rgba(255,255,255,.025); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
     .card-head { display:flex; justify-content:space-between; align-items:center; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
-    .card-title { font-size:.82rem; font-weight:700; color:var(--dark); }
-    .card-link { font-size:.7rem; color:var(--muted); text-decoration:none; transition:color .2s; }
+    .card-title { font-size:.82rem; font-weight:700; color:#fff; }
+    .card-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
     .card-link:hover { color:var(--gold); }
     .card-body { padding:0 1.6rem; }
 
@@ -88,98 +88,100 @@
     .trade-row { display:flex; align-items:center; gap:.9rem; padding:.85rem 0; border-bottom:1px solid var(--border); }
     .trade-row:last-child { border-bottom:none; }
     .badge { font-size:.55rem; font-weight:800; text-transform:uppercase; letter-spacing:.8px; padding:.22rem .6rem; border-radius:100px; flex-shrink:0; }
-    .b-win { background:#dcfce7; color:#15803d; border:1px solid #86efac; }
-    .b-loss { background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; }
-    .trade-date { font-size:.68rem; color:var(--muted); flex-shrink:0; width:72px; }
-    .trade-title { font-size:.78rem; color:var(--mid); flex:1; line-height:1.4; }
+    .b-win { background:rgba(74,222,128,.1); color:#4ade80; border:1px solid rgba(74,222,128,.15); }
+    .b-loss { background:rgba(248,113,113,.1); color:#f87171; border:1px solid rgba(248,113,113,.15); }
+    .trade-date { font-size:.68rem; color:rgba(255,255,255,.25); flex-shrink:0; width:72px; }
+    .trade-title { font-size:.78rem; color:rgba(255,255,255,.65); flex:1; line-height:1.4; }
     .trade-r { font-size:.78rem; font-weight:800; flex-shrink:0; }
     .trade-r.pos { color:var(--green); }
     .trade-r.neg { color:var(--red); }
 
     /* PERFORMANCE — mini cards */
     .perf-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:1.2rem 1.6rem; }
-    .perf-cell { background:var(--bg); padding:1.2rem; }
-    .perf-cell:hover { background:var(--bg2); }
-    .perf-year-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-bottom:.4rem; }
-    .perf-year-num { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:900; color:var(--green); line-height:1; }
+    .perf-cell { background:rgba(255,255,255,.02); padding:1.2rem; }
+    .perf-cell:hover { background:rgba(255,255,255,.04); }
+    .perf-year-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.25); margin-bottom:.4rem; }
+    .perf-year-num { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:var(--green); line-height:1; }
     .perf-year-bar { height:3px; background:var(--border); border-radius:2px; margin-top:.6rem; }
     .perf-year-bar-fill { height:100%; background:var(--gold); border-radius:2px; }
-    .perf-trades { font-size:.65rem; color:var(--muted); margin-top:.3rem; }
+    .perf-trades { font-size:.65rem; color:rgba(255,255,255,.2); margin-top:.3rem; }
 
     /* SIMULATIONS */
     .sims-list { display:flex; flex-direction:column; gap:0; }
     .sim-card { display:grid; grid-template-columns:1fr auto; align-items:center; gap:2rem; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); transition:background .2s; cursor:pointer; }
     .sim-card:last-child { border-bottom:none; }
-    .sim-card:hover { background:var(--bg2); }
+    .sim-card:hover { background:rgba(255,255,255,.03); }
     .sim-left { display:flex; flex-direction:column; gap:.5rem; }
     .sim-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); }
-    .sim-name { font-size:.95rem; font-weight:700; color:var(--dark); }
+    .sim-name { font-size:.95rem; font-weight:700; color:#fff; }
     .sim-metrics { display:flex; gap:1.8rem; margin-top:.3rem; }
     .sim-metric { display:flex; flex-direction:column; gap:.15rem; }
-    .sim-metric-label { font-size:.58rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--muted); }
-    .sim-metric-val { font-size:.82rem; font-weight:700; color:var(--mid); }
+    .sim-metric-label { font-size:.58rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); }
+    .sim-metric-val { font-size:.82rem; font-weight:700; color:rgba(255,255,255,.7); }
     .sim-metric-val.green { color:var(--green); }
     .sim-right { display:flex; flex-direction:column; align-items:flex-end; gap:.6rem; flex-shrink:0; }
-    .sim-return { font-family:'Inter',sans-serif; font-size:2.2rem; font-weight:900; color:var(--green); line-height:1; letter-spacing:-1px; }
-    .sim-final-val { font-size:.72rem; color:var(--muted); }
+    .sim-return { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--green); line-height:1; letter-spacing:-1px; }
+    .sim-final-val { font-size:.72rem; color:rgba(255,255,255,.3); }
     .sim-actions { display:flex; gap:.5rem; }
     .sim-btn { border-radius:7px; padding:.35rem .8rem; font-size:.72rem; font-weight:600; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; border:none; }
-    .sim-btn-detail { background:rgba(37,99,235,.1); color:var(--gold); border:1px solid rgba(37,99,235,.2); }
-    .sim-btn-detail:hover { background:rgba(37,99,235,.18); }
-    .sim-btn-del { background:transparent; color:var(--muted); border:1px solid var(--border); }
-    .sim-btn-del:hover { border-color:#dc2626; color:#dc2626; }
+    .sim-btn-detail { background:rgba(201,168,76,.12); color:var(--gold); border:1px solid rgba(201,168,76,.2); }
+    .sim-btn-detail:hover { background:rgba(201,168,76,.2); }
+    .sim-btn-del { background:transparent; color:rgba(255,255,255,.2); border:1px solid var(--border); }
+    .sim-btn-del:hover { border-color:#f87171; color:#f87171; }
     .sims-empty { padding:3rem 1.6rem; text-align:center; }
-    .sims-empty p { font-size:.85rem; color:var(--muted); }
+    .sims-empty p { font-size:.85rem; color:rgba(255,255,255,.25); }
     .sims-empty a { color:var(--gold); text-decoration:none; }
 
     /* SIM MODAL */
     .sim-modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:2rem; }
     .sim-modal-overlay.open { display:flex; }
-    .sim-modal { background:#0d0f1a; border:1px solid var(--border-dark); border-radius:20px; max-width:640px; width:100%; overflow:hidden; position:relative; }
-    .sim-modal-header { background:rgba(37,99,235,.1); border-bottom:1px solid var(--border-dark); padding:2rem 2.2rem; }
+    .sim-modal { background:#0d0f1a; border:1px solid var(--border); border-radius:20px; max-width:640px; width:100%; overflow:hidden; position:relative; }
+    .sim-modal-header { background:rgba(201,168,76,.06); border-bottom:1px solid var(--border); padding:2rem 2.2rem; }
     .sim-modal-tag { font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:.6rem; }
-    .sim-modal-name { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:900; color:#fff; letter-spacing:-.5px; }
+    .sim-modal-name { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:#fff; letter-spacing:-.5px; }
     .sim-modal-date { font-size:.72rem; color:rgba(255,255,255,.3); margin-top:.3rem; }
-    .sim-modal-close { position:absolute; top:1.2rem; right:1.2rem; width:32px; height:32px; background:rgba(255,255,255,.06); border:1px solid var(--border-dark); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,.4); font-size:1rem; transition:all .2s; }
+    .sim-modal-close { position:absolute; top:1.2rem; right:1.2rem; width:32px; height:32px; background:rgba(255,255,255,.06); border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,255,255,.4); font-size:1rem; transition:all .2s; }
     .sim-modal-close:hover { background:rgba(255,255,255,.12); color:#fff; }
-    .sim-modal-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border-dark); }
+    .sim-modal-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
     .sim-modal-stat { background:#0d0f1a; padding:1.4rem 1.6rem; }
     .sim-modal-stat-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); margin-bottom:.5rem; }
-    .sim-modal-stat-val { font-family:'Inter',sans-serif; font-size:1.8rem; font-weight:900; line-height:1; }
+    .sim-modal-stat-val { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; line-height:1; }
     .sim-modal-stat-val.green { color:var(--green); }
     .sim-modal-stat-val.gold { color:var(--gold); }
     .sim-modal-stat-val.white { color:#fff; }
     .sim-modal-body { padding:1.8rem 2.2rem; }
-    .sim-modal-row { display:flex; justify-content:space-between; align-items:center; padding:.65rem 0; border-bottom:1px solid var(--border-dark); }
+    .sim-modal-row { display:flex; justify-content:space-between; align-items:center; padding:.65rem 0; border-bottom:1px solid var(--border); }
     .sim-modal-row:last-child { border-bottom:none; }
     .sim-modal-row-label { font-size:.75rem; color:rgba(255,255,255,.35); }
     .sim-modal-row-val { font-size:.8rem; font-weight:600; color:rgba(255,255,255,.8); }
-    .sim-modal-foot { padding:1.2rem 2.2rem; border-top:1px solid var(--border-dark); display:flex; justify-content:space-between; align-items:center; }
-    .btn-gold { background:var(--gold); color:#fff; border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; text-decoration:none; display:inline-block; }
+    .sim-modal-foot { padding:1.2rem 2.2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .btn-gold { background:var(--gold); color:#05070f; border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; text-decoration:none; display:inline-block; }
     .btn-gold:hover { background:var(--gold2); }
 
     /* PROFILE */
     .profile-cards { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:1.2rem 1.6rem; }
-    .profile-cell { background:var(--bg); padding:1.4rem; }
-    .profile-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--muted); margin-bottom:.6rem; display:block; }
-    .profile-val { font-size:.88rem; color:var(--mid); }
-    .profile-input { background:var(--bg); border:1px solid var(--border); border-radius:8px; padding:.6rem .9rem; color:var(--dark); font-size:.86rem; font-family:Inter,sans-serif; outline:none; width:100%; transition:border-color .2s; }
+    .profile-cell { background:rgba(255,255,255,.02); padding:1.4rem; }
+    .profile-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:rgba(255,255,255,.2); margin-bottom:.6rem; display:block; }
+    .profile-val { font-size:.88rem; color:rgba(255,255,255,.7); }
+    .profile-input { background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:8px; padding:.6rem .9rem; color:#fff; font-size:.86rem; font-family:Inter,sans-serif; outline:none; width:100%; transition:border-color .2s; }
     .profile-input:focus { border-color:var(--gold); }
     .profile-save-area { padding:1.2rem 1.6rem 1.4rem; display:flex; align-items:center; gap:1rem; }
+    .btn-gold { background:var(--gold); color:var(--black); border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; }
+    .btn-gold:hover { background:var(--gold2); }
     .save-msg { font-size:.75rem; }
     .save-msg.ok { color:var(--green); }
     .save-msg.err { color:var(--red); }
 
     /* ACCOUNTS */
     .acc-toolbar { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; flex-wrap:wrap; gap:.8rem; }
-    .acc-toolbar-left { display:flex; align-items:center; gap:.5rem; font-size:.85rem; font-weight:700; color:var(--dark); }
+    .acc-toolbar-left { display:flex; align-items:center; gap:.5rem; font-size:.85rem; font-weight:700; color:#fff; }
     .acc-toolbar-left::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; }
     .acc-toolbar-right { display:flex; align-items:center; gap:1rem; }
-    .acc-check-label { display:flex; align-items:center; gap:.5rem; font-size:.75rem; color:var(--muted); cursor:pointer; user-select:none; }
+    .acc-check-label { display:flex; align-items:center; gap:.5rem; font-size:.75rem; color:rgba(255,255,255,.35); cursor:pointer; user-select:none; }
     .acc-check-label input { accent-color:var(--gold); width:14px; height:14px; }
     .acc-switch { position:relative; display:inline-block; width:34px; height:19px; flex-shrink:0; }
     .acc-switch input { opacity:0; width:0; height:0; }
-    .acc-switch-slider { position:absolute; inset:0; background:rgba(0,0,0,.15); border-radius:100px; transition:.2s; cursor:pointer; }
+    .acc-switch-slider { position:absolute; inset:0; background:rgba(255,255,255,.15); border-radius:100px; transition:.2s; cursor:pointer; }
     .acc-switch-slider::before { content:''; position:absolute; width:14px; height:14px; left:2.5px; top:2.5px; background:#fff; border-radius:50%; transition:.2s; }
     .acc-switch input:checked + .acc-switch-slider { background:var(--gold); }
     .acc-switch input:checked + .acc-switch-slider::before { transform:translateX(15px); }
@@ -188,61 +190,61 @@
     .acc-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1rem; }
     .acc-badges { display:flex; gap:.5rem; align-items:center; }
     .acc-badge { font-size:.62rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px; padding:.32rem .75rem; border-radius:100px; }
-    .acc-badge-active { background:#dcfce7; color:#15803d; border:1px solid #86efac; }
-    .acc-badge-closed { background:var(--bg2); color:var(--muted); border:1px solid var(--border); }
-    .acc-badge-kind { background:rgba(37,99,235,.1); color:var(--gold); border:1px solid rgba(37,99,235,.2); }
-    .acc-switch-label { display:flex; align-items:center; gap:.6rem; font-size:.7rem; color:var(--muted); }
-    .acc-card-title { font-family:'Inter',sans-serif; font-size:1.25rem; font-weight:900; color:var(--dark); letter-spacing:-.3px; cursor:pointer; }
+    .acc-badge-active { background:rgba(74,222,128,.1); color:#4ade80; border:1px solid rgba(74,222,128,.15); }
+    .acc-badge-closed { background:rgba(255,255,255,.04); color:rgba(255,255,255,.35); border:1px solid var(--border); }
+    .acc-badge-kind { background:rgba(201,168,76,.1); color:var(--gold); border:1px solid rgba(201,168,76,.2); }
+    .acc-switch-label { display:flex; align-items:center; gap:.6rem; font-size:.7rem; color:rgba(255,255,255,.35); }
+    .acc-card-title { font-family:'Inter',sans-serif; font-size:1.25rem; font-weight:900; color:#fff; letter-spacing:-.3px; cursor:pointer; }
     .acc-card-title:hover { color:var(--gold); }
-    .acc-card-sub { font-size:.78rem; color:var(--muted); margin-top:.2rem; }
+    .acc-card-sub { font-size:.78rem; color:rgba(255,255,255,.35); margin-top:.2rem; }
     .acc-divider { height:1px; background:var(--border); margin:1.1rem 0; }
     .acc-row-info { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
-    .acc-info-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.3px; color:var(--muted); display:block; margin-bottom:.3rem; }
-    .acc-info-val { font-size:.92rem; font-weight:700; color:var(--dark); }
+    .acc-info-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.3px; color:rgba(255,255,255,.35); display:block; margin-bottom:.3rem; }
+    .acc-info-val { font-size:.92rem; font-weight:700; color:#fff; }
     .acc-row-chart { display:flex; align-items:center; gap:1.5rem; margin-top:1.3rem; flex-wrap:wrap; }
     .acc-row-chart canvas { flex-shrink:0; }
     .acc-actions { display:flex; gap:.5rem; flex-wrap:wrap; flex:1; }
-    .acc-action-btn { display:flex; align-items:center; gap:.4rem; background:var(--bg2); border:1px solid var(--border); color:var(--mid); padding:.5rem .85rem; border-radius:8px; font-size:.72rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; }
-    .acc-action-btn:hover { border-color:rgba(0,0,0,.2); color:var(--dark); }
+    .acc-action-btn { display:flex; align-items:center; gap:.4rem; background:rgba(255,255,255,.04); border:1px solid var(--border); color:rgba(255,255,255,.6); padding:.5rem .85rem; border-radius:8px; font-size:.72rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; }
+    .acc-action-btn:hover { border-color:rgba(255,255,255,.2); color:#fff; }
     .acc-detail-btn { background:transparent; border:1px solid var(--gold); color:var(--gold); padding:.5rem 1rem; border-radius:8px; font-size:.75rem; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; }
-    .acc-detail-btn:hover { background:rgba(37,99,235,.1); }
+    .acc-detail-btn:hover { background:rgba(201,168,76,.1); }
     .acc-metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--border); }
-    .acc-hidden-row { display:flex; align-items:center; gap:.7rem; background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:.9rem 1.2rem; cursor:pointer; font-size:.82rem; color:var(--mid); margin-bottom:1rem; }
-    .acc-hidden-row strong { color:var(--dark); }
+    .acc-hidden-row { display:flex; align-items:center; gap:.7rem; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:12px; padding:.9rem 1.2rem; cursor:pointer; font-size:.82rem; color:rgba(255,255,255,.6); margin-bottom:1rem; }
+    .acc-hidden-row strong { color:#fff; }
     .acc-history-row { display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.6rem; border-bottom:1px solid var(--border); cursor:pointer; font-size:.82rem; transition:background .2s; }
     .acc-history-row:last-child { border-bottom:none; }
-    .acc-history-row:hover { background:var(--bg2); }
+    .acc-history-row:hover { background:rgba(255,255,255,.04); }
     .acc-history-left { display:flex; flex-direction:column; gap:.2rem; }
-    .acc-history-name { color:var(--dark); font-weight:700; }
-    .acc-history-meta { color:var(--muted); font-size:.72rem; }
-    .acc-empty { padding:3rem 1.6rem; text-align:center; font-size:.85rem; color:var(--muted); }
+    .acc-history-name { color:#fff; font-weight:700; }
+    .acc-history-meta { color:rgba(255,255,255,.35); font-size:.72rem; }
+    .acc-empty { padding:3rem 1.6rem; text-align:center; font-size:.85rem; color:rgba(255,255,255,.35); }
 
     /* ACCOUNT DETAIL */
-    .acc-detail-back { display:inline-flex; align-items:center; gap:.4rem; font-size:.78rem; color:var(--muted); background:none; border:none; cursor:pointer; font-family:'Inter',sans-serif; margin-bottom:1rem; transition:color .2s; }
+    .acc-detail-back { display:inline-flex; align-items:center; gap:.4rem; font-size:.78rem; color:rgba(255,255,255,.35); background:none; border:none; cursor:pointer; font-family:'Inter',sans-serif; margin-bottom:1rem; transition:color .2s; }
     .acc-detail-back:hover { color:var(--gold); }
-    .acc-tabs { display:flex; gap:.4rem; background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:.35rem; margin-bottom:1.5rem; overflow-x:auto; }
-    .acc-tab { background:none; border:none; color:var(--muted); padding:.55rem 1rem; border-radius:8px; font-size:.78rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; white-space:nowrap; transition:all .2s; }
-    .acc-tab.active { background:rgba(37,99,235,.1); color:var(--gold); }
+    .acc-tabs { display:flex; gap:.4rem; background:rgba(255,255,255,.025); border:1px solid var(--border); border-radius:12px; padding:.35rem; margin-bottom:1.5rem; overflow-x:auto; }
+    .acc-tab { background:none; border:none; color:rgba(255,255,255,.35); padding:.55rem 1rem; border-radius:8px; font-size:.78rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; white-space:nowrap; transition:all .2s; }
+    .acc-tab.active { background:rgba(201,168,76,.1); color:var(--gold); }
     .acc-detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
-    .acc-detail-val { font-family:'Inter',sans-serif; font-size:1.7rem; font-weight:900; letter-spacing:-.5px; color:var(--dark); margin-top:.3rem; }
+    .acc-detail-val { font-family:'Inter',sans-serif; font-size:1.7rem; font-weight:900; letter-spacing:-.5px; color:#fff; margin-top:.3rem; }
     .acc-objectives { margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:.6rem; }
-    .acc-obj-row { display:flex; align-items:center; gap:.6rem; font-size:.78rem; color:var(--mid); }
+    .acc-obj-row { display:flex; align-items:center; gap:.6rem; font-size:.78rem; color:rgba(255,255,255,.6); }
     .acc-obj-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
     .acc-cal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
     .acc-cal-nav { display:flex; align-items:center; gap:.7rem; }
-    .acc-cal-btn { background:var(--bg2); border:1px solid var(--border); color:var(--dark); width:30px; height:30px; border-radius:7px; cursor:pointer; font-size:.95rem; }
+    .acc-cal-btn { background:rgba(255,255,255,.04); border:1px solid var(--border); color:#fff; width:30px; height:30px; border-radius:7px; cursor:pointer; font-size:.95rem; }
     .acc-cal-title { font-size:1rem; font-weight:800; min-width:150px; text-align:center; }
     .acc-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:.5rem; }
-    .acc-cal-weekday { text-align:center; font-size:.58rem; font-weight:700; letter-spacing:1px; color:var(--muted); padding-bottom:.4rem; }
+    .acc-cal-weekday { text-align:center; font-size:.58rem; font-weight:700; letter-spacing:1px; color:rgba(255,255,255,.35); padding-bottom:.4rem; }
     .acc-cal-cell { min-height:64px; border-radius:9px; padding:.4rem; cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:transform .15s; }
     .acc-cal-cell.has-trade:hover { transform:scale(1.04); }
     .acc-cal-cell.empty-day { cursor:pointer; }
-    .acc-cal-daynum { font-size:.7rem; color:var(--muted); }
+    .acc-cal-daynum { font-size:.7rem; color:rgba(255,255,255,.35); }
     .acc-cal-cell.has-trade .acc-cal-daynum { color:rgba(0,0,0,.55); font-weight:700; }
     .acc-cal-amount { font-size:.7rem; font-weight:800; color:#05070f; margin-top:.15rem; }
     .acc-cal-count { font-size:.58rem; color:rgba(0,0,0,.5); margin-top:.1rem; }
     .acc-stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:1.5rem; }
-    .acc-stat-cell { background:var(--bg); padding:1.2rem; }
+    .acc-stat-cell { background:rgba(255,255,255,.025); padding:1.2rem; }
     .acc-stat-cell .acc-info-val { font-size:1.1rem; }
 
     /* VIEWS */
@@ -252,7 +254,7 @@
     /* HAMBURGER */
     .hamburger {
       display: none; position: fixed; top: 14px; left: 14px; z-index: 300;
-      background: rgba(255,255,255,.06); border: 1px solid var(--border-dark);
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
       width: 38px; height: 38px; border-radius: 9px; align-items: center;
       justify-content: center; cursor: pointer; flex-direction: column; gap: 5px;
     }
@@ -517,6 +519,7 @@
         </div>
       </div>
 
+
       <!-- TRADES -->
       <div class="view" id="view-trades">
         <div class="page-head">
@@ -578,43 +581,43 @@
 
         <!-- Stats bar -->
         <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin-bottom:1.5rem" id="mt-stats-bar">
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Net P&L</div><div style="font-size:1.05rem;font-weight:800" id="mt-netpnl">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0;cursor:pointer" onclick="mtEditCapital()" title="Click para editar"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Capital <span style="color:var(--gold);font-size:.5rem">✎</span></div><div style="font-size:1.05rem;font-weight:800" id="mt-capital">$1,000</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Positivo</div><div style="font-size:1.05rem;font-weight:800;color:#16a34a" id="mt-pos">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Negativo</div><div style="font-size:1.05rem;font-weight:800;color:#dc2626" id="mt-neg">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">%</div><div style="font-size:1.05rem;font-weight:800" id="mt-pct">0.0%</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">Saldo</div><div style="font-size:1.05rem;font-weight:800" id="mt-saldo">$1,000</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Net P&L</div><div style="font-size:1.05rem;font-weight:800" id="mt-netpnl">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0;cursor:pointer" onclick="mtEditCapital()" title="Click para editar"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Capital <span style="color:var(--gold);font-size:.5rem">✎</span></div><div style="font-size:1.05rem;font-weight:800" id="mt-capital">$1,000</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Positivo</div><div style="font-size:1.05rem;font-weight:800;color:#4ade80" id="mt-pos">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Negativo</div><div style="font-size:1.05rem;font-weight:800;color:#f87171" id="mt-neg">$0.00</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">%</div><div style="font-size:1.05rem;font-weight:800" id="mt-pct">0.0%</div></div>
+          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Saldo</div><div style="font-size:1.05rem;font-weight:800" id="mt-saldo">$1,000</div></div>
         </div>
 
         <!-- Plantillas -->
         <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap">
           <div id="mt-plantillas-list" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
-          <button onclick="mtNuevaPlantilla()" style="background:transparent;border:1px dashed rgba(0,0,0,.15);color:var(--muted);padding:.35rem .8rem;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(0,0,0,.15)';this.style.color='var(--muted)'">+ Nueva tabla</button>
+          <button onclick="mtNuevaPlantilla()" style="background:transparent;border:1px dashed rgba(255,255,255,.15);color:rgba(255,255,255,.4);padding:.35rem .8rem;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.4)'">+ Nueva tabla</button>
         </div>
 
         <!-- Controles -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
           <div style="display:flex;align-items:center;gap:.7rem">
-            <button onclick="mtPrev()" style="background:var(--bg2);border:1px solid var(--border);color:var(--dark);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">‹</button>
+            <button onclick="mtPrev()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">‹</button>
             <span style="font-size:1rem;font-weight:800;min-width:150px;text-align:center" id="mt-month-title">—</span>
-            <button onclick="mtNext()" style="background:var(--bg2);border:1px solid var(--border);color:var(--dark);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">›</button>
+            <button onclick="mtNext()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">›</button>
           </div>
-          <button onclick="mtOpenModal(null)" style="background:var(--gold);color:#fff;border:none;padding:.5rem 1.1rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">+ Añadir trade</button>
+          <button onclick="mtOpenModal(null)" style="background:var(--gold);color:#05070f;border:none;padding:.5rem 1.1rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">+ Añadir trade</button>
         </div>
 
         <!-- Calendario -->
         <div class="card" style="padding:0;overflow:hidden">
-          <div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;background:var(--bg2);border-bottom:1px solid var(--border)">
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">DOM</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">LUN</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">MAR</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">MIÉ</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">JUE</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">VIE</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted)">SÁB</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:var(--muted);border-left:1px solid var(--border)">SEMANA</div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)">
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">DOM</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">LUN</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">MAR</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">MIÉ</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">JUE</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">VIE</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">SÁB</div>
+            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25);border-left:1px solid var(--border)">SEMANA</div>
           </div>
-          <div id="mt-cal-body" style="color:var(--muted);padding:1rem;font-size:.85rem">Cargando...</div>
+          <div id="mt-cal-body" style="color:rgba(255,255,255,.4);padding:1rem;font-size:.85rem">Cargando...</div>
         </div>
       </div>
 
@@ -845,9 +848,9 @@
       el.innerHTML = mtPlantillas.map(p => {
         const active = p.id === mtActivePlantilla?.id;
         return `<div style="display:flex;align-items:center;gap:.3rem">
-          <button onclick="mtSwitchPlantilla('${p.id}')" style="padding:.35rem .85rem;border-radius:7px;font-size:.78rem;font-weight:${active?'700':'500'};cursor:pointer;background:${active?'rgba(37,99,235,.1)':'rgba(0,0,0,.04)'};border:1px solid ${active?'var(--gold)':'rgba(0,0,0,.08)'};color:${active?'var(--gold)':'rgba(0,0,0,.5)'};transition:all .2s">${p.nombre}</button>
-          <button onclick="mtRenamePlantilla('${p.id}','${p.nombre.replace(/'/g,"\'")}')" style="background:transparent;border:none;color:rgba(0,0,0,.25);cursor:pointer;font-size:.7rem;padding:.2rem" title="Renombrar">✎</button>
-          ${mtPlantillas.length > 1 ? `<button onclick="mtDeletePlantilla('${p.id}')" style="background:transparent;border:none;color:rgba(220,38,38,.4);cursor:pointer;font-size:.7rem;padding:.2rem" title="Eliminar">✕</button>` : ''}
+          <button onclick="mtSwitchPlantilla('${p.id}')" style="padding:.35rem .85rem;border-radius:7px;font-size:.78rem;font-weight:${active?'700':'500'};cursor:pointer;background:${active?'rgba(201,168,76,.15)':'rgba(255,255,255,.05)'};border:1px solid ${active?'var(--gold)':'rgba(255,255,255,.08)'};color:${active?'var(--gold)':'rgba(255,255,255,.5)'};transition:all .2s">${p.nombre}</button>
+          <button onclick="mtRenamePlantilla('${p.id}','${p.nombre.replace(/'/g,"\'")}')" style="background:transparent;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:.7rem;padding:.2rem" title="Renombrar">✎</button>
+          ${mtPlantillas.length > 1 ? `<button onclick="mtDeletePlantilla('${p.id}')" style="background:transparent;border:none;color:rgba(248,113,113,.3);cursor:pointer;font-size:.7rem;padding:.2rem" title="Eliminar">✕</button>` : ''}
         </div>`;
       }).join('');
     }
@@ -904,7 +907,7 @@
 
     async function mtLoadMonth() {
       document.getElementById('mt-month-title').textContent = MT_MONTHS[mtMonth] + ' ' + mtYear;
-      document.getElementById('mt-cal-body').innerHTML = '<div style="padding:2rem;text-align:center;color:var(--muted)">Cargando...</div>';
+      document.getElementById('mt-cal-body').innerHTML = '<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.3)">Cargando...</div>';
       const from = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-01`;
       const last = new Date(mtYear, mtMonth+1, 0).getDate();
       const to = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(last).padStart(2,'0')}`;
@@ -931,16 +934,16 @@
             const ds = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(c).padStart(2,'0')}`;
             const t = map[ds];
             const isToday = today.getFullYear()===mtYear&&today.getMonth()===mtMonth&&today.getDate()===c;
-            const bg = isToday ? 'background:rgba(37,99,235,.06);' : '';
+            const bg = isToday ? 'background:rgba(201,168,76,.06);' : '';
             let chip = '';
             if(t) {
               const pos = t.resultado>=0;
               const sign = pos?'+':'';
               const pct = mtCapital>0 ? (t.resultado/mtCapital*100) : t.porcentaje;
-              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'rgba(22,163,74,.1)':'rgba(220,38,38,.1)'};color:${pos?'#16a34a':'#dc2626'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${pct.toFixed(1)}%</div></div>`;
+              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'rgba(74,222,128,.12)':'rgba(248,113,113,.12)'};color:${pos?'#4ade80':'#f87171'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${pct.toFixed(1)}%</div></div>`;
             }
-            return `<div onclick="mtOpenModal('${ds}')" style="border-right:1px solid var(--border);min-height:70px;padding:.4rem .35rem;cursor:pointer;${bg}transition:background .15s" onmouseover="this.style.background='rgba(0,0,0,.03)'" onmouseout="this.style.background='${isToday?'rgba(37,99,235,.06)':'transparent'}'">
-              <div style="font-size:.65rem;color:${isToday?'var(--gold)':'rgba(0,0,0,.3)'}${isToday?';font-weight:700':''}">${c}</div>${chip}
+            return `<div onclick="mtOpenModal('${ds}')" style="border-right:1px solid var(--border);min-height:70px;padding:.4rem .35rem;cursor:pointer;${bg}transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='${isToday?'rgba(201,168,76,.06)':'transparent'}'">
+              <div style="font-size:.65rem;color:${isToday?'var(--gold)':'rgba(255,255,255,.25)'}${isToday?';font-weight:700':''}">${c}</div>${chip}
             </div>`;
           }).join('');
           const weekTrades = cells.filter(c=>c!=='').map(c=>{
@@ -952,15 +955,15 @@
           const wPos = wPnl>=0;
           const wSign = wPos?'+':'';
           const weekCol = `<div style="border-left:1px solid var(--border);min-height:70px;padding:.4rem .5rem;display:flex;flex-direction:column;justify-content:center;gap:.15rem">
-            <div style="font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(0,0,0,.3)">Sem ${week}</div>
-            <div style="font-size:.82rem;font-weight:800;color:${weekTrades.length?(wPos?'#16a34a':'#dc2626'):'rgba(0,0,0,.25)'}">${weekTrades.length?(wSign+'$'+Math.abs(wPnl).toFixed(2)):'—'}</div>
-            <div style="font-size:.65rem;font-weight:600;color:${weekTrades.length?(wPos?'#16a34a':'#dc2626'):'transparent'}">${weekTrades.length?(wSign+wPct.toFixed(1)+'%'):''}</div>
+            <div style="font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.2)">Sem ${week}</div>
+            <div style="font-size:.82rem;font-weight:800;color:${weekTrades.length?(wPos?'#4ade80':'#f87171'):'rgba(255,255,255,.2)'}">${weekTrades.length?(wSign+'$'+Math.abs(wPnl).toFixed(2)):'—'}</div>
+            <div style="font-size:.65rem;font-weight:600;color:${weekTrades.length?(wPos?'#4ade80':'#f87171'):'transparent'}">${weekTrades.length?(wSign+wPct.toFixed(1)+'%'):''}</div>
           </div>`;
           html += `<div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;border-bottom:1px solid var(--border)">${rowCells}${weekCol}</div>`;
           cells=[]; week++;
         }
       }
-      document.getElementById('mt-cal-body').innerHTML = html || '<div style="padding:2rem;text-align:center;color:var(--muted)">Sin trades este mes</div>';
+      document.getElementById('mt-cal-body').innerHTML = html || '<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.3)">Sin trades este mes</div>';
     }
 
     function mtRenderStats() {
@@ -970,13 +973,13 @@
       const cap = mtCapital, saldo = cap+pnl;
       const pnlEl = document.getElementById('mt-netpnl');
       pnlEl.textContent = (pnl>=0?'+':'')+'$'+Math.abs(pnl).toFixed(2);
-      pnlEl.style.color = pnl>=0?'#16a34a':'#dc2626';
+      pnlEl.style.color = pnl>=0?'#4ade80':'#f87171';
       document.getElementById('mt-capital').textContent = '$'+cap.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
       document.getElementById('mt-pos').textContent = '+$'+pos.toFixed(2);
       document.getElementById('mt-neg').textContent = '-$'+Math.abs(neg).toFixed(2);
       const pctEl = document.getElementById('mt-pct');
       pctEl.textContent = (pct>=0?'+':'')+pct.toFixed(1)+'%';
-      pctEl.style.color = pct>=0?'#16a34a':'#dc2626';
+      pctEl.style.color = pct>=0?'#4ade80':'#f87171';
       document.getElementById('mt-saldo').textContent = '$'+saldo.toFixed(2);
     }
 
@@ -1002,12 +1005,12 @@
           <input id="mt-f-pct" type="number" step="0.01" placeholder="Auto" value="${existing?Math.abs(existing.porcentaje):''}" readonly style="width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:.6rem .8rem;color:rgba(255,255,255,.5);font-size:.88rem;outline:none;cursor:default"></div>
         <div style="margin-bottom:1.2rem"><label style="font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:rgba(255,255,255,.3);display:block;margin-bottom:.3rem">Tipo</label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
-            <button id="mt-btn-win" onclick="mtSelType='win';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(74,222,128,.12);border:1px solid #16a34a;color:#16a34a';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${!existing||existing.resultado>=0?'rgba(74,222,128,.12)':'transparent'};border:1px solid ${!existing||existing.resultado>=0?'#16a34a':'rgba(255,255,255,.08)'};color:${!existing||existing.resultado>=0?'#16a34a':'rgba(255,255,255,.4)'}">WIN</button>
-            <button id="mt-btn-loss" onclick="mtSelType='loss';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(248,113,113,.12);border:1px solid #dc2626;color:#dc2626';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${existing&&existing.resultado<0?'rgba(248,113,113,.12)':'transparent'};border:1px solid ${existing&&existing.resultado<0?'#dc2626':'rgba(255,255,255,.08)'};color:${existing&&existing.resultado<0?'#dc2626':'rgba(255,255,255,.4)'}">LOSS</button>
+            <button id="mt-btn-win" onclick="mtSelType='win';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(74,222,128,.12);border:1px solid #4ade80;color:#4ade80';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${!existing||existing.resultado>=0?'rgba(74,222,128,.12)':'transparent'};border:1px solid ${!existing||existing.resultado>=0?'#4ade80':'rgba(255,255,255,.08)'};color:${!existing||existing.resultado>=0?'#4ade80':'rgba(255,255,255,.4)'}">WIN</button>
+            <button id="mt-btn-loss" onclick="mtSelType='loss';document.getElementById('mt-btn-loss').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:rgba(248,113,113,.12);border:1px solid #f87171;color:#f87171';document.getElementById('mt-btn-win').style.cssText='padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:transparent;border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4)'" style="padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;background:${existing&&existing.resultado<0?'rgba(248,113,113,.12)':'transparent'};border:1px solid ${existing&&existing.resultado<0?'#f87171':'rgba(255,255,255,.08)'};color:${existing&&existing.resultado<0?'#f87171':'rgba(255,255,255,.4)'}">LOSS</button>
           </div></div>
         <div style="display:flex;gap:.6rem">
-          ${existing?`<button onclick="mtDelete()" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#dc2626;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>`:''}
-          <button onclick="mtSave()" style="flex:1;background:var(--gold);color:#fff;border:none;padding:.65rem;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer">Guardar</button>
+          ${existing?`<button onclick="mtDelete()" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>`:''}
+          <button onclick="mtSave()" style="flex:1;background:var(--gold);color:#05070f;border:none;padding:.65rem;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer">Guardar</button>
         </div>
       </div>`;
       overlay.addEventListener('click', e => { if(e.target===overlay) overlay.remove(); });
@@ -1036,6 +1039,7 @@
       mtLoadMonth();
     }
 
+
     // ── ACCOUNTS ──
     let accAccounts = [];
     let accTradesByAccount = {};
@@ -1054,12 +1058,12 @@
       const sign = safe < 0 ? '-' : '';
       return sign + '$' + Math.abs(safe).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
-    function accValueColor(v) { const n = Number(v); return n > 0 ? '#16a34a' : n < 0 ? '#dc2626' : '#0a0a0a'; }
+    function accValueColor(v) { const n = Number(v); return n > 0 ? '#4ade80' : n < 0 ? '#f87171' : '#fff'; }
     function accKindLabel(k) { return k === 'fondeo' ? 'Fondeo' : 'Capital propio'; }
     function escAttr(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
     function accSparklineSVG(curve, w, h, color) {
-      if (!curve || curve.length < 2) return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="rgba(0,0,0,.15)" stroke-width="2"/></svg>`;
+      if (!curve || curve.length < 2) return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="rgba(255,255,255,.15)" stroke-width="2"/></svg>`;
       const min = Math.min(...curve), max = Math.max(...curve);
       const range = (max - min) || 1;
       const step = w / (curve.length - 1);
@@ -1156,7 +1160,7 @@
       const m = accComputeMetrics(a.balance, trades);
       const isFondeo = a.kind === 'fondeo';
       const titleLine = isFondeo ? `${a.step || '2-Step'}: ${a.number}` : a.number;
-      const color = m.curve[m.curve.length-1] >= m.curve[0] ? '#16a34a' : '#dc2626';
+      const color = m.curve[m.curve.length-1] >= m.curve[0] ? '#4ade80' : '#f87171';
       const endLabel = a.end_date ? new Date(a.end_date).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'}) : 'Ilimitado';
       return `<div class="card acc-card">
         <div class="acc-card-top">
@@ -1174,7 +1178,7 @@
         <div class="acc-row-info">
           <div><span class="acc-info-label">Balance</span><span class="acc-info-val">${accFmtMoney(a.balance)}</span></div>
           <div><span class="acc-info-label">End</span><span class="acc-info-val">${endLabel}</span></div>
-          <div><span class="acc-info-label">Status</span><span class="acc-info-val" style="color:#16a34a">Activa</span></div>
+          <div><span class="acc-info-label">Status</span><span class="acc-info-val" style="color:#4ade80">Activa</span></div>
         </div>
         <div class="acc-row-chart">
           ${accSparklineSVG(m.curve, 130, 52, color)}
@@ -1188,7 +1192,7 @@
         <div class="acc-metrics-row">
           <div><span class="acc-info-label">Today's profit</span><span class="acc-info-val" style="color:${accValueColor(m.todayProfit)}">${accFmtMoney(m.todayProfit)}</span></div>
           <div><span class="acc-info-label">Equity</span><span class="acc-info-val">${accFmtMoney(m.equity)}</span></div>
-          <div><span class="acc-info-label">Unrealized PnL</span><span class="acc-info-val" style="color:var(--muted)">${trades.length ? accFmtMoney(m.unrealizedPnl) : 'Sin operaciones'}</span></div>
+          <div><span class="acc-info-label">Unrealized PnL</span><span class="acc-info-val" style="color:rgba(255,255,255,.35)">${trades.length ? accFmtMoney(m.unrealizedPnl) : 'Sin operaciones'}</span></div>
         </div>
       </div>`;
     }
@@ -1208,7 +1212,7 @@
         const trades = accGetTrades(a.id);
         const m = accComputeMetrics(a.balance, trades);
         const resultLabel = a.result === 'passing' ? 'Passing' : a.result === 'not_passing' ? 'Not passing' : '—';
-        const resultColor = a.result === 'passing' ? '#16a34a' : a.result === 'not_passing' ? '#dc2626' : '#8a8a8a';
+        const resultColor = a.result === 'passing' ? '#4ade80' : a.result === 'not_passing' ? '#f87171' : '#8a8a8a';
         return `<div class="acc-history-row" onclick="accGotoDetail('${a.id}')">
           <div class="acc-history-left">
             <span class="acc-history-name">${a.name}</span>
@@ -1229,7 +1233,7 @@
       </div>`;
     }
     function accKindBtnStyle(active) {
-      return `padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:Inter,sans-serif;background:${active?'rgba(37,99,235,.14)':'transparent'};border:1px solid ${active?'var(--gold)':'rgba(255,255,255,.08)'};color:${active?'var(--gold)':'rgba(255,255,255,.4)'}`;
+      return `padding:.55rem;border-radius:7px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:Inter,sans-serif;background:${active?'rgba(201,168,76,.14)':'transparent'};border:1px solid ${active?'var(--gold)':'rgba(255,255,255,.08)'};color:${active?'var(--gold)':'rgba(255,255,255,.4)'}`;
     }
     function accFormSetKind(kind) {
       document.getElementById('acc-f-kind').value = kind;
@@ -1399,9 +1403,9 @@
       const objEl = document.getElementById('ad-objectives');
       if (isFondeo && (a.profit_target_percent || a.max_daily_loss_percent || a.max_loss_percent)) {
         let html = '';
-        if (a.profit_target_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#16a34a"></span>Profit Target: ${accFmtMoney(a.balance * (1 + a.profit_target_percent/100))}</div>`;
-        if (a.max_daily_loss_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#dc2626"></span>Max Daily Loss: ${accFmtMoney(a.balance * (a.max_daily_loss_percent/100))}</div>`;
-        if (a.max_loss_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#dc2626"></span>Max Loss: ${accFmtMoney(a.balance * (1 - a.max_loss_percent/100))}</div>`;
+        if (a.profit_target_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#4ade80"></span>Profit Target: ${accFmtMoney(a.balance * (1 + a.profit_target_percent/100))}</div>`;
+        if (a.max_daily_loss_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#f87171"></span>Max Daily Loss: ${accFmtMoney(a.balance * (a.max_daily_loss_percent/100))}</div>`;
+        if (a.max_loss_percent) html += `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#f87171"></span>Max Loss: ${accFmtMoney(a.balance * (1 - a.max_loss_percent/100))}</div>`;
         objEl.innerHTML = html;
       } else { objEl.innerHTML = ''; }
 
@@ -1409,13 +1413,13 @@
       const labels = m.curveDates.map((d,i) => i===0 ? 'Inicio' : d);
       accDetailChart = new Chart(document.getElementById('acc-detail-chart'), {
         type: 'line',
-        data: { labels, datasets: [{ data: m.curve, borderColor:'#2563eb', backgroundColor:'rgba(37,99,235,0.06)', borderWidth:2.5, pointRadius: labels.length>24?0:3, pointHoverRadius:5, pointBackgroundColor:'#2563eb', fill:true, tension:.1 }] },
+        data: { labels, datasets: [{ data: m.curve, borderColor:'#c9a84c', backgroundColor:'rgba(201,168,76,0.06)', borderWidth:2.5, pointRadius: labels.length>24?0:3, pointHoverRadius:5, pointBackgroundColor:'#c9a84c', fill:true, tension:.1 }] },
         options: {
           responsive: true, maintainAspectRatio: false,
           plugins: { legend: { display:false }, tooltip: { callbacks: { label: ctx => ' ' + accFmtMoney(ctx.parsed.y) }, backgroundColor:'#07091a', titleColor:'rgba(255,255,255,.6)', bodyColor:'#fff', borderColor:'rgba(255,255,255,.1)', borderWidth:1, padding:10 } },
           scales: {
-            x: { grid: { color:'rgba(0,0,0,.04)' }, ticks: { font:{size:10}, color:'#8892aa', maxTicksLimit:10 } },
-            y: { grid: { color:'rgba(0,0,0,.05)' }, ticks: { callback: v => '$'+Number(v).toLocaleString(), font:{size:10}, color:'#8892aa' } }
+            x: { grid: { color:'rgba(255,255,255,.05)' }, ticks: { font:{size:10}, color:'rgba(255,255,255,.35)', maxTicksLimit:10 } },
+            y: { grid: { color:'rgba(255,255,255,.06)' }, ticks: { callback: v => '$'+Number(v).toLocaleString(), font:{size:10}, color:'rgba(255,255,255,.35)' } }
           }
         }
       });
@@ -1467,7 +1471,7 @@
         ${accFieldHTML('acc-t-pnl','Resultado ($, negativo si es pérdida)','number', t?.pnl ?? '', '150')}
         ${accFieldHTML('acc-t-lots','Lots (opcional)','number', t?.lots ?? '', '0.50')}
         <div style="display:flex;gap:.6rem;margin-top:.4rem">
-          ${t ? `<button onclick="accDeleteTrade('${t.id}')" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#dc2626;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>` : ''}
+          ${t ? `<button onclick="accDeleteTrade('${t.id}')" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>` : ''}
           <button onclick="accSaveTrade(${t ? `'${t.id}'` : 'null'})" style="flex:1;background:var(--gold);color:#05070f;border:none;padding:.65rem;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer">Guardar</button>
         </div>
       </div>`;
@@ -1543,21 +1547,21 @@
       document.getElementById('acc-stats-grid').innerHTML = [
         cell('Balance', accFmtMoney(m.balance)),
         cell('Equity', accFmtMoney(m.equity)),
-        cell('Average profit', accFmtMoney(s.averageProfit), '#16a34a'),
-        cell('Average loss', accFmtMoney(s.averageLoss), '#dc2626'),
+        cell('Average profit', accFmtMoney(s.averageProfit), '#4ade80'),
+        cell('Average loss', accFmtMoney(s.averageLoss), '#f87171'),
         cell('Win rate', s.winRate.toFixed(2) + '%'),
         cell('Number of trades', String(s.numberOfTrades)),
         cell('Lots', s.lots.toFixed(2)),
-        cell('Sharpe Ratio', s.sharpeRatio.toFixed(2), s.sharpeRatio>=0?'#16a34a':'#dc2626'),
+        cell('Sharpe Ratio', s.sharpeRatio.toFixed(2), s.sharpeRatio>=0?'#4ade80':'#f87171'),
         cell('Average RRR', s.averageRRR.toFixed(2)),
-        cell('Expectancy', accFmtMoney(s.expectancy), s.expectancy>=0?'#16a34a':'#dc2626'),
-        cell('Profit factor', Number.isFinite(s.profitFactor)?s.profitFactor.toFixed(2):'∞', s.profitFactor>=1?'#16a34a':'#dc2626'),
+        cell('Expectancy', accFmtMoney(s.expectancy), s.expectancy>=0?'#4ade80':'#f87171'),
+        cell('Profit factor', Number.isFinite(s.profitFactor)?s.profitFactor.toFixed(2):'∞', s.profitFactor>=1?'#4ade80':'#f87171'),
       ].join('');
 
       const daily = accComputeDailySummary(trades);
       const el = document.getElementById('acc-daily-summary');
       if (!daily.length) { el.innerHTML = '<div class="acc-empty">Sin datos todavía.</div>'; return; }
-      el.innerHTML = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.9rem 0;border-bottom:1px solid var(--border);font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">
+      el.innerHTML = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.9rem 0;border-bottom:1px solid var(--border);font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35)">
         <span>Fecha</span><span style="text-align:center">Trades</span><span style="text-align:center">Lots</span><span style="text-align:right">Resultado</span>
       </div>` + daily.map(r => `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.8rem 0;border-bottom:1px solid var(--border);font-size:.8rem">
         <span>${r.date}</span><span style="text-align:center">${r.trades}</span><span style="text-align:center">${r.lots.toFixed(2)}</span><span style="text-align:right;font-weight:700;color:${accValueColor(r.result)}">${accFmtMoney(r.result)}</span>
@@ -1569,11 +1573,11 @@
       const isFondeo = a.kind === 'fondeo';
       function row(label, val, color) {
         const style = color ? `font-weight:700;font-size:.85rem;color:${color}` : 'font-weight:700;font-size:.85rem';
-        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.6rem;border-bottom:1px solid var(--border)"><span style="color:var(--muted);font-size:.82rem">${label}</span><span style="${style}">${val}</span></div>`;
+        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.6rem;border-bottom:1px solid var(--border)"><span style="color:rgba(255,255,255,.35);font-size:.82rem">${label}</span><span style="${style}">${val}</span></div>`;
       }
       const detailsEl = document.getElementById('acc-account-details');
       detailsEl.innerHTML =
-        row('Status', a.status==='active' ? 'Activa' : 'Cerrada', a.status==='active'?'#16a34a':'#8a8a8a') +
+        row('Status', a.status==='active' ? 'Activa' : 'Cerrada', a.status==='active'?'#4ade80':'#8a8a8a') +
         row(isFondeo ? (a.firm || 'Prop firm') : 'Cuenta', a.number) +
         row('Inicio', a.start_date) +
         row('Fin', a.end_date || '—') +
@@ -1587,12 +1591,12 @@
       if (a.status === 'active') {
         danger.innerHTML = `
           <div style="display:flex;gap:.7rem;margin-bottom:1.2rem">
-            <button onclick="accCloseAccount('passing')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.75rem;border-radius:10px;border:1px solid #16a34a;background:transparent;color:#16a34a;font-weight:700;font-size:.82rem;cursor:pointer">✓ Passing</button>
-            <button onclick="accCloseAccount('not_passing')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.75rem;border-radius:10px;border:1px solid #dc2626;background:transparent;color:#dc2626;font-weight:700;font-size:.82rem;cursor:pointer">✕ Not passing</button>
+            <button onclick="accCloseAccount('passing')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.75rem;border-radius:10px;border:1px solid #4ade80;background:transparent;color:#4ade80;font-weight:700;font-size:.82rem;cursor:pointer">✓ Passing</button>
+            <button onclick="accCloseAccount('not_passing')" style="flex:1;display:flex;align-items:center;justify-content:center;gap:.4rem;padding:.75rem;border-radius:10px;border:1px solid #f87171;background:transparent;color:#f87171;font-weight:700;font-size:.82rem;cursor:pointer">✕ Not passing</button>
           </div>
-          <button onclick="accDeleteAccount()" style="width:100%;background:transparent;border:none;color:#dc2626;padding:.8rem;font-weight:600;font-size:.82rem;cursor:pointer">Eliminar cuenta</button>`;
+          <button onclick="accDeleteAccount()" style="width:100%;background:transparent;border:none;color:#f87171;padding:.8rem;font-weight:600;font-size:.82rem;cursor:pointer">Eliminar cuenta</button>`;
       } else {
-        danger.innerHTML = `<button onclick="accDeleteAccount()" style="width:100%;background:transparent;border:none;color:#dc2626;padding:.8rem;font-weight:600;font-size:.82rem;cursor:pointer">Eliminar cuenta</button>`;
+        danger.innerHTML = `<button onclick="accDeleteAccount()" style="width:100%;background:transparent;border:none;color:#f87171;padding:.8rem;font-weight:600;font-size:.82rem;cursor:pointer">Eliminar cuenta</button>`;
       }
     }
 
@@ -1617,6 +1621,7 @@
       await accLoadAll();
       showView('accounts', document.querySelector('.sidebar-link[data-view="accounts"]'));
     }
+
 
     async function logout() { await sb.auth.signOut(); location.href = 'index.html'; }
 
