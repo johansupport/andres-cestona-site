@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Andrés Cestona — Inversor Independiente</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --black:  #0a0a0a;
+      --black:  #080808;
       --dark:   #1a1a1a;
       --mid:    #4a4a4a;
       --muted:  #8a8a8a;
@@ -48,10 +48,18 @@
     .nav-links > li > a { color:rgba(255,255,255,.65); text-decoration:none; font-size:.82rem; font-weight:500; padding:0 .75rem; height:100%; display:flex; align-items:center; transition:color .2s; white-space:nowrap; }
     .nav-links > li > a:hover { color:#fff; }
     .has-drop > a::after { content:'▾'; font-size:.55rem; opacity:.5; margin-left:3px; }
-    .nav-drop { display:none; position:absolute; top:calc(100% + 6px); left:0; background:#111; border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:.4rem 0; min-width:185px; box-shadow:0 20px 50px rgba(0,0,0,.5); }
+    .nav-drop {
+      display:none; position:absolute; top:calc(100% + 6px); left:50%; transform:translateX(-50%);
+      background:#111; border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:.7rem;
+      min-width:320px; box-shadow:0 24px 60px rgba(0,0,0,.55); backdrop-filter:blur(16px);
+    }
     .has-drop:hover .nav-drop { display:block; }
-    .nav-drop a { display:block; padding:.55rem 1.1rem; font-size:.81rem; color:rgba(255,255,255,.6); text-decoration:none; transition:color .15s, background .15s; }
-    .nav-drop a:hover { color:#fff; background:rgba(255,255,255,.06); }
+    .nav-drop-item { display:flex; align-items:flex-start; gap:.75rem; padding:.7rem .75rem; border-radius:10px; text-decoration:none; transition:background .15s; }
+    .nav-drop-item:hover { background:rgba(255,255,255,.06); }
+    .nav-drop-icon { flex-shrink:0; width:34px; height:34px; border-radius:9px; background:rgba(201,168,76,.12); display:flex; align-items:center; justify-content:center; color:var(--gold); }
+    .nav-drop-text { display:flex; flex-direction:column; }
+    .nav-drop-title { font-size:.83rem; font-weight:700; color:#fff; }
+    .nav-drop-desc { font-size:.72rem; color:rgba(255,255,255,.4); margin-top:.15rem; line-height:1.4; }
     .nav-right { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
     .nav-ghost { color:rgba(255,255,255,.65); text-decoration:none; font-size:.81rem; font-weight:500; padding:.4rem .75rem; border-radius:6px; transition:color .2s, background .2s; }
     .nav-ghost:hover { color:#fff; background:rgba(255,255,255,.07); }
@@ -69,8 +77,9 @@
     nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
     nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
     nav.nav-scrolled .nav-drop { background: #fff !important; border-color: #e8e8e5 !important; }
-    nav.nav-scrolled .nav-drop a { color: rgba(5,7,15,.55) !important; }
-    nav.nav-scrolled .nav-drop a:hover { color: #05070f !important; background: #f5f4f1 !important; }
+    nav.nav-scrolled .nav-drop-title { color: #05070f !important; }
+    nav.nav-scrolled .nav-drop-desc { color: rgba(5,7,15,.45) !important; }
+    nav.nav-scrolled .nav-drop-item:hover { background: #f5f4f1 !important; }
     nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
     /* ── HERO ── */
     .hero {
@@ -90,7 +99,7 @@
     .hero-tag { display:inline-flex; align-items:center; gap:.5rem; margin-bottom:2rem; }
     .hero-tag::before { content:''; width:28px; height:1px; background:var(--gold); }
     .hero-tag span { font-size:.68rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2.5px; }
-    h1 { font-family:'Playfair Display',serif; font-size:clamp(3.2rem,5.5vw,5.2rem); font-weight:900; color:#fff; line-height:1.06; letter-spacing:-1.5px; margin-bottom:1.8rem; }
+    h1 { font-family:'Inter',sans-serif; font-size:clamp(3.2rem,5.5vw,5.2rem); font-weight:900; color:#fff; line-height:1.06; letter-spacing:-1.5px; margin-bottom:1.8rem; }
     h1 em { color:var(--gold); font-style:italic; }
     .hero-sub { font-size:1rem; color:rgba(255,255,255,.5); line-height:1.9; margin-bottom:2.8rem; max-width:460px; }
     .hero-btns { display:flex; gap:.8rem; flex-wrap:wrap; margin-bottom:3.5rem; }
@@ -105,9 +114,9 @@
     .stat-label { font-size:.68rem; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:1.2px; margin-top:.3rem; font-weight:500; }
     /* Hero right */
     .hero-panel { display:flex; flex-direction:column; gap:1rem; }
-    .panel-main { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:2rem 2.2rem; }
+    .panel-main { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:2rem 2.2rem; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
     .panel-main-eyebrow { font-size:.62rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:.6rem; }
-    .panel-main-val { font-family:'Playfair Display',serif; font-size:3.2rem; font-weight:900; color:#fff; line-height:1; }
+    .panel-main-val { font-family:'Inter',sans-serif; font-size:3.2rem; font-weight:900; color:#fff; line-height:1; }
     .panel-main-sub { font-size:.76rem; color:rgba(255,255,255,.4); margin-top:.5rem; }
     .panel-rows { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.2rem 1.6rem; display:flex; flex-direction:column; gap:0; }
     .prow { display:flex; justify-content:space-between; padding:.55rem 0; border-bottom:1px solid rgba(255,255,255,.06); }
@@ -132,106 +141,133 @@
     .section-tag { display:inline-flex; align-items:center; gap:.5rem; margin-bottom:1rem; }
     .section-tag::before { content:''; width:20px; height:1px; background:var(--gold); }
     .section-tag span { font-size:.65rem; font-weight:600; color:var(--gold); text-transform:uppercase; letter-spacing:2px; }
-    .section-h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:900; color:var(--black); line-height:1.15; letter-spacing:-.5px; }
+    .section-h2 { font-family:'Inter',sans-serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:900; color:var(--black); line-height:1.15; letter-spacing:-.5px; }
     .section-h2 em { color:var(--gold); font-style:italic; }
     .section-lead { font-size:.95rem; color:var(--muted); line-height:1.85; margin-top:.8rem; }
 
     /* ── STATS BAND ── */
-    .stats-band { background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); padding:4rem 4%; }
+    .stats-band { background:var(--black); border-top:1px solid rgba(255,255,255,.07); border-bottom:1px solid rgba(255,255,255,.07); padding:4rem 4%; }
     .stats-band-inner { max-width:960px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; text-align:center; }
-    .band-num { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:900; color:var(--black); line-height:1; }
+    .band-num { font-family:'Inter',sans-serif; font-size:2.8rem; font-weight:900; color:#fff; line-height:1; }
     .band-num span { color:var(--gold); }
-    .band-lbl { font-size:.7rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-top:.5rem; }
+    .band-lbl { font-size:.7rem; font-weight:600; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:1.2px; margin-top:.5rem; }
 
     /* ── MARKETS ── */
-    .markets-section { background:var(--bg); padding:7rem 4%; }
+    .markets-section { background:var(--black); padding:7rem 4%; }
     .markets-inner { max-width:1200px; margin:0 auto; }
     .markets-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3rem; gap:2rem; }
-    .markets-link { color:var(--dark); text-decoration:none; font-size:.82rem; font-weight:600; border-bottom:1px solid var(--border); padding-bottom:2px; transition:border-color .2s, color .2s; white-space:nowrap; align-self:flex-end; }
+    .markets-link { color:rgba(255,255,255,.7); text-decoration:none; font-size:.82rem; font-weight:600; border-bottom:1px solid rgba(255,255,255,.15); padding-bottom:2px; transition:border-color .2s, color .2s; white-space:nowrap; align-self:flex-end; }
     .markets-link:hover { color:var(--gold); border-color:var(--gold); }
     .markets-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:3rem; }
-    .mkt-card { background:var(--bg); border:1px solid var(--border); border-radius:16px; padding:2rem; transition:box-shadow .3s, transform .3s, border-color .3s; }
-    .mkt-card:hover { box-shadow:0 12px 40px rgba(0,0,0,.08); transform:translateY(-4px); border-color:var(--gold); }
+    .mkt-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:2rem; transition:box-shadow .3s, transform .3s, border-color .3s; }
+    .mkt-card:hover { box-shadow:0 12px 40px rgba(0,0,0,.35); transform:translateY(-4px); border-color:var(--gold); }
     .mkt-tag { display:inline-block; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; padding:.25rem .7rem; border-radius:100px; margin-bottom:1.2rem; }
-    .tag-s { background:rgba(201,168,76,.1); color:#a0820a; border:1px solid rgba(201,168,76,.25); }
-    .tag-a { background:rgba(22,163,74,.08); color:#15803d; border:1px solid rgba(22,163,74,.15); }
-    .tag-p { background:rgba(37,99,235,.08); color:#1d4ed8; border:1px solid rgba(37,99,235,.15); }
-    .mkt-card-title { font-size:1rem; font-weight:700; color:var(--black); margin-bottom:.7rem; line-height:1.35; }
-    .mkt-card-desc  { font-size:.81rem; color:var(--muted); line-height:1.8; margin-bottom:1.5rem; }
-    .mkt-card-meta  { display:flex; justify-content:space-between; align-items:center; padding-top:1.2rem; border-top:1px solid var(--border); }
-    .mkt-stat { font-size:1.4rem; font-weight:800; color:var(--black); }
-    .mkt-stat-lbl { font-size:.65rem; color:var(--muted); margin-top:.2rem; }
-    .mkt-arrow { width:34px; height:34px; border-radius:50%; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--muted); text-decoration:none; font-size:.9rem; transition:all .2s; }
+    .tag-s { background:rgba(201,168,76,.14); color:var(--gold); border:1px solid rgba(201,168,76,.3); }
+    .tag-a { background:rgba(74,222,128,.12); color:#4ade80; border:1px solid rgba(74,222,128,.25); }
+    .tag-p { background:rgba(96,165,250,.12); color:#60a5fa; border:1px solid rgba(96,165,250,.25); }
+    .mkt-card-title { font-size:1rem; font-weight:700; color:#fff; margin-bottom:.7rem; line-height:1.35; }
+    .mkt-card-desc  { font-size:.81rem; color:rgba(255,255,255,.45); line-height:1.8; margin-bottom:1.5rem; }
+    .mkt-card-meta  { display:flex; justify-content:space-between; align-items:center; padding-top:1.2rem; border-top:1px solid rgba(255,255,255,.08); }
+    .mkt-stat { font-size:1.4rem; font-weight:800; color:#fff; }
+    .mkt-stat-lbl { font-size:.65rem; color:rgba(255,255,255,.4); margin-top:.2rem; }
+    .mkt-arrow { width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,.15); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.6); text-decoration:none; font-size:.9rem; transition:all .2s; }
     .mkt-arrow:hover { background:var(--gold); color:var(--black); border-color:var(--gold); }
-    .mkt-divider { border:none; border-top:1px solid var(--border); margin-bottom:2rem; }
+    .mkt-divider { border:none; border-top:1px solid rgba(255,255,255,.08); margin-bottom:2rem; }
     .mkt-bottom { display:flex; justify-content:space-between; align-items:center; gap:2rem; flex-wrap:wrap; }
     .mkt-ticker { display:flex; gap:2.5rem; flex-wrap:wrap; }
-    .tick-lbl { font-size:.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:.2rem; }
-    .tick-val { font-size:.95rem; font-weight:700; color:var(--black); }
-    .tick-val.pos { color:var(--green); }
+    .tick-lbl { font-size:.62rem; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:1px; margin-bottom:.2rem; }
+    .tick-val { font-size:.95rem; font-weight:700; color:#fff; }
+    .tick-val.pos { color:#4ade80; }
 
     /* ── TRADES PREVIEW ── */
-    .trades-section { background:var(--bg2); padding:7rem 4%; border-top:1px solid var(--border); }
+    .trades-section { background:var(--black); padding:7rem 4%; border-top:1px solid rgba(255,255,255,.07); }
     .trades-inner { max-width:1100px; margin:0 auto; }
     .trades-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3rem; }
     .trades-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:2.5rem; }
-    .trade-card { background:var(--bg); border:1px solid var(--border); border-radius:14px; overflow:hidden; text-decoration:none; color:inherit; transition:box-shadow .3s, transform .3s; display:flex; flex-direction:column; }
-    .trade-card:hover { box-shadow:0 10px 36px rgba(0,0,0,.09); transform:translateY(-3px); }
-    .trade-card-img { aspect-ratio:16/9; background:var(--bg2); overflow:hidden; position:relative; }
+    .trade-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:14px; overflow:hidden; text-decoration:none; color:inherit; transition:box-shadow .3s, transform .3s, border-color .3s; display:flex; flex-direction:column; }
+    .trade-card:hover { box-shadow:0 10px 36px rgba(0,0,0,.35); transform:translateY(-3px); border-color:rgba(201,168,76,.3); }
+    .trade-card-img { aspect-ratio:16/9; background:rgba(255,255,255,.04); overflow:hidden; position:relative; }
     .trade-card-img img { width:100%; height:100%; object-fit:cover; }
-    .trade-card-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#f0f0ee,#e8e8e4); }
+    .trade-card-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#161616,#0d0d0d); }
     .trade-img-icon { opacity:.25; }
     .trade-card-badge { position:absolute; top:.75rem; left:.75rem; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; padding:.25rem .65rem; border-radius:100px; }
-    .badge-win { background:#dcfce7; color:#15803d; }
-    .badge-loss { background:#fee2e2; color:#b91c1c; }
+    .badge-win { background:rgba(74,222,128,.14); color:#4ade80; }
+    .badge-loss { background:rgba(248,113,113,.14); color:#f87171; }
     .trade-card-body { padding:1.3rem 1.5rem 1.5rem; flex:1; display:flex; flex-direction:column; }
     .trade-card-meta { display:flex; gap:.6rem; align-items:center; margin-bottom:.75rem; }
-    .trade-card-date { font-size:.68rem; color:var(--muted); }
-    .trade-card-asset { font-size:.68rem; font-weight:700; color:var(--gold); background:rgba(201,168,76,.1); padding:.15rem .5rem; border-radius:4px; }
-    .trade-card-title { font-size:.95rem; font-weight:700; color:var(--black); line-height:1.4; margin-bottom:.5rem; flex:1; }
-    .trade-card-excerpt { font-size:.78rem; color:var(--muted); line-height:1.7; }
-    .trade-card-footer { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:.9rem; border-top:1px solid var(--border); }
+    .trade-card-date { font-size:.68rem; color:rgba(255,255,255,.4); }
+    .trade-card-asset { font-size:.68rem; font-weight:700; color:var(--gold); background:rgba(201,168,76,.12); padding:.15rem .5rem; border-radius:4px; }
+    .trade-card-title { font-size:.95rem; font-weight:700; color:#fff; line-height:1.4; margin-bottom:.5rem; flex:1; }
+    .trade-card-excerpt { font-size:.78rem; color:rgba(255,255,255,.4); line-height:1.7; }
+    .trade-card-footer { display:flex; justify-content:space-between; align-items:center; margin-top:1rem; padding-top:.9rem; border-top:1px solid rgba(255,255,255,.08); }
     .trade-card-result { font-size:.8rem; font-weight:700; }
-    .trade-card-result.pos { color:var(--green); }
-    .trade-card-result.neg { color:var(--red); }
-    .trade-card-read { font-size:.75rem; color:var(--muted); font-weight:500; }
+    .trade-card-result.pos { color:#4ade80; }
+    .trade-card-result.neg { color:#f87171; }
+    .trade-card-read { font-size:.75rem; color:rgba(255,255,255,.4); font-weight:500; }
     .trades-cta { text-align:center; }
 
-    /* ── QUIEN ── */
-    .quien-section { background:var(--black); padding:7rem 4%; }
-    .quien-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1.5fr; gap:6rem; align-items:center; }
-    .quien-left { display:flex; flex-direction:column; gap:1.2rem; }
-    .quien-profile { background:rgba(201,168,76,.08); border:1px solid rgba(201,168,76,.2); border-radius:18px; padding:2rem; }
+    /* ── QUIEN (único bloque claro) ── */
+    .quien-section { background:#fff; padding:7rem 4%; }
+    .quien-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1.5fr; gap:6rem; align-items:start; }
+    .quien-left { display:flex; flex-direction:column; gap:1.2rem; position:sticky; top:100px; }
+    .quien-profile { background:rgba(201,168,76,.07); border:1px solid rgba(201,168,76,.22); border-radius:18px; padding:2rem; }
     .quien-initials { width:68px; height:68px; border-radius:50%; background:var(--gold); display:flex; align-items:center; justify-content:center; font-size:1.35rem; font-weight:900; color:var(--black); margin-bottom:1.2rem; }
-    .quien-name { font-size:1.1rem; font-weight:700; color:#fff; }
+    .quien-name { font-size:1.1rem; font-weight:700; color:var(--black); }
     .quien-role { font-size:.76rem; color:var(--gold); margin-top:.25rem; font-weight:500; }
-    .quien-stats-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.4rem 1.6rem; display:flex; align-items:center; gap:1.2rem; }
-    .quien-stat-big { font-family:'Playfair Display',serif; font-size:2.8rem; font-weight:900; color:var(--gold); line-height:1; }
-    .quien-stat-txt { font-size:.78rem; color:rgba(255,255,255,.4); line-height:1.6; }
+    .quien-stats-card { background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:1.4rem 1.6rem; display:flex; align-items:center; gap:1.2rem; }
+    .quien-stat-big { font-family:'Inter',sans-serif; font-size:2.8rem; font-weight:900; color:var(--gold); line-height:1; }
+    .quien-stat-txt { font-size:.78rem; color:var(--muted); line-height:1.6; }
     .quien-right .section-tag { }
-    .quien-right h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3vw,2.8rem); font-weight:900; color:#fff; line-height:1.2; letter-spacing:-.5px; margin-bottom:.5rem; margin-top:.3rem; }
+    .quien-right h2 { font-family:'Inter',sans-serif; font-size:clamp(2rem,3vw,2.8rem); font-weight:900; color:var(--black); line-height:1.2; letter-spacing:-.5px; margin-bottom:.5rem; margin-top:.3rem; }
     .quien-tagline { font-size:.88rem; color:var(--gold); font-weight:500; margin-bottom:2rem; }
-    .quien-bio p { font-size:.9rem; color:rgba(255,255,255,.5); line-height:1.9; margin-bottom:1rem; }
-    .quien-bio p strong { color:#fff; font-weight:600; }
+    .quien-bio p { font-size:.9rem; color:var(--mid); line-height:1.9; margin-bottom:1rem; }
+    .quien-bio p strong { color:var(--black); font-weight:600; }
     .quien-bio p em { color:var(--gold); font-style:normal; }
-    .quien-pillars { display:grid; grid-template-columns:1fr 1fr; gap:.9rem; margin-top:2rem; }
-    .pillar { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07); border-radius:12px; padding:1.1rem; transition:border-color .25s, background .25s; }
-    .pillar:hover { border-color:rgba(201,168,76,.3); background:rgba(201,168,76,.04); }
-    .pillar-icon { font-size:1.2rem; margin-bottom:.45rem; }
-    .pillar-title { font-size:.8rem; font-weight:700; color:#fff; margin-bottom:.25rem; }
-    .pillar-desc  { font-size:.71rem; color:rgba(255,255,255,.4); line-height:1.6; }
+    .quien-pillars { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem; }
+    .pillar { position:relative; background:var(--bg2); border:1px solid var(--border); border-radius:16px; padding:1.6rem; transition:all .25s; }
+    .pillar:hover { border-color:var(--gold); background:#fff; box-shadow:0 14px 34px rgba(0,0,0,.07); transform:translateY(-3px); }
+    .pillar-icon { font-size:1.9rem; margin-bottom:.8rem; display:block; }
+    .pillar-title { font-size:.92rem; font-weight:800; color:var(--black); margin-bottom:.35rem; }
+    .pillar-desc  { font-size:.76rem; color:var(--muted); line-height:1.6; }
+    .pillar-arrow { position:absolute; top:1.2rem; right:1.2rem; width:28px; height:28px; border-radius:50%; background:#fff; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:.8rem; color:var(--muted); transition:all .2s; }
+    .pillar:hover .pillar-arrow { background:var(--gold); color:var(--black); border-color:var(--gold); }
+
+    /* ── TIMELINE ── */
+    .quien-timeline { margin-top:2.6rem; }
+    .quien-block-label { font-size:.62rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:1rem; }
+    .timeline-item { display:flex; align-items:flex-start; gap:1rem; position:relative; padding-bottom:1.4rem; }
+    .timeline-item:last-child { padding-bottom:0; }
+    .timeline-item:not(:last-child)::after { content:''; position:absolute; left:5px; top:16px; bottom:0; width:1px; background:var(--border); }
+    .timeline-dot { width:11px; height:11px; border-radius:50%; background:var(--gold); flex-shrink:0; margin-top:.3rem; position:relative; z-index:1; }
+    .timeline-body { display:flex; flex-direction:column; gap:.15rem; }
+    .timeline-year { font-size:.68rem; font-weight:800; color:var(--gold); text-transform:uppercase; letter-spacing:.6px; }
+    .timeline-text { font-size:.85rem; color:var(--mid); line-height:1.6; }
+
+    /* ── PARTNERS / CREDENCIALES ── */
+    .quien-partners { margin-top:2.6rem; display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+    .partner-item { display:flex; align-items:center; gap:.7rem; background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:.75rem .9rem; }
+    .partner-icon { width:32px; height:32px; border-radius:8px; background:#fff; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .partner-name { font-size:.78rem; font-weight:700; color:var(--black); }
+    .partner-desc { font-size:.66rem; color:var(--muted); margin-top:.1rem; }
 
     /* ── CTA ── */
-    .cta-section { background:var(--bg); padding:7rem 4%; text-align:center; }
+    /* ── QUOTES ── */
+    .quotes-section { background:var(--black); padding:6rem 4%; border-top:1px solid rgba(255,255,255,.07); }
+    .quotes-inner { max-width:1100px; margin:0 auto; }
+    .quotes-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; gap:2rem; }
+    .quotes-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+    .quote-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:1.6rem; }
+    .quote-text { font-size:.85rem; color:rgba(255,255,255,.65); line-height:1.75; font-style:italic; margin-bottom:1.1rem; }
+    .quote-text strong { color:#fff; font-style:normal; }
+    .quote-author { font-size:.8rem; font-weight:700; color:#fff; }
+    .quote-role { font-size:.72rem; color:rgba(255,255,255,.4); margin-top:.1rem; }
+
+    .cta-section { background:var(--black); padding:7rem 4%; text-align:center; }
     .cta-inner { max-width:640px; margin:0 auto; }
-    .cta-section h2 { font-family:'Playfair Display',serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:900; color:var(--black); line-height:1.2; margin-bottom:1.1rem; letter-spacing:-.5px; }
+    .cta-section h2 { font-family:'Inter',sans-serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:900; color:#fff; line-height:1.2; margin-bottom:1.1rem; letter-spacing:-.5px; }
     .cta-section h2 em { color:var(--gold); font-style:italic; }
-    .cta-section p { font-size:.93rem; color:var(--muted); line-height:1.8; margin-bottom:2.5rem; }
+    .cta-section p { font-size:.93rem; color:rgba(255,255,255,.45); line-height:1.8; margin-bottom:2.5rem; }
     .cta-btns { display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; }
-    .btn-dark { background:var(--black); color:#fff; padding:.85rem 1.8rem; border-radius:8px; font-weight:700; font-size:.88rem; text-decoration:none; transition:background .2s, transform .2s; }
-    .btn-dark:hover { background:var(--dark); transform:translateY(-2px); }
-    .btn-outline-d { background:transparent; color:var(--dark); padding:.85rem 1.8rem; border-radius:8px; font-weight:600; font-size:.88rem; text-decoration:none; border:1px solid var(--border); transition:all .2s; }
-    .btn-outline-d:hover { border-color:var(--gold); color:var(--gold); }
 
     /* ── FOOTER ── */
     footer { background:var(--black); border-top:1px solid rgba(255,255,255,.07); padding:2.5rem 4%; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
@@ -258,7 +294,12 @@
       .trades-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
       .quien-section { padding: 4rem 5%; }
       .quien-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .quien-left { position: static; }
       .quien-pillars { grid-template-columns: 1fr; }
+      .quien-partners { grid-template-columns: 1fr; }
+      .quotes-section { padding: 4rem 5%; }
+      .quotes-top { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .quotes-grid { grid-template-columns: 1fr; }
       .cta-section { padding: 4rem 5%; }
       footer { flex-direction: column; align-items: flex-start; gap: 1rem; }
     }
@@ -323,7 +364,14 @@
       <li class="has-drop">
         <a href="#">Nosotros</a>
         <div class="nav-drop">
-          <a href="#quien">¿Quién es Andrés?</a>
+          <a class="nav-drop-item" href="#quien">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">¿Quién es Andrés?</span><span class="nav-drop-desc">Trayectoria, credenciales y filosofía de inversión</span></span>
+          </a>
+          <a class="nav-drop-item" href="estadisticas.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Estadísticas</span><span class="nav-drop-desc">Rendimiento auditado mes a mes desde 2021</span></span>
+          </a>
         </div>
       </li>
       <li><a href="#markets">Markets</a></li>
@@ -333,8 +381,18 @@
       <li class="has-drop">
         <a href="#">Comunidad</a>
         <div class="nav-drop">
-          <a href="canales.html">Canales</a>
-          <a href="eventos.html">Eventos</a>
+          <a class="nav-drop-item" href="canales.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Canales</span><span class="nav-drop-desc">Telegram, Instagram y WhatsApp de la comunidad</span></span>
+          </a>
+          <a class="nav-drop-item" href="eventos.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Eventos</span><span class="nav-drop-desc">Clases en vivo y sesiones de análisis en directo</span></span>
+          </a>
+          <a class="nav-drop-item" href="testimonios.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Testimonios</span><span class="nav-drop-desc">Historias reales de alumnos de la comunidad</span></span>
+          </a>
         </div>
       </li>
     </ul>
@@ -354,6 +412,7 @@
     <a href="calculadora.html">Calculadora</a>
     <a href="canales.html">Canales</a>
     <a href="eventos.html">Eventos</a>
+    <a href="testimonios.html">Testimonios</a>
   </div>
   <!-- Mobile nav -->
 
@@ -424,10 +483,10 @@
   <!-- STATS BAND -->
   <section class="stats-band">
     <div class="stats-band-inner">
-      <div class="reveal"><div class="band-num">1.051</div><div class="band-lbl">Trades verificados</div></div>
-      <div class="reveal d1"><div class="band-num">71<span>.5%</span></div><div class="band-lbl">Winrate histórico</div></div>
-      <div class="reveal d2"><div class="band-num">+412<span>%</span></div><div class="band-lbl">Rendimiento total</div></div>
-      <div class="reveal d3"><div class="band-num">5 <span style="font-size:1.8rem">años</span></div><div class="band-lbl">Historial auditado</div></div>
+      <div class="reveal"><div class="band-num"><span class="counter" data-target="1051">0</span></div><div class="band-lbl">Trades verificados</div></div>
+      <div class="reveal d1"><div class="band-num"><span class="counter" data-target="71">0</span><span>.5%</span></div><div class="band-lbl">Winrate histórico</div></div>
+      <div class="reveal d2"><div class="band-num">+<span class="counter" data-target="412">0</span><span>%</span></div><div class="band-lbl">Rendimiento total</div></div>
+      <div class="reveal d3"><div class="band-num"><span class="counter" data-target="5">0</span> <span style="font-size:1.8rem">años</span></div><div class="band-lbl">Historial auditado</div></div>
     </div>
   </section>
 
@@ -493,7 +552,7 @@
         <!-- Se cargan dinámicamente desde trades-data.js -->
       </div>
       <div class="trades-cta reveal">
-        <a href="trades.html" class="btn-dark">Ver diario completo →</a>
+        <a href="trades.html" class="btn-outline-w">Ver diario completo →</a>
       </div>
     </div>
   </section>
@@ -522,10 +581,91 @@
           <p>Su sello es la <strong>consistencia sobre el tiempo</strong>: +412% acumulado desde $1,000, con 71.6% de winrate histórico sobre 1.051 operaciones verificadas.</p>
         </div>
         <div class="quien-pillars reveal d3">
-          <div class="pillar"><div class="pillar-icon">📊</div><div class="pillar-title">Operativa activa</div><div class="pillar-desc">Swing trading sobre XAU/USD con análisis técnico institucional</div></div>
-          <div class="pillar"><div class="pillar-icon">🔒</div><div class="pillar-title">Gestión del riesgo</div><div class="pillar-desc">Riesgo fijo por operación, drawdown controlado siempre</div></div>
-          <div class="pillar"><div class="pillar-icon">📋</div><div class="pillar-title">Transparencia total</div><div class="pillar-desc">Cada trade documentado y publicado desde 2022</div></div>
-          <div class="pillar"><div class="pillar-icon">📈</div><div class="pillar-title">Resultados verificables</div><div class="pillar-desc">Calculadora pública con datos reales</div></div>
+          <div class="pillar"><div class="pillar-icon">📊</div><div class="pillar-title">Operativa activa</div><div class="pillar-desc">Swing trading sobre XAU/USD con análisis técnico institucional</div><span class="pillar-arrow">→</span></div>
+          <div class="pillar"><div class="pillar-icon">🔒</div><div class="pillar-title">Gestión del riesgo</div><div class="pillar-desc">Riesgo fijo por operación, drawdown controlado siempre</div><span class="pillar-arrow">→</span></div>
+          <div class="pillar"><div class="pillar-icon">📋</div><div class="pillar-title">Transparencia total</div><div class="pillar-desc">Cada trade documentado y publicado desde 2022</div><span class="pillar-arrow">→</span></div>
+          <div class="pillar"><div class="pillar-icon">📈</div><div class="pillar-title">Resultados verificables</div><div class="pillar-desc">Calculadora pública con datos reales</div><span class="pillar-arrow">→</span></div>
+        </div>
+
+        <div class="quien-timeline reveal">
+          <div class="quien-block-label">Trayectoria</div>
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-body">
+              <span class="timeline-year">~2015</span>
+              <span class="timeline-text">Inicio en los mercados financieros, primeros años de formación y operativa personal.</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-body">
+              <span class="timeline-year">2021</span>
+              <span class="timeline-text">Comienza a documentar públicamente su estrategia XAUUSD Swing, capital inicial de $1.000.</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-body">
+              <span class="timeline-year">2022</span>
+              <span class="timeline-text">Primer año con historial de trades completamente auditado y publicado.</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <span class="timeline-dot"></span>
+            <div class="timeline-body">
+              <span class="timeline-year">2026</span>
+              <span class="timeline-text">+412% acumulado, 1.051 trades verificados y 71.6% de winrate histórico.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quien-partners reveal">
+          <div class="partner-item">
+            <span class="partner-icon"><svg width="18" height="18" viewBox="0 0 32 32" fill="none"><path d="M16 4l3.6 3.6-7.2 7.2-3.6-3.6L16 4zm-8 8l3.6 3.6-3.6 3.6L4 16l4-4zm16 0l4 4-3.6 3.6L20.4 16 24 12zm-8 8l7.2-7.2 3.6 3.6L16 28l-6.8-6.8 3.6-3.6L16 20z" fill="rgba(10,10,10,.55)"/></svg></span>
+            <span><span class="partner-name">Binance</span><span class="partner-desc" style="display:block">Exchange de criptoactivos</span></span>
+          </div>
+          <div class="partner-item">
+            <span class="partner-icon"><svg width="18" height="18" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="rgba(10,10,10,.08)"/><path d="M10 22l6-12 6 12M12.5 18h7" stroke="rgba(10,10,10,.55)" stroke-width="2" stroke-linecap="round"/></svg></span>
+            <span><span class="partner-name">AXI</span><span class="partner-desc" style="display:block">Broker regulado, ejecución en vivo</span></span>
+          </div>
+          <div class="partner-item">
+            <span class="partner-icon"><svg width="18" height="18" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(10,10,10,.06)"/><path d="M7 11h8M7 16h6M7 21h8" stroke="rgba(10,10,10,.55)" stroke-width="2.2" stroke-linecap="round"/><path d="M19 11l6 10M25 11l-6 10" stroke="rgba(10,10,10,.55)" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+            <span><span class="partner-name">FTMO</span><span class="partner-desc" style="display:block">Prop firm partner</span></span>
+          </div>
+          <div class="partner-item">
+            <span class="partner-icon"><svg width="18" height="18" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="rgba(10,10,10,.06)"/><path d="M8 20l5-6 4 4 7-9" stroke="rgba(10,10,10,.55)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span><span class="partner-name">TradingView</span><span class="partner-desc" style="display:block">Plataforma de análisis técnico</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="quotes-section">
+    <div class="quotes-inner">
+      <div class="quotes-top">
+        <div class="reveal">
+          <div class="section-tag"><span>Comunidad</span></div>
+          <h2 class="section-h2">Lo que dice <em>la comunidad</em></h2>
+        </div>
+        <a href="testimonios.html" class="markets-link reveal d2">Ver más testimonios →</a>
+      </div>
+      <div class="quotes-grid">
+        <div class="quote-card reveal d1">
+          <p class="quote-text">"Antes de encontrar a Andrés, tenía el dinero parado en el banco perdiendo valor. Hoy tengo una cartera diversificada y <strong>llevo 14 meses sin perder en ningún mes.</strong> Fue un cambio de vida."</p>
+          <div class="quote-author">María C.</div>
+          <div class="quote-role">Enfermera · México</div>
+        </div>
+        <div class="quote-card reveal d2">
+          <p class="quote-text">"Lo que más me sorprendió fue la <strong>claridad con la que Andrés explica</strong>. Yo no sabía nada de inversiones y en 3 semanas ya estaba operando con confianza. Increíble."</p>
+          <div class="quote-author">Javier R.</div>
+          <div class="quote-role">Ingeniero · España</div>
+        </div>
+        <div class="quote-card reveal d3">
+          <p class="quote-text">"Llevaba 2 años perdiendo dinero en bolsa sin entender por qué. La academia me enseñó a <strong>pensar como inversor, no como especulador.</strong> Ahora mis números son completamente distintos."</p>
+          <div class="quote-author">Laura P.</div>
+          <div class="quote-role">Emprendedora · Colombia</div>
         </div>
       </div>
     </div>
@@ -539,7 +679,7 @@
       <p class="reveal d2">Usa la calculadora pública para simular tu capital inicial con los datos reales de 1.051 trades verificados desde 2021.</p>
       <div class="cta-btns reveal d3">
         <a href="calculadora.html" class="btn-gold">Simula tu capital →</a>
-        <a href="estadisticas.html" class="btn-outline-d">Ver estadísticas completas</a>
+        <a href="estadisticas.html" class="btn-outline-w">Ver estadísticas completas</a>
       </div>
     </div>
   </section>
