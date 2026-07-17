@@ -125,6 +125,14 @@
     .panel-main-delta { font-weight:700; }
     .panel-main-delta.pos { color:#4ade80; }
     .panel-main-delta.neg { color:#f87171; }
+    .panel-main-body { display:flex; align-items:flex-end; justify-content:space-between; gap:1.2rem; }
+    .panel-main-text { flex:1; min-width:0; }
+    .panel-chart-wrap { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:.5rem; }
+    .panel-chart { display:flex; align-items:flex-end; gap:.3rem; height:60px; }
+    .panel-chart-bar { width:9px; border-radius:3px 3px 0 0; transition:height .4s ease; }
+    .panel-chart-bar.pos { background:rgba(74,222,128,.6); }
+    .panel-chart-bar.neg { background:rgba(248,113,113,.6); }
+    .panel-chart-lbl { font-size:.6rem; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1px; }
     .panel-rows { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.1rem 1.4rem; display:flex; flex-direction:column; gap:0; }
     .wl-label { font-size:.62rem; font-weight:600; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1.5px; padding:.2rem 0 .7rem; }
     .wl-row { display:flex; align-items:center; justify-content:space-between; padding:.6rem 0; border-bottom:1px solid rgba(255,255,255,.06); }
@@ -437,8 +445,8 @@
     <div class="hero-inner">
       <div>
         <div class="hero-tag reveal"><span>Inversor Independiente · XAUUSD</span></div>
-        <h1 class="reveal d1">Gestión activa<br/>del capital<br/>con <em>convicción</em></h1>
-        <p class="hero-sub reveal d2">Estrategia cuantitativa sobre oro, verificada desde 2022.</p>
+        <h1 class="reveal d1">Estrategia cuantitativa.<br/>Cero <em>improvisación</em>.</h1>
+        <p class="hero-sub reveal d2">Resultados verificados, no promesas — auditado desde 2021. Un método, sostenido en el tiempo.</p>
         <div class="hero-btns reveal d3">
           <a href="estadisticas.html" class="btn-gold">Ver estadísticas →</a>
           <a href="trades.html" class="btn-outline-w">Diario de Trades</a>
@@ -446,16 +454,16 @@
         <div class="hero-sep reveal d4"></div>
         <div class="hero-stats reveal d4">
           <div>
-            <div class="stat-num"><span class="counter" data-target="412">0</span><sup>%</sup></div>
-            <div class="stat-label">Desde inicio · 2021</div>
+            <div class="stat-num" id="hs-val-1"><span class="counter" data-target="412">0</span><sup>%</sup></div>
+            <div class="stat-label" id="hs-lbl-1">Desde inicio · 2021</div>
           </div>
           <div>
-            <div class="stat-num"><span class="counter" data-target="1051">0</span></div>
-            <div class="stat-label">Trades verificados</div>
+            <div class="stat-num" id="hs-val-2"><span class="counter" data-target="1051">0</span></div>
+            <div class="stat-label" id="hs-lbl-2">Trades verificados</div>
           </div>
           <div>
-            <div class="stat-num"><span class="counter" data-target="71">0</span><sup>.5%</sup></div>
-            <div class="stat-label">Winrate histórico</div>
+            <div class="stat-num" id="hs-val-3"><span class="counter" data-target="71">0</span><sup>.5%</sup></div>
+            <div class="stat-label" id="hs-lbl-3">Winrate histórico</div>
           </div>
         </div>
       </div>
@@ -466,9 +474,17 @@
             <button class="panel-tab" onclick="switchPanelTab('tsla',this)">TSLA</button>
             <button class="panel-tab" onclick="switchPanelTab('btc',this)">BTC</button>
           </div>
-          <div class="panel-main-eyebrow" id="panel-eyebrow">XAUUSD · Rendimiento total</div>
-          <div class="panel-main-val" id="panel-value">+412%</div>
-          <div class="panel-main-sub" id="panel-sub">desde 2021 · capital inicial $1,000</div>
+          <div class="panel-main-body">
+            <div class="panel-main-text">
+              <div class="panel-main-eyebrow" id="panel-eyebrow">XAUUSD · Rendimiento total</div>
+              <div class="panel-main-val" id="panel-value">+412%</div>
+              <div class="panel-main-sub" id="panel-sub">desde 2021 · capital inicial $1,000</div>
+            </div>
+            <div class="panel-chart-wrap">
+              <div class="panel-chart" id="panel-chart"></div>
+              <div class="panel-chart-lbl" id="panel-chart-lbl">Por año</div>
+            </div>
+          </div>
         </div>
         <div class="panel-rows">
           <div class="wl-label">Mercados en seguimiento</div>
@@ -745,10 +761,42 @@
   <script>
     // Hero panel tabs (XAUUSD / TSLA / BTC)
     const PANEL_DATA = {
-      xau:  { eyebrow: 'XAUUSD · Rendimiento total', value: '+412%', sub: 'desde 2021 · capital inicial $1,000', delta: null },
-      tsla: { eyebrow: 'TSLA · Precio actual', value: '$382.86', sub: 'Tesla Inc.', delta: '-2.10% hoy', deltaClass: 'neg' },
-      btc:  { eyebrow: 'BTC · Precio actual', value: '$94,180', sub: 'Bitcoin', delta: '+1.84% hoy', deltaClass: 'pos' },
+      xau: {
+        eyebrow: 'XAUUSD · Rendimiento total', value: '+412%', sub: 'desde 2021 · capital inicial $1,000', delta: null,
+        chart: [74.4, 76.4, 85.8, 70.2, 70.4, 34.6], chartLbl: 'Por año',
+        stats: [
+          { val: '412<sup>%</sup>', label: 'Desde inicio · 2021' },
+          { val: '1.051', label: 'Trades verificados' },
+          { val: '71<sup>.5%</sup>', label: 'Winrate histórico' },
+        ],
+      },
+      tsla: {
+        eyebrow: 'TSLA · Precio actual', value: '$382.86', sub: 'Tesla Inc.', delta: '-2.10% hoy', deltaClass: 'neg',
+        chart: [-2.1], chartLbl: 'Hoy',
+        stats: [
+          { val: '$382.86', label: 'Precio actual' },
+          { val: '-2.10%', label: 'Variación hoy' },
+          { val: 'NASDAQ', label: 'Mercado' },
+        ],
+      },
+      btc: {
+        eyebrow: 'BTC · Precio actual', value: '$94,180', sub: 'Bitcoin', delta: '+1.84% hoy', deltaClass: 'pos',
+        chart: [1.84], chartLbl: 'Hoy',
+        stats: [
+          { val: '$94,180', label: 'Precio actual' },
+          { val: '+1.84%', label: 'Variación hoy' },
+          { val: 'Cripto', label: 'Mercado' },
+        ],
+      },
     };
+    function renderPanelChart(values) {
+      const el = document.getElementById('panel-chart');
+      const maxAbs = Math.max(...values.map(v => Math.abs(v)), 1);
+      el.innerHTML = values.map(v => {
+        const h = Math.max(6, Math.round((Math.abs(v) / maxAbs) * 56));
+        return `<span class="panel-chart-bar ${v >= 0 ? 'pos' : 'neg'}" style="height:${h}px" title="${v > 0 ? '+' : ''}${v}%"></span>`;
+      }).join('');
+    }
     function switchPanelTab(key, btn) {
       document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
@@ -757,7 +805,14 @@
       document.getElementById('panel-value').textContent = d.value;
       const subEl = document.getElementById('panel-sub');
       subEl.innerHTML = d.sub + (d.delta ? ` <span class="panel-main-delta ${d.deltaClass}">${d.delta}</span>` : '');
+      document.getElementById('panel-chart-lbl').textContent = d.chartLbl;
+      renderPanelChart(d.chart);
+      d.stats.forEach((s, i) => {
+        document.getElementById('hs-val-' + (i + 1)).innerHTML = s.val;
+        document.getElementById('hs-lbl-' + (i + 1)).textContent = s.label;
+      });
     }
+    renderPanelChart(PANEL_DATA.xau.chart);
 
     // Nav scroll
     const navEl = document.querySelector('nav');
