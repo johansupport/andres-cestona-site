@@ -115,9 +115,16 @@
     /* Hero right */
     .hero-panel { display:flex; flex-direction:column; gap:1rem; }
     .panel-main { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:2rem 2.2rem; backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+    .panel-tabs { display:flex; gap:.4rem; margin-bottom:1.2rem; }
+    .panel-tab { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:rgba(255,255,255,.5); font-size:.68rem; font-weight:700; padding:.35rem .8rem; border-radius:100px; cursor:pointer; transition:all .2s; font-family:'Inter',sans-serif; }
+    .panel-tab:hover { color:#fff; border-color:rgba(255,255,255,.2); }
+    .panel-tab.active { background:var(--gold); color:var(--black); border-color:var(--gold); }
     .panel-main-eyebrow { font-size:.62rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:.6rem; }
     .panel-main-val { font-family:'Space Grotesk',sans-serif; font-size:3.2rem; font-weight:700; color:#fff; line-height:1; }
-    .panel-main-sub { font-size:.76rem; color:rgba(255,255,255,.4); margin-top:.5rem; }
+    .panel-main-sub { font-size:.76rem; color:rgba(255,255,255,.4); margin-top:.5rem; display:flex; align-items:center; gap:.5rem; }
+    .panel-main-delta { font-weight:700; }
+    .panel-main-delta.pos { color:#4ade80; }
+    .panel-main-delta.neg { color:#f87171; }
     .panel-rows { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.1rem 1.4rem; display:flex; flex-direction:column; gap:0; }
     .wl-label { font-size:.62rem; font-weight:600; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1.5px; padding:.2rem 0 .7rem; }
     .wl-row { display:flex; align-items:center; justify-content:space-between; padding:.6rem 0; border-bottom:1px solid rgba(255,255,255,.06); }
@@ -431,7 +438,7 @@
       <div>
         <div class="hero-tag reveal"><span>Inversor Independiente · XAUUSD</span></div>
         <h1 class="reveal d1">Gestión activa<br/>del capital<br/>con <em>convicción</em></h1>
-        <p class="hero-sub reveal d2">Estrategias cuantitativas sobre oro verificadas desde 2022. Transparencia total en cada operación.</p>
+        <p class="hero-sub reveal d2">Estrategia cuantitativa sobre oro, verificada desde 2022.</p>
         <div class="hero-btns reveal d3">
           <a href="estadisticas.html" class="btn-gold">Ver estadísticas →</a>
           <a href="trades.html" class="btn-outline-w">Diario de Trades</a>
@@ -454,22 +461,27 @@
       </div>
       <div class="hero-panel reveal-r d1">
         <div class="panel-main">
-          <div class="panel-main-eyebrow">Rendimiento total</div>
-          <div class="panel-main-val">+412%</div>
-          <div class="panel-main-sub">desde 2021 · capital inicial $1,000</div>
+          <div class="panel-tabs">
+            <button class="panel-tab active" onclick="switchPanelTab('xau',this)">XAUUSD</button>
+            <button class="panel-tab" onclick="switchPanelTab('tsla',this)">TSLA</button>
+            <button class="panel-tab" onclick="switchPanelTab('btc',this)">BTC</button>
+          </div>
+          <div class="panel-main-eyebrow" id="panel-eyebrow">XAUUSD · Rendimiento total</div>
+          <div class="panel-main-val" id="panel-value">+412%</div>
+          <div class="panel-main-sub" id="panel-sub">desde 2021 · capital inicial $1,000</div>
         </div>
         <div class="panel-rows">
           <div class="wl-label">Mercados en seguimiento</div>
           <div class="wl-row">
             <div class="wl-left">
-              <span class="wl-icon" style="background:var(--gold);color:var(--black)">Au</span>
+              <span class="wl-icon" style="background:var(--gold);color:var(--black)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M5 8h14l-2 9H7L5 8z"/><path d="M5 8l2-3h10l2 3"/></svg></span>
               <div><div class="wl-name">XAUUSD</div><div class="wl-sub">Oro spot</div></div>
             </div>
             <div class="wl-right"><div class="wl-price">$2,487.30</div><div class="wl-change pos">+0.62%</div></div>
           </div>
           <div class="wl-row">
             <div class="wl-left">
-              <span class="wl-icon" style="background:rgba(255,255,255,.1);color:#fff">T</span>
+              <span class="wl-icon" style="background:rgba(255,255,255,.1);color:#fff"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
               <div><div class="wl-name">TSLA</div><div class="wl-sub">Tesla Inc.</div></div>
             </div>
             <div class="wl-right"><div class="wl-price">$382.86</div><div class="wl-change neg">-2.10%</div></div>
@@ -731,6 +743,22 @@
   </footer>
 
   <script>
+    // Hero panel tabs (XAUUSD / TSLA / BTC)
+    const PANEL_DATA = {
+      xau:  { eyebrow: 'XAUUSD · Rendimiento total', value: '+412%', sub: 'desde 2021 · capital inicial $1,000', delta: null },
+      tsla: { eyebrow: 'TSLA · Precio actual', value: '$382.86', sub: 'Tesla Inc.', delta: '-2.10% hoy', deltaClass: 'neg' },
+      btc:  { eyebrow: 'BTC · Precio actual', value: '$94,180', sub: 'Bitcoin', delta: '+1.84% hoy', deltaClass: 'pos' },
+    };
+    function switchPanelTab(key, btn) {
+      document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      const d = PANEL_DATA[key];
+      document.getElementById('panel-eyebrow').textContent = d.eyebrow;
+      document.getElementById('panel-value').textContent = d.value;
+      const subEl = document.getElementById('panel-sub');
+      subEl.innerHTML = d.sub + (d.delta ? ` <span class="panel-main-delta ${d.deltaClass}">${d.delta}</span>` : '');
+    }
+
     // Nav scroll
     const navEl = document.querySelector('nav');
     function updateNav(){ navEl.classList.toggle('nav-scrolled', window.scrollY > 60); }
