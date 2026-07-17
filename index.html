@@ -128,8 +128,10 @@
     .panel-main-body { display:flex; align-items:flex-end; justify-content:space-between; gap:1.2rem; }
     .panel-main-text { flex:1; min-width:0; }
     .panel-chart-wrap { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:.5rem; }
-    .panel-chart { display:flex; align-items:flex-end; gap:.3rem; height:60px; }
-    .panel-chart-bar { width:9px; border-radius:3px 3px 0 0; transition:height .4s ease; }
+    .panel-chart { display:flex; align-items:flex-end; gap:.45rem; height:76px; }
+    .panel-chart-col { display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:.3rem; height:100%; }
+    .panel-chart-val { font-size:.56rem; font-weight:700; color:rgba(255,255,255,.6); white-space:nowrap; }
+    .panel-chart-bar { width:10px; border-radius:3px 3px 0 0; transition:height .4s ease; }
     .panel-chart-bar.pos { background:rgba(74,222,128,.6); }
     .panel-chart-bar.neg { background:rgba(248,113,113,.6); }
     .panel-chart-lbl { font-size:.6rem; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1px; }
@@ -444,9 +446,9 @@
     <div class="hero-glow"></div>
     <div class="hero-inner">
       <div>
-        <div class="hero-tag reveal"><span>Inversor Independiente · XAUUSD</span></div>
+        <div class="hero-tag reveal"><span>Inversor Independiente · XAUUSD · Resultados verificados, auditado desde 2021</span></div>
         <h1 class="reveal d1">Estrategia cuantitativa.<br/>Cero <em>improvisación</em>.</h1>
-        <p class="hero-sub reveal d2">Resultados verificados, no promesas — auditado desde 2021. Un método, sostenido en el tiempo.</p>
+        <p class="hero-sub reveal d2">Un método, sostenido en el tiempo.</p>
         <div class="hero-btns reveal d3">
           <a href="estadisticas.html" class="btn-gold">Ver estadísticas →</a>
           <a href="trades.html" class="btn-outline-w">Diario de Trades</a>
@@ -497,7 +499,7 @@
           </div>
           <div class="wl-row">
             <div class="wl-left">
-              <span class="wl-icon" style="background:rgba(255,255,255,.1);color:#fff"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
+              <span class="wl-icon" style="background:#dc2626;color:#fff"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
               <div><div class="wl-name">TSLA</div><div class="wl-sub">Tesla Inc.</div></div>
             </div>
             <div class="wl-right"><div class="wl-price">$382.86</div><div class="wl-change neg">-2.10%</div></div>
@@ -793,8 +795,12 @@
       const el = document.getElementById('panel-chart');
       const maxAbs = Math.max(...values.map(v => Math.abs(v)), 1);
       el.innerHTML = values.map(v => {
-        const h = Math.max(6, Math.round((Math.abs(v) / maxAbs) * 56));
-        return `<span class="panel-chart-bar ${v >= 0 ? 'pos' : 'neg'}" style="height:${h}px" title="${v > 0 ? '+' : ''}${v}%"></span>`;
+        const h = Math.max(6, Math.round((Math.abs(v) / maxAbs) * 40));
+        const sign = v > 0 ? '+' : '';
+        return `<div class="panel-chart-col">
+          <span class="panel-chart-val">${sign}${v}%</span>
+          <span class="panel-chart-bar ${v >= 0 ? 'pos' : 'neg'}" style="height:${h}px"></span>
+        </div>`;
       }).join('');
     }
     function switchPanelTab(key, btn) {
