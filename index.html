@@ -120,7 +120,8 @@
     .panel-tab:hover { color:#fff; border-color:rgba(255,255,255,.2); }
     .panel-tab.active { background:var(--gold); color:var(--black); border-color:var(--gold); }
     .panel-main-eyebrow { font-size:.62rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:.6rem; }
-    .panel-main-val { font-family:'Space Grotesk',sans-serif; font-size:3.2rem; font-weight:700; color:#fff; line-height:1; }
+    .panel-main-val { font-family:'Space Grotesk',sans-serif; font-size:3.2rem; font-weight:700; color:#fff; line-height:1; transition:opacity .2s ease, transform .2s ease; }
+    .panel-main-val.swap { opacity:0; transform:translateY(4px); }
     .panel-main-sub { font-size:.76rem; color:rgba(255,255,255,.4); margin-top:.5rem; display:flex; align-items:center; gap:.5rem; }
     .panel-main-delta { font-weight:700; }
     .panel-main-delta.pos { color:#4ade80; }
@@ -130,10 +131,13 @@
     .panel-chart-wrap { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:.5rem; }
     .panel-chart { display:flex; align-items:flex-end; gap:.5rem; height:88px; }
     .panel-chart-col { display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:.3rem; height:100%; }
+    .panel-chart-val, .panel-chart-year { opacity:0; transform:translateY(4px); transition:opacity .35s ease, transform .35s ease; }
+    .panel-chart-val.show, .panel-chart-year.show { opacity:1; transform:none; }
     .panel-chart-val { font-size:.56rem; font-weight:700; color:rgba(255,255,255,.6); white-space:nowrap; }
-    .panel-chart-bar { width:10px; border-radius:3px 3px 0 0; transition:height .4s ease; }
+    .panel-chart-bar { width:10px; height:0; border-radius:3px 3px 0 0; transition:height .55s cubic-bezier(.22,1,.36,1); }
     .panel-chart-bar.pos { background:rgba(74,222,128,.6); }
     .panel-chart-bar.neg { background:rgba(248,113,113,.6); }
+    .panel-chart-bar:hover { filter:brightness(1.3); }
     .panel-chart-year { font-size:.56rem; font-weight:600; color:rgba(255,255,255,.35); white-space:nowrap; }
     .panel-chart-lbl { font-size:.6rem; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1px; }
     .panel-rows { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.1rem 1.4rem; display:flex; flex-direction:column; gap:0; }
@@ -806,17 +810,33 @@
         const sign = b.value > 0 ? '+' : '';
         return `<div class="panel-chart-col">
           <span class="panel-chart-val">${sign}${b.value}%</span>
-          <span class="panel-chart-bar ${b.value >= 0 ? 'pos' : 'neg'}" style="height:${h}px"></span>
+          <span class="panel-chart-bar ${b.value >= 0 ? 'pos' : 'neg'}" data-h="${h}"></span>
           <span class="panel-chart-year">${b.year}</span>
         </div>`;
       }).join('');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        el.querySelectorAll('.panel-chart-bar').forEach((bar, i) => {
+          bar.style.transitionDelay = (i * 80) + 'ms';
+          bar.style.height = bar.dataset.h + 'px';
+        });
+        el.querySelectorAll('.panel-chart-val').forEach((lbl, i) => {
+          lbl.style.transitionDelay = (i * 80 + 200) + 'ms';
+          lbl.classList.add('show');
+        });
+        el.querySelectorAll('.panel-chart-year').forEach((lbl, i) => {
+          lbl.style.transitionDelay = (i * 80 + 300) + 'ms';
+          lbl.classList.add('show');
+        });
+      }));
     }
     function switchPanelTab(key, btn) {
       document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
       const d = PANEL_DATA[key];
       document.getElementById('panel-eyebrow').textContent = d.eyebrow;
-      document.getElementById('panel-value').textContent = d.value;
+      const valEl = document.getElementById('panel-value');
+      valEl.classList.add('swap');
+      setTimeout(() => { valEl.textContent = d.value; valEl.classList.remove('swap'); }, 180);
       const subEl = document.getElementById('panel-sub');
       subEl.innerHTML = d.sub + (d.delta ? ` <span class="panel-main-delta ${d.deltaClass}">${d.delta}</span>` : '');
       document.getElementById('panel-chart-lbl').textContent = d.chartLbl;
