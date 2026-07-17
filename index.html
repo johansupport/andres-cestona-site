@@ -128,12 +128,13 @@
     .panel-main-body { display:flex; align-items:flex-end; justify-content:space-between; gap:1.2rem; }
     .panel-main-text { flex:1; min-width:0; }
     .panel-chart-wrap { flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:.5rem; }
-    .panel-chart { display:flex; align-items:flex-end; gap:.45rem; height:76px; }
+    .panel-chart { display:flex; align-items:flex-end; gap:.5rem; height:88px; }
     .panel-chart-col { display:flex; flex-direction:column; align-items:center; justify-content:flex-end; gap:.3rem; height:100%; }
     .panel-chart-val { font-size:.56rem; font-weight:700; color:rgba(255,255,255,.6); white-space:nowrap; }
     .panel-chart-bar { width:10px; border-radius:3px 3px 0 0; transition:height .4s ease; }
     .panel-chart-bar.pos { background:rgba(74,222,128,.6); }
     .panel-chart-bar.neg { background:rgba(248,113,113,.6); }
+    .panel-chart-year { font-size:.56rem; font-weight:600; color:rgba(255,255,255,.35); white-space:nowrap; }
     .panel-chart-lbl { font-size:.6rem; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1px; }
     .panel-rows { background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:1.1rem 1.4rem; display:flex; flex-direction:column; gap:0; }
     .wl-label { font-size:.62rem; font-weight:600; color:rgba(255,255,255,.3); text-transform:uppercase; letter-spacing:1.5px; padding:.2rem 0 .7rem; }
@@ -480,11 +481,11 @@
             <div class="panel-main-text">
               <div class="panel-main-eyebrow" id="panel-eyebrow">XAUUSD · Rendimiento total</div>
               <div class="panel-main-val" id="panel-value">+412%</div>
-              <div class="panel-main-sub" id="panel-sub">desde 2021 · capital inicial $1,000</div>
+              <div class="panel-main-sub" id="panel-sub">Desde 2021</div>
             </div>
             <div class="panel-chart-wrap">
+              <div class="panel-chart-lbl" id="panel-chart-lbl">Rendimiento por año</div>
               <div class="panel-chart" id="panel-chart"></div>
-              <div class="panel-chart-lbl" id="panel-chart-lbl">Por año</div>
             </div>
           </div>
         </div>
@@ -764,8 +765,12 @@
     // Hero panel tabs (XAUUSD / TSLA / BTC)
     const PANEL_DATA = {
       xau: {
-        eyebrow: 'XAUUSD · Rendimiento total', value: '+412%', sub: 'desde 2021 · capital inicial $1,000', delta: null,
-        chart: [74.4, 76.4, 85.8, 70.2, 70.4, 34.6], chartLbl: 'Por año',
+        eyebrow: 'XAUUSD · Rendimiento total', value: '+412%', sub: 'Desde 2021', delta: null,
+        chartLbl: 'Rendimiento por año',
+        chart: [
+          { year: '2021', value: 74.4 }, { year: '2022', value: 76.4 }, { year: '2023', value: 85.8 },
+          { year: '2024', value: 70.2 }, { year: '2025', value: 70.4 }, { year: '2026', value: 34.6 },
+        ],
         stats: [
           { val: '412<sup>%</sup>', label: 'Desde inicio · 2021' },
           { val: '1.051', label: 'Trades verificados' },
@@ -774,7 +779,8 @@
       },
       tsla: {
         eyebrow: 'TSLA · Precio actual', value: '$382.86', sub: 'Tesla Inc.', delta: '-2.10% hoy', deltaClass: 'neg',
-        chart: [-2.1], chartLbl: 'Hoy',
+        chartLbl: 'Variación diaria',
+        chart: [{ year: 'Hoy', value: -2.1 }],
         stats: [
           { val: '$382.86', label: 'Precio actual' },
           { val: '-2.10%', label: 'Variación hoy' },
@@ -783,7 +789,8 @@
       },
       btc: {
         eyebrow: 'BTC · Precio actual', value: '$94,180', sub: 'Bitcoin', delta: '+1.84% hoy', deltaClass: 'pos',
-        chart: [1.84], chartLbl: 'Hoy',
+        chartLbl: 'Variación diaria',
+        chart: [{ year: 'Hoy', value: 1.84 }],
         stats: [
           { val: '$94,180', label: 'Precio actual' },
           { val: '+1.84%', label: 'Variación hoy' },
@@ -791,15 +798,16 @@
         ],
       },
     };
-    function renderPanelChart(values) {
+    function renderPanelChart(bars) {
       const el = document.getElementById('panel-chart');
-      const maxAbs = Math.max(...values.map(v => Math.abs(v)), 1);
-      el.innerHTML = values.map(v => {
-        const h = Math.max(6, Math.round((Math.abs(v) / maxAbs) * 40));
-        const sign = v > 0 ? '+' : '';
+      const maxAbs = Math.max(...bars.map(b => Math.abs(b.value)), 1);
+      el.innerHTML = bars.map(b => {
+        const h = Math.max(6, Math.round((Math.abs(b.value) / maxAbs) * 40));
+        const sign = b.value > 0 ? '+' : '';
         return `<div class="panel-chart-col">
-          <span class="panel-chart-val">${sign}${v}%</span>
-          <span class="panel-chart-bar ${v >= 0 ? 'pos' : 'neg'}" style="height:${h}px"></span>
+          <span class="panel-chart-val">${sign}${b.value}%</span>
+          <span class="panel-chart-bar ${b.value >= 0 ? 'pos' : 'neg'}" style="height:${h}px"></span>
+          <span class="panel-chart-year">${b.year}</span>
         </div>`;
       }).join('');
     }
