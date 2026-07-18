@@ -24,10 +24,6 @@
     .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
     .nav-links > li > a:hover { color: var(--white); background: rgba(255,255,255,0.04); }
     .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
-    .nav-drop { display: none; position: absolute; top: 100%; left: 0; background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 0.5rem 0; min-width: 185px; box-shadow: 0 20px 48px rgba(0,0,0,0.55); }
-    .has-drop:hover .nav-drop { display: block; }
-    .nav-drop a { display: block; height: auto; padding: 0.58rem 1.2rem; font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s, background 0.15s; }
-    .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
     .nav-right { display: flex; align-items: center; gap: 0.2rem; flex-shrink: 0; }
     .nav-tienda { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0.42rem 0.65rem; border-radius: 6px; transition: background 0.15s; white-space: nowrap; }
     .nav-tienda:hover { background: rgba(255,255,255,0.06); color: var(--white); }
@@ -100,10 +96,15 @@
     .nav-links > li > a { color:rgba(255,255,255,.65); text-decoration:none; font-size:.82rem; font-weight:500; padding:0 .75rem; height:100%; display:flex; align-items:center; transition:color .2s; white-space:nowrap; }
     .nav-links > li > a:hover { color:#fff; }
     .has-drop > a::after { content:'▾'; font-size:.55rem; opacity:.5; margin-left:3px; }
-    .nav-drop { display:none; position:absolute; top:calc(100% + 6px); left:0; background:#111; border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:.4rem 0; min-width:185px; box-shadow:0 20px 50px rgba(0,0,0,.5); }
+    .nav-drop { display:none; position:absolute; top:calc(100% + 10px); left:0; background:#fff; border:1px solid #eef0f2; border-radius:16px; padding:1.4rem; min-width:340px; box-shadow:0 30px 70px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.15); z-index:5; }
     .has-drop:hover .nav-drop { display:block; }
-    .nav-drop a { display:block; padding:.55rem 1.1rem; font-size:.81rem; color:rgba(255,255,255,.6); text-decoration:none; transition:color .15s, background .15s; }
-    .nav-drop a:hover { color:#fff; background:rgba(255,255,255,.06); }
+    .nav-drop-label { font-size:.66rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; margin-bottom:.5rem; padding:0 .6rem; }
+    .nav-drop-item { display:flex; align-items:flex-start; gap:.9rem; padding:.75rem .6rem; border-radius:10px; text-decoration:none; transition:background .15s; }
+    .nav-drop-item:hover { background:#f8fafc; }
+    .nav-drop-icon { flex-shrink:0; width:44px; height:44px; border-radius:11px; background:#f1f5f9; border:1px solid #eef0f2; display:flex; align-items:center; justify-content:center; color:#c9a84c; }
+    .nav-drop-text { display:flex; flex-direction:column; padding-top:.1rem; }
+    .nav-drop-title { font-size:.87rem; font-weight:700; color:#0f172a; }
+    .nav-drop-desc { font-size:.74rem; color:#64748b; margin-top:.2rem; line-height:1.45; }
     .nav-right { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
     .nav-ghost { color:rgba(255,255,255,.65); text-decoration:none; font-size:.81rem; font-weight:500; padding:.4rem .75rem; border-radius:6px; transition:color .2s, background .2s; }
     .nav-ghost:hover { color:#fff; background:rgba(255,255,255,.07); }
@@ -178,9 +179,6 @@
     nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
     nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
     nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
-    nav.nav-scrolled .nav-drop { background: #fff !important; border-color: #e8e8e5 !important; }
-    nav.nav-scrolled .nav-drop a { color: rgba(5,7,15,.55) !important; }
-    nav.nav-scrolled .nav-drop a:hover { color: #05070f !important; background: #f5f4f1 !important; }
     nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
   </style>
 </head>
@@ -192,7 +190,11 @@
       <li class="has-drop">
         <a href="#">Nosotros</a>
         <div class="nav-drop">
-          <a href="index.html#quien">¿Quién es Andrés?</a>
+          <div class="nav-drop-label">Sobre Andrés</div>
+          <a class="nav-drop-item" href="index.html#quien">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">¿Quién es Andrés?</span><span class="nav-drop-desc">Trayectoria, credenciales y filosofía de inversión</span></span>
+          </a>
         </div>
       </li>
       <li><a href="index.html#markets">Markets</a></li>
@@ -202,8 +204,15 @@
       <li class="has-drop">
         <a href="#">Comunidad</a>
         <div class="nav-drop">
-          <a href="canales.html">Canales</a>
-          <a href="eventos.html">Eventos</a>
+          <div class="nav-drop-label">Conectar</div>
+          <a class="nav-drop-item" href="canales.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Canales</span><span class="nav-drop-desc">Telegram, Instagram y WhatsApp de la comunidad</span></span>
+          </a>
+          <a class="nav-drop-item" href="eventos.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Eventos</span><span class="nav-drop-desc">Clases en vivo y sesiones de análisis en directo</span></span>
+          </a>
         </div>
       </li>
     </ul>

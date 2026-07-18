@@ -26,15 +26,20 @@
     .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
     .nav-links > li > a:hover, .nav-links > li > a.active { color: var(--white); background: rgba(255,255,255,0.04); }
     .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
-    .nav-drop { display: none; position: absolute; top: 100%; left: 0; background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 0.5rem 0; min-width: 185px; box-shadow: 0 20px 48px rgba(0,0,0,0.55); }
+    .nav-drop { display: none; position: absolute; top: calc(100% + 10px); left: 0; background: #fff; border: 1px solid #eef0f2; border-radius: 16px; padding: 1.4rem; min-width: 340px; box-shadow: 0 30px 70px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.15); z-index: 5; }
     .has-drop:hover .nav-drop { display: block; }
-    .nav-drop a { display: block; height: auto; padding: 0.58rem 1.2rem; font-size: 0.82rem; font-weight: 400; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.15s, background 0.15s; }
-    .nav-drop a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
-    .nav-right { display: flex; align-items: center; gap: 0.2rem; flex-shrink: 0; }
-    .nav-tienda { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0.42rem 0.65rem; border-radius: 6px; transition: background 0.15s; white-space: nowrap; }
-    .nav-tienda:hover { background: rgba(255,255,255,0.06); color: var(--white); }
-    .nav-estudiante { background: #c9a84c; color: #05070f; padding: 0.45rem 0.9rem; border-radius: 7px; font-weight: 700; font-size: 0.82rem; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
-    .nav-estudiante:hover { background: #b8933e; }
+    .nav-drop-label { font-size: .66rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .5rem; padding: 0 .6rem; }
+    .nav-drop-item { display: flex; align-items: flex-start; gap: .9rem; padding: .75rem .6rem; border-radius: 10px; text-decoration: none; transition: background .15s; }
+    .nav-drop-item:hover { background: #f8fafc; }
+    .nav-drop-icon { flex-shrink: 0; width: 44px; height: 44px; border-radius: 11px; background: #f1f5f9; border: 1px solid #eef0f2; display: flex; align-items: center; justify-content: center; color: #c9a84c; }
+    .nav-drop-text { display: flex; flex-direction: column; padding-top: .1rem; }
+    .nav-drop-title { font-size: .87rem; font-weight: 700; color: #0f172a; }
+    .nav-drop-desc { font-size: .74rem; color: #64748b; margin-top: .2rem; line-height: 1.45; }
+    .nav-right { display: flex; align-items: center; gap: .5rem; flex-shrink: 0; }
+    .nav-ghost { color: rgba(255,255,255,.65); text-decoration: none; font-size: .81rem; font-weight: 500; padding: .4rem .75rem; border-radius: 6px; transition: color .2s, background .2s; }
+    .nav-ghost:hover { color: #fff; background: rgba(255,255,255,.07); }
+    .nav-cta { background: #c9a84c; color: #05070f; padding: .44rem 1rem; border-radius: 6px; font-weight: 700; font-size: .81rem; text-decoration: none; transition: background .2s; }
+    .nav-cta:hover { background: #e8c97a; }
 
     /* HERO */
     .page-hero { background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 60%, #0e1440 100%); padding: 6rem 4% 3rem; text-align: center; position: relative; overflow: hidden; }
@@ -280,9 +285,6 @@
     nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
     nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
     nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
-    nav.nav-scrolled .nav-drop { background: #fff !important; border-color: #e8e8e5 !important; }
-    nav.nav-scrolled .nav-drop a { color: rgba(5,7,15,.55) !important; }
-    nav.nav-scrolled .nav-drop a:hover { color: #05070f !important; background: #f5f4f1 !important; }
     nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
   </style>
 </head>
@@ -294,26 +296,40 @@
       <li class="has-drop">
         <a href="#">Nosotros</a>
         <div class="nav-drop">
-          <a href="index.html#quien">¿Quién es Andrés?</a>
-          <a href="index.html#media">Prensa</a>
+          <div class="nav-drop-label">Sobre Andrés</div>
+          <a class="nav-drop-item" href="index.html#quien">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">¿Quién es Andrés?</span><span class="nav-drop-desc">Trayectoria, credenciales y filosofía de inversión</span></span>
+          </a>
         </div>
       </li>
       <li><a href="index.html#markets">Markets</a></li>
+      <li><a href="trades.html">Diario de Trades</a></li>
       <li><a href="estadisticas.html">Estadísticas</a></li>
       <li><a href="calculadora.html">Calculadora</a></li>
       <li class="has-drop">
         <a href="#">Comunidad</a>
         <div class="nav-drop">
-          <a href="canales.html">Canales</a>
-          <a href="eventos.html">Eventos</a>
+          <div class="nav-drop-label">Conectar</div>
+          <a class="nav-drop-item" href="canales.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Canales</span><span class="nav-drop-desc">Telegram, Instagram y WhatsApp de la comunidad</span></span>
+          </a>
+          <a class="nav-drop-item" href="eventos.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Eventos</span><span class="nav-drop-desc">Clases en vivo y sesiones de análisis en directo</span></span>
+          </a>
+          <a class="nav-drop-item" href="testimonios.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Testimonios</span><span class="nav-drop-desc">Historias reales de alumnos de la comunidad</span></span>
+          </a>
         </div>
       </li>
-      <li><a href="#">Contacto</a></li>
     </ul>
 
     <div class="nav-right">
-      <a href="estadisticas.html" class="nav-tienda">Ver estadísticas</a>
-      <a href="index.html#markets" class="nav-estudiante">Markets by Andrés</a>
+      <a href="auth.html?tab=login" class="nav-ghost">Ingresar</a>
+      <a href="auth.html" class="nav-cta">Registrarse</a>
       <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -327,6 +343,7 @@
     <a href="calculadora.html">Calculadora</a>
     <a href="canales.html">Canales</a>
     <a href="eventos.html">Eventos</a>
+    <a href="testimonios.html">Testimonios</a>
   </div>
   <!-- Mobile nav -->
 
@@ -904,8 +921,7 @@
       });
     });
   </script>
-
-
+  <script>
     // Nav scroll effect
     (function(){
       var nav = document.querySelector('nav');
@@ -913,5 +929,6 @@
       window.addEventListener('scroll', onScroll, {passive:true});
       onScroll();
     })();
+  </script>
 </body>
 </html>
