@@ -172,7 +172,7 @@
     .wl-change.neg { color:#f87171; }
 
     /* ── PLATFORMS ── */
-    .platforms { background:rgba(255,255,255,.03); border-top:1px solid rgba(255,255,255,.07); border-bottom:1px solid rgba(255,255,255,.07); padding:2rem 4%; }
+    .platforms { background:var(--black); border-top:1px solid rgba(255,255,255,.07); border-bottom:1px solid rgba(255,255,255,.07); padding:2rem 4%; }
     .plat-label { text-align:center; font-size:.6rem; font-weight:600; color:rgba(255,255,255,.2); text-transform:uppercase; letter-spacing:3px; margin-bottom:1.8rem; }
     .logo-track-wrapper { overflow:hidden; mask-image:linear-gradient(to right, transparent, black 12%, black 88%, transparent); -webkit-mask-image:linear-gradient(to right, transparent, black 12%, black 88%, transparent); }
     .logo-track { display:flex; align-items:center; gap:5rem; width:max-content; animation:scroll-logos 18s linear infinite; }
@@ -190,13 +190,6 @@
     .section-h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:700; color:var(--black); line-height:1.15; letter-spacing:-.5px; }
     .section-h2 em { color:var(--gold); font-style:italic; }
     .section-lead { font-size:.95rem; color:var(--muted); line-height:1.85; margin-top:.8rem; }
-
-    /* ── STATS BAND ── */
-    .stats-band { background:var(--black); border-top:1px solid rgba(255,255,255,.07); border-bottom:1px solid rgba(255,255,255,.07); padding:4rem 4%; }
-    .stats-band-inner { max-width:960px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; text-align:center; }
-    .band-num { font-family:'Space Grotesk',sans-serif; font-size:2.8rem; font-weight:700; color:#fff; line-height:1; }
-    .band-num span { color:var(--gold); }
-    .band-lbl { font-size:.7rem; font-weight:600; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:1.2px; margin-top:.5rem; }
 
     /* ── MARKETS ── */
     .markets-section { background:var(--black); padding:7rem 4%; }
@@ -330,8 +323,6 @@
       .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
       .hero-panel { display: none; }
       .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-      .stats-band { padding: 3rem 5%; }
-      .stats-band-inner { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
       .markets-section { padding: 4rem 5%; }
       .markets-top { flex-direction: column; align-items: flex-start; }
       .markets-grid { grid-template-columns: 1fr; }
@@ -581,16 +572,6 @@
         <div class="logo-item"><a href="https://ftmo.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="rgba(255,255,255,.1)"/><path d="M7 11h8M7 16h6M7 21h8" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round"/><path d="M19 11l6 10M25 11l-6 10" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="logo-name">FTMO</span></a></div>
         <div class="logo-item"><a href="https://www.tradingview.com" target="_blank" rel="noopener"><span><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" fill="rgba(255,255,255,.1)"/><path d="M8 20l5-6 4 4 7-9" stroke="rgba(255,255,255,.6)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="logo-name">TradingView</span></a></div>
       </div>
-    </div>
-  </section>
-
-  <!-- STATS BAND -->
-  <section class="stats-band">
-    <div class="stats-band-inner">
-      <div class="reveal"><div class="band-num"><span class="counter" data-target="1051">0</span></div><div class="band-lbl">Trades verificados</div></div>
-      <div class="reveal d1"><div class="band-num"><span class="counter" data-target="71">0</span><span>.5%</span></div><div class="band-lbl">Winrate histórico</div></div>
-      <div class="reveal d2"><div class="band-num">+<span class="counter" data-target="412">0</span><span>%</span></div><div class="band-lbl">Rendimiento total</div></div>
-      <div class="reveal d3"><div class="band-num"><span class="counter" data-target="5">0</span> <span style="font-size:1.8rem">años</span></div><div class="band-lbl">Historial auditado</div></div>
     </div>
   </section>
 
