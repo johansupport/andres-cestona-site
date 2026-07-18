@@ -18,14 +18,25 @@
     body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--gray-800); overflow-x: hidden; }
 
     /* NAV */
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .nav-logo { font-size: 0.95rem; font-weight: 800; color: var(--white); letter-spacing: -0.3px; flex-shrink: 0; margin-right: 0.5rem; text-decoration: none; }
+    nav {
+      position: fixed; top:0; left:0; right:0; z-index:200;
+      height: 76px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 4%;
+      background:
+        radial-gradient(ellipse 900px 300px at 50% -40%, rgba(255,255,255,.1) 0%, transparent 70%),
+        #080808;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .nav-left { display: flex; align-items: center; height: 100%; }
+    .nav-logo { display: flex; align-items: center; gap: .55rem; font-size: 1.15rem; font-weight: 800; color: var(--white); letter-spacing: -0.3px; text-decoration: none; flex-shrink: 0; }
     .nav-logo span { color: #c9a84c; }
-    .nav-links { display: flex; align-items: center; list-style: none; height: 100%; flex: 1; justify-content: center; }
+    .nav-links { display: flex; align-items: center; list-style: none; gap: .3rem; height: 100%; margin-left: 2.8rem; }
     .nav-links li { position: relative; height: 100%; display: flex; align-items: center; }
-    .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+    .nav-links > li > a { color: rgba(255,255,255,.7); text-decoration: none; font-size: .92rem; font-weight: 600; padding: 0 .8rem; height: 100%; display: flex; align-items: center; transition: color .2s; white-space: nowrap; }
     .nav-links > li > a:hover, .nav-links > li > a.active { color: var(--white); background: rgba(255,255,255,0.04); }
-    .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
+    .has-drop > a::after { content: '▾'; font-size: .55rem; opacity: .5; margin-left: 3px; transition: transform .2s; }
+    .has-drop:hover > a::after { transform: rotate(180deg); }
     .nav-drop { display: none; position: absolute; top: calc(100% + 10px); left: 0; background: #fff; border: 1px solid #eef0f2; border-radius: 16px; padding: 1.4rem; min-width: 340px; box-shadow: 0 30px 70px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.15); z-index: 5; }
     .has-drop:hover .nav-drop { display: block; }
     .nav-drop-label { font-size: .66rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .5rem; padding: 0 .6rem; }
@@ -244,7 +255,7 @@
     .mobile-nav {
       display: none;
       position: fixed;
-      top: 64px; left: 0; right: 0;
+      top: 76px; left: 0; right: 0;
       background: #05070f;
       border-bottom: 1px solid rgba(255,255,255,.08);
       padding: 1rem 0;
@@ -290,6 +301,7 @@
 </head>
 <body>
   <nav>
+    <div class="nav-left">
     <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
 
     <ul class="nav-links">
@@ -326,6 +338,7 @@
         </div>
       </li>
     </ul>
+    </div>
 
     <div class="nav-right">
       <a href="auth.html?tab=login" class="nav-ghost">Ingresar</a>
