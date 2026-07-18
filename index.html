@@ -39,17 +39,18 @@
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 4%;
       background:
-        radial-gradient(ellipse 900px 300px at 50% -40%, rgba(201,168,76,.22) 0%, transparent 70%),
+        radial-gradient(ellipse 900px 300px at 50% -40%, rgba(255,255,255,.1) 0%, transparent 70%),
         var(--black);
       border-bottom: 1px solid rgba(255,255,255,.08);
       transition: background .3s;
     }
-    .nav-logo { display:flex; align-items:center; gap:.55rem; font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; text-decoration:none; }
+    .nav-left { display:flex; align-items:center; height:100%; }
+    .nav-logo { display:flex; align-items:center; gap:.55rem; font-size:1.15rem; font-weight:800; color:#fff; letter-spacing:-.3px; text-decoration:none; flex-shrink:0; }
     .nav-logo span { color: var(--gold); }
     .nav-logo-mark { flex-shrink:0; display:block; }
-    .nav-links { display:flex; align-items:center; list-style:none; gap:.1rem; flex:1; justify-content:center; height:100%; }
+    .nav-links { display:flex; align-items:center; list-style:none; gap:.3rem; height:100%; margin-left:2.8rem; }
     .nav-links li { position:relative; height:100%; display:flex; align-items:center; }
-    .nav-links > li > a { color:rgba(255,255,255,.65); text-decoration:none; font-size:.82rem; font-weight:500; padding:0 .75rem; height:100%; display:flex; align-items:center; transition:color .2s; white-space:nowrap; }
+    .nav-links > li > a { color:rgba(255,255,255,.7); text-decoration:none; font-size:.92rem; font-weight:600; padding:0 .8rem; height:100%; display:flex; align-items:center; transition:color .2s; white-space:nowrap; }
     .nav-links > li > a:hover { color:#fff; }
     .has-drop > a::after { content:'▾'; font-size:.55rem; opacity:.5; margin-left:3px; transition:transform .2s; }
     .has-drop:hover > a::after { transform:rotate(180deg); }
@@ -404,6 +405,7 @@
 <body>
 
   <nav id="mainNav">
+    <div class="nav-left">
     <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
     <ul class="nav-links">
       <li class="has-drop">
@@ -465,6 +467,7 @@
         </div>
       </li>
     </ul>
+    </div>
     <div class="nav-right">
       <a href="auth.html?tab=login" class="nav-ghost">Ingresar</a>
       <a href="auth.html" class="nav-cta">Registrarse</a>
