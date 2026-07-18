@@ -192,9 +192,27 @@
     .section-lead { font-size:.95rem; color:var(--muted); line-height:1.85; margin-top:.8rem; }
 
     /* ── MARKETS ── */
-    .markets-section { background:var(--black); padding:7rem 4%; }
-    .markets-inner { max-width:1200px; margin:0 auto; }
-    .markets-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:3rem; gap:2rem; }
+    .markets-section { background:var(--black); padding:7rem 4% 5rem; position:relative; overflow:hidden; }
+    .markets-glow { position:absolute; top:-15%; left:50%; transform:translateX(-50%); width:900px; height:600px; border-radius:50%; background:radial-gradient(circle, rgba(201,168,76,.08) 0%, transparent 65%); pointer-events:none; }
+    .markets-inner { max-width:1200px; margin:0 auto; position:relative; z-index:1; }
+    .markets-top { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2.5rem; gap:2rem; }
+    /* Strategy selector (estilo FTMO) */
+    .strategy-selector { display:flex; gap:.7rem; flex-wrap:wrap; margin-bottom:3rem; }
+    .strategy-pill {
+      display:flex; align-items:center; gap:.8rem; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.1);
+      border-radius:12px; padding:.9rem 1.3rem; cursor:pointer; transition:all .2s; font-family:'Inter',sans-serif; text-align:left;
+      min-width:220px;
+    }
+    .strategy-pill.active { background:#fff; border-color:#fff; }
+    .strategy-pill.disabled { cursor:not-allowed; opacity:.5; }
+    .strategy-pill.disabled:hover { border-color:rgba(255,255,255,.1); }
+    .strategy-pill-icon { flex-shrink:0; width:32px; height:32px; border-radius:8px; background:rgba(201,168,76,.14); color:var(--gold); display:flex; align-items:center; justify-content:center; }
+    .strategy-pill.active .strategy-pill-icon { background:var(--gold); color:var(--black); }
+    .strategy-pill-text { display:flex; flex-direction:column; }
+    .strategy-pill-title { font-size:.85rem; font-weight:700; color:#fff; }
+    .strategy-pill.active .strategy-pill-title { color:var(--black); }
+    .strategy-pill-sub { font-size:.7rem; color:rgba(255,255,255,.4); margin-top:.1rem; }
+    .strategy-pill.active .strategy-pill-sub { color:rgba(0,0,0,.5); }
     .markets-link { color:rgba(255,255,255,.7); text-decoration:none; font-size:.82rem; font-weight:600; border-bottom:1px solid rgba(255,255,255,.15); padding-bottom:2px; transition:border-color .2s, color .2s; white-space:nowrap; align-self:flex-end; }
     .markets-link:hover { color:var(--gold); border-color:var(--gold); }
     .markets-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:3rem; }
@@ -325,6 +343,8 @@
       .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
       .markets-section { padding: 4rem 5%; }
       .markets-top { flex-direction: column; align-items: flex-start; }
+      .strategy-selector { flex-direction: column; }
+      .strategy-pill { min-width: 0; }
       .markets-grid { grid-template-columns: 1fr; }
       .trades-section { padding: 4rem 5%; }
       .trades-grid { grid-template-columns: 1fr; }
@@ -577,6 +597,7 @@
 
   <!-- MARKETS -->
   <section class="markets-section" id="markets">
+    <div class="markets-glow"></div>
     <div class="markets-inner">
       <div class="markets-top">
         <div class="reveal">
@@ -585,6 +606,22 @@
           <p class="section-lead" style="max-width:480px">Operativa activa sobre XAU/USD. Cada decisión documentada, cada resultado verificado.</p>
         </div>
         <a href="estadisticas.html" class="markets-link reveal d2">Ver historial completo →</a>
+      </div>
+      <div class="strategy-selector reveal">
+        <button class="strategy-pill active">
+          <span class="strategy-pill-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+          <span class="strategy-pill-text">
+            <span class="strategy-pill-title">XAUUSD Swing</span>
+            <span class="strategy-pill-sub">Estrategia activa · datos reales</span>
+          </span>
+        </button>
+        <button class="strategy-pill disabled" disabled title="Próximamente">
+          <span class="strategy-pill-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+          <span class="strategy-pill-text">
+            <span class="strategy-pill-title">Próxima estrategia</span>
+            <span class="strategy-pill-sub">En preparación</span>
+          </span>
+        </button>
       </div>
       <div class="markets-grid">
         <div class="mkt-card reveal d1">
