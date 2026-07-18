@@ -35,10 +35,13 @@
     /* ── NAV ── */
     nav {
       position: fixed; top:0; left:0; right:0; z-index:200;
-      height: 64px;
+      height: 76px;
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 4%;
-      background: var(--black);
+      background:
+        radial-gradient(ellipse 900px 300px at 50% -40%, rgba(201,168,76,.22) 0%, transparent 70%),
+        var(--black);
+      border-bottom: 1px solid rgba(255,255,255,.08);
       transition: background .3s;
     }
     .nav-logo { display:flex; align-items:center; gap:.55rem; font-size:.95rem; font-weight:800; color:#fff; letter-spacing:-.3px; text-decoration:none; }
@@ -365,7 +368,7 @@
     .mobile-nav {
       display: none;
       position: fixed;
-      top: 64px; left: 0; right: 0;
+      top: 76px; left: 0; right: 0;
       background: #05070f;
       border-bottom: 1px solid rgba(255,255,255,.08);
       padding: 1rem 0;
