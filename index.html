@@ -48,31 +48,33 @@
     .nav-links li { position:relative; height:100%; display:flex; align-items:center; }
     .nav-links > li > a { color:rgba(255,255,255,.65); text-decoration:none; font-size:.82rem; font-weight:500; padding:0 .75rem; height:100%; display:flex; align-items:center; transition:color .2s; white-space:nowrap; }
     .nav-links > li > a:hover { color:#fff; }
-    .has-drop > a::after { content:'▾'; font-size:.55rem; opacity:.5; margin-left:3px; }
+    .has-drop > a::after { content:'▾'; font-size:.55rem; opacity:.5; margin-left:3px; transition:transform .2s; }
+    .has-drop.open > a::after { transform:rotate(180deg); }
     .nav-drop {
-      display:none; position:absolute; top:calc(100% + 6px); left:50%; transform:translateX(-50%);
-      background:#111; border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:.7rem;
-      min-width:320px; box-shadow:0 24px 60px rgba(0,0,0,.55); backdrop-filter:blur(16px);
+      display:none; position:absolute; top:calc(100% + 10px); left:50%; transform:translateX(-50%);
+      background:#fff; border:1px solid #eef0f2; border-radius:16px; padding:1.4rem;
+      min-width:340px; box-shadow:0 30px 70px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.15);
     }
-    .has-drop:hover .nav-drop { display:block; }
-    .nav-drop-item { display:flex; align-items:flex-start; gap:.75rem; padding:.7rem .75rem; border-radius:10px; text-decoration:none; transition:background .15s; }
-    .nav-drop-item:hover { background:rgba(255,255,255,.06); }
-    .nav-drop-icon { flex-shrink:0; width:34px; height:34px; border-radius:9px; background:rgba(201,168,76,.12); display:flex; align-items:center; justify-content:center; color:var(--gold); }
-    .nav-drop-text { display:flex; flex-direction:column; }
-    .nav-drop-title { font-size:.83rem; font-weight:700; color:#fff; }
-    .nav-drop-desc { font-size:.72rem; color:rgba(255,255,255,.4); margin-top:.15rem; line-height:1.4; }
-    .nav-drop-wide { min-width:460px; display:grid; grid-template-columns:1fr 190px; gap:.5rem; padding:.7rem; }
+    .nav-drop.open { display:block; }
+    .nav-drop-label { font-size:.66rem; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; margin-bottom:.5rem; padding:0 .6rem; }
+    .nav-drop-item { display:flex; align-items:flex-start; gap:.9rem; padding:.75rem .6rem; border-radius:10px; text-decoration:none; transition:background .15s; }
+    .nav-drop-item:hover { background:#f8fafc; }
+    .nav-drop-icon { flex-shrink:0; width:44px; height:44px; border-radius:11px; background:#f1f5f9; border:1px solid #eef0f2; display:flex; align-items:center; justify-content:center; color:var(--gold); }
+    .nav-drop-text { display:flex; flex-direction:column; padding-top:.1rem; }
+    .nav-drop-title { font-size:.87rem; font-weight:700; color:#0f172a; }
+    .nav-drop-desc { font-size:.74rem; color:#64748b; margin-top:.2rem; line-height:1.45; }
+    .nav-drop-wide { min-width:560px; display:grid; grid-template-columns:1fr 210px; gap:1.5rem; padding:1.4rem; }
     .nav-drop-col { display:flex; flex-direction:column; gap:.1rem; }
     .nav-drop-promo {
-      background:linear-gradient(155deg, rgba(201,168,76,.14) 0%, rgba(201,168,76,.03) 100%);
-      border:1px solid rgba(201,168,76,.2); border-radius:12px; padding:1.1rem;
+      background:linear-gradient(155deg, var(--black) 0%, #1a1a1a 100%);
+      border:1px solid rgba(201,168,76,.25); border-radius:14px; padding:1.3rem;
       display:flex; flex-direction:column; text-decoration:none; transition:border-color .2s, transform .2s;
     }
-    .nav-drop-promo:hover { border-color:rgba(201,168,76,.45); transform:translateY(-2px); }
-    .nav-drop-promo-icon { width:32px; height:32px; border-radius:9px; background:rgba(201,168,76,.18); display:flex; align-items:center; justify-content:center; color:var(--gold); margin-bottom:.9rem; }
-    .nav-drop-promo-title { font-size:.83rem; font-weight:800; color:#fff; line-height:1.3; }
-    .nav-drop-promo-desc { font-size:.71rem; color:rgba(255,255,255,.45); margin-top:.4rem; line-height:1.5; flex:1; }
-    .nav-drop-promo-link { font-size:.72rem; font-weight:700; color:var(--gold); margin-top:.9rem; }
+    .nav-drop-promo:hover { border-color:rgba(201,168,76,.5); transform:translateY(-2px); }
+    .nav-drop-promo-icon { width:36px; height:36px; border-radius:10px; background:rgba(201,168,76,.15); display:flex; align-items:center; justify-content:center; color:var(--gold); margin-bottom:1rem; }
+    .nav-drop-promo-title { font-size:.87rem; font-weight:800; color:#fff; line-height:1.3; }
+    .nav-drop-promo-desc { font-size:.73rem; color:rgba(255,255,255,.5); margin-top:.5rem; line-height:1.55; flex:1; }
+    .nav-drop-promo-link { font-size:.74rem; font-weight:700; color:var(--gold); margin-top:1rem; }
     .nav-right { display:flex; align-items:center; gap:.5rem; flex-shrink:0; }
     .nav-ghost { color:rgba(255,255,255,.65); text-decoration:none; font-size:.81rem; font-weight:500; padding:.4rem .75rem; border-radius:6px; transition:color .2s, background .2s; }
     .nav-ghost:hover { color:#fff; background:rgba(255,255,255,.07); }
@@ -89,13 +91,6 @@
     nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
     nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
     nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
-    nav.nav-scrolled .nav-drop { background: #fff !important; border-color: #e8e8e5 !important; }
-    nav.nav-scrolled .nav-drop-title { color: #05070f !important; }
-    nav.nav-scrolled .nav-drop-desc { color: rgba(5,7,15,.45) !important; }
-    nav.nav-scrolled .nav-drop-item:hover { background: #f5f4f1 !important; }
-    nav.nav-scrolled .nav-drop-promo { background: linear-gradient(155deg, rgba(201,168,76,.12) 0%, rgba(201,168,76,.02) 100%) !important; border-color: rgba(201,168,76,.3) !important; }
-    nav.nav-scrolled .nav-drop-promo-title { color: #05070f !important; }
-    nav.nav-scrolled .nav-drop-promo-desc { color: rgba(5,7,15,.5) !important; }
     nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
     /* ── HERO ── */
     .hero {
@@ -404,17 +399,9 @@
 <body>
 
   <nav id="mainNav">
-    <a href="index.html" class="nav-logo">
-      <svg class="nav-logo-mark" width="26" height="26" viewBox="0 0 32 32" fill="none">
-        <rect x="4" y="18" width="5" height="10" rx="1.5" fill="var(--gold)" opacity=".5"/>
-        <rect x="13.5" y="11" width="5" height="17" rx="1.5" fill="var(--gold)" opacity=".78"/>
-        <rect x="23" y="5" width="5" height="23" rx="1.5" fill="var(--gold)"/>
-        <circle cx="25.5" cy="3" r="2.4" fill="var(--gold)"/>
-      </svg>
-      Andrés <span>Cestona</span>
-    </a>
+    <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
     <ul class="nav-links">
-      <li class="has-drop">
+      <li class="has-drop" onmouseenter="openNavDrop(this)" onmouseleave="scheduleCloseNavDrop(this)">
         <a href="#">Nosotros</a>
         <div class="nav-drop">
           <a class="nav-drop-item" href="#quien">
@@ -427,7 +414,7 @@
           </a>
         </div>
       </li>
-      <li class="has-drop">
+      <li class="has-drop" onmouseenter="openNavDrop(this)" onmouseleave="scheduleCloseNavDrop(this)">
         <a href="#">Trading</a>
         <div class="nav-drop nav-drop-wide">
           <div class="nav-drop-col">
@@ -452,7 +439,7 @@
           </a>
         </div>
       </li>
-      <li class="has-drop">
+      <li class="has-drop" onmouseenter="openNavDrop(this)" onmouseleave="scheduleCloseNavDrop(this)">
         <a href="#">Comunidad</a>
         <div class="nav-drop">
           <a class="nav-drop-item" href="canales.html">
@@ -895,6 +882,17 @@
       });
     }
     renderPanelChart(PANEL_DATA.xau.chart);
+
+    // Mega-menu open/close (explicit state, avoids hover-gap flicker/overlap)
+    let navDropCloseTimer = null;
+    function openNavDrop(li) {
+      clearTimeout(navDropCloseTimer);
+      document.querySelectorAll('.has-drop.open').forEach(el => { if (el !== li) el.classList.remove('open'); });
+      li.classList.add('open');
+    }
+    function scheduleCloseNavDrop(li) {
+      navDropCloseTimer = setTimeout(() => li.classList.remove('open'), 150);
+    }
 
     // Nav scroll
     const navEl = document.querySelector('nav');
