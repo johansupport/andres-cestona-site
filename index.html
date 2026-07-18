@@ -195,14 +195,18 @@
     /* ── MARKETS ── */
     .markets-section { background:var(--black); padding:8rem 4% 5rem; position:relative; overflow:hidden; }
     .markets-glow { position:absolute; top:-15%; left:50%; transform:translateX(-50%); width:900px; height:600px; border-radius:50%; background:radial-gradient(circle, rgba(201,168,76,.06) 0%, transparent 65%); pointer-events:none; }
-    .markets-beam {
-      position:absolute; top:-60px; left:50%; transform:translateX(-50%);
-      width:640px; height:380px; pointer-events:none; mix-blend-mode:screen;
-      background:
-        radial-gradient(ellipse 30px 70px at 50% 0%, rgba(201,168,76,.95) 0%, transparent 70%),
-        radial-gradient(ellipse 160px 200px at 50% 45%, rgba(201,168,76,.4) 0%, transparent 70%),
-        radial-gradient(ellipse 320px 260px at 50% 100%, rgba(201,168,76,.16) 0%, transparent 75%);
-      filter:blur(18px);
+    .markets-beam { position:absolute; top:0; left:50%; transform:translateX(-50%); width:520px; height:300px; pointer-events:none; mix-blend-mode:screen; }
+    .markets-beam::before {
+      content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+      width:74px; height:6px; border-radius:3px; background:var(--gold2);
+      box-shadow:0 0 24px 7px rgba(201,168,76,.9), 0 0 80px 26px rgba(201,168,76,.4);
+    }
+    .markets-beam::after {
+      content:''; position:absolute; top:3px; left:50%; transform:translateX(-50%);
+      width:440px; height:290px;
+      background:linear-gradient(180deg, rgba(201,168,76,.55) 0%, rgba(201,168,76,.16) 55%, transparent 100%);
+      clip-path:polygon(45.5% 0%, 54.5% 0%, 87% 100%, 13% 100%);
+      filter:blur(16px);
     }
     .markets-inner { max-width:1200px; margin:0 auto; position:relative; z-index:1; }
     .markets-top { display:flex; flex-direction:column; align-items:center; text-align:center; margin:0 auto 2.8rem; max-width:640px; gap:.2rem; }
@@ -355,7 +359,7 @@
       .hero-panel { display: none; }
       .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
       .markets-section { padding: 4rem 5%; }
-      .markets-beam { width: 320px; height: 220px; }
+      .markets-beam { width: 320px; height: 220px; transform: translateX(-50%) scale(.65); transform-origin: top center; }
       .strategy-selector { flex-direction: column; width: 100%; }
       .strategy-pill { min-width: 0; width: 100%; }
       .strategy-pill + .strategy-pill { border-left: none; border-top: 1px solid rgba(255,255,255,.09); }
