@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Andrés Cestona — Enlaces</title>
+  <meta name="robots" content="noindex" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:  #080808;
+      --panel:  #0d0d0d;
+      --gold:   #c9a84c;
+      --gold2:  #e8c97a;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+    h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+
+    .bg-glow {
+      position: fixed; top: -20%; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,168,76,.08) 0%, transparent 65%);
+      pointer-events: none; z-index: 0;
+    }
+    .hub-grid-bg {
+      position: fixed; inset: 0; pointer-events: none; z-index: 0;
+      background-image: linear-gradient(rgba(201,168,76,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    /* ══════════ HUB VIEW ══════════ */
+    #view-hub { width: 100%; max-width: 480px; padding: 4rem 1.5rem 3rem; position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; }
+
+    .hub-header { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 2.6rem; }
+    .hub-logo { font-size: 1.05rem; font-weight: 800; letter-spacing: -.3px; margin-bottom: 1.1rem; }
+    .hub-logo span { color: var(--gold); }
+    .hub-avatar {
+      width: 64px; height: 64px; border-radius: 50%; background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; font-weight: 900; color: var(--black); margin-bottom: 1.1rem;
+    }
+    .hub-tag { display: inline-flex; align-items: center; gap: .5rem; margin-bottom: .7rem; }
+    .hub-tag::before { content: ''; width: 20px; height: 1px; background: var(--gold); }
+    .hub-tag::after { content: ''; width: 20px; height: 1px; background: var(--gold); }
+    .hub-tag span { font-size: .65rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+    .hub-sub { font-size: .83rem; color: rgba(255,255,255,.45); line-height: 1.6; max-width: 320px; }
+
+    .hub-list { display: flex; flex-direction: column; gap: .8rem; }
+
+    .hub-btn {
+      display: flex; align-items: center; gap: 1rem;
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px; padding: 1.05rem 1.2rem;
+      text-decoration: none; color: #fff; cursor: pointer; width: 100%;
+      font-family: 'Inter', sans-serif; text-align: left;
+      transition: border-color .2s, transform .2s, background .2s;
+    }
+    .hub-btn:hover { border-color: var(--gold); transform: translateY(-2px); background: rgba(255,255,255,.05); }
+
+    .hub-btn-primary { background: var(--gold); border-color: var(--gold); color: var(--black); }
+    .hub-btn-primary:hover { background: var(--gold2); border-color: var(--gold2); }
+    .hub-btn-primary .hub-btn-icon { background: rgba(8,8,8,.12); color: var(--black); }
+    .hub-btn-primary .hub-btn-sub { color: rgba(8,8,8,.6); }
+    .hub-btn-primary .hub-btn-arrow { color: var(--black); }
+
+    .hub-btn-icon {
+      flex-shrink: 0; width: 42px; height: 42px; border-radius: 11px;
+      background: rgba(255,255,255,.06); display: flex; align-items: center; justify-content: center;
+    }
+    .hub-btn-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+    .hub-btn-title { font-size: .92rem; font-weight: 700; }
+    .hub-btn-sub { font-size: .74rem; color: rgba(255,255,255,.4); margin-top: .15rem; }
+    .hub-btn-arrow { font-size: .95rem; color: rgba(255,255,255,.4); flex-shrink: 0; }
+
+    .hub-secondary {
+      margin-top: 1.4rem; display: flex; align-items: center; justify-content: center; gap: .5rem;
+      background: transparent; border: 1px solid rgba(255,255,255,.14); border-radius: 14px;
+      padding: .95rem 1.2rem; text-decoration: none; color: rgba(255,255,255,.7);
+      font-size: .85rem; font-weight: 600; transition: border-color .2s, color .2s;
+    }
+    .hub-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    footer {
+      width: 100%; max-width: 480px; margin-top: auto;
+      border-top: 1px solid rgba(255,255,255,.07); padding: 2rem 1.5rem 2rem;
+      display: flex; flex-direction: column; align-items: center; gap: .9rem;
+      position: relative; z-index: 1;
+    }
+    .footer-logo { font-size: .85rem; font-weight: 800; }
+    .footer-logo span { color: var(--gold); }
+    footer p { font-size: .68rem; color: rgba(255,255,255,.3); }
+    .footer-links { display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { font-size: .7rem; color: rgba(255,255,255,.35); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--gold); }
+
+    /* ══════════ CLASE VIEW ══════════ */
+    #view-clase { display: none; width: 100%; }
+
+    .topbar {
+      position: relative; z-index: 2;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 5%;
+      max-width: 640px; margin: 0 auto;
+    }
+    .topbar-logo { font-size: .95rem; font-weight: 800; text-decoration: none; color: #fff; letter-spacing: -.2px; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .topbar-logo span { color: var(--gold); }
+    .topbar-close {
+      width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.14);
+      display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.5);
+      text-decoration: none; font-size: 1rem; cursor: pointer; background: none;
+      transition: border-color .2s, color .2s;
+    }
+    .topbar-close:hover { border-color: var(--gold); color: var(--gold); }
+
+    .stage { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 1rem 5% 5rem; }
+
+    .step { display: none; margin-top: 1.6rem; }
+    .step.active { display: block; animation: stepIn .25s cubic-bezier(.22,1,.36,1); }
+    @keyframes stepIn { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* ── INTRO / VIDEO STEP ── */
+    .intro-tag { display: inline-flex; align-items: center; gap: .5rem; margin-bottom: 1.2rem; }
+    .intro-tag::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+    .intro-tag span { font-size: .65rem; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; }
+    .intro-h1 { font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 700; line-height: 1.12; letter-spacing: -1px; margin-bottom: .8rem; }
+    .intro-h1 em { color: var(--gold); font-style: italic; }
+    .intro-sub { font-size: .92rem; color: rgba(255,255,255,.5); line-height: 1.7; max-width: 460px; margin-bottom: 2rem; }
+
+    .video-card {
+      position: relative; border-radius: 18px; overflow: hidden;
+      aspect-ratio: 16/9; background: linear-gradient(150deg, #1c1c1c 0%, #0a0a0a 70%);
+      border: 1px solid rgba(255,255,255,.08); margin-bottom: 2.2rem;
+      box-shadow: 0 20px 50px rgba(0,0,0,.4);
+    }
+    .video-card-glow { position: absolute; top: -20%; right: -10%; width: 60%; height: 90%; background: radial-gradient(circle, rgba(201,168,76,.12) 0%, transparent 70%); }
+    .video-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: 62px; height: 62px; border-radius: 50%; background: var(--gold);
+      display: flex; align-items: center; justify-content: center; color: var(--black);
+      box-shadow: 0 8px 28px rgba(201,168,76,.4); cursor: pointer; transition: transform .2s, background .2s;
+    }
+    .video-play:hover { transform: translate(-50%, -50%) scale(1.06); background: var(--gold2); }
+    .video-play svg { margin-left: 3px; }
+    .video-bar {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: .9rem 1.1rem;
+      display: flex; align-items: center; gap: .7rem;
+      background: linear-gradient(to top, rgba(0,0,0,.55), transparent);
+    }
+    .video-time { font-size: .7rem; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+    .video-track { flex: 1; height: 3px; background: rgba(255,255,255,.25); border-radius: 3px; overflow: hidden; }
+    .video-track-fill { width: 6%; height: 100%; background: var(--gold); }
+
+    .cred-block {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 16px;
+      padding: 1.5rem 1.6rem; margin-bottom: 2.2rem;
+    }
+    .cred-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: .9rem; }
+    .cred-num { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .cred-num span { color: var(--gold); }
+    .cred-lbl { font-size: .65rem; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1px; margin-top: .15rem; }
+    .cred-link { font-size: .78rem; font-weight: 600; color: rgba(255,255,255,.6); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.2); padding-bottom: 1px; transition: color .2s, border-color .2s; }
+    .cred-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    .btn-gold {
+      background: var(--gold); color: var(--black); padding: .9rem 1.9rem; border-radius: 10px;
+      font-weight: 700; font-size: .9rem; text-decoration: none; display: inline-flex; align-items: center; gap: .5rem;
+      border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .btn-gold:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,.3); }
+    .btn-gold:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* ── QUIZ CARD (outer bounding card, matches reference) ── */
+    .qcard {
+      position: relative; background: var(--panel); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 26px; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.5);
+    }
+    .qcard-progress { position: relative; height: 4px; background: rgba(255,255,255,.08); }
+    .qcard-progress-fill { height: 100%; background: var(--gold); transition: width .35s cubic-bezier(.22,1,.36,1); }
+    .qcard-body { padding: 2.6rem 2.4rem 2.4rem; }
+
+    .qcard-label { font-family: 'Space Grotesk', sans-serif; font-size: .72rem; font-weight: 700; letter-spacing: 2px; color: var(--gold); margin-bottom: 1.7rem; display: flex; align-items: center; gap: .55rem; }
+    .qcard-label .arrow { color: rgba(255,255,255,.25); font-weight: 400; }
+    .qcard-title { font-size: clamp(1.4rem, 4vw, 1.8rem); font-weight: 700; letter-spacing: -.4px; line-height: 1.25; margin-bottom: .5rem; }
+    .qcard-sub { font-size: .84rem; color: rgba(255,255,255,.45); margin-bottom: 2rem; }
+
+    .q-options { display: flex; flex-direction: column; gap: .8rem; }
+    .q-option {
+      display: flex; align-items: center; gap: 1rem;
+      background: transparent; border: 1px solid rgba(255,255,255,.14); border-radius: 14px;
+      padding: 1.05rem 1.2rem; cursor: pointer; text-align: left; width: 100%;
+      font-family: 'Inter', sans-serif; transition: border-color .2s, background .2s, transform .15s;
+    }
+    .q-option:hover { border-color: var(--gold); background: rgba(201,168,76,.05); }
+    .q-option.selected { border-color: var(--gold); background: rgba(201,168,76,.1); transform: scale(.99); }
+    .q-option-letter {
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: 9px; border: 1px solid rgba(255,255,255,.18);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-size: .82rem; font-weight: 700; color: rgba(255,255,255,.5);
+      transition: border-color .2s, color .2s;
+    }
+    .q-option.selected .q-option-letter, .q-option:hover .q-option-letter { border-color: var(--gold); color: var(--gold); }
+    .q-option-text { font-size: .93rem; font-weight: 600; color: #fff; }
+
+    /* text / textarea / phone inputs — underline style like the reference, with a filled backdrop so they read as a field */
+    .qinput {
+      width: 100%; background: rgba(255,255,255,.05); border: none; border-bottom: 2px solid rgba(255,255,255,.3);
+      border-radius: 10px 10px 0 0;
+      color: #fff; font-size: 1.25rem; font-weight: 600; padding: 1rem 1rem .8rem; outline: none;
+      font-family: 'Inter', sans-serif; transition: border-color .2s, background .2s;
+    }
+    .qinput:focus { border-color: var(--gold); background: rgba(255,255,255,.07); }
+    .qinput::placeholder { color: rgba(255,255,255,.4); font-weight: 400; }
+
+    .qtextarea {
+      width: 100%; min-height: 120px; background: rgba(255,255,255,.05); border: 1.5px solid rgba(255,255,255,.22);
+      border-radius: 14px; color: #fff; font-size: 1.02rem; padding: 1.1rem 1.2rem; outline: none;
+      font-family: 'Inter', sans-serif; resize: none; transition: border-color .2s, background .2s; line-height: 1.6;
+    }
+    .qtextarea:focus { border-color: var(--gold); background: rgba(255,255,255,.07); }
+    .qtextarea::placeholder { color: rgba(255,255,255,.4); }
+
+    .qphone-row { display: flex; gap: 1.1rem; align-items: flex-end; }
+    .qphone-country { flex-shrink: 0; }
+    .qphone-country select {
+      background: rgba(255,255,255,.05); border: none; border-bottom: 2px solid rgba(255,255,255,.3);
+      border-radius: 10px 10px 0 0;
+      color: #fff; font-size: 1rem; font-weight: 600; padding: 1rem .8rem .8rem; outline: none;
+      font-family: 'Inter', sans-serif; cursor: pointer; transition: border-color .2s, background .2s;
+    }
+    .qphone-country select:focus { border-color: var(--gold); background: rgba(255,255,255,.07); }
+    .qphone-number { flex: 1; }
+
+    .qnav { display: flex; align-items: center; gap: 1.2rem; margin-top: 2.2rem; }
+    .qnav-back { font-size: .8rem; color: rgba(255,255,255,.4); text-decoration: none; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .qnav-back:hover { color: var(--gold); }
+    .qnav-next {
+      background: var(--gold); color: var(--black); padding: .8rem 1.7rem; border-radius: 10px;
+      font-weight: 700; font-size: .87rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: .4rem;
+      font-family: 'Inter', sans-serif; transition: background .2s, transform .2s, box-shadow .2s;
+    }
+    .qnav-next:hover { background: var(--gold2); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,.3); }
+    .qnav-next:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+    .qnav-hint { font-size: .68rem; color: rgba(255,255,255,.25); margin-left: auto; white-space: nowrap; }
+
+    .q-back-link { display: inline-block; margin-top: 1.6rem; font-size: .8rem; color: rgba(255,255,255,.35); text-decoration: none; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .q-back-link:hover { color: var(--gold); }
+
+    .form-msg { display: none; padding: .75rem 1rem; border-radius: 8px; font-size: .8rem; margin-top: 1.2rem; }
+    .form-msg.error { background: rgba(220,38,38,.1); border: 1px solid rgba(220,38,38,.3); color: #f87171; display: block; }
+    .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid rgba(8,8,8,.25); border-top-color: var(--black); border-radius: 50%; animation: spin .7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── SUCCESS / CALENDLY STEP ── */
+    .success-icon {
+      width: 52px; height: 52px; border-radius: 50%; background: rgba(201,168,76,.12);
+      border: 1px solid rgba(201,168,76,.3); display: flex; align-items: center; justify-content: center;
+      color: var(--gold); margin-bottom: 1.4rem;
+    }
+    .calendly-wrap { margin-top: 1.6rem; border-radius: 16px; overflow: hidden; background: var(--panel); border: 1px solid rgba(255,255,255,.08); }
+    .calendly-inline-widget { min-width: 280px; height: 650px; }
+
+    .calendar-mock { padding: 1.8rem; }
+    .calendar-mock-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.4rem; }
+    .calendar-mock-month { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: .95rem; }
+    .calendar-mock-nav { background: none; border: 1px solid rgba(255,255,255,.14); border-radius: 50%; width: 28px; height: 28px; color: rgba(255,255,255,.4); cursor: default; font-size: .9rem; }
+    .calendar-mock-week { display: grid; grid-template-columns: repeat(7,1fr); gap: .4rem; margin-bottom: .6rem; }
+    .calendar-mock-week span { font-size: .64rem; color: rgba(255,255,255,.35); text-align: center; text-transform: uppercase; letter-spacing: .5px; }
+    .calendar-mock-days { display: grid; grid-template-columns: repeat(7,1fr); gap: .4rem; }
+    .calendar-mock-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: .82rem; color: rgba(255,255,255,.55); }
+    .calendar-mock-day.today { border: 1px solid rgba(201,168,76,.4); color: var(--gold); }
+    .calendar-mock-day.selected { background: var(--gold); color: var(--black); font-weight: 700; }
+    .calendar-mock-day.empty { visibility: hidden; }
+    .calendar-mock-tz { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(255,255,255,.08); font-size: .78rem; color: rgba(255,255,255,.45); }
+    .calendar-mock-note { text-align: center; font-size: .72rem; color: rgba(255,255,255,.3); margin-top: 1.2rem; line-height: 1.5; }
+    .success-fallback { text-align: center; margin-top: 1rem; }
+    .success-note { font-size: .78rem; color: rgba(255,255,255,.4); margin-top: 1.2rem; line-height: 1.6; }
+
+    .clase-footer {
+      position: relative; z-index: 1;
+      background: var(--black); border-top: 1px solid rgba(255,255,255,.07); padding: 2rem 5%;
+      display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap;
+      max-width: 640px; margin: 0 auto;
+    }
+    .clase-footer p { font-size: .68rem; color: rgba(255,255,255,.3); }
+
+    @media (max-width: 600px) {
+      .cred-row { gap: 1.3rem; }
+      .cred-num { font-size: 1.25rem; }
+      .qcard-body { padding: 2.2rem 1.4rem 2rem; }
+    }
+    @media (max-width: 480px) {
+      #view-hub { padding: 3rem 1.25rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-glow"></div>
+  <div class="hub-grid-bg"></div>
+
+  <!-- ══════════ HUB VIEW ══════════ -->
+  <div id="view-hub">
+    <div class="hub-header">
+      <div class="hub-logo">Andrés <span>Cestona</span></div>
+      <div class="hub-avatar">AC</div>
+      <div class="hub-tag"><span>Inversor Independiente</span></div>
+      <p class="hub-sub">Elegí a dónde querés ir.</p>
+    </div>
+
+    <div class="hub-list">
+
+      <a href="#clase" class="hub-btn hub-btn-primary" onclick="event.preventDefault(); showClase();">
+        <span class="hub-btn-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </span>
+        <span class="hub-btn-text">
+          <span class="hub-btn-title">Mi Clase Gratis</span>
+          <span class="hub-btn-sub">Video + aplicá a una llamada</span>
+        </span>
+        <span class="hub-btn-arrow">→</span>
+      </a>
+
+      <a href="#" class="hub-btn">
+        <span class="hub-btn-icon" style="color:#5865F2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 5.4A17.6 17.6 0 0 0 15.9 4c-.2.4-.5.9-.6 1.3a16.3 16.3 0 0 0-4.6 0c-.2-.4-.4-.9-.6-1.3-1.5.3-3 .7-4.4 1.4C2.9 9 2.2 12.6 2.5 16.1a17.7 17.7 0 0 0 5.4 2.7c.4-.6.8-1.2 1.1-1.9-.6-.2-1.2-.5-1.7-.9l.4-.3c3.3 1.5 6.9 1.5 10.2 0l.4.3c-.5.3-1.1.6-1.7.9.3.7.7 1.3 1.1 1.9a17.6 17.6 0 0 0 5.4-2.7c.4-4-.6-7.6-2.8-10.7zM9.7 13.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm5.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg>
+        </span>
+        <span class="hub-btn-text">
+          <span class="hub-btn-title">Discord de la comunidad</span>
+          <span class="hub-btn-sub">Próximamente</span>
+        </span>
+        <span class="hub-btn-arrow">→</span>
+      </a>
+
+      <a href="https://t.me/andrescestonaoficial" target="_blank" rel="noopener" class="hub-btn">
+        <span class="hub-btn-icon" style="color:#2AABEE">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.8 3.3L2.4 10.9c-1.3.5-1.3 1.3-.2 1.6l4.9 1.5 11.3-7.1c.5-.3 1 0 .6.4L8.8 17.1v2.4l2.7-2.5 5.4 4c.9.5 1.6.2 1.8-.8L22.7 4.7c.3-1.4-.5-2-1-1.4z"/></svg>
+        </span>
+        <span class="hub-btn-text">
+          <span class="hub-btn-title">Telegram</span>
+          <span class="hub-btn-sub">Análisis e ideas en tiempo real</span>
+        </span>
+        <span class="hub-btn-arrow">→</span>
+      </a>
+
+      <a href="https://www.youtube.com/@andrescestona" target="_blank" rel="noopener" class="hub-btn">
+        <span class="hub-btn-icon" style="color:#FF0000">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22 8.7a3 3 0 0 0-2.1-2.1C18.1 6 12 6 12 6s-6.1 0-7.9.6A3 3 0 0 0 2 8.7 31 31 0 0 0 1.5 14a31 31 0 0 0 .5 5.3 3 3 0 0 0 2.1 2.1C6 22 12 22 12 22s6.1 0 7.9-.6a3 3 0 0 0 2.1-2.1c.4-1.7.5-3.5.5-5.3a31 31 0 0 0-.5-5.3zM9.8 17.4V10.6l6 3.4z"/></svg>
+        </span>
+        <span class="hub-btn-text">
+          <span class="hub-btn-title">YouTube</span>
+          <span class="hub-btn-sub">Formación gratuita</span>
+        </span>
+        <span class="hub-btn-arrow">→</span>
+      </a>
+
+      <a href="auth.html?tab=login" class="hub-btn">
+        <span class="hub-btn-icon" style="color:var(--gold)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        </span>
+        <span class="hub-btn-text">
+          <span class="hub-btn-title">Ingresar</span>
+          <span class="hub-btn-sub">Login alumnos</span>
+        </span>
+        <span class="hub-btn-arrow">→</span>
+      </a>
+
+      <a href="estadisticas.html" class="hub-secondary">Ver estadísticas y resultados completos →</a>
+
+    </div>
+
+    <footer>
+      <div class="footer-logo">Andrés <span>Cestona</span></div>
+      <div class="footer-links">
+        <a href="trades.html">Diario de Trades</a>
+        <a href="estadisticas.html">Estadísticas</a>
+        <a href="calculadora.html">Calculadora</a>
+        <a href="testimonios.html">Comunidad</a>
+      </div>
+      <p>&copy; 2026 Andrés Cestona. Todos los derechos reservados.</p>
+    </footer>
+  </div>
+
+  <!-- ══════════ CLASE GRATIS VIEW ══════════ -->
+  <div id="view-clase">
+
+    <div class="topbar">
+      <button type="button" class="topbar-logo" onclick="showHub()">Andrés <span>Cestona</span></button>
+      <button type="button" class="topbar-close" onclick="showHub()" aria-label="Volver">✕</button>
+    </div>
+
+    <div class="stage">
+
+      <!-- VIDEO + CREDIBILIDAD — siempre visible, no es un paso del quiz -->
+      <div class="intro-block">
+        <div class="intro-tag"><span>Clase gratis</span></div>
+        <h1 class="intro-h1">Tu clase <em>gratis</em></h1>
+        <p class="intro-sub">Antes de la llamada, mirá este video de 1 minuto para saber qué vamos a revisar juntos.</p>
+
+        <!-- TODO: reemplazar por el embed real (YouTube / Vimeo / Loom) -->
+        <div class="video-card">
+          <div class="video-card-glow"></div>
+          <div class="video-play" aria-label="Reproducir video">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+          </div>
+          <div class="video-bar">
+            <span class="video-time">0:04</span>
+            <div class="video-track"><div class="video-track-fill"></div></div>
+            <span class="video-time">1:02</span>
+          </div>
+        </div>
+
+        <div class="cred-block">
+          <div class="cred-row">
+            <div>
+              <div class="cred-num"><span>+412</span>%</div>
+              <div class="cred-lbl">Desde 2021</div>
+            </div>
+            <div>
+              <div class="cred-num"><span>1.051</span></div>
+              <div class="cred-lbl">Trades verificados</div>
+            </div>
+            <div>
+              <div class="cred-num"><span>71.6</span>%</div>
+              <div class="cred-lbl">Winrate histórico</div>
+            </div>
+          </div>
+          <a href="estadisticas.html" class="cred-link">Ver historial completo →</a>
+        </div>
+      </div>
+
+      <!-- STEP 1 — DISPONIBILIDAD -->
+      <section class="step active" data-step="q1">
+        <div class="qcard">
+          <div class="qcard-progress"><div class="qcard-progress-fill" style="width:calc(100%/6*1)"></div></div>
+          <div class="qcard-body">
+            <div class="qcard-label">01 <span class="arrow">→</span> 06</div>
+            <h2 class="qcard-title">¿Cuándo estarías disponible para empezar?</h2>
+            <p class="qcard-sub">Si tu aplicación es aceptada.</p>
+            <div class="q-options">
+              <button type="button" class="q-option" data-field="availability" data-value="Ahora mismo" onclick="selectOption(this)"><span class="q-option-letter">A</span><span class="q-option-text">Ahora mismo</span></button>
+              <button type="button" class="q-option" data-field="availability" data-value="Esta semana" onclick="selectOption(this)"><span class="q-option-letter">B</span><span class="q-option-text">Esta semana</span></button>
+              <button type="button" class="q-option" data-field="availability" data-value="Todavía explorando opciones" onclick="selectOption(this)"><span class="q-option-letter">C</span><span class="q-option-text">Todavía explorando opciones</span></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 2 — EXPERIENCIA -->
+      <section class="step" data-step="q2">
+        <div class="qcard">
+          <div class="qcard-progress"><div class="qcard-progress-fill" style="width:calc(100%/6*2)"></div></div>
+          <div class="qcard-body">
+            <div class="qcard-label">02 <span class="arrow">→</span> 06</div>
+            <h2 class="qcard-title">¿Cuál es tu experiencia con trading?</h2>
+            <p class="qcard-sub">Para adaptar la conversación a tu nivel.</p>
+            <div class="q-options">
+              <button type="button" class="q-option" data-field="experience" data-value="Principiante" onclick="selectOption(this)"><span class="q-option-letter">A</span><span class="q-option-text">Principiante</span></button>
+              <button type="button" class="q-option" data-field="experience" data-value="Con experiencia" onclick="selectOption(this)"><span class="q-option-letter">B</span><span class="q-option-text">Con experiencia</span></button>
+              <button type="button" class="q-option" data-field="experience" data-value="Profesional" onclick="selectOption(this)"><span class="q-option-letter">C</span><span class="q-option-text">Profesional</span></button>
+            </div>
+            <button type="button" class="q-back-link" onclick="goTo('q1')">← Atrás</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 3 — NOMBRE -->
+      <section class="step" data-step="q3">
+        <div class="qcard">
+          <div class="qcard-progress"><div class="qcard-progress-fill" style="width:calc(100%/6*3)"></div></div>
+          <div class="qcard-body">
+            <div class="qcard-label">03 <span class="arrow">→</span> 06</div>
+            <h2 class="qcard-title">¿Cómo te llamás?</h2>
+            <p class="qcard-sub">Tu nombre y apellido.</p>
+            <input type="text" class="qinput" id="q-name" placeholder="Escribe tu nombre aquí…" autocomplete="name" />
+            <div class="qnav">
+              <button type="button" class="qnav-back" onclick="goTo('q2')">← Atrás</button>
+              <button type="button" class="qnav-next" id="btn-q3" disabled onclick="submitStep('q3')">Siguiente →</button>
+              <span class="qnav-hint">pulsa Enter ↵</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 4 — EMAIL -->
+      <section class="step" data-step="q4">
+        <div class="qcard">
+          <div class="qcard-progress"><div class="qcard-progress-fill" style="width:calc(100%/6*4)"></div></div>
+          <div class="qcard-body">
+            <div class="qcard-label">04 <span class="arrow">→</span> 06</div>
+            <h2 class="qcard-title">¿Cuál es tu email?</h2>
+            <p class="qcard-sub">Ahí te vamos a confirmar la llamada.</p>
+            <input type="email" class="qinput" id="q-email" placeholder="tu@email.com" autocomplete="email" />
+            <div class="qnav">
+              <button type="button" class="qnav-back" onclick="goTo('q3')">← Atrás</button>
+              <button type="button" class="qnav-next" id="btn-q4" disabled onclick="submitStep('q4')">Siguiente →</button>
+              <span class="qnav-hint">pulsa Enter ↵</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 5 — POR QUÉ -->
+      <section class="step" data-step="q5">
+        <div class="qcard">
+          <div class="qcard-progress"><div class="qcard-progress-fill" style="width:calc(100%/6*5)"></div></div>
+          <div class="qcard-body">
+            <div class="qcard-label">05 <span class="arrow">→</span> 06</div>
+            <h2 class="qcard-title">¿Por qué querés aplicar?</h2>
+            <p class="qcard-sub">Sé honesto. Esto lo leo yo.</p>
+            <textarea class="qtextarea" id="q-why" placeholder="Contame tu situación y qué querés conseguir…"></textarea>
+            <div class="qnav">
+              <button type="button" class="qnav-back" onclick="goTo('q4')">← Atrás</button>
+              <button type="button" class="qnav-next" id="btn-q5" disabled onclick="submitStep('q5')">Siguiente →</button>
+              <span class="qnav-hint">pulsa Enter ↵</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 6 — TELÉFONO -->
+      <section class="step" data-step="q6">
+        <div class="qcard">
+          <div class="qcard-progress"><div class="qcard-progress-fill" style="width:100%"></div></div>
+          <div class="qcard-body">
+            <div class="qcard-label">06 <span class="arrow">→</span> 06</div>
+            <h2 class="qcard-title">Por último, ¿tu teléfono?</h2>
+            <p class="qcard-sub">Elegí tu prefijo y escribí tu número.</p>
+            <div class="qphone-row">
+              <div class="qphone-country">
+                <select id="q-phone-country">
+                  <option value="+34">🇪🇸 España (+34)</option>
+                  <option value="+52">🇲🇽 México (+52)</option>
+                  <option value="+54">🇦🇷 Argentina (+54)</option>
+                  <option value="+57">🇨🇴 Colombia (+57)</option>
+                  <option value="+56">🇨🇱 Chile (+56)</option>
+                  <option value="+51">🇵🇪 Perú (+51)</option>
+                  <option value="+1">🇺🇸 Estados Unidos (+1)</option>
+                </select>
+              </div>
+              <div class="qphone-number">
+                <input type="tel" class="qinput" id="q-phone" placeholder="600 000 000" autocomplete="tel-national" />
+              </div>
+            </div>
+            <div class="qnav">
+              <button type="button" class="qnav-back" onclick="goTo('q5')">← Atrás</button>
+              <button type="button" class="qnav-next" id="btn-q6" disabled onclick="submitStep('q6')">Enviar →</button>
+              <span class="qnav-hint">pulsa Enter ↵</span>
+            </div>
+            <div class="form-msg" id="form-msg"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 7 — SUCCESS + CALENDLY -->
+      <section class="step" data-step="success">
+        <div class="success-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2 class="qcard-title">¡Listo!</h2>
+        <p class="qcard-sub">Elegí el horario que mejor te quede.</p>
+
+        <!-- TODO: reemplazar CALENDLY_URL (más abajo en el script) por el link real de Calendly -->
+        <div class="calendly-wrap">
+          <div class="calendly-inline-widget" id="calendly-embed" data-url="" style="display:none"></div>
+
+          <!-- Vista previa estática — se oculta automáticamente en cuanto CALENDLY_URL tenga un link real -->
+          <div class="calendar-mock" id="calendar-mock">
+            <div class="calendar-mock-head">
+              <button type="button" class="calendar-mock-nav">‹</button>
+              <span class="calendar-mock-month">Agosto 2026</span>
+              <button type="button" class="calendar-mock-nav">›</button>
+            </div>
+            <div class="calendar-mock-week">
+              <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+            </div>
+            <div class="calendar-mock-days">
+              <span class="calendar-mock-day empty"></span><span class="calendar-mock-day empty"></span><span class="calendar-mock-day empty"></span><span class="calendar-mock-day empty"></span><span class="calendar-mock-day empty"></span>
+              <span class="calendar-mock-day">1</span><span class="calendar-mock-day">2</span>
+              <span class="calendar-mock-day">3</span><span class="calendar-mock-day">4</span><span class="calendar-mock-day">5</span><span class="calendar-mock-day">6</span><span class="calendar-mock-day today">7</span><span class="calendar-mock-day">8</span><span class="calendar-mock-day">9</span>
+              <span class="calendar-mock-day">10</span><span class="calendar-mock-day">11</span><span class="calendar-mock-day selected">12</span><span class="calendar-mock-day">13</span><span class="calendar-mock-day">14</span><span class="calendar-mock-day">15</span><span class="calendar-mock-day">16</span>
+              <span class="calendar-mock-day">17</span><span class="calendar-mock-day">18</span><span class="calendar-mock-day">19</span><span class="calendar-mock-day">20</span><span class="calendar-mock-day">21</span><span class="calendar-mock-day">22</span><span class="calendar-mock-day">23</span>
+              <span class="calendar-mock-day">24</span><span class="calendar-mock-day">25</span><span class="calendar-mock-day">26</span><span class="calendar-mock-day">27</span><span class="calendar-mock-day">28</span><span class="calendar-mock-day">29</span><span class="calendar-mock-day">30</span>
+            </div>
+            <div class="calendar-mock-tz">🌍 Hora de Madrid (GMT+2)</div>
+            <p class="calendar-mock-note">Vista previa — se activa el calendario real en cuanto conectes tu cuenta de Calendly.</p>
+          </div>
+        </div>
+        <div class="success-fallback" id="calendly-fallback-wrap" style="display:none">
+          <a id="calendly-fallback" href="#" target="_blank" rel="noopener" class="btn-gold" style="margin-top:1.2rem">Abrir calendario en una pestaña →</a>
+        </div>
+        <p class="success-note">También te vamos a escribir por WhatsApp o Telegram para confirmar.</p>
+      </section>
+
+    </div>
+
+    <div class="clase-footer">
+      <p>&copy; 2026 Andrés Cestona. Todos los derechos reservados.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script>
+    const SUPABASE_URL = 'https://uhjxybyzpqksyysifatn.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // TODO: pegar acá tu link real de Calendly cuando tengas cuenta (ej: 'https://calendly.com/tu-usuario/llamada')
+    const CALENDLY_URL = '';
+
+    const answers = {};
+    let calendlyInited = false;
+
+    function showClase() {
+      document.getElementById('view-hub').style.display = 'none';
+      document.getElementById('view-clase').style.display = 'block';
+      window.scrollTo({ top: 0 });
+    }
+    function showHub() {
+      document.getElementById('view-clase').style.display = 'none';
+      document.getElementById('view-hub').style.display = 'flex';
+      window.scrollTo({ top: 0 });
+    }
+
+    if (location.hash === '#clase') showClase();
+
+    function goTo(stepName) {
+      const current = document.querySelector('#view-clase .step.active');
+      const next = document.querySelector(`#view-clase .step[data-step="${stepName}"]`);
+      if (!next || current === next) return;
+      current.classList.remove('active');
+      next.classList.add('active');
+      if (stepName === 'success') initCalendly();
+    }
+
+    const stepOrder = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'success'];
+    function nextStepOf(stepName) {
+      return stepOrder[stepOrder.indexOf(stepName) + 1];
+    }
+
+    function selectOption(btn) {
+      const group = btn.closest('.q-options');
+      group.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[btn.dataset.field] = btn.dataset.value;
+
+      const step = btn.closest('.step');
+      setTimeout(() => goTo(nextStepOf(step.dataset.step)), 220);
+    }
+
+    // enable/disable "Siguiente" based on input content
+    function wireInput(inputId, btnId) {
+      const input = document.getElementById(inputId);
+      const btn = document.getElementById(btnId);
+      input.addEventListener('input', () => { btn.disabled = !input.value.trim(); });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          if (!btn.disabled) btn.click();
+        }
+      });
+    }
+    wireInput('q-name', 'btn-q3');
+    wireInput('q-email', 'btn-q4');
+    wireInput('q-why', 'btn-q5');
+    wireInput('q-phone', 'btn-q6');
+
+    function submitStep(stepName) {
+      if (stepName === 'q3') { answers.name = document.getElementById('q-name').value.trim(); goTo('q4'); return; }
+      if (stepName === 'q4') { answers.email = document.getElementById('q-email').value.trim(); goTo('q5'); return; }
+      if (stepName === 'q5') { answers.why = document.getElementById('q-why').value.trim(); goTo('q6'); return; }
+      if (stepName === 'q6') { finalSubmit(); return; }
+    }
+
+    async function finalSubmit() {
+      const btn = document.getElementById('btn-q6');
+      const msg = document.getElementById('form-msg');
+      const country = document.getElementById('q-phone-country').value;
+      const phoneNum = document.getElementById('q-phone').value.trim();
+      answers.phone = phoneNum ? `${country} ${phoneNum}` : null;
+
+      msg.className = 'form-msg';
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Enviando...';
+
+      const { error } = await sb.from('applications').insert({
+        name: answers.name || null,
+        email: answers.email || null,
+        phone: answers.phone,
+        availability: answers.availability || null,
+        experience: answers.experience || null,
+        motivo: answers.why || null
+      });
+
+      if (error) {
+        msg.textContent = 'Hubo un problema al enviar tus datos. Probá de nuevo en un momento.';
+        msg.className = 'form-msg error';
+        btn.disabled = false;
+        btn.textContent = 'Enviar →';
+      } else {
+        goTo('success');
+      }
+    }
+
+    function initCalendly() {
+      // Sin link real todavía: dejamos la vista previa estática (calendar-mock) y no tocamos nada más.
+      if (!CALENDLY_URL) return;
+
+      document.getElementById('calendar-mock').style.display = 'none';
+      document.getElementById('calendly-embed').style.display = 'block';
+      document.getElementById('calendly-fallback-wrap').style.display = 'block';
+      document.getElementById('calendly-fallback').href = CALENDLY_URL;
+
+      if (calendlyInited) return;
+      if (window.Calendly) {
+        calendlyInited = true;
+        window.Calendly.initInlineWidget({
+          url: CALENDLY_URL + '?background_color=0d0d0d&text_color=ffffff&primary_color=c9a84c',
+          parentElement: document.getElementById('calendly-embed'),
+          prefill: { name: answers.name || '', email: answers.email || '' }
+        });
+      } else {
+        setTimeout(initCalendly, 300);
+      }
+    }
+  </script>
+</body>
+</html>

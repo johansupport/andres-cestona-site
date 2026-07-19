@@ -603,7 +603,7 @@
         <div class="panel-main">
           <div class="panel-tabs">
             <button class="panel-tab active" onclick="switchPanelTab('xau',this)">XAUUSD</button>
-            <button class="panel-tab" onclick="switchPanelTab('tsla',this)">TSLA</button>
+            <button class="panel-tab" onclick="switchPanelTab('tsla',this)">TESLA</button>
             <button class="panel-tab" onclick="switchPanelTab('btc',this)">BTC</button>
           </div>
           <div class="panel-main-body">
@@ -639,7 +639,7 @@
               <span class="wl-icon" style="background:#f7931a;color:#fff">₿</span>
               <div><div class="wl-name">BTC</div><div class="wl-sub">Bitcoin</div></div>
             </div>
-            <div class="wl-right"><div class="wl-price">$94,180</div><div class="wl-change pos">+1.84%</div></div>
+            <div class="wl-right"><div class="wl-price" id="wl-btc-price">$94,180</div><div class="wl-change pos" id="wl-btc-change">+1.84%</div></div>
           </div>
         </div>
       </div>
@@ -676,23 +676,23 @@
       </div>
       <div class="strategy-selector-wrap reveal">
         <div class="strategy-selector">
-          <button class="strategy-pill active">
+          <button class="strategy-pill active" id="pill-swing" onclick="selectHomeStrategy('swing')">
             <span class="strategy-pill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
             <span class="strategy-pill-text">
               <span class="strategy-pill-title">XAUUSD Swing</span>
               <span class="strategy-pill-sub">Estrategia activa · datos reales</span>
             </span>
           </button>
-          <button class="strategy-pill disabled" disabled title="Próximamente">
-            <span class="strategy-pill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></span>
+          <button class="strategy-pill" id="pill-tesla" onclick="selectHomeStrategy('tesla')">
+            <span class="strategy-pill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
             <span class="strategy-pill-text">
-              <span class="strategy-pill-title">Próxima estrategia</span>
-              <span class="strategy-pill-sub">En preparación</span>
+              <span class="strategy-pill-title">TESLA</span>
+              <span class="strategy-pill-sub">Estrategia activa · datos reales</span>
             </span>
           </button>
         </div>
       </div>
-      <div class="markets-grid">
+      <div class="markets-grid" id="markets-grid">
         <div class="mkt-card reveal d1">
           <div class="mkt-tag tag-s">Estrategia</div>
           <div class="mkt-card-title">XAUUSD Swing Trading</div>
@@ -714,7 +714,7 @@
       </div>
       <hr class="mkt-divider"/>
       <div class="mkt-bottom reveal">
-        <div class="mkt-ticker">
+        <div class="mkt-ticker" id="mkt-ticker">
           <div><div class="tick-lbl">2021</div><div class="tick-val pos">+74.4%</div></div>
           <div><div class="tick-lbl">2022</div><div class="tick-val pos">+76.4%</div></div>
           <div><div class="tick-lbl">2023</div><div class="tick-val pos">+85.8%</div></div>
@@ -723,7 +723,7 @@
           <div><div class="tick-lbl">2026 YTD</div><div class="tick-val pos">+34.6%</div></div>
           <div><div class="tick-lbl">Activo</div><div class="tick-val">XAU/USD</div></div>
         </div>
-        <a href="calculadora.html" class="btn-gold" style="font-size:.84rem;padding:.72rem 1.5rem">Simula tu capital →</a>
+        <a href="calculadora.html" class="btn-gold" style="font-size:.84rem;padding:.72rem 1.5rem" id="mkt-sim-link">Simula tu capital →</a>
       </div>
     </div>
   </section>
@@ -933,13 +933,15 @@
         ],
       },
       tsla: {
-        eyebrow: 'TSLA · Precio actual', value: '$382.86', sub: 'Tesla Inc.', delta: '-2.10% hoy', deltaClass: 'neg',
-        chartLbl: 'Variación diaria',
-        chart: [{ year: 'Hoy', value: -2.1 }],
+        eyebrow: 'TESLA · Rendimiento total', value: '+122%', sub: 'Desde 2025', delta: null,
+        chartLbl: 'Rendimiento por año',
+        chart: [
+          { year: '2025', value: 59.0 }, { year: '2026', value: 63.0 },
+        ],
         stats: [
-          { val: '$382.86', label: 'Precio actual' },
-          { val: '-2.10%', label: 'Variación hoy' },
-          { val: 'NASDAQ', label: 'Mercado' },
+          { val: '122<sup>%</sup>', label: 'Desde inicio · 2025' },
+          { val: '206', label: 'Trades verificados' },
+          { val: '79<sup>.6%</sup>', label: 'Winrate histórico' },
         ],
       },
       btc: {
@@ -998,6 +1000,106 @@
       });
     }
     renderPanelChart(PANEL_DATA.xau.chart);
+
+    /* ── HOME STRATEGY SELECTOR (Markets) ── */
+    const HOME_STRATEGY_DATA = {
+      swing: {
+        grid: `
+        <div class="mkt-card">
+          <div class="mkt-tag tag-s">Estrategia</div>
+          <div class="mkt-card-title">XAUUSD Swing Trading</div>
+          <div class="mkt-card-desc">Operativa multiday sobre oro con confluencias técnicas semanales. Riesgo fijo por operación, sin apalancamiento excesivo.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">~16/mes</div><div class="mkt-stat-lbl">Trades promedio</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+        </div>
+        <div class="mkt-card">
+          <div class="mkt-tag tag-a">Análisis</div>
+          <div class="mkt-card-title">Historial verificado 2021–2026</div>
+          <div class="mkt-card-desc">1.051 trades documentados. Winrate del 71.6% histórico. Todos los meses publicados con detalle operación a operación.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">71.6%</div><div class="mkt-stat-lbl">Winrate histórico</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+        </div>
+        <div class="mkt-card">
+          <div class="mkt-tag tag-p">Rendimiento</div>
+          <div class="mkt-card-title">+412% desde inicio</div>
+          <div class="mkt-card-desc">Capital inicial de $1,000 convertido en $5,118 en 5 años. Resultados auditables con la calculadora pública.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">$5,118</div><div class="mkt-stat-lbl">Balance final verificado</div></div><a href="calculadora.html" class="mkt-arrow">→</a></div>
+        </div>`,
+        ticker: `
+          <div><div class="tick-lbl">2021</div><div class="tick-val pos">+74.4%</div></div>
+          <div><div class="tick-lbl">2022</div><div class="tick-val pos">+76.4%</div></div>
+          <div><div class="tick-lbl">2023</div><div class="tick-val pos">+85.8%</div></div>
+          <div><div class="tick-lbl">2024</div><div class="tick-val pos">+70.2%</div></div>
+          <div><div class="tick-lbl">2025</div><div class="tick-val pos">+70.4%</div></div>
+          <div><div class="tick-lbl">2026 YTD</div><div class="tick-val pos">+34.6%</div></div>
+          <div><div class="tick-lbl">Activo</div><div class="tick-val">XAU/USD</div></div>`
+      },
+      tesla: {
+        grid: `
+        <div class="mkt-card">
+          <div class="mkt-tag tag-s">Estrategia</div>
+          <div class="mkt-card-title">TESLA Trading</div>
+          <div class="mkt-card-desc">Operativa intradía sobre acciones de Tesla con entradas técnicas de precisión. Riesgo fijo por operación, sin apalancamiento excesivo.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">~13/mes</div><div class="mkt-stat-lbl">Trades promedio</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+        </div>
+        <div class="mkt-card">
+          <div class="mkt-tag tag-a">Análisis</div>
+          <div class="mkt-card-title">Historial verificado 2025–2026</div>
+          <div class="mkt-card-desc">206 trades documentados. Winrate del 79.6% histórico. Todos los meses publicados con detalle operación a operación.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">79.6%</div><div class="mkt-stat-lbl">Winrate histórico</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+        </div>
+        <div class="mkt-card">
+          <div class="mkt-tag tag-p">Rendimiento</div>
+          <div class="mkt-card-title">+122% desde inicio</div>
+          <div class="mkt-card-desc">Capital inicial de $1,000 convertido en $2,220 en 16 meses. Resultados auditables con la calculadora pública.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">$2,220</div><div class="mkt-stat-lbl">Balance final verificado</div></div><a href="calculadora.html" class="mkt-arrow">→</a></div>
+        </div>`,
+        ticker: `
+          <div><div class="tick-lbl">2025</div><div class="tick-val pos">+59.0%</div></div>
+          <div><div class="tick-lbl">2026 YTD</div><div class="tick-val pos">+63.0%</div></div>
+          <div><div class="tick-lbl">Activo</div><div class="tick-val">TSLA</div></div>`
+      }
+    };
+
+    function selectHomeStrategy(key) {
+      document.getElementById('pill-swing').classList.toggle('active', key === 'swing');
+      document.getElementById('pill-tesla').classList.toggle('active', key === 'tesla');
+      const d = HOME_STRATEGY_DATA[key];
+      document.getElementById('markets-grid').innerHTML = d.grid;
+      document.getElementById('mkt-ticker').innerHTML = d.ticker;
+    }
+
+    /* ── LIVE BTC PRICE (CoinGecko — pública, sin API key) ── */
+    async function fetchLiveBTC() {
+      try {
+        const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
+        if (!res.ok) return;
+        const json = await res.json();
+        const price = json.bitcoin.usd;
+        const change = json.bitcoin.usd_24h_change;
+        const priceFmt = '$' + Math.round(price).toLocaleString('en-US');
+        const changeFmt = (change >= 0 ? '+' : '') + change.toFixed(2) + '%';
+        const changeClass = change >= 0 ? 'pos' : 'neg';
+
+        const wlPrice = document.getElementById('wl-btc-price');
+        const wlChange = document.getElementById('wl-btc-change');
+        if (wlPrice) wlPrice.textContent = priceFmt;
+        if (wlChange) { wlChange.textContent = changeFmt; wlChange.className = 'wl-change ' + changeClass; }
+
+        PANEL_DATA.btc.value = priceFmt;
+        PANEL_DATA.btc.delta = changeFmt + ' hoy';
+        PANEL_DATA.btc.deltaClass = changeClass;
+        PANEL_DATA.btc.stats[0].val = priceFmt;
+        PANEL_DATA.btc.stats[1].val = changeFmt;
+
+        const activeTab = document.querySelector('.panel-tab.active');
+        if (activeTab && activeTab.textContent.trim() === 'BTC') {
+          switchPanelTab('btc', activeTab);
+        }
+      } catch (e) {
+        // Sin conexión o API caída: se mantienen los valores estáticos.
+      }
+    }
+    fetchLiveBTC();
+    setInterval(fetchLiveBTC, 60000);
 
     // Nav scroll
     const navEl = document.querySelector('nav');

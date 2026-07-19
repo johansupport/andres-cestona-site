@@ -483,6 +483,10 @@
             <span class="strat-btn-name">XAUUSD Swing</span>
             <span class="strat-btn-desc">Swing trading · ~16 trades/mes</span>
           </button>
+          <button class="strat-btn" data-strategy="tesla" onclick="selectStrategy('tesla',this)">
+            <span class="strat-btn-name">TESLA</span>
+            <span class="strat-btn-desc">Day trading · ~13 trades/mes</span>
+          </button>
         </div>
         <div class="form-grid">
           <div class="field"><label>Desde</label><input type="date" id="startDate"/></div>
@@ -610,7 +614,8 @@ function selectStrategy(id, el) {
 /* ─── LOAD ─── */
 async function loadData(strategy) {
   if (cache[strategy]) return cache[strategy];
-  const url = strategy === 'daily' ? './data/xauusd-daily.json' : './data/xauusd-swing.json';
+  const urls = { daily: './data/xauusd-daily.json', swing: './data/xauusd-swing.json', tesla: './data/tesla-daily.json' };
+  const url = urls[strategy] || urls.swing;
   const res = await fetch(url);
   if (!res.ok) throw new Error('No se pudo cargar el archivo de datos. Verifica que el servidor esté activo.');
   const json = await res.json();
