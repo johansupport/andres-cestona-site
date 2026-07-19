@@ -160,6 +160,12 @@
     .hero-card-telegram .hero-card-blob { width: 280px; height: 280px; top: -60px; right: -60px; background: rgba(90,200,250,.45); }
     .hero-card-youtube { background: linear-gradient(155deg, #e21c1c 0%, #7a0000 70%, #330000 100%); }
     .hero-card-youtube .hero-card-blob { width: 280px; height: 280px; top: -60px; right: -60px; background: rgba(255,90,90,.4); }
+    .hero-card-instagram { background: linear-gradient(155deg, #dc2743 0%, #8a1a5c 60%, #431032 100%); }
+    .hero-card-instagram .hero-card-blob { width: 280px; height: 280px; top: -60px; right: -60px; background: rgba(240,148,51,.4); }
+    .hero-card-whatsapp { background: linear-gradient(155deg, #25D366 0%, #0f7a3d 65%, #063d1f 100%); }
+    .hero-card-whatsapp .hero-card-blob { width: 280px; height: 280px; top: -60px; right: -60px; background: rgba(80,230,150,.4); }
+    .hero-card-axi { background: linear-gradient(155deg, #c9a84c 0%, #7a5f22 65%, #3d2f10 100%); }
+    .hero-card-axi .hero-card-blob { width: 280px; height: 280px; top: -60px; right: -60px; background: rgba(232,201,122,.4); }
     .hero-card-top { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; }
     .hero-card-icon { width: 64px; height: 64px; border-radius: 18px; background: rgba(255,255,255,.16); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; }
     .hero-card-icon svg { width: 30px; height: 30px; }
@@ -195,6 +201,21 @@
     .hero-mockup-video-bar-fill { height: 100%; width: 55%; background: #fff; }
     .hero-mockup-video2 { width: 92px; padding: 0; overflow: hidden; top: 4.1rem; right: -.4rem; --r: -6deg; animation-delay: .9s; }
     .hero-mockup-video2 .hero-mockup-video-thumb { height: 50px; }
+
+    /* Mockup: grid de fotos (Instagram) */
+    .hero-mockup-photos { width: 118px; padding: .5rem; top: -1rem; right: -1.1rem; --r: 6deg; display: grid; grid-template-columns: 1fr 1fr; gap: .35rem; }
+    .hero-mockup-photo { aspect-ratio: 1; border-radius: 6px; background: linear-gradient(135deg, rgba(255,255,255,.35), rgba(255,255,255,.1)); }
+    .hero-mockup-like { top: 4.2rem; right: -.3rem; --r: -5deg; animation-delay: .8s; padding: .45rem .8rem; display: flex; align-items: center; gap: .35rem; font-size: .72rem; font-weight: 700; white-space: nowrap; }
+
+    /* Mockup: chat (WhatsApp) */
+    .hero-mockup-wa-check { top: 4.1rem; right: -.3rem; --r: 5deg; animation-delay: .8s; padding: .45rem .8rem; display: flex; align-items: center; gap: .35rem; font-size: .7rem; font-weight: 700; white-space: nowrap; }
+
+    /* Mockup: gráfico (AXI) */
+    .hero-mockup-chart { width: 132px; padding: .7rem .7rem .5rem; top: -1rem; right: -1.1rem; --r: -6deg; }
+    .hero-mockup-chart svg { display: block; width: 100%; height: 40px; }
+    .hero-mockup-chart-lbl { font-size: .6rem; font-weight: 700; color: rgba(255,255,255,.7); margin-top: .3rem; }
+    .hero-mockup-verified { top: 4.1rem; right: -.3rem; --r: 5deg; animation-delay: .8s; padding: .45rem .8rem; display: flex; align-items: center; gap: .35rem; font-size: .68rem; font-weight: 700; white-space: nowrap; }
+
     @media (max-width: 720px) { .hero-cards-grid { grid-template-columns: 1fr; } }
 
     /* Grid secundario */
@@ -516,52 +537,52 @@
         <p class="section-sub">Canales directos para estar en contacto</p>
       </div>
 
-      <div class="channels-grid">
+      <div class="hero-cards-grid">
 
         <!-- Instagram -->
-        <a href="https://www.instagram.com/andrescestonafx" target="_blank" rel="noopener" class="channel-card ch-instagram">
-          <div class="ch-header">
-            <div class="ch-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#ig-grad)"/>
-                <circle cx="12" cy="12" r="4.5" stroke="#fff" stroke-width="1.8"/>
-                <circle cx="17.5" cy="6.5" r="1" fill="#fff"/>
-                <defs>
-                  <linearGradient id="ig-grad" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#f09433"/>
-                    <stop offset=".4" stop-color="#dc2743"/>
-                    <stop offset="1" stop-color="#bc1888"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <div>
-              <div class="ch-name">Instagram</div>
-              <div class="ch-handle">@andrescestonafx</div>
-            </div>
+        <a href="https://www.instagram.com/andrescestonafx" target="_blank" rel="noopener" class="hero-card hero-card-instagram">
+          <div class="hero-card-blob"></div>
+          <div class="hero-mockup hero-mockup-photos">
+            <div class="hero-mockup-photo"></div>
+            <div class="hero-mockup-photo"></div>
+            <div class="hero-mockup-photo"></div>
+            <div class="hero-mockup-photo"></div>
           </div>
-          <span class="ch-tag">Contenido visual</span>
-          <p class="ch-desc">Reels con conceptos financieros explicados de forma visual, stories con el mercado del día y publicaciones con estrategias paso a paso. Fácil de consumir, fácil de aprender.</p>
-          <a href="https://www.instagram.com/andrescestonafx" target="_blank" rel="noopener" class="ch-btn">Seguir en Instagram →</a>
+          <div class="hero-mockup hero-mockup-like">♥ Me gusta</div>
+          <div class="hero-card-top">
+            <div class="hero-card-icon">
+              <svg viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="4.5" stroke="#fff" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#fff"/></svg>
+            </div>
+            <span class="hero-card-tag">Instagram</span>
+          </div>
+          <!-- TODO Andrés: reemplazar por la cifra real de seguidores -->
+          <div class="hero-card-count"><span class="hero-card-count-dot"></span> +800 seguidores</div>
+          <div class="hero-card-title">Contenido visual, directo al grano.</div>
+          <div class="hero-card-desc">Reels con conceptos financieros explicados de forma visual, stories con el mercado del día y estrategias paso a paso. Fácil de consumir, fácil de aprender.</div>
+          <span class="hero-card-btn">Seguir en Instagram →</span>
         </a>
 
         <!-- WhatsApp -->
-        <a href="https://api.whatsapp.com/message/R7VKA33E6RARH1?autoload=1&app_absent=0" target="_blank" rel="noopener" class="channel-card ch-whatsapp">
-          <div class="ch-header">
-            <div class="ch-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.2L2 22l4.9-1.4A10 10 0 1 0 12 2z" fill="#25D366"/>
-                <path d="M17 14.8c-.3-.1-1.7-.8-1.9-.9-.2-.1-.4-.1-.6.1-.2.2-.7.9-.9 1-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.4.1-.6l.4-.5c.1-.2.2-.3.2-.5 0-.2 0-.4-.1-.5-.1-.2-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.1s.9 2.4 1 2.6c.1.1 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2 0-.1-.2-.2-.5-.3z" fill="#fff"/>
-              </svg>
+        <a href="https://api.whatsapp.com/message/R7VKA33E6RARH1?autoload=1&app_absent=0" target="_blank" rel="noopener" class="hero-card hero-card-whatsapp">
+          <div class="hero-card-blob"></div>
+          <div class="hero-mockup hero-mockup-chat">
+            <div class="hero-mockup-chat-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.2L2 22l4.9-1.4A10 10 0 1 0 12 2z" fill="#25D366"/></svg>
             </div>
-            <div>
-              <div class="ch-name">WhatsApp</div>
-              <div class="ch-handle">Contacto directo</div>
-            </div>
+            <div class="hero-mockup-line"></div>
+            <div class="hero-mockup-line"></div>
           </div>
-          <span class="ch-tag">Consultas personales</span>
-          <p class="ch-desc">¿Tienes dudas sobre trading, estrategias o el programa de formación? Escríbeme directamente. Respondo personalmente a cada mensaje con seriedad y sin filtros.</p>
-          <a href="https://api.whatsapp.com/message/R7VKA33E6RARH1?autoload=1&app_absent=0" target="_blank" rel="noopener" class="ch-btn">Escribir mensaje →</a>
+          <div class="hero-mockup hero-mockup-wa-check">✓✓ Leído</div>
+          <div class="hero-card-top">
+            <div class="hero-card-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.2L2 22l4.9-1.4A10 10 0 1 0 12 2z" fill="#fff"/></svg>
+            </div>
+            <span class="hero-card-tag">WhatsApp</span>
+          </div>
+          <div class="hero-card-count"><span class="hero-card-count-dot"></span> Respuesta directa</div>
+          <div class="hero-card-title">¿Dudas? Escríbeme directamente.</div>
+          <div class="hero-card-desc">¿Tienes dudas sobre trading, estrategias o el programa de formación? Respondo personalmente a cada mensaje con seriedad y sin filtros.</div>
+          <span class="hero-card-btn">Escribir mensaje →</span>
         </a>
 
       </div>
@@ -581,26 +602,26 @@
         <p class="section-sub">Lo que uso para operar, con mis condiciones</p>
       </div>
 
-      <div class="channels-grid">
+      <div class="hero-cards-grid">
 
         <!-- AXI -->
-        <a href="https://www.axi.com/int/live-account?promocode=4738941" target="_blank" rel="noopener" class="channel-card ch-axi" style="max-width:480px">
-          <span class="axi-badge">Bróker recomendado</span>
-          <div class="ch-header">
-            <div class="ch-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path d="M12 3L3 20h18L12 3zm0 4l6.2 11H5.8L12 7z" fill="#c9a84c"/>
-                <path d="M9.5 15h5" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div>
-              <div class="ch-name">AXI · Bróker oficial</div>
-              <div class="ch-handle">Con mi código promocional</div>
-            </div>
+        <a href="https://www.axi.com/int/live-account?promocode=4738941" target="_blank" rel="noopener" class="hero-card hero-card-axi">
+          <div class="hero-card-blob"></div>
+          <div class="hero-mockup hero-mockup-chart">
+            <svg viewBox="0 0 100 40" fill="none"><polyline points="0,32 15,26 30,30 45,14 60,20 75,8 100,4" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="hero-mockup-chart-lbl">XAU/USD</div>
           </div>
-          <span class="ch-tag">Bróker regulado</span>
-          <p class="ch-desc">El bróker que uso para operar. Regulado, con spreads competitivos en XAU/USD y ejecución rápida. Si abres cuenta con mi link obtienes las mismas condiciones que yo utilizo en mis operaciones.</p>
-          <a href="https://www.axi.com/int/live-account?promocode=4738941" target="_blank" rel="noopener" class="ch-btn">Abrir cuenta en AXI →</a>
+          <div class="hero-mockup hero-mockup-verified">✓ Regulado</div>
+          <div class="hero-card-top">
+            <div class="hero-card-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 3L3 20h18L12 3zm0 4l6.2 11H5.8L12 7z" fill="#fff"/></svg>
+            </div>
+            <span class="hero-card-tag">AXI · Bróker oficial</span>
+          </div>
+          <div class="hero-card-count"><span class="hero-card-count-dot"></span> Con mi código promocional</div>
+          <div class="hero-card-title">El bróker que uso para operar.</div>
+          <div class="hero-card-desc">Regulado, con spreads competitivos en XAU/USD y ejecución rápida. Si abres cuenta con mi link obtienes las mismas condiciones que yo utilizo en mis operaciones.</div>
+          <span class="hero-card-btn">Abrir cuenta en AXI →</span>
         </a>
 
       </div>
