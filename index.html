@@ -285,41 +285,65 @@
     .quien-inner { max-width:1100px; margin:0 auto; }
 
     /* Academy-style card, sin foto: gráfico animado */
-    .academy-card { display:grid; grid-template-columns:1.1fr 1fr; align-items:stretch; gap:3rem; }
-    .academy-media { position:relative; overflow:hidden; border-radius:20px; min-height:440px; background:#0c0c0c; border:1px solid rgba(255,255,255,.07); }
-    .academy-media-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(201,168,76,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,.05) 1px, transparent 1px); background-size:36px 36px; }
-    .academy-media-glow { position:absolute; width:360px; height:360px; border-radius:50%; background:radial-gradient(circle, rgba(201,168,76,.16) 0%, transparent 70%); top:-18%; right:-10%; animation:academyGlow 8s ease-in-out infinite alternate; }
+    .academy-card { display:grid; grid-template-columns:1.1fr 1fr; align-items:stretch; gap:3rem; position:relative; }
+    .academy-card::before { content:''; position:absolute; inset:-1.5rem; background:radial-gradient(ellipse 700px 400px at 20% 50%, rgba(201,168,76,.08) 0%, transparent 70%); pointer-events:none; z-index:-1; opacity:0; transition:opacity .6s; }
+    .academy-card:hover::before { opacity:1; }
+    .academy-media { position:relative; overflow:hidden; border-radius:20px; min-height:440px; background:#0c0c0c; border:1px solid rgba(255,255,255,.07); transition:border-color .4s, transform .4s; }
+    .academy-card:hover .academy-media { border-color:rgba(201,168,76,.35); transform:translateY(-4px); }
+    .academy-media-grid { position:absolute; inset:-20px; background-image:linear-gradient(rgba(201,168,76,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,.06) 1px, transparent 1px); background-size:36px 36px; animation:academyGridPan 22s linear infinite; }
+    @keyframes academyGridPan { from { transform:translate(0,0); } to { transform:translate(36px,36px); } }
+    .academy-media-glow { position:absolute; width:360px; height:360px; border-radius:50%; background:radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%); top:-18%; right:-10%; animation:academyGlow 8s ease-in-out infinite alternate; }
     @keyframes academyGlow { from { transform:translate(0,0) scale(1); } to { transform:translate(-24px,20px) scale(1.15); } }
     .academy-media-mono { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-size:8.5rem; font-weight:800; color:rgba(255,255,255,.035); letter-spacing:-4px; user-select:none; }
     .academy-media-chart { position:absolute; left:9%; right:9%; bottom:20%; height:120px; overflow:visible; }
-    .academy-media-chart .line { fill:none; stroke:var(--gold); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:420; stroke-dashoffset:420; animation:academyDraw 2.4s ease-out .3s forwards; }
+    .academy-media-chart .line { fill:none; stroke:var(--gold); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:420; stroke-dashoffset:420; animation:academyDraw 2.4s ease-out .3s forwards; filter:drop-shadow(0 0 6px rgba(201,168,76,.5)); }
     .academy-media-chart .area { stroke:none; fill:url(#academyFillGrad); opacity:0; animation:academyFadeIn .9s ease-out 2s forwards; }
     @keyframes academyDraw { to { stroke-dashoffset:0; } }
     @keyframes academyFadeIn { to { opacity:1; } }
-    .academy-media-dot { opacity:0; animation:academyDotIn .5s ease-out 2.3s forwards; }
+    .academy-media-pt { opacity:0; animation:academyDotIn .4s ease-out forwards; }
+    .academy-media-pt:nth-of-type(1) { animation-delay:.5s; }
+    .academy-media-pt:nth-of-type(2) { animation-delay:.85s; }
+    .academy-media-pt:nth-of-type(3) { animation-delay:1.2s; }
+    .academy-media-pt:nth-of-type(4) { animation-delay:1.55s; }
+    .academy-media-pt:nth-of-type(5) { animation-delay:1.9s; }
+    .academy-media-dot { opacity:0; animation:academyDotPop .6s cubic-bezier(.34,1.56,.64,1) 2.2s forwards; transform-origin:center; filter:drop-shadow(0 0 8px rgba(201,168,76,.8)); }
     @keyframes academyDotIn { to { opacity:1; } }
+    @keyframes academyDotPop { 0% { opacity:0; transform:scale(0); } 60% { opacity:1; transform:scale(1.5); } 100% { opacity:1; transform:scale(1); } }
+    .academy-media-badge { position:absolute; left:1.4rem; bottom:1.4rem; z-index:2; display:flex; align-items:center; gap:.6rem; background:rgba(8,8,8,.65); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(201,168,76,.3); border-radius:12px; padding:.7rem 1.1rem; opacity:0; transform:translateY(10px); animation:academyBadgeIn .6s ease-out 2.4s forwards; }
+    @keyframes academyBadgeIn { to { opacity:1; transform:translateY(0); } }
+    .academy-media-badge-num { font-family:'Space Grotesk',sans-serif; font-size:1.15rem; font-weight:800; color:var(--gold); line-height:1; }
+    .academy-media-badge-txt { font-size:.66rem; color:rgba(255,255,255,.55); line-height:1.3; }
     .academy-content { display:flex; flex-direction:column; justify-content:center; }
     .academy-tag { display:inline-flex; align-items:center; gap:.5rem; font-size:.72rem; font-weight:600; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:1.2rem; width:fit-content; }
     .academy-tag svg { width:15px; height:15px; }
     .academy-title { font-family:'Space Grotesk',sans-serif; font-size:clamp(1.7rem,2.8vw,2.3rem); font-weight:700; color:#fff; line-height:1.3; letter-spacing:-.5px; margin-bottom:1.2rem; }
     .academy-desc { font-size:.92rem; color:rgba(255,255,255,.5); line-height:1.85; margin-bottom:1.8rem; max-width:420px; }
-    .academy-checks { list-style:none; display:flex; flex-direction:column; gap:.85rem; margin-bottom:2.2rem; }
-    .academy-checks li { display:flex; align-items:flex-start; gap:.75rem; font-size:.86rem; color:rgba(255,255,255,.75); line-height:1.5; }
-    .academy-check-ico { flex-shrink:0; width:19px; height:19px; border-radius:50%; border:1px solid rgba(201,168,76,.5); color:var(--gold); font-size:.6rem; font-weight:900; display:flex; align-items:center; justify-content:center; margin-top:.1rem; }
-    .academy-btn { display:inline-flex; align-items:center; gap:.5rem; background:var(--gold); color:var(--black); padding:.85rem 1.6rem; border-radius:10px; font-weight:700; font-size:.87rem; text-decoration:none; width:fit-content; transition:background .2s, transform .2s; }
-    .academy-btn:hover { background:var(--gold2); transform:translateY(-2px); }
+    .academy-checks { list-style:none; display:flex; flex-direction:column; gap:.9rem; margin-bottom:2.2rem; }
+    .academy-checks li { display:flex; align-items:center; gap:.8rem; font-size:.87rem; color:rgba(255,255,255,.8); line-height:1.5; opacity:0; transform:translateX(-10px); animation:academyCheckIn .5s ease-out forwards; }
+    .academy-checks li:nth-child(1) { animation-delay:.15s; }
+    .academy-checks li:nth-child(2) { animation-delay:.3s; }
+    .academy-checks li:nth-child(3) { animation-delay:.45s; }
+    @keyframes academyCheckIn { to { opacity:1; transform:none; } }
+    .academy-check-ico { flex-shrink:0; width:22px; height:22px; border-radius:50%; background:var(--gold); color:var(--black); font-size:.65rem; font-weight:900; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 4px rgba(201,168,76,.12); }
+    .academy-btn { display:inline-flex; align-items:center; gap:.7rem; background:var(--gold); color:var(--black); padding:.7rem 1.5rem .7rem .7rem; border-radius:100px; font-weight:700; font-size:.87rem; text-decoration:none; width:fit-content; transition:background .2s, transform .2s, box-shadow .2s; position:relative; overflow:hidden; }
+    .academy-btn:hover { background:var(--gold2); transform:translateY(-2px); box-shadow:0 10px 26px rgba(201,168,76,.35); }
+    .academy-btn-ico { flex-shrink:0; width:30px; height:30px; border-radius:50%; background:var(--black); color:var(--gold); display:flex; align-items:center; justify-content:center; }
+    .academy-btn-ico svg { width:11px; height:11px; }
     @media (max-width:900px) { .academy-card { grid-template-columns:1fr; gap:2rem; } .academy-media { min-height:280px; } .quien-pillars { grid-template-columns:repeat(2,1fr); } }
 
     /* Detalles debajo de la academy-card: pillars + timeline dinámica */
     .quien-details { max-width:900px; margin:5.5rem auto 0; }
     .quien-pillars { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; }
-    .pillar { position:relative; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:1.5rem; transition:all .25s; }
-    .pillar:hover { border-color:var(--gold); background:rgba(255,255,255,.05); box-shadow:0 14px 34px rgba(0,0,0,.3); transform:translateY(-3px); }
-    .pillar-icon { width:36px; height:36px; border-radius:10px; background:rgba(201,168,76,.12); color:var(--gold); display:flex; align-items:center; justify-content:center; margin-bottom:1rem; }
+    .pillar { position:relative; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:1.5rem; overflow:hidden; transition:all .3s cubic-bezier(.22,1,.36,1); }
+    .pillar::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg, rgba(201,168,76,.12), transparent 60%); opacity:0; transition:opacity .3s; pointer-events:none; }
+    .pillar:hover { border-color:rgba(201,168,76,.5); background:rgba(255,255,255,.05); box-shadow:0 16px 40px rgba(0,0,0,.35); transform:translateY(-5px); }
+    .pillar:hover::before { opacity:1; }
+    .pillar-icon { width:36px; height:36px; border-radius:10px; background:rgba(201,168,76,.12); color:var(--gold); display:flex; align-items:center; justify-content:center; margin-bottom:1rem; transition:transform .35s cubic-bezier(.34,1.56,.64,1), background .3s; }
+    .pillar:hover .pillar-icon { transform:scale(1.15) rotate(-6deg); background:rgba(201,168,76,.22); }
     .pillar-title { font-size:.88rem; font-weight:800; color:#fff; margin-bottom:.35rem; }
     .pillar-desc { font-size:.74rem; color:rgba(255,255,255,.45); line-height:1.6; }
-    .pillar-arrow { position:absolute; top:1.1rem; right:1.1rem; width:26px; height:26px; border-radius:50%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-size:.75rem; color:rgba(255,255,255,.4); transition:all .2s; }
-    .pillar:hover .pillar-arrow { background:var(--gold); color:var(--black); border-color:var(--gold); }
+    .pillar-arrow { position:absolute; top:1.1rem; right:1.1rem; width:26px; height:26px; border-radius:50%; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); display:flex; align-items:center; justify-content:center; font-size:.75rem; color:rgba(255,255,255,.4); transition:all .3s; }
+    .pillar:hover .pillar-arrow { background:var(--gold); color:var(--black); border-color:var(--gold); transform:rotate(45deg); }
 
     /* ── TIMELINE dinámica ── */
     .quien-timeline { margin-top:3.5rem; }
@@ -330,8 +354,15 @@
     .quien-timeline.visible .timeline-track-fill { height:calc(100% - 16px); }
     .timeline-item { display:flex; align-items:flex-start; gap:1rem; position:relative; padding-bottom:1.6rem; }
     .timeline-item:last-child { padding-bottom:0; }
-    .timeline-dot { width:11px; height:11px; border-radius:50%; background:#1a1a1a; border:2px solid var(--gold); flex-shrink:0; margin-top:.25rem; position:relative; z-index:1; }
-    .timeline-item.active .timeline-dot { background:var(--gold); box-shadow:0 0 0 4px rgba(201,168,76,.2); animation:timelinePulse 2s ease-in-out infinite; }
+    .timeline-dot { width:11px; height:11px; border-radius:50%; background:#1a1a1a; border:2px solid var(--gold); flex-shrink:0; margin-top:.25rem; position:relative; z-index:1; transform:scale(0); animation:timelineDotPop .5s cubic-bezier(.34,1.56,.64,1) forwards; animation-play-state:paused; }
+    .quien-timeline.visible .timeline-dot { animation-play-state:running; }
+    @keyframes timelineDotPop { to { transform:scale(1); } }
+    .timeline-item.t1 .timeline-dot { animation-delay:.3s; }
+    .timeline-item.t2 .timeline-dot { animation-delay:.75s; }
+    .timeline-item.t3 .timeline-dot { animation-delay:1.2s; }
+    .timeline-item.t4 .timeline-dot { animation-delay:1.65s; }
+    .timeline-item.active .timeline-dot { background:var(--gold); box-shadow:0 0 0 4px rgba(201,168,76,.2); animation:timelineDotPop .5s cubic-bezier(.34,1.56,.64,1) 1.65s forwards, timelinePulse 2s ease-in-out 2.3s infinite; animation-play-state:paused; }
+    .quien-timeline.visible .timeline-item.active .timeline-dot { animation-play-state:running; }
     @keyframes timelinePulse { 0%,100% { box-shadow:0 0 0 4px rgba(201,168,76,.2); } 50% { box-shadow:0 0 0 8px rgba(201,168,76,.08); } }
     .timeline-body { display:flex; flex-direction:column; gap:.15rem; }
     .timeline-year { font-size:.68rem; font-weight:800; color:var(--gold); text-transform:uppercase; letter-spacing:.6px; }
@@ -729,8 +760,16 @@
             </defs>
             <path class="area" d="M0,100 30,92 60,96 90,68 120,76 150,44 180,54 210,24 240,32 270,10 300,4 300,120 0,120 Z"/>
             <path class="line" d="M0,100 30,92 60,96 90,68 120,76 150,44 180,54 210,24 240,32 270,10 300,4"/>
+            <circle class="academy-media-pt" cx="60" cy="96" r="2.5" fill="#c9a84c"/>
+            <circle class="academy-media-pt" cx="120" cy="76" r="2.5" fill="#c9a84c"/>
+            <circle class="academy-media-pt" cx="180" cy="54" r="2.5" fill="#c9a84c"/>
+            <circle class="academy-media-pt" cx="240" cy="32" r="2.5" fill="#c9a84c"/>
             <circle class="academy-media-dot" cx="300" cy="4" r="4.5" fill="#c9a84c"/>
           </svg>
+          <div class="academy-media-badge">
+            <div class="academy-media-badge-num">+412%</div>
+            <div class="academy-media-badge-txt">acumulado<br/>desde 2021</div>
+          </div>
         </div>
         <div class="academy-content">
           <div class="academy-tag">
@@ -744,7 +783,10 @@
             <li><span class="academy-check-ico">✓</span> Documentado en público desde 2021, mes a mes</li>
             <li><span class="academy-check-ico">✓</span> +412% acumulado, 1.051 operaciones verificadas</li>
           </ul>
-          <a href="estadisticas.html" class="academy-btn">▶ Ver historial completo</a>
+          <a href="estadisticas.html" class="academy-btn">
+            <span class="academy-btn-ico"><svg viewBox="0 0 24 24" fill="none"><path d="M9.5 8.5l6 3.5-6 3.5v-7z" fill="currentColor"/></svg></span>
+            Ver historial completo
+          </a>
         </div>
       </div>
 
@@ -772,28 +814,28 @@
           <div class="quien-block-label">Trayectoria</div>
           <div class="timeline-track">
             <div class="timeline-track-fill"></div>
-            <div class="timeline-item">
+            <div class="timeline-item t1">
               <span class="timeline-dot"></span>
               <div class="timeline-body">
                 <span class="timeline-year">~2015</span>
                 <span class="timeline-text">Inicio en los mercados financieros, primeros años de formación y operativa personal.</span>
               </div>
             </div>
-            <div class="timeline-item">
+            <div class="timeline-item t2">
               <span class="timeline-dot"></span>
               <div class="timeline-body">
                 <span class="timeline-year">2021</span>
                 <span class="timeline-text">Comienza a documentar públicamente su estrategia XAUUSD Swing, capital inicial de $1.000.</span>
               </div>
             </div>
-            <div class="timeline-item">
+            <div class="timeline-item t3">
               <span class="timeline-dot"></span>
               <div class="timeline-body">
                 <span class="timeline-year">2022</span>
                 <span class="timeline-text">Primer año con historial de trades completamente auditado y publicado.</span>
               </div>
             </div>
-            <div class="timeline-item active">
+            <div class="timeline-item t4 active">
               <span class="timeline-dot"></span>
               <div class="timeline-body">
                 <span class="timeline-year">2026 · Ahora</span>
