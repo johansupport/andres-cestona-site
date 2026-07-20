@@ -1110,8 +1110,8 @@
     async function loadLiveHomeStrategies() {
       try {
         const [{ data: swingRows, error: swingErr }, { data: teslaRows, error: teslaErr }] = await Promise.all([
-          sb.from('strategy_results').select('fecha,resultado,porcentaje').eq('estrategia', 'swing').order('fecha'),
-          sb.from('strategy_results').select('fecha,resultado,porcentaje').eq('estrategia', 'tesla').order('fecha'),
+          sb.from('strategy_results').select('fecha,resultado,porcentaje').eq('estrategia', 'swing').order('fecha').range(0, 9999),
+          sb.from('strategy_results').select('fecha,resultado,porcentaje').eq('estrategia', 'tesla').order('fecha').range(0, 9999),
         ]);
         if (swingErr || teslaErr || !swingRows?.length || !teslaRows?.length) return;
 

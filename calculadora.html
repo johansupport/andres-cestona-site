@@ -622,7 +622,7 @@ function selectStrategy(id, el) {
 async function loadData(strategy) {
   if (cache[strategy]) return cache[strategy];
   const { data: rows, error } = await sb.from('strategy_results')
-    .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha');
+    .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha').range(0, 9999);
   if (error) throw new Error('No se pudieron cargar los datos: ' + error.message);
   if (!rows || !rows.length) throw new Error('No hay datos disponibles para esta estrategia todavía.');
   const json = {

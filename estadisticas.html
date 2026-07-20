@@ -510,7 +510,7 @@
       const wrap = document.getElementById('content-wrap');
       wrap.innerHTML = '<div class="loading-state">Cargando datos...</div>';
       const { data: rows, error } = await sb.from('strategy_results')
-        .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha');
+        .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha').range(0, 9999);
       if (error || !rows || !rows.length) {
         data = null;
         wrap.innerHTML = '<div class="loading-state">No hay datos disponibles para esta estrategia todavía.</div>';
