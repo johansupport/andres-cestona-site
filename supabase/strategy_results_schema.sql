@@ -4,7 +4,7 @@
 
 create table if not exists strategy_results (
   id uuid primary key default gen_random_uuid(),
-  estrategia text not null check (estrategia in ('swing','daily','tesla')),
+  estrategia text not null check (estrategia in ('swing','daily','tesla','btc')),
   fecha date not null,
   resultado text not null check (resultado in ('win','loss')),
   porcentaje numeric not null,
