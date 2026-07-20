@@ -349,6 +349,10 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
           Calculadora
         </a>
+        <a href="admin.html" id="admin-panel-link" class="sidebar-link" style="display:none;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+          Panel Admin
+        </a>
       </div>
     </aside>
 
@@ -705,6 +709,9 @@
       document.getElementById('prof-name-input').value = name;
       document.getElementById('prof-email').textContent = currentUser.email;
       document.getElementById('prof-since').textContent = new Date(currentUser.created_at).toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'});
+      if (currentUser.email === 'johantrading2021@gmail.com') {
+        document.getElementById('admin-panel-link').style.display = 'flex';
+      }
       await loadTrades();
       await loadSimulations();
       document.getElementById('loading-screen').style.display = 'none';
