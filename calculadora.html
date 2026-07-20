@@ -619,10 +619,25 @@ function selectStrategy(id, el) {
 }
 
 /* ─── LOAD ─── */
+async function fetchAllStrategyRows(strategy) {
+  let all = [];
+  let from = 0;
+  const pageSize = 1000;
+  while (true) {
+    const { data: page, error } = await sb.from('strategy_results')
+      .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha')
+      .range(from, from + pageSize - 1);
+    if (error) return { data: null, error };
+    all = all.concat(page);
+    if (page.length < pageSize) break;
+    from += pageSize;
+  }
+  return { data: all, error: null };
+}
+
 async function loadData(strategy) {
   if (cache[strategy]) return cache[strategy];
-  const { data: rows, error } = await sb.from('strategy_results')
-    .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha').range(0, 9999);
+  const { data: rows, error } = await fetchAllStrategyRows(strategy);
   if (error) throw new Error('No se pudieron cargar los datos: ' + error.message);
   if (!rows || !rows.length) throw new Error('No hay datos disponibles para esta estrategia todavía.');
   const json = {
