@@ -157,6 +157,14 @@
       </div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">
+        <span class="sidebar-label">Estadísticas</span>
+        <button class="sidebar-link" onclick="showView('stats',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          Cargar resultados
+        </button>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
         <span class="sidebar-label">Ver sitio</span>
         <a href="trades.html" class="sidebar-link" target="_blank">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
@@ -306,6 +314,93 @@
         </div>
       </div>
 
+      <!-- ESTADÍSTICAS -->
+      <div class="view" id="view-stats">
+        <div class="page-head">
+          <div class="page-eyebrow">Panel de administración</div>
+          <div class="page-title">Cargar resultados de estrategia</div>
+          <div class="page-sub">Estos datos alimentan estadísticas.html, la calculadora y el home — no hace falta tocar código ni desplegar nada</div>
+        </div>
+
+        <!-- CARGA DE UN DÍA -->
+        <div class="form-card">
+          <div class="form-card-head"><span class="form-card-title">Cargar un día</span></div>
+          <div class="form-card-body">
+            <div class="form-grid">
+              <div class="field">
+                <label>Estrategia</label>
+                <select id="s-estrategia">
+                  <option value="swing">XAUUSD Swing</option>
+                  <option value="daily">XAUUSD Daily</option>
+                  <option value="tesla">TESLA</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Fecha</label>
+                <input type="date" id="s-fecha"/>
+              </div>
+              <div class="field">
+                <label>Resultado</label>
+                <div class="result-toggle">
+                  <button type="button" class="result-btn win active" id="s-btn-win" onclick="setStatsResult('win')">✓ WIN</button>
+                  <button type="button" class="result-btn loss" id="s-btn-loss" onclick="setStatsResult('loss')">✗ LOSS</button>
+                </div>
+                <input type="hidden" id="s-resultado" value="win"/>
+              </div>
+              <div class="field">
+                <label>Riesgo del trade (%)</label>
+                <input type="number" id="s-porcentaje" step="0.1" value="1"/>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-publish" id="s-btn-submit" onclick="submitStatsDay()">Guardar día →</button>
+              <span class="publish-msg" id="s-msg" style="display:none"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARGA MASIVA JSON -->
+        <div class="form-card">
+          <div class="form-card-head"><span class="form-card-title">Carga masiva por JSON</span></div>
+          <div class="form-card-body">
+            <div class="form-grid">
+              <div class="field">
+                <label>Estrategia</label>
+                <select id="sb-estrategia">
+                  <option value="swing">XAUUSD Swing</option>
+                  <option value="daily">XAUUSD Daily</option>
+                  <option value="tesla">TESLA</option>
+                </select>
+              </div>
+              <div class="field form-full">
+                <label>Pegá el JSON acá (acepta [{"fecha":"2026-01-01","resultado":"win"}] o {"days":[{"date":"2026-01-01","result":10}]})</label>
+                <textarea id="sb-json" placeholder='[{"fecha":"2026-07-01","resultado":"win"}, {"fecha":"2026-07-02","resultado":"loss"}]' rows="6"></textarea>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-publish" id="sb-btn-submit" onclick="submitStatsBulk()">Importar →</button>
+              <span class="publish-msg" id="sb-msg" style="display:none"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HISTORIAL RECIENTE -->
+        <div class="form-card">
+          <div class="form-card-head">
+            <span class="form-card-title">Últimos resultados cargados</span>
+            <select id="sl-estrategia" onchange="loadStatsRecent()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.4rem .7rem;color:#fff;font-size:.78rem;font-family:'Inter',sans-serif">
+              <option value="swing">XAUUSD Swing</option>
+              <option value="daily">XAUUSD Daily</option>
+              <option value="tesla">TESLA</option>
+            </select>
+          </div>
+          <div class="trades-table-head" style="grid-template-columns:120px 100px 1fr 90px">
+            <span>Fecha</span><span>Resultado</span><span></span><span>Acciones</span>
+          </div>
+          <div id="stats-list-admin"></div>
+        </div>
+      </div>
+
     </main>
   </div>
 
@@ -433,6 +528,132 @@
       document.getElementById('view-' + name).classList.add('active');
       btn.classList.add('active');
       if (name === 'lista') loadTrades();
+      if (name === 'stats') {
+        if (!document.getElementById('s-fecha').value) document.getElementById('s-fecha').value = new Date().toISOString().split('T')[0];
+        loadStatsRecent();
+      }
+    }
+
+    /* ── ESTADÍSTICAS (strategy_results) ── */
+    function setStatsResult(val) {
+      document.getElementById('s-resultado').value = val;
+      document.getElementById('s-btn-win').classList.toggle('active', val==='win');
+      document.getElementById('s-btn-loss').classList.toggle('active', val==='loss');
+    }
+
+    async function submitStatsDay() {
+      const btn = document.getElementById('s-btn-submit');
+      const msg = document.getElementById('s-msg');
+      const estrategia = document.getElementById('s-estrategia').value;
+      const fecha = document.getElementById('s-fecha').value;
+      const resultado = document.getElementById('s-resultado').value;
+      const riesgo = parseFloat(document.getElementById('s-porcentaje').value) || 1;
+      if (!fecha) { alert('Elegí una fecha.'); return; }
+
+      btn.disabled = true; btn.textContent = 'Guardando...';
+      const porcentaje = resultado === 'win' ? Math.abs(riesgo) : -Math.abs(riesgo);
+      const { error } = await sb.from('strategy_results')
+        .upsert({ estrategia, fecha, resultado, porcentaje }, { onConflict: 'estrategia,fecha' });
+
+      msg.style.display = 'inline';
+      if (error) {
+        msg.textContent = 'Error: ' + error.message;
+        msg.className = 'publish-msg err';
+      } else {
+        msg.textContent = '¡Guardado! Ya se refleja en estadísticas y calculadora.';
+        msg.className = 'publish-msg ok';
+        setTimeout(() => msg.style.display = 'none', 4000);
+        if (document.getElementById('sl-estrategia').value === estrategia) loadStatsRecent();
+      }
+      btn.disabled = false; btn.textContent = 'Guardar día →';
+    }
+
+    function parseStatsBulkInput(raw) {
+      const parsed = JSON.parse(raw);
+      const rows = [];
+      const list = Array.isArray(parsed) ? parsed : (parsed.days || parsed.trades || []);
+      for (const item of list) {
+        const fecha = item.fecha || item.date;
+        if (!fecha) continue;
+        let resultado, porcentaje;
+        if (typeof item.resultado === 'string') {
+          resultado = item.resultado;
+          porcentaje = item.porcentaje !== undefined ? item.porcentaje : (resultado === 'win' ? 1 : -1);
+        } else if (typeof item.result === 'number') {
+          resultado = item.result > 0 ? 'win' : 'loss';
+          porcentaje = item.result / 10; // TODO: ajustar si tu formato usa otra escala de riesgo por trade
+        } else if (item.result === null || item.result === undefined) {
+          continue;
+        } else {
+          resultado = item.result;
+          porcentaje = resultado === 'win' ? 1 : -1;
+        }
+        rows.push({ fecha, resultado, porcentaje });
+      }
+      return rows;
+    }
+
+    async function submitStatsBulk() {
+      const btn = document.getElementById('sb-btn-submit');
+      const msg = document.getElementById('sb-msg');
+      const estrategia = document.getElementById('sb-estrategia').value;
+      msg.style.display = 'inline';
+
+      let rows;
+      try {
+        rows = parseStatsBulkInput(document.getElementById('sb-json').value);
+      } catch (e) {
+        msg.textContent = 'El JSON no es válido: ' + e.message;
+        msg.className = 'publish-msg err';
+        return;
+      }
+      if (!rows.length) {
+        msg.textContent = 'No encontré resultados para importar en ese JSON.';
+        msg.className = 'publish-msg err';
+        return;
+      }
+
+      btn.disabled = true; btn.textContent = 'Importando...';
+      const payload = rows.map(r => ({ estrategia, fecha: r.fecha, resultado: r.resultado, porcentaje: r.porcentaje }));
+      const { error } = await sb.from('strategy_results').upsert(payload, { onConflict: 'estrategia,fecha' });
+
+      if (error) {
+        msg.textContent = 'Error: ' + error.message;
+        msg.className = 'publish-msg err';
+      } else {
+        msg.textContent = `¡Listo! Se importaron ${rows.length} días.`;
+        msg.className = 'publish-msg ok';
+        document.getElementById('sb-json').value = '';
+        setTimeout(() => msg.style.display = 'none', 5000);
+        if (document.getElementById('sl-estrategia').value === estrategia) loadStatsRecent();
+      }
+      btn.disabled = false; btn.textContent = 'Importar →';
+    }
+
+    async function loadStatsRecent() {
+      const estrategia = document.getElementById('sl-estrategia').value;
+      const list = document.getElementById('stats-list-admin');
+      const { data, error } = await sb.from('strategy_results')
+        .select('*').eq('estrategia', estrategia).order('fecha', { ascending: false }).limit(20);
+      if (error || !data?.length) {
+        list.innerHTML = '<div style="padding:2rem 1.2rem;font-size:.82rem;color:rgba(255,255,255,.25)">No hay resultados cargados para esta estrategia todavía.</div>';
+        return;
+      }
+      list.innerHTML = data.map(r => `
+        <div class="trade-row" style="grid-template-columns:120px 100px 1fr 90px">
+          <span class="trade-date">${new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'2-digit'})}</span>
+          <span><span class="badge ${r.resultado==='win'?'b-win':'b-loss'}">${r.resultado.toUpperCase()}</span></span>
+          <span class="trade-title-cell">${r.porcentaje > 0 ? '+' : ''}${r.porcentaje}%</span>
+          <div class="row-actions">
+            <button class="btn-icon danger" onclick="deleteStatsRow('${r.id}')" title="Eliminar">✕</button>
+          </div>
+        </div>`).join('');
+    }
+
+    async function deleteStatsRow(id) {
+      if (!confirm('¿Eliminar este resultado?')) return;
+      await sb.from('strategy_results').delete().eq('id', id);
+      loadStatsRecent();
     }
 
     async function logout() { await sb.auth.signOut(); location.href = 'index.html'; }

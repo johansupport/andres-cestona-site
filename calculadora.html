@@ -380,6 +380,7 @@
     nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
     nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 
@@ -587,6 +588,12 @@ let selectedStrategy = 'swing';
 let lastResult = null;
 const cache = {};
 
+const sb = supabase.createClient(
+  'https://uhjxybyzpqksyysifatn.supabase.co',
+  'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP'
+);
+const STRATEGY_NAMES = { swing: 'XAUUSD Swing', daily: 'XAUUSD Daily', tesla: 'TESLA' };
+
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('startDate').value = '2024-01-01';
@@ -614,11 +621,14 @@ function selectStrategy(id, el) {
 /* ─── LOAD ─── */
 async function loadData(strategy) {
   if (cache[strategy]) return cache[strategy];
-  const urls = { daily: './data/xauusd-daily.json', swing: './data/xauusd-swing.json', tesla: './data/tesla-daily.json' };
-  const url = urls[strategy] || urls.swing;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error('No se pudo cargar el archivo de datos. Verifica que el servidor esté activo.');
-  const json = await res.json();
+  const { data: rows, error } = await sb.from('strategy_results')
+    .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha');
+  if (error) throw new Error('No se pudieron cargar los datos: ' + error.message);
+  if (!rows || !rows.length) throw new Error('No hay datos disponibles para esta estrategia todavía.');
+  const json = {
+    estrategia: STRATEGY_NAMES[strategy] || strategy,
+    trades: rows,
+  };
   cache[strategy] = json;
   return json;
 }
