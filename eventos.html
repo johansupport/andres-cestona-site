@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --navy: #07091a; --navy2: #0c0f26; --navy3: #111535; --blue: #2563eb; --blue-mid: #3b82f6; --blue-soft: #93c5fd; --white: #ffffff; --off-white: #f0f4ff; --gray-100: #e2e8f4; --gray-400: #8892aa; --gray-600: #4b5775; }
+    :root { --navy: #05070f; --navy2: #0d0f1a; --navy3: #111116; --blue: #c9a84c; --blue-mid: #c9a84c; --blue-soft: #e8c97a; --white: #ffffff; --off-white: #f8f9fb; --gray-100: #e8ecf4; --gray-400: #8892aa; --gray-600: #4b5775; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--navy); overflow-x: hidden; }
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -25,38 +25,69 @@
     .nav-estudiante:hover { background: #1d4ed8; }
 
     .page-hero { background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 55%, #0e1440 100%); padding: 8rem 4% 5rem; text-align: center; position: relative; overflow: hidden; }
-    .page-hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 65%); pointer-events: none; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; }
+    .page-hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.16) 0%, transparent 65%); pointer-events: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.3); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; }
     .eyebrow::before { content: '●'; color: var(--blue-mid); font-size: 0.45rem; }
     .eyebrow span { font-size: 0.72rem; font-weight: 600; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.2px; }
     .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 1rem; }
     .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.6); max-width: 540px; margin: 0 auto; line-height: 1.75; }
 
-    .events-section { padding: 5rem 4%; }
-    .events-inner { max-width: 1000px; margin: 0 auto; }
+    .events-section { padding: 5rem 4%; background: var(--off-white); }
+    .events-inner { max-width: 1100px; margin: 0 auto; }
     .section-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--navy); margin-bottom: 0.5rem; }
     .section-sub { color: var(--gray-600); font-size: 0.95rem; margin-bottom: 3rem; }
+
+    /* ── CALENDAR WIDGET ── */
+    .cal-widget { background: #080808; border-radius: 24px; padding: 2rem 2.2rem 2.2rem; margin-bottom: 3.5rem; box-shadow: 0 30px 80px rgba(0,0,0,.25); position: relative; overflow: hidden; }
+    .cal-widget::before { content:''; position:absolute; top:-30%; right:-10%; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle, rgba(201,168,76,.14) 0%, transparent 70%); pointer-events:none; }
+    .cal-grid-wrap { display: grid; grid-template-columns: 1.15fr 1fr; gap: 2.5rem; position: relative; z-index: 1; }
+    .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.4rem; }
+    .cal-month-label { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: #fff; text-transform: capitalize; }
+    .cal-nav { display: flex; gap: .5rem; }
+    .cal-nav-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color: rgba(255,255,255,.7); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: .85rem; transition: all .15s; }
+    .cal-nav-btn:hover { background: rgba(201,168,76,.15); border-color: rgba(201,168,76,.35); color: var(--blue-soft); }
+    .cal-weekdays { display: grid; grid-template-columns: repeat(7,1fr); margin-bottom: .4rem; }
+    .cal-weekdays span { text-align: center; font-size: .62rem; font-weight: 700; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: 1px; padding-bottom: .5rem; }
+    .cal-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; }
+    .cal-day { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 10px; font-size: .8rem; color: rgba(255,255,255,.55); position: relative; cursor: default; transition: background .15s; }
+    .cal-day.empty { visibility: hidden; }
+    .cal-day.today { background: rgba(255,255,255,.06); color: #fff; font-weight: 700; box-shadow: inset 0 0 0 1px rgba(255,255,255,.15); }
+    .cal-day.has-event { color: #fff; font-weight: 700; cursor: pointer; }
+    .cal-day.has-event:hover { background: rgba(201,168,76,.14); }
+    .cal-day.has-event .cal-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blue); margin-top: 3px; }
+    .cal-day.active-day { background: var(--blue); color: #05070f; }
+    .cal-day.active-day .cal-dot { background: #05070f; }
+    .cal-next-box { border-left: 1px solid rgba(255,255,255,.08); padding-left: 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .cal-next-label { font-size: .68rem; font-weight: 700; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: .8rem; }
+    .cal-next-date { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; color: #fff; margin-bottom: .3rem; }
+    .cal-next-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: .5rem; }
+    .cal-next-loc { font-size: .8rem; color: rgba(255,255,255,.45); margin-bottom: 1.3rem; }
+    .cal-next-cta { background: var(--blue); color: #05070f; padding: .65rem 1.4rem; border-radius: 8px; font-weight: 800; font-size: .82rem; text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; width: fit-content; transition: background .2s, transform .2s; }
+    .cal-next-cta:hover { background: var(--blue-soft); transform: translateY(-2px); }
+
     .events-list { display: flex; flex-direction: column; gap: 1.5rem; }
-    .event-card { border: 1px solid var(--gray-100); border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 160px 1fr; transition: all 0.25s; }
-    .event-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(37,99,235,0.1); border-color: rgba(37,99,235,0.2); }
+    .event-card { background: #fff; border: 1px solid var(--gray-100); border-radius: 20px; overflow: hidden; display: grid; grid-template-columns: 160px 1fr; transition: all 0.25s; scroll-margin-top: 100px; }
+    .event-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(201,168,76,0.12); border-color: rgba(201,168,76,0.3); }
+    .event-card.flash { animation: eventFlash 1.4s ease; }
+    @keyframes eventFlash { 0%, 100% { box-shadow: none; border-color: var(--gray-100); } 20%, 60% { box-shadow: 0 0 0 3px rgba(201,168,76,.35); border-color: rgba(201,168,76,.5); } }
     .event-date-box { background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1rem; text-align: center; }
     .event-month { font-size: 0.72rem; font-weight: 700; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 2px; }
     .event-day { font-size: 3rem; font-weight: 900; color: var(--white); line-height: 1; }
     .event-year { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 0.2rem; }
     .event-body { padding: 1.8rem 2rem; }
-    .event-location { font-size: 0.72rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
+    .event-location { font-size: 0.72rem; font-weight: 700; color: #b8933e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
     .event-title { font-size: 1.2rem; font-weight: 800; color: var(--navy); margin-bottom: 0.5rem; }
     .event-desc { font-size: 0.88rem; color: var(--gray-600); line-height: 1.65; margin-bottom: 1.2rem; }
     .event-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
     .event-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .event-tag { font-size: 0.72rem; background: var(--off-white); color: var(--gray-600); padding: 0.25rem 0.7rem; border-radius: 100px; font-weight: 600; }
     .event-spots { font-size: 0.78rem; color: #dc2626; font-weight: 700; }
-    .btn-event { background: var(--blue); color: var(--white); padding: 0.55rem 1.3rem; border-radius: 8px; font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
-    .btn-event:hover { background: #1d4ed8; }
+    .btn-event { background: var(--blue); color: #05070f; padding: 0.55rem 1.3rem; border-radius: 8px; font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: background 0.15s; white-space: nowrap; }
+    .btn-event:hover { background: #b8933e; }
 
     footer { background: var(--navy); color: rgba(255,255,255,0.45); text-align: center; padding: 2.5rem 4%; font-size: 0.82rem; }
     footer strong { color: rgba(255,255,255,0.85); }
-    @media (max-width: 640px) { .nav-links { display: none; } .event-card { grid-template-columns: 1fr; } .event-date-box { padding: 1rem; flex-direction: row; gap: 0.5rem; justify-content: flex-start; } }
+    @media (max-width: 640px) { .nav-links { display: none; } .event-card { grid-template-columns: 1fr; } .event-date-box { padding: 1rem; flex-direction: row; gap: 0.5rem; justify-content: flex-start; } .cal-grid-wrap { grid-template-columns: 1fr; } .cal-next-box { border-left: none; border-top: 1px solid rgba(255,255,255,.08); padding-left: 0; padding-top: 1.5rem; } }
 
     /* ── NAV ── */
     nav {
@@ -269,19 +300,39 @@
 
   <section class="events-section">
     <div class="events-inner">
+
+      <div class="cal-widget">
+        <div class="cal-grid-wrap">
+          <div>
+            <div class="cal-head">
+              <div class="cal-month-label" id="cal-month-label"></div>
+              <div class="cal-nav">
+                <button class="cal-nav-btn" id="cal-prev" aria-label="Mes anterior">‹</button>
+                <button class="cal-nav-btn" id="cal-next" aria-label="Mes siguiente">›</button>
+              </div>
+            </div>
+            <div class="cal-weekdays"><span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+            <div class="cal-days" id="cal-days"></div>
+          </div>
+          <div class="cal-next-box" id="cal-next-box">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
+
       <h2 class="section-title">Próximos eventos</h2>
       <p class="section-sub">Plazas limitadas. Reserva la tuya antes de que se agoten.</p>
-      <div class="events-list">
+      <div class="events-list" id="events-list">
 
-        <div class="event-card">
+        <div class="event-card" id="evt-1" data-date="2026-08-14">
           <div class="event-date-box">
-            <div class="event-month">Jul</div>
-            <div class="event-day">19</div>
-            <div class="event-year">2025</div>
+            <div class="event-month">Ago</div>
+            <div class="event-day">14</div>
+            <div class="event-year">2026</div>
           </div>
           <div class="event-body">
             <div class="event-location">📍 Madrid, España</div>
-            <div class="event-title">Cumbre de Inversores 2025</div>
+            <div class="event-title">Cumbre de Inversores 2026</div>
             <div class="event-desc">El evento más grande del año. Un día completo de conferencias, talleres prácticos y networking con inversores de toda Latinoamérica y España. Andrés presentará en exclusiva su estrategia para el segundo semestre.</div>
             <div class="event-footer">
               <div class="event-tags"><span class="event-tag">Conferencia</span><span class="event-tag">Todo el día</span><span class="event-tag">500 asistentes</span></div>
@@ -290,11 +341,11 @@
           </div>
         </div>
 
-        <div class="event-card">
+        <div class="event-card" id="evt-2" data-date="2026-09-05">
           <div class="event-date-box">
-            <div class="event-month">Ago</div>
-            <div class="event-day">09</div>
-            <div class="event-year">2025</div>
+            <div class="event-month">Sep</div>
+            <div class="event-day">05</div>
+            <div class="event-year">2026</div>
           </div>
           <div class="event-body">
             <div class="event-location">📍 Ciudad de México, México</div>
@@ -307,16 +358,16 @@
           </div>
         </div>
 
-        <div class="event-card">
+        <div class="event-card" id="evt-3" data-date="2026-10-03">
           <div class="event-date-box">
-            <div class="event-month">Sep</div>
-            <div class="event-day">27</div>
-            <div class="event-year">2025</div>
+            <div class="event-month">Oct</div>
+            <div class="event-day">03</div>
+            <div class="event-year">2026</div>
           </div>
           <div class="event-body">
             <div class="event-location">📍 Buenos Aires, Argentina</div>
             <div class="event-title">Noche de inversores: networking & análisis</div>
-            <div class="event-desc">Evento vespertino de 4 horas. Análisis de mercados en directo, presentación de estrategias para el Q4 2025 y sesión de networking informal. Incluye cena.</div>
+            <div class="event-desc">Evento vespertino de 4 horas. Análisis de mercados en directo, presentación de estrategias para el Q4 2026 y sesión de networking informal. Incluye cena.</div>
             <div class="event-footer">
               <div class="event-tags"><span class="event-tag">Networking</span><span class="event-tag">4 horas</span><span class="event-tag">Cena incluida</span></div>
               <div style="display:flex;align-items:center;gap:1rem;"><span class="event-spots">⚡ 25 plazas disponibles</span><a href="#" class="btn-event">Reservar →</a></div>
@@ -364,6 +415,108 @@
         }, 80);
       });
     });
+
+    // ── CALENDAR WIDGET ──
+    (function() {
+      const MONTHS_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      const EVENTS = Array.from(document.querySelectorAll('.event-card[data-date]')).map(card => {
+        const [y, m, d] = card.dataset.date.split('-').map(Number);
+        return {
+          id: card.id,
+          date: new Date(y, m - 1, d),
+          title: card.querySelector('.event-title').textContent,
+          location: card.querySelector('.event-location').textContent,
+        };
+      }).sort((a, b) => a.date - b.date);
+
+      const upcoming = EVENTS.filter(e => e.date >= today);
+      const firstView = (upcoming[0] || EVENTS[EVENTS.length - 1] || { date: today }).date;
+      let viewYear = firstView.getFullYear();
+      let viewMonth = firstView.getMonth();
+
+      const labelEl = document.getElementById('cal-month-label');
+      const daysEl = document.getElementById('cal-days');
+      const nextBoxEl = document.getElementById('cal-next-box');
+
+      function sameDay(a, b) {
+        return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+      }
+
+      function goToEvent(evt) {
+        viewYear = evt.date.getFullYear();
+        viewMonth = evt.date.getMonth();
+        render();
+        const card = document.getElementById(evt.id);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          card.classList.remove('flash');
+          void card.offsetWidth;
+          card.classList.add('flash');
+        }
+      }
+
+      function render() {
+        labelEl.textContent = MONTHS_ES[viewMonth] + ' ' + viewYear;
+        daysEl.innerHTML = '';
+
+        const firstOfMonth = new Date(viewYear, viewMonth, 1);
+        const offset = (firstOfMonth.getDay() + 6) % 7; // Monday-first
+        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+        for (let i = 0; i < offset; i++) {
+          const cell = document.createElement('div');
+          cell.className = 'cal-day empty';
+          daysEl.appendChild(cell);
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+          const cellDate = new Date(viewYear, viewMonth, d);
+          const cell = document.createElement('div');
+          cell.className = 'cal-day';
+          const matchedEvent = EVENTS.find(e => sameDay(e.date, cellDate));
+          if (sameDay(cellDate, today)) cell.classList.add('today');
+          if (matchedEvent) {
+            cell.classList.add('has-event');
+            cell.title = matchedEvent.title;
+            cell.addEventListener('click', () => goToEvent(matchedEvent));
+          }
+          cell.innerHTML = '<span>' + d + '</span>' + (matchedEvent ? '<span class="cal-dot"></span>' : '');
+          daysEl.appendChild(cell);
+        }
+
+        const next = upcoming[0];
+        if (next) {
+          nextBoxEl.innerHTML =
+            '<div class="cal-next-label">Próximo evento</div>' +
+            '<div class="cal-next-date">' + next.date.getDate() + ' de ' + MONTHS_ES[next.date.getMonth()] + '</div>' +
+            '<div class="cal-next-title">' + next.title + '</div>' +
+            '<div class="cal-next-loc">' + next.location + '</div>' +
+            '<a href="#' + next.id + '" class="cal-next-cta">Ver detalles →</a>';
+          nextBoxEl.querySelector('.cal-next-cta').addEventListener('click', (e) => {
+            e.preventDefault();
+            goToEvent(next);
+          });
+        } else {
+          nextBoxEl.innerHTML = '<div class="cal-next-label">Sin eventos próximos</div><div class="cal-next-loc">Muy pronto anunciaremos nuevas fechas.</div>';
+        }
+      }
+
+      document.getElementById('cal-prev').addEventListener('click', () => {
+        viewMonth--;
+        if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+        render();
+      });
+      document.getElementById('cal-next').addEventListener('click', () => {
+        viewMonth++;
+        if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+        render();
+      });
+
+      render();
+    })();
   </script>
 </body>
 </html>
