@@ -231,11 +231,8 @@
     .strategy-pill-sub { font-size:.7rem; color:rgba(255,255,255,.4); margin-top:.15rem; }
     .strategy-pill.active .strategy-pill-sub { color:rgba(0,0,0,.5); }
     .markets-link { color:rgba(255,255,255,.7); text-decoration:none; font-size:.82rem; font-weight:600; border-bottom:1px solid rgba(255,255,255,.15); padding-bottom:2px; transition:border-color .2s, color .2s; white-space:nowrap; margin-top:.9rem; }
-    .strategy-soon-row { display:flex; justify-content:center; margin-top:.9rem; }
-    .strategy-pill-soon { display:inline-flex; align-items:center; gap:.7rem; background:rgba(255,255,255,.025); border:1px dashed rgba(255,255,255,.15); border-radius:14px; padding:.7rem 1.3rem; cursor:not-allowed; }
-    .strategy-pill-soon .strategy-pill-icon { width:20px; height:20px; display:flex; align-items:center; justify-content:center; color:#f7931a; font-size:.9rem; font-weight:800; }
-    .strategy-pill-soon .strategy-pill-title { font-size:.85rem; font-weight:700; color:rgba(255,255,255,.55); }
-    .soon-tag { font-size:.62rem; font-weight:800; color:var(--gold); background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.3); padding:.2rem .55rem; border-radius:100px; text-transform:uppercase; letter-spacing:.6px; }
+    .strategy-pill-icon { font-size:1rem; font-weight:800; }
+    .soon-tag { font-size:.58rem; font-weight:800; color:var(--gold); background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.3); padding:.18rem .5rem; border-radius:100px; text-transform:uppercase; letter-spacing:.5px; margin-left:.5rem; vertical-align:middle; }
     .markets-link:hover { color:var(--gold); border-color:var(--gold); }
     .markets-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:3rem; }
     .mkt-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:2rem; transition:box-shadow .3s, transform .3s, border-color .3s; }
@@ -717,13 +714,13 @@
               <span class="strategy-pill-sub">Estrategia activa · datos reales</span>
             </span>
           </button>
-        </div>
-        <div class="strategy-soon-row">
-          <div class="strategy-pill-soon" title="Próximamente">
-            <span class="strategy-pill-icon">₿</span>
-            <span class="strategy-pill-title">BTC</span>
-            <span class="soon-tag">Próximamente</span>
-          </div>
+          <button class="strategy-pill disabled" id="pill-btc" title="Próximamente" disabled>
+            <span class="strategy-pill-icon" style="color:#f7931a">₿</span>
+            <span class="strategy-pill-text">
+              <span class="strategy-pill-title">BTC <span class="soon-tag">Próximamente</span></span>
+              <span class="strategy-pill-sub">Estrategia en preparación</span>
+            </span>
+          </button>
         </div>
       </div>
       <div class="markets-grid" id="markets-grid">
