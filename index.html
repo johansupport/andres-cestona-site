@@ -231,6 +231,11 @@
     .strategy-pill-sub { font-size:.7rem; color:rgba(255,255,255,.4); margin-top:.15rem; }
     .strategy-pill.active .strategy-pill-sub { color:rgba(0,0,0,.5); }
     .markets-link { color:rgba(255,255,255,.7); text-decoration:none; font-size:.82rem; font-weight:600; border-bottom:1px solid rgba(255,255,255,.15); padding-bottom:2px; transition:border-color .2s, color .2s; white-space:nowrap; margin-top:.9rem; }
+    .strategy-soon-row { display:flex; justify-content:center; margin-top:.9rem; }
+    .strategy-pill-soon { display:inline-flex; align-items:center; gap:.7rem; background:rgba(255,255,255,.025); border:1px dashed rgba(255,255,255,.15); border-radius:14px; padding:.7rem 1.3rem; cursor:not-allowed; }
+    .strategy-pill-soon .strategy-pill-icon { width:20px; height:20px; display:flex; align-items:center; justify-content:center; color:#f7931a; font-size:.9rem; font-weight:800; }
+    .strategy-pill-soon .strategy-pill-title { font-size:.85rem; font-weight:700; color:rgba(255,255,255,.55); }
+    .soon-tag { font-size:.62rem; font-weight:800; color:var(--gold); background:rgba(201,168,76,.12); border:1px solid rgba(201,168,76,.3); padding:.2rem .55rem; border-radius:100px; text-transform:uppercase; letter-spacing:.6px; }
     .markets-link:hover { color:var(--gold); border-color:var(--gold); }
     .markets-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-bottom:3rem; }
     .mkt-card { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:2rem; transition:box-shadow .3s, transform .3s, border-color .3s; }
@@ -693,7 +698,7 @@
       <div class="markets-top reveal">
         <div class="section-tag"><span>Markets by Andrés</span></div>
         <h2 class="section-h2">Elige tu <em>estrategia</em></h2>
-        <p class="section-lead">Operativa activa sobre XAU/USD. Cada decisión documentada, cada resultado verificado.</p>
+        <p class="section-lead" id="markets-lead">Operativa activa sobre XAU/USD. Cada decisión documentada, cada resultado verificado.</p>
         <a href="estadisticas.html" class="markets-link">Ver historial completo →</a>
       </div>
       <div class="strategy-selector-wrap reveal">
@@ -712,6 +717,13 @@
               <span class="strategy-pill-sub">Estrategia activa · datos reales</span>
             </span>
           </button>
+        </div>
+        <div class="strategy-soon-row">
+          <div class="strategy-pill-soon" title="Próximamente">
+            <span class="strategy-pill-icon">₿</span>
+            <span class="strategy-pill-title">BTC</span>
+            <span class="soon-tag">Próximamente</span>
+          </div>
         </div>
       </div>
       <div class="markets-grid" id="markets-grid">
@@ -1073,6 +1085,7 @@
           <div class="mkt-card-desc">Capital inicial de $1,000 convertido en $5,178 en 5 años. Resultados auditables con la calculadora pública.</div>
           <div class="mkt-card-meta"><div><div class="mkt-stat">$5,178</div><div class="mkt-stat-lbl">Balance final verificado</div></div><a href="calculadora.html" class="mkt-arrow">→</a></div>
         </div>`,
+        lead: 'Operativa activa sobre XAU/USD. Cada decisión documentada, cada resultado verificado.',
         ticker: `
           <div><div class="tick-lbl">2021</div><div class="tick-val pos">+74.4%</div></div>
           <div><div class="tick-lbl">2022</div><div class="tick-val pos">+76.4%</div></div>
@@ -1102,6 +1115,7 @@
           <div class="mkt-card-desc">Capital inicial de $1,000 convertido en $2,220 en 16 meses. Resultados auditables con la calculadora pública.</div>
           <div class="mkt-card-meta"><div><div class="mkt-stat">$2,220</div><div class="mkt-stat-lbl">Balance final verificado</div></div><a href="calculadora.html" class="mkt-arrow">→</a></div>
         </div>`,
+        lead: 'Operativa activa sobre TESLA (TSLA). Cada decisión documentada, cada resultado verificado.',
         ticker: `
           <div><div class="tick-lbl">2025</div><div class="tick-val pos">+59.0%</div></div>
           <div><div class="tick-lbl">2026 YTD</div><div class="tick-val pos">+63.0%</div></div>
@@ -1115,6 +1129,7 @@
       const d = HOME_STRATEGY_DATA[key];
       document.getElementById('markets-grid').innerHTML = d.grid;
       document.getElementById('mkt-ticker').innerHTML = d.ticker;
+      document.getElementById('markets-lead').textContent = d.lead;
     }
 
     /* ── LIVE STRATEGY DATA (Supabase) ── */
