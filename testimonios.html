@@ -65,10 +65,18 @@
     .testi-result { display: inline-flex; align-items: center; gap: 0.4rem; background: #dcfce7; color: #15803d; padding: 0.25rem 0.75rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
 
     /* VIDEO TESTIMONIALS */
-    .video-section { padding: 5rem 0 6rem; background: #080808; overflow: hidden; }
+    .video-section { padding: 6rem 0 6rem; background: #080808; overflow: hidden; }
     .video-inner { max-width: 1100px; margin: 0 auto; padding: 0 4%; }
-    .video-section .section-title { color: #fff; }
-    .video-section .section-sub { color: rgba(255,255,255,.45); }
+    .vtesti-hero { text-align: center; max-width: 760px; margin: 0 auto; }
+    .vtesti-hero-tag { font-size: .74rem; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.1rem; }
+    .vtesti-hero-title { font-family: 'Inter', sans-serif; font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 900; color: #fff; line-height: 1.2; letter-spacing: -.5px; margin-bottom: 2.5rem; }
+    .vtesti-hero-stats { display: flex; justify-content: center; flex-wrap: wrap; }
+    .vtesti-hero-stat { padding: 0 2.4rem; position: relative; }
+    .vtesti-hero-stat + .vtesti-hero-stat::before { content: ''; position: absolute; left: 0; top: 8%; bottom: 8%; width: 1px; background: rgba(255,255,255,.15); }
+    .vtesti-hero-num { font-size: 2rem; font-weight: 900; color: #fff; line-height: 1; }
+    .vtesti-hero-num span { color: var(--blue); }
+    .vtesti-hero-lbl { font-size: .76rem; color: rgba(255,255,255,.45); margin-top: .5rem; }
+    @media (max-width: 640px) { .vtesti-hero-stat { padding: 0 1.2rem; } .vtesti-hero-stat + .vtesti-hero-stat::before { display: none; } .vtesti-hero-stats { gap: 1.2rem 0; } }
     .vtesti-track-wrapper { overflow: hidden; mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent); margin-top: 2.5rem; }
     .vtesti-track { display: flex; gap: 1.2rem; width: max-content; animation: scrollVtesti 36s linear infinite; padding: 0 4%; }
     .vtesti-track:hover { animation-play-state: paused; }
@@ -377,8 +385,15 @@
 
   <section class="video-section">
     <div class="video-inner">
-      <h2 class="section-title">Testimonios en video</h2>
-      <p class="section-sub">Escúchalos directamente de ellos.</p>
+      <div class="vtesti-hero">
+        <div class="vtesti-hero-tag">Comunidad</div>
+        <h2 class="vtesti-hero-title">Miles de traders confían en la comunidad</h2>
+        <div class="vtesti-hero-stats">
+          <div class="vtesti-hero-stat"><div class="vtesti-hero-num">5,000<span>+</span></div><div class="vtesti-hero-lbl">Alumnos en la comunidad</div></div>
+          <div class="vtesti-hero-stat"><div class="vtesti-hero-num">4.9<span>★</span></div><div class="vtesti-hero-lbl">Valoración media</div></div>
+          <div class="vtesti-hero-stat"><div class="vtesti-hero-num">6</div><div class="vtesti-hero-lbl">Países representados</div></div>
+        </div>
+      </div>
     </div>
     <div class="vtesti-track-wrapper">
       <div class="vtesti-track">
