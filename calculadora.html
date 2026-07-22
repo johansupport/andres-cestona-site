@@ -381,6 +381,25 @@
     nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
     nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
     nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
+
+    .nav-lang { position: relative; }
+    .nav-lang-btn { display: flex; align-items: center; gap: .35rem; background: none; border: none; color: rgba(255,255,255,.8); font-family: 'Inter', sans-serif; font-size: .82rem; font-weight: 600; cursor: pointer; padding: .4rem .55rem; border-radius: 6px; transition: background .15s, color .15s; }
+    .nav-lang-btn:hover { background: rgba(255,255,255,.07); }
+    .nav-lang-flag { font-size: 1rem; line-height: 1; }
+    .nav-lang-caret { font-size: .55rem; opacity: .6; transition: transform .2s; }
+    .nav-lang.open .nav-lang-caret { transform: rotate(180deg); }
+    .nav-lang-menu { display: none; position: absolute; top: calc(100% + 12px); right: 0; background: #fff; border-radius: 14px; box-shadow: 0 30px 70px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.15); padding: .5rem; min-width: 170px; z-index: 210; }
+    .nav-lang.open .nav-lang-menu { display: block; }
+    .nav-lang-item { display: flex; align-items: center; gap: .7rem; width: 100%; background: none; border: none; padding: .6rem .8rem; border-radius: 9px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: .85rem; font-weight: 600; color: #0f172a; text-align: left; transition: background .15s; }
+    .nav-lang-item:hover { background: #f8fafc; }
+    .nav-lang-item.active { background: #f1f5f9; }
+    .nav-lang-item-flag { font-size: 1.05rem; }
+    .nav-divider { width: 1px; height: 20px; background: rgba(255,255,255,.15); margin: 0 .3rem; flex-shrink: 0; }
+    nav.nav-scrolled .nav-lang-btn { color: rgba(5,7,15,.6) !important; }
+    nav.nav-scrolled .nav-lang-btn:hover { background: rgba(5,7,15,.05) !important; }
+    nav.nav-scrolled .nav-divider { background: rgba(5,7,15,.12) !important; }
+    @media (max-width: 768px) { .nav-lang, .nav-divider { display: none !important; } }
+
     nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -465,6 +484,22 @@
     </ul>
     </div>
     <div class="nav-right">
+      <div class="nav-lang" id="navLang">
+        <button class="nav-lang-btn" onclick="toggleLangMenu(event)">
+          <span class="nav-lang-flag">🇪🇸</span>
+          <span class="nav-lang-code">ES</span>
+          <span class="nav-lang-caret">▾</span>
+        </button>
+        <div class="nav-lang-menu">
+          <button class="nav-lang-item active" onclick="selectLang('ES','🇪🇸',this)">
+            <span class="nav-lang-item-flag">🇪🇸</span> Español
+          </button>
+          <button class="nav-lang-item" onclick="selectLang('EN','🇬🇧',this)">
+            <span class="nav-lang-item-flag">🇬🇧</span> English
+          </button>
+        </div>
+      </div>
+      <span class="nav-divider"></span>
       <a href="auth.html?tab=login" class="nav-ghost">Ingresar</a>
       <a href="auth.html" class="nav-cta">Registrarse</a>
       <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
@@ -1191,6 +1226,22 @@ function hideError()     { document.getElementById('errorMsg').style.display='no
 </script>
 
   <script>
+    function toggleLangMenu(e) {
+      e.stopPropagation();
+      document.getElementById('navLang').classList.toggle('open');
+    }
+    function selectLang(code, flag, el) {
+      document.querySelector('.nav-lang-code').textContent = code;
+      document.querySelector('.nav-lang-flag').textContent = flag;
+      document.querySelectorAll('.nav-lang-item').forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('navLang').classList.remove('open');
+    }
+    document.addEventListener('click', (e) => {
+      const navLang = document.getElementById('navLang');
+      if (navLang && !e.target.closest('.nav-lang')) navLang.classList.remove('open');
+    });
+
     function toggleMobileNav() {
       const nav = document.getElementById('mobile-nav');
       const btn = document.getElementById('hamburger-btn');
