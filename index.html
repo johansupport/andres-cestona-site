@@ -136,6 +136,8 @@
     .panel-tab { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); color:rgba(255,255,255,.5); font-size:.68rem; font-weight:700; padding:.35rem .8rem; border-radius:100px; cursor:pointer; transition:all .2s; font-family:'Inter',sans-serif; }
     .panel-tab:hover { color:#fff; border-color:rgba(255,255,255,.2); }
     .panel-tab.active { background:var(--gold); color:var(--black); border-color:var(--gold); }
+    .panel-tab.disabled { cursor:not-allowed; opacity:.45; }
+    .panel-tab.disabled:hover { color:rgba(255,255,255,.5); border-color:rgba(255,255,255,.08); }
     .panel-main-eyebrow { font-size:.62rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:.6rem; }
     .panel-main-val { font-family:'Space Grotesk',sans-serif; font-size:3.2rem; font-weight:700; color:#fff; line-height:1; transition:opacity .2s ease, transform .2s ease; }
     .panel-main-val.swap { opacity:0; transform:translateY(4px); }
@@ -418,6 +420,30 @@
     .vtesti-stat-label { display:block; font-size:.64rem; color:rgba(255,255,255,.4); text-transform:uppercase; letter-spacing:.7px; margin-bottom:.3rem; }
     .vtesti-stat-val { display:block; font-size:1.05rem; font-weight:800; color:#fff; }
 
+    /* ── FAQ (home preview) ── */
+    .hfaq-section { background:var(--black); padding:6rem 4%; }
+    .hfaq-inner { max-width:900px; margin:0 auto; }
+    .hfaq-top { text-align:center; margin-bottom:3rem; }
+    .hfaq-top h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(1.8rem,3.2vw,2.6rem); font-weight:700; color:#fff; letter-spacing:-.5px; margin-bottom:.7rem; }
+    .hfaq-top h2 em { color:var(--gold); font-style:italic; }
+    .hfaq-top p { font-size:.92rem; color:rgba(255,255,255,.45); }
+    .hfaq-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .hfaq-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:16px; overflow:hidden; transition:border-color .2s, background .2s; }
+    .hfaq-card:hover { border-color:rgba(201,168,76,.3); }
+    .hfaq-q { width:100%; display:flex; align-items:center; gap:1rem; padding:1.2rem 1.4rem; background:none; border:none; cursor:pointer; text-align:left; color:#fff; font-family:'Inter',sans-serif; }
+    .hfaq-icon { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:1.5px solid rgba(201,168,76,.4); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:300; line-height:1; transition:transform .25s, background .25s, color .25s; }
+    .hfaq-card.open .hfaq-icon { transform:rotate(45deg); background:var(--gold); color:var(--black); }
+    .hfaq-text { font-size:.92rem; font-weight:700; }
+    .hfaq-a-wrap { display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s ease; }
+    .hfaq-a-inner { overflow:hidden; }
+    .hfaq-a { padding:0 1.4rem 1.3rem 3.6rem; margin:0; color:rgba(255,255,255,.5); font-size:.84rem; line-height:1.7; }
+    .hfaq-card.open .hfaq-a-wrap { grid-template-rows:1fr; }
+    .hfaq-bottom { text-align:center; margin-top:2.2rem; }
+    .hfaq-bottom a { color:rgba(255,255,255,.5); font-size:.88rem; text-decoration:none; }
+    .hfaq-bottom a strong { color:var(--gold); font-weight:700; }
+    .hfaq-bottom a:hover strong { text-decoration:underline; }
+    @media (max-width:700px) { .hfaq-grid { grid-template-columns:1fr; } }
+
     .cta-section { background:var(--black); padding:7rem 4%; text-align:center; }
     .cta-inner { max-width:640px; margin:0 auto; }
     .cta-section h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,3.5vw,3rem); font-weight:700; color:#fff; line-height:1.2; margin-bottom:1.1rem; letter-spacing:-.5px; }
@@ -562,7 +588,7 @@
         </div>
       </li>
       <li>
-        <a href="#faq">FAQ</a>
+        <a href="faq.html">FAQ</a>
       </li>
       <li class="has-drop">
         <a href="#">Nosotros</a>
@@ -614,7 +640,7 @@
     <span class="mobile-sub">Academia</span>
     <a href="cursos.html">Cursos Online</a>
     <a href="premium.html">Academia Premium</a>
-    <a href="#faq">FAQ</a>
+    <a href="faq.html">FAQ</a>
     <span class="mobile-sub">Nosotros</span>
     <a href="index.html#quien">¿Quién es Andrés?</a>
     <a href="estadisticas.html">Estadísticas</a>
@@ -660,6 +686,7 @@
             <button class="panel-tab active" onclick="switchPanelTab('xau',this)">XAUUSD</button>
             <button class="panel-tab" onclick="switchPanelTab('tsla',this)">TESLA</button>
             <button class="panel-tab" onclick="switchPanelTab('btc',this)">BTC</button>
+            <button class="panel-tab disabled" title="Próximamente" disabled>XAUAUD</button>
           </div>
           <div class="panel-main-body">
             <div class="panel-main-text">
@@ -749,6 +776,13 @@
             <span class="strategy-pill-icon" style="color:#f7931a">₿</span>
             <span class="strategy-pill-text">
               <span class="strategy-pill-title">BTC <span class="soon-tag">Próximamente</span></span>
+              <span class="strategy-pill-sub">Estrategia en preparación</span>
+            </span>
+          </button>
+          <button class="strategy-pill disabled" id="pill-xauaud" title="Próximamente" disabled>
+            <span class="strategy-pill-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M8 15l2-6 2 4 2-4 2 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="strategy-pill-text">
+              <span class="strategy-pill-title">XAUAUD <span class="soon-tag">Próximamente</span></span>
               <span class="strategy-pill-sub">Estrategia en preparación</span>
             </span>
           </button>
@@ -994,6 +1028,63 @@
       <div class="cta-btns reveal d3">
         <a href="calculadora.html" class="btn-gold">Simula tu capital →</a>
         <a href="estadisticas.html" class="btn-outline-w">Ver estadísticas completas</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="hfaq-section" id="faq">
+    <div class="hfaq-inner">
+      <div class="hfaq-top reveal">
+        <h2>Preguntas <em>frecuentes</em></h2>
+        <p>Todo lo que necesitas saber antes de empezar.</p>
+      </div>
+      <div class="hfaq-grid reveal d1">
+        <div class="hfaq-card">
+          <button class="hfaq-q" onclick="toggleHFaq(this)">
+            <span class="hfaq-icon">+</span>
+            <span class="hfaq-text">¿Cómo empiezo?</span>
+          </button>
+          <div class="hfaq-a-wrap"><div class="hfaq-a-inner"><p class="hfaq-a">Regístrate gratis desde el botón Registrarse, explora el dashboard y sigue la operativa en vivo en Markets by Andrés. Si quieres ir más rápido, la Academia Premium incluye seguimiento personalizado.</p></div></div>
+        </div>
+        <div class="hfaq-card">
+          <button class="hfaq-q" onclick="toggleHFaq(this)">
+            <span class="hfaq-icon">+</span>
+            <span class="hfaq-text">¿Los resultados son verificados?</span>
+          </button>
+          <div class="hfaq-a-wrap"><div class="hfaq-a-inner"><p class="hfaq-a">Sí. Todo el historial está documentado operación a operación desde 2021, con +418% acumulado en XAUUSD y 1.051 trades públicos, auditables en Estadísticas.</p></div></div>
+        </div>
+        <div class="hfaq-card">
+          <button class="hfaq-q" onclick="toggleHFaq(this)">
+            <span class="hfaq-icon">+</span>
+            <span class="hfaq-text">¿Qué mercados opera Andrés?</span>
+          </button>
+          <div class="hfaq-a-wrap"><div class="hfaq-a-inner"><p class="hfaq-a">Actualmente XAUUSD (oro) y TESLA (TSLA), ambos con historial verificado. XAUAUD y BTC están en preparación y se anunciarán próximamente.</p></div></div>
+        </div>
+        <div class="hfaq-card">
+          <button class="hfaq-q" onclick="toggleHFaq(this)">
+            <span class="hfaq-icon">+</span>
+            <span class="hfaq-text">¿Cursos Online o Academia Premium?</span>
+          </button>
+          <div class="hfaq-a-wrap"><div class="hfaq-a-inner"><p class="hfaq-a">Los Cursos Online son contenido grabado a tu ritmo. La Academia Premium añade clases en vivo semanales, comunidad exclusiva y seguimiento personalizado de tu progreso.</p></div></div>
+        </div>
+        <div class="hfaq-card">
+          <button class="hfaq-q" onclick="toggleHFaq(this)">
+            <span class="hfaq-icon">+</span>
+            <span class="hfaq-text">¿Puedo simular mi propio capital?</span>
+          </button>
+          <div class="hfaq-a-wrap"><div class="hfaq-a-inner"><p class="hfaq-a">Sí, la Calculadora te permite elegir capital inicial, riesgo por operación y nivel de reinversión, usando el historial real de trades de cada estrategia.</p></div></div>
+        </div>
+        <div class="hfaq-card">
+          <button class="hfaq-q" onclick="toggleHFaq(this)">
+            <span class="hfaq-icon">+</span>
+            <span class="hfaq-text">¿Dónde resuelvo más dudas?</span>
+          </button>
+          <div class="hfaq-a-wrap"><div class="hfaq-a-inner"><p class="hfaq-a">Puedes escribir a contacto@andrescestona.com o unirte a los canales de la comunidad (Telegram, Instagram y WhatsApp) desde la sección Canales.</p></div></div>
+        </div>
+      </div>
+      <div class="hfaq-bottom reveal d2">
+        <a href="faq.html">¿No encuentras la respuesta que buscas? <strong>Ver todas las FAQs →</strong></a>
       </div>
     </div>
   </section>
@@ -1314,6 +1405,14 @@
     }
     fetchLiveBTC();
     setInterval(fetchLiveBTC, 60000);
+
+    // FAQ accordion (home)
+    function toggleHFaq(btn) {
+      const card = btn.closest('.hfaq-card');
+      const wasOpen = card.classList.contains('open');
+      document.querySelectorAll('.hfaq-card.open').forEach(c => c.classList.remove('open'));
+      if (!wasOpen) card.classList.add('open');
+    }
 
     // Nav scroll
     const navEl = document.querySelector('nav');

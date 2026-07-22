@@ -78,6 +78,9 @@
     .strategy-btn { padding: 0.6rem 1.8rem; border-radius: 8px; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 700; transition: all 0.2s; background: transparent; color: rgba(255,255,255,0.5); }
     .strategy-btn.active { background: #c9a84c; color: #05070f; box-shadow: 0 4px 12px rgba(201,168,76,0.25); }
     .strategy-btn:hover:not(.active) { background: rgba(255,255,255,0.08); color: var(--white); }
+    .strategy-btn.disabled { cursor: not-allowed; opacity: .5; }
+    .strategy-btn.disabled:hover { background: transparent; color: rgba(255,255,255,0.5); }
+    .strategy-btn .soon-tag { font-size: .58rem; font-weight: 800; color: #c9a84c; background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.3); padding: .18rem .5rem; border-radius: 100px; text-transform: uppercase; letter-spacing: .5px; margin-left: .4rem; vertical-align: middle; }
 
     /* TABS BAR */
     .tabs-bar { position: sticky; top: 62px; z-index: 50; display: flex; background: #0d0d0d; border-bottom: 1px solid #1c1c1c; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
@@ -360,7 +363,7 @@
         </div>
       </li>
       <li>
-        <a href="#faq">FAQ</a>
+        <a href="faq.html">FAQ</a>
       </li>
       <li class="has-drop">
         <a href="#">Nosotros</a>
@@ -409,7 +412,7 @@
     <span class="mobile-sub">Academia</span>
     <a href="cursos.html">Cursos Online</a>
     <a href="premium.html">Academia Premium</a>
-    <a href="#faq">FAQ</a>
+    <a href="faq.html">FAQ</a>
     <span class="mobile-sub">Nosotros</span>
     <a href="index.html#quien">¿Quién es Andrés?</a>
     <a href="estadisticas.html">Estadísticas</a>
@@ -427,8 +430,10 @@
     <p>Resultados auditados desde 2021. Transparencia total, sin filtros.</p>
     <div class="strategy-selector">
 
-      <button class="strategy-btn active" data-strategy="swing" onclick="switchStrategy('swing')">XAUUSD Swing</button>
+      <button class="strategy-btn active" data-strategy="swing" onclick="switchStrategy('swing')">XAUUSD</button>
       <button class="strategy-btn" data-strategy="tesla" onclick="switchStrategy('tesla')">TESLA</button>
+      <button class="strategy-btn disabled" data-strategy="btc" title="Próximamente" disabled>BTC <span class="soon-tag">Próximamente</span></button>
+      <button class="strategy-btn disabled" data-strategy="xauaud" title="Próximamente" disabled>XAUAUD <span class="soon-tag">Próximamente</span></button>
     </div>
   </section>
 

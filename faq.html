@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Preguntas Frecuentes — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --navy: #05070f; --navy2: #0d0f1a; --navy3: #111116; --blue: #c9a84c; --blue-mid: #c9a84c; --blue-soft: #e8c97a; --white: #ffffff; --off-white: #f8f9fb; --gray-100: #e8ecf4; --gray-400: #8892aa; --gray-600: #4b5775; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--navy); overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-logo { font-size: 0.95rem; font-weight: 800; color: var(--white); letter-spacing: -0.3px; flex-shrink: 0; margin-right: 0.5rem; text-decoration: none; }
+    .nav-logo span { color: var(--blue-mid); }
+    .nav-links { display: flex; align-items: center; list-style: none; height: 100%; flex: 1; justify-content: center; }
+    .nav-links li { position: relative; height: 100%; display: flex; align-items: center; }
+    .nav-links > li > a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.82rem; font-weight: 500; padding: 0 0.7rem; height: 100%; display: flex; align-items: center; gap: 0.2rem; transition: color 0.15s, background 0.15s; white-space: nowrap; }
+    .nav-links > li > a:hover { color: var(--white); background: rgba(255,255,255,0.04); }
+    .has-drop > a::after { content: '▾'; font-size: 0.6rem; opacity: 0.55; }
+    .has-drop:hover > a::after { transform: rotate(180deg); }
+    .nav-drop { display: none; position: absolute; top: calc(100% + 10px); left: 0; background: #fff; border: 1px solid #eef0f2; border-radius: 16px; padding: 1.4rem; min-width: 340px; box-shadow: 0 30px 70px rgba(0,0,0,.35), 0 4px 16px rgba(0,0,0,.15); z-index: 5; }
+    .has-drop:hover .nav-drop { display: block; }
+    .has-drop:hover .nav-drop.nav-drop-wide { display: grid; }
+    .nav-drop-label { font-size: .66rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .5rem; padding: 0 .6rem; }
+    .nav-drop-item { display: flex; align-items: flex-start; gap: .9rem; padding: .75rem .6rem; border-radius: 10px; text-decoration: none; transition: background .15s; }
+    .nav-drop-item:hover { background: #f8fafc; }
+    .nav-drop-icon { flex-shrink: 0; width: 44px; height: 44px; border-radius: 11px; background: #f1f5f9; border: 1px solid #eef0f2; display: flex; align-items: center; justify-content: center; color: #c9a84c; }
+    .nav-drop-text { display: flex; flex-direction: column; padding-top: .1rem; }
+    .nav-drop-title { font-size: .87rem; font-weight: 700; color: #0f172a; }
+    .nav-drop-desc { font-size: .74rem; color: #64748b; margin-top: .2rem; line-height: 1.45; }
+    .nav-drop-wide { min-width: 520px; grid-template-columns: 1fr 200px; gap: 1.5rem; padding: 1.4rem; }
+    .nav-drop-col { display: flex; flex-direction: column; gap: .1rem; }
+    .nav-drop-promo { background: linear-gradient(155deg, #080808 0%, #1a1a1a 100%); border: 1px solid rgba(201,168,76,.25); border-radius: 14px; padding: 1.3rem; display: flex; flex-direction: column; text-decoration: none; transition: border-color .2s, transform .2s; }
+    .nav-drop-promo:hover { border-color: rgba(201,168,76,.5); transform: translateY(-2px); }
+    .nav-drop-promo-icon { width: 36px; height: 36px; border-radius: 10px; background: rgba(201,168,76,.15); display: flex; align-items: center; justify-content: center; color: #c9a84c; margin-bottom: 1rem; }
+    .nav-drop-promo-title { font-size: .87rem; font-weight: 800; color: #fff; line-height: 1.3; }
+    .nav-drop-promo-desc { font-size: .73rem; color: rgba(255,255,255,.5); margin-top: .5rem; line-height: 1.55; flex: 1; }
+    .nav-drop-promo-link { font-size: .74rem; font-weight: 700; color: #c9a84c; margin-top: 1rem; }
+    .nav-right { display: flex; align-items: center; gap: .5rem; flex-shrink: 0; }
+    .nav-ghost { color: rgba(255,255,255,.65); text-decoration: none; font-size: .81rem; font-weight: 500; padding: .4rem .75rem; border-radius: 6px; transition: color .2s, background .2s; }
+    .nav-ghost:hover { color: #fff; background: rgba(255,255,255,.07); }
+    .nav-cta { background: #c9a84c; color: #05070f; padding: .44rem 1rem; border-radius: 6px; font-weight: 700; font-size: .81rem; text-decoration: none; transition: background .2s; }
+    .nav-cta:hover { background: #e8c97a; }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+
+    /* ── NAV SCROLL ── */
+    nav { transition: background .35s, box-shadow .35s, border-color .35s; }
+    nav.nav-scrolled { background: #fff !important; box-shadow: 0 2px 20px rgba(0,0,0,.08); border-bottom: 1px solid #e8e8e5; }
+    nav.nav-scrolled .nav-logo { color: #05070f !important; }
+    nav.nav-scrolled .nav-logo span { color: #c9a84c; }
+    nav.nav-scrolled .nav-links > li > a { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-links > li > a:hover { color: #05070f !important; background: rgba(5,7,15,.04) !important; }
+    nav.nav-scrolled .nav-ghost { color: rgba(5,7,15,.55) !important; }
+    nav.nav-scrolled .nav-ghost:hover { color: #05070f !important; background: rgba(5,7,15,.05) !important; }
+    nav.nav-scrolled .hamburger-btn span { background: #05070f !important; }
+
+    /* ── HERO ── */
+    .page-hero { background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 55%, #0e1440 100%); padding: 8rem 4% 4rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 65%); pointer-events: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(201,168,76,0.1); border: 1px solid rgba(201,168,76,0.25); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; position: relative; z-index: 1; }
+    .eyebrow::before { content: '●'; color: var(--blue-mid); font-size: 0.45rem; }
+    .eyebrow span { font-size: 0.72rem; font-weight: 600; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.2px; }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.3rem, 5vw, 3.4rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: .9rem; position: relative; z-index: 1; }
+    .page-hero p { font-size: 1rem; color: rgba(255,255,255,0.55); max-width: 520px; margin: 0 auto 2.2rem; line-height: 1.75; position: relative; z-index: 1; }
+
+    .faq-search-wrap { max-width: 560px; margin: 0 auto; position: relative; z-index: 1; }
+    .faq-search { display: flex; align-items: center; gap: .8rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: .95rem 1.3rem; backdrop-filter: blur(6px); }
+    .faq-search svg { flex-shrink: 0; color: rgba(255,255,255,.4); }
+    .faq-search input { flex: 1; background: none; border: none; outline: none; color: #fff; font-family: 'Inter', sans-serif; font-size: .92rem; }
+    .faq-search input::placeholder { color: rgba(255,255,255,.35); }
+    .faq-popular { margin-top: 1.4rem; position: relative; z-index: 1; }
+    .faq-popular-label { font-size: .7rem; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: 1px; margin-bottom: .8rem; }
+    .faq-popular-tags { display: flex; flex-wrap: wrap; gap: .55rem; justify-content: center; }
+    .faq-tag { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.75); font-size: .78rem; font-weight: 500; padding: .45rem 1rem; border-radius: 100px; cursor: pointer; transition: all .15s; font-family: 'Inter', sans-serif; }
+    .faq-tag:hover { border-color: rgba(201,168,76,.5); color: #fff; background: rgba(201,168,76,.1); }
+
+    /* ── CATEGORIES ── */
+    .faq-section { background: var(--off-white); padding: 4.5rem 4% 6rem; }
+    .faq-inner { max-width: 1060px; margin: 0 auto; }
+    .faq-no-results { display: none; text-align: center; color: var(--gray-400); font-size: .92rem; padding: 3rem 0; }
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.6rem; align-items: start; }
+    .faq-card { background: #fff; border: 1px solid var(--gray-100); border-radius: 20px; padding: 1.8rem 1.6rem; }
+    .faq-card-head { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+    .faq-card-icon { width: 46px; height: 46px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .faq-card-icon.gold { background: rgba(201,168,76,.15); }
+    .faq-card-icon.dark { background: rgba(5,7,15,.06); }
+    .faq-card-title { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .faq-item { border-top: 1px solid var(--gray-100); }
+    .faq-item:first-of-type { border-top: none; }
+    .faq-q { width: 100%; display: flex; align-items: center; gap: .8rem; background: none; border: none; cursor: pointer; padding: 1rem .2rem; text-align: left; font-family: 'Inter', sans-serif; }
+    .faq-q-icon { flex-shrink: 0; width: 17px; height: 17px; color: var(--gray-400); }
+    .faq-q-text { flex: 1; font-size: .88rem; font-weight: 600; color: var(--navy); }
+    .faq-chevron { flex-shrink: 0; color: var(--gray-400); transition: transform .25s; }
+    .faq-item.open .faq-chevron { transform: rotate(90deg); color: #c9a84c; }
+    .faq-a-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+    .faq-a-inner { overflow: hidden; }
+    .faq-a { padding: 0 .2rem 1.1rem 2.6rem; margin: 0; color: var(--gray-600); font-size: .85rem; line-height: 1.7; }
+    .faq-item.open .faq-a-wrap { grid-template-rows: 1fr; }
+    .faq-item.hidden-by-search { display: none; }
+    @media (max-width: 800px) { .faq-grid { grid-template-columns: 1fr; } }
+
+    footer { background: #05070f; padding: 3rem 4%; text-align: center; }
+    .footer-logo { font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: .6rem; }
+    .footer-logo span { color: #c9a84c; }
+    footer p { font-size: .73rem; color: rgba(255,255,255,.3); margin-bottom: 1.2rem; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; }
+    .footer-links a { font-size: .73rem; color: rgba(255,255,255,.35); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: #c9a84c; }
+
+    /* ── HAMBURGER MENU ── */
+    .hamburger-btn { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: .4rem; background: none; border: none; z-index: 201; }
+    .hamburger-btn span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all .3s; }
+    .mobile-nav { display: none; position: fixed; top: 62px; left: 0; right: 0; background: #05070f; border-bottom: 1px solid rgba(255,255,255,.08); padding: 1rem 0; z-index: 199; flex-direction: column; max-height: calc(100vh - 62px); overflow-y: auto; }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a { color: rgba(255,255,255,.75); text-decoration: none; font-size: .9rem; font-weight: 500; padding: .75rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,.04); transition: color .15s; }
+    .mobile-nav a:hover { color: #c9a84c; }
+    .mobile-nav .mobile-sub { font-size: .75rem; color: rgba(255,255,255,.35); padding: .4rem 1.5rem .4rem 2.5rem; letter-spacing: .3px; }
+    @media (max-width: 768px) {
+      .hamburger-btn { display: flex; }
+      .nav-links { display: none !important; }
+      .nav-ghost { display: none; }
+      .nav-cta { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="mainNav">
+    <div class="nav-left" style="display:flex;align-items:center;height:100%;">
+    <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
+    <ul class="nav-links">
+      <li class="has-drop">
+        <a href="#">Trading</a>
+        <div class="nav-drop nav-drop-wide">
+          <div class="nav-drop-col">
+            <div class="nav-drop-label">Herramientas</div>
+            <a class="nav-drop-item" href="index.html#markets">
+              <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></span>
+              <span class="nav-drop-text"><span class="nav-drop-title">Markets</span><span class="nav-drop-desc">Estrategia, análisis y rendimiento por mercado</span></span>
+            </a>
+            <a class="nav-drop-item" href="trades.html">
+              <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+              <span class="nav-drop-text"><span class="nav-drop-title">Diario de Trades</span><span class="nav-drop-desc">Cada operación documentada desde 2022</span></span>
+            </a>
+            <a class="nav-drop-item" href="calculadora.html">
+              <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><circle cx="8" cy="12.5" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="12.5" r=".6" fill="currentColor" stroke="none"/><circle cx="16" cy="12.5" r=".6" fill="currentColor" stroke="none"/><circle cx="8" cy="16.5" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="16.5" r=".6" fill="currentColor" stroke="none"/><circle cx="16" cy="16.5" r=".6" fill="currentColor" stroke="none"/></svg></span>
+              <span class="nav-drop-text"><span class="nav-drop-title">Calculadora</span><span class="nav-drop-desc">Simula tu capital con datos reales</span></span>
+            </a>
+          </div>
+          <a class="nav-drop-promo" href="calculadora.html">
+            <span class="nav-drop-promo-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+            <span class="nav-drop-promo-title">+418% desde 2021</span>
+            <span class="nav-drop-promo-desc">1.051 trades verificados. Simulá tu capital con el historial real.</span>
+            <span class="nav-drop-promo-link">Probar calculadora →</span>
+          </a>
+        </div>
+      </li>
+      <li class="has-drop">
+        <a href="#">Academia</a>
+        <div class="nav-drop">
+          <div class="nav-drop-label">Formación</div>
+          <a class="nav-drop-item" href="cursos.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M6 10.6V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.4"/><path d="M22 8v6"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Cursos Online</span><span class="nav-drop-desc">Contenido grabado a tu ritmo, por niveles</span></span>
+          </a>
+          <a class="nav-drop-item" href="premium.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.9 6.3 6.9.8-5 4.7 1.3 6.8L12 17.3 5.9 20.6l1.3-6.8-5-4.7 6.9-.8L12 2z"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Academia Premium</span><span class="nav-drop-desc">Clases en vivo, comunidad y seguimiento 1 a 1</span></span>
+          </a>
+        </div>
+      </li>
+      <li>
+        <a href="faq.html">FAQ</a>
+      </li>
+      <li class="has-drop">
+        <a href="#">Nosotros</a>
+        <div class="nav-drop">
+          <div class="nav-drop-label">Sobre Andrés</div>
+          <a class="nav-drop-item" href="index.html#quien">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">¿Quién es Andrés?</span><span class="nav-drop-desc">Trayectoria, credenciales y filosofía de inversión</span></span>
+          </a>
+          <a class="nav-drop-item" href="estadisticas.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Estadísticas</span><span class="nav-drop-desc">Rendimiento auditado mes a mes desde 2021</span></span>
+          </a>
+        </div>
+      </li>
+      <li class="has-drop">
+        <a href="#">Comunidad</a>
+        <div class="nav-drop">
+          <div class="nav-drop-label">Conectar</div>
+          <a class="nav-drop-item" href="canales.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Canales</span><span class="nav-drop-desc">Telegram, Instagram y WhatsApp de la comunidad</span></span>
+          </a>
+          <a class="nav-drop-item" href="eventos.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Eventos</span><span class="nav-drop-desc">Clases en vivo y sesiones de análisis en directo</span></span>
+          </a>
+          <a class="nav-drop-item" href="testimonios.html">
+            <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Testimonios</span><span class="nav-drop-desc">Historias reales de alumnos de la comunidad</span></span>
+          </a>
+        </div>
+      </li>
+    </ul>
+    </div>
+    <div class="nav-right">
+      <a href="auth.html?tab=login" class="nav-ghost">Ingresar</a>
+      <a href="auth.html" class="nav-cta">Registrarse</a>
+      <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav">
+    <span class="mobile-sub">Trading</span>
+    <a href="index.html#markets">Markets</a>
+    <a href="trades.html">Diario de Trades</a>
+    <a href="calculadora.html">Calculadora</a>
+    <span class="mobile-sub">Academia</span>
+    <a href="cursos.html">Cursos Online</a>
+    <a href="premium.html">Academia Premium</a>
+    <a href="faq.html">FAQ</a>
+    <span class="mobile-sub">Nosotros</span>
+    <a href="index.html#quien">¿Quién es Andrés?</a>
+    <a href="estadisticas.html">Estadísticas</a>
+    <span class="mobile-sub">Comunidad</span>
+    <a href="canales.html">Canales</a>
+    <a href="eventos.html">Eventos</a>
+    <a href="testimonios.html">Testimonios</a>
+  </div>
+
+  <section class="page-hero">
+    <div class="eyebrow"><span>Centro de ayuda</span></div>
+    <h1>Preguntas Frecuentes</h1>
+    <p>Encuentra tus respuestas aquí.</p>
+    <div class="faq-search-wrap">
+      <div class="faq-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+        <input type="text" id="faq-search-input" placeholder="Buscar en las FAQ..." oninput="filterFaq(this.value)" />
+      </div>
+    </div>
+    <div class="faq-popular">
+      <div class="faq-popular-label">Búsquedas más populares</div>
+      <div class="faq-popular-tags">
+        <button class="faq-tag" onclick="searchTag('¿Cómo empiezo?')">¿Cómo empiezo?</button>
+        <button class="faq-tag" onclick="searchTag('¿Los resultados son verificados?')">¿Los resultados son verificados?</button>
+        <button class="faq-tag" onclick="searchTag('¿Qué mercados opera Andrés?')">¿Qué mercados opera Andrés?</button>
+        <button class="faq-tag" onclick="searchTag('¿Puedo simular mi propio capital?')">¿Puedo simular mi capital?</button>
+        <button class="faq-tag" onclick="searchTag('Cursos Online o Academia Premium')">Cursos vs Academia Premium</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <div class="faq-inner">
+      <div class="faq-grid">
+
+        <div class="faq-card" data-category="primeros-pasos">
+          <div class="faq-card-head">
+            <div class="faq-card-icon gold">👋</div>
+            <div class="faq-card-title">Primeros pasos</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Cómo empiezo?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Regístrate gratis desde el botón Registrarse, explora el dashboard y sigue la operativa en vivo en Markets by Andrés. Si quieres ir más rápido, la Academia Premium incluye seguimiento personalizado.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Qué es la comunidad de Andrés Cestona?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Es un espacio donde Andrés comparte en público, desde 2021, cada operación que realiza sobre XAUUSD y TESLA, junto con cursos, clases en vivo y contenido educativo para inversores independientes.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Quién puede unirse?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Cualquier persona interesada en aprender gestión de capital y trading, sin experiencia previa. Los Cursos Online empiezan desde cero.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Los resultados son verificados?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Sí. Todo el historial está documentado operación a operación desde 2021, con +418% acumulado en XAUUSD y 1.051 trades públicos, auditables en Estadísticas.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Qué diferencia hay entre los Cursos Online y la Academia Premium?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Los Cursos Online son contenido grabado a tu ritmo. La Academia Premium añade clases en vivo semanales, comunidad exclusiva y seguimiento personalizado de tu progreso.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Dónde puedo resolver más dudas?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Puedes escribir a contacto@andrescestona.com o unirte a los canales de la comunidad (Telegram, Instagram y WhatsApp) desde la sección Canales.</p></div></div>
+          </div>
+        </div>
+
+        <div class="faq-card" data-category="resultados">
+          <div class="faq-card-head">
+            <div class="faq-card-icon dark">📊</div>
+            <div class="faq-card-title">Resultados y seguimiento</div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Cómo se calcula el rendimiento mostrado?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Se aplica interés compuesto mensual sobre un capital inicial de $1,000, usando el porcentaje real de cada operación cerrada. Puedes simular tu propio capital en la Calculadora.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Qué mercados opera Andrés?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Actualmente XAUUSD (oro) y TESLA (TSLA), ambos con historial verificado. XAUAUD y BTC están en preparación y se anunciarán próximamente.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Puedo simular mi propio capital?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Sí, la Calculadora te permite elegir capital inicial, riesgo por operación y nivel de reinversión, usando el historial real de trades de cada estrategia.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Con qué frecuencia se publican los trades?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Cada operación se registra el mismo día que se cierra. Los resúmenes mensuales y anuales se actualizan automáticamente en Estadísticas.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Desde cuándo existe el historial?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">La estrategia sobre XAUUSD se documenta desde 2021 y TESLA desde 2025. Todo el detalle mes a mes está disponible públicamente.</p></div></div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              <svg class="faq-q-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+              <span class="faq-q-text">¿Qué pasa si empiezo a seguir la estrategia ahora?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="faq-a-wrap"><div class="faq-a-inner"><p class="faq-a">Puedes acceder al histórico completo para entender el comportamiento de cada estrategia, y seguir las operaciones en tiempo real desde el dashboard.</p></div></div>
+          </div>
+        </div>
+
+      </div>
+      <p class="faq-no-results" id="faq-no-results">No encontramos preguntas que coincidan con tu búsqueda.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Andrés <span>Cestona</span></div>
+    <p>&copy; 2026 Andrés Cestona. Todos los derechos reservados.</p>
+    <div class="footer-links">
+      <a href="trades.html">Diario de Trades</a>
+      <a href="estadisticas.html">Estadísticas</a>
+      <a href="calculadora.html">Calculadora</a>
+      <a href="testimonios.html">Comunidad</a>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      item.closest('.faq-card').querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    }
+
+    function filterFaq(query) {
+      const q = query.trim().toLowerCase();
+      const items = document.querySelectorAll('.faq-item');
+      let visibleCount = 0;
+      items.forEach(item => {
+        const text = item.querySelector('.faq-q-text').textContent.toLowerCase();
+        const match = !q || text.includes(q);
+        item.classList.toggle('hidden-by-search', !match);
+        if (match) visibleCount++;
+      });
+      document.querySelectorAll('.faq-card').forEach(card => {
+        const anyVisible = [...card.querySelectorAll('.faq-item')].some(i => !i.classList.contains('hidden-by-search'));
+        card.style.display = anyVisible ? '' : 'none';
+      });
+      document.getElementById('faq-no-results').style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+
+    function searchTag(text) {
+      const input = document.getElementById('faq-search-input');
+      input.value = text;
+      filterFaq(text);
+      document.querySelector('.faq-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobile-nav');
+      const btn = document.getElementById('hamburger-btn');
+      nav.classList.toggle('open');
+      const spans = btn.querySelectorAll('span');
+      if (nav.classList.contains('open')) {
+        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+      } else {
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+      }
+    }
+    document.querySelectorAll('.mobile-nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        setTimeout(() => {
+          document.getElementById('mobile-nav').classList.remove('open');
+          document.querySelectorAll('.hamburger-btn span').forEach(s => { s.style.transform=''; s.style.opacity=''; });
+        }, 80);
+      });
+    });
+
+    const navEl = document.querySelector('nav');
+    function updateNav(){ navEl.classList.toggle('nav-scrolled', window.scrollY > 40); }
+    window.addEventListener('scroll', updateNav, {passive:true});
+    updateNav();
+  </script>
+</body>
+</html>

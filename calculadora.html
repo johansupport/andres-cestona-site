@@ -52,10 +52,13 @@
     .sim-card { background: var(--navy2); border: 1px solid rgba(255,255,255,0.07); border-radius: 20px; padding: 2.2rem; }
     .sim-card-title { font-size: 0.9rem; font-weight: 700; color: var(--white); margin-bottom: 1.8rem; display: flex; align-items: center; gap: 0.7rem; }
     .sim-card-title::before { content: ''; display: block; width: 3px; height: 1em; background: var(--blue-mid); border-radius: 2px; }
-    .strat-row { display: flex; gap: 0.85rem; margin-bottom: 1.8rem; }
-    .strat-btn { flex: 1; padding: 0.9rem 1.2rem; background: var(--navy3); border: 1.5px solid rgba(255,255,255,0.08); border-radius: 10px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 0.25rem; color: var(--white); font-family: 'Inter', sans-serif; }
+    .strat-row { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-bottom: 1.8rem; }
+    .strat-btn { flex: 1 1 160px; padding: 0.9rem 1.2rem; background: var(--navy3); border: 1.5px solid rgba(255,255,255,0.08); border-radius: 10px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; gap: 0.25rem; color: var(--white); font-family: 'Inter', sans-serif; }
     .strat-btn:hover { border-color: rgba(201,168,76,0.4); }
     .strat-btn.active { border-color: var(--blue-mid); background: rgba(201,168,76,0.12); }
+    .strat-btn.disabled { cursor: not-allowed; opacity: .5; }
+    .strat-btn.disabled:hover { border-color: rgba(255,255,255,0.08); }
+    .strat-btn .soon-tag { font-size: .58rem; font-weight: 800; color: #c9a84c; background: rgba(201,168,76,.12); border: 1px solid rgba(201,168,76,.3); padding: .18rem .5rem; border-radius: 100px; text-transform: uppercase; letter-spacing: .5px; margin-left: .4rem; vertical-align: middle; }
     .strat-btn-name { font-size: 0.88rem; font-weight: 700; }
     .strat-btn-desc { font-size: 0.72rem; color: var(--gray-400); }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
@@ -429,7 +432,7 @@
         </div>
       </li>
       <li>
-        <a href="#faq">FAQ</a>
+        <a href="faq.html">FAQ</a>
       </li>
       <li class="has-drop">
         <a href="#">Nosotros</a>
@@ -477,7 +480,7 @@
     <span class="mobile-sub">Academia</span>
     <a href="cursos.html">Cursos Online</a>
     <a href="premium.html">Academia Premium</a>
-    <a href="#faq">FAQ</a>
+    <a href="faq.html">FAQ</a>
     <span class="mobile-sub">Nosotros</span>
     <a href="index.html#quien">¿Quién es Andrés?</a>
     <a href="estadisticas.html">Estadísticas</a>
@@ -502,12 +505,20 @@
         <div class="sim-card-title">Configura tu simulación</div>
         <div class="strat-row">
           <button class="strat-btn active" data-strategy="swing" onclick="selectStrategy('swing',this)">
-            <span class="strat-btn-name">XAUUSD Swing</span>
+            <span class="strat-btn-name">XAUUSD</span>
             <span class="strat-btn-desc">Swing trading · ~16 trades/mes</span>
           </button>
           <button class="strat-btn" data-strategy="tesla" onclick="selectStrategy('tesla',this)">
             <span class="strat-btn-name">TESLA</span>
             <span class="strat-btn-desc">Day trading · ~13 trades/mes</span>
+          </button>
+          <button class="strat-btn disabled" title="Próximamente" disabled>
+            <span class="strat-btn-name">BTC <span class="soon-tag">Próximamente</span></span>
+            <span class="strat-btn-desc">Estrategia en preparación</span>
+          </button>
+          <button class="strat-btn disabled" title="Próximamente" disabled>
+            <span class="strat-btn-name">XAUAUD <span class="soon-tag">Próximamente</span></span>
+            <span class="strat-btn-desc">Estrategia en preparación</span>
           </button>
         </div>
         <div class="form-grid">
