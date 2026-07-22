@@ -6,6 +6,9 @@
   <title>Estadísticas — Andrés Cestona</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -1057,8 +1060,8 @@
         const ok = c.exists;
         return `<div class="doc-cell">
           <div class="doc-date">${c.mes} ${selYear}</div>
-          <a class="doc-link${ok ? '' : ' disabled'}" href="${ok ? '#' : ''}">${PDF_ICON} (PDF)</a>
-          <a class="doc-link${ok ? '' : ' disabled'}" href="${ok ? '#' : ''}">${XLS_ICON} (XLS)</a>
+          <a class="doc-link${ok ? '' : ' disabled'}" href="#" onclick="${ok ? `downloadMonthPDF(${selYear},${c.monthNum});` : ''}return false;">${PDF_ICON} (PDF)</a>
+          <a class="doc-link${ok ? '' : ' disabled'}" href="#" onclick="${ok ? `downloadMonthXLS(${selYear},${c.monthNum});` : ''}return false;">${XLS_ICON} (XLS)</a>
         </div>`;
       }).join('');
 
@@ -1076,6 +1079,103 @@
     function selectDocYear(y) {
       currentDocYear = y;
       renderAll();
+    }
+
+    function tradesForMonth(year, monthNum) {
+      const mm = String(monthNum).padStart(2, '0');
+      return data.trades.filter(t => t.fecha.startsWith(`${year}-${mm}`))
+        .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+    }
+
+    function downloadMonthPDF(year, monthNum) {
+      if (!data) return;
+      const trades = tradesForMonth(year, monthNum);
+      const mesData = data.meses.find(m => m.año === year && m.mesNum === monthNum);
+      if (!trades.length || !mesData) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+      const W = 210;
+
+      doc.setFillColor(7, 9, 26); doc.rect(0, 0, W, 50, 'F');
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(255, 255, 255);
+      doc.text('Andrés Cestona', 14, 15);
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(147, 197, 253);
+      doc.text(`Reporte Mensual · ${data.estrategia} · ${MONTHS_ES[monthNum - 1]} ${year}`, 14, 24);
+      doc.setFontSize(8); doc.setTextColor(136, 146, 170);
+      doc.text(`Trades: ${mesData.wins + mesData.losses}  ·  Winrate: ${mesData.winrate}%  ·  Rendimiento: ${sign(mesData.porcentaje)}${fmt2(mesData.porcentaje)}%`, 14, 32);
+      doc.setFontSize(8); doc.setTextColor(74, 222, 128);
+      doc.text(`Balance: $${fmt2(mesData.inicio)} → $${fmt2(mesData.fin)}`, 14, 41);
+
+      let balance = mesData.inicio;
+      const body = trades.map(t => {
+        const gainDollar = data.capitalInicial * t.porcentaje / 100;
+        balance += gainDollar;
+        return [
+          t.fecha, t.resultado === 'win' ? 'WIN' : 'LOSS',
+          (t.porcentaje >= 0 ? '+' : '') + t.porcentaje.toFixed(2) + '%',
+          (gainDollar >= 0 ? '+' : '') + '$' + fmt2(gainDollar),
+          '$' + fmt2(balance)
+        ];
+      });
+
+      doc.autoTable({
+        startY: 60,
+        head: [['FECHA', 'RESULTADO', 'GANANCIA %', 'GANANCIA $', 'BALANCE']],
+        body,
+        styles: { fontSize: 8, cellPadding: 3 },
+        headStyles: { fillColor: [7, 9, 26], textColor: [255, 255, 255], fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [245, 248, 255] },
+        willDrawCell: (d) => {
+          if (d.section === 'body' && d.column.index === 1) {
+            d.cell.styles.textColor = d.row.raw[1] === 'WIN' ? [22, 163, 74] : [220, 38, 38];
+            d.cell.styles.fontStyle = 'bold';
+          }
+          if (d.section === 'body' && (d.column.index === 2 || d.column.index === 3)) {
+            d.cell.styles.textColor = d.row.raw[1] === 'WIN' ? [22, 163, 74] : [220, 38, 38];
+          }
+        },
+        theme: 'striped', margin: { left: 10, right: 10 }
+      });
+
+      const pages = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pages; i++) {
+        doc.setPage(i);
+        doc.setFillColor(7, 9, 26); doc.rect(0, 284, W, 13, 'F');
+        doc.setFont('helvetica', 'italic'); doc.setFontSize(6.5); doc.setTextColor(100, 110, 140);
+        doc.text('Basado en historial real de trades. Los resultados pasados no garantizan resultados futuros.', W / 2, 290, { align: 'center' });
+        doc.setFont('helvetica', 'normal');
+        doc.text(`Pág. ${i}/${pages}`, W - 12, 290, { align: 'right' });
+      }
+
+      const mm = String(monthNum).padStart(2, '0');
+      doc.save(`reporte-${currentStrategy}-${year}-${mm}.pdf`);
+    }
+
+    function downloadMonthXLS(year, monthNum) {
+      if (!data) return;
+      const trades = tradesForMonth(year, monthNum);
+      const mesData = data.meses.find(m => m.año === year && m.mesNum === monthNum);
+      if (!trades.length || !mesData) return;
+
+      let balance = mesData.inicio;
+      const rows = trades.map(t => {
+        const gainDollar = data.capitalInicial * t.porcentaje / 100;
+        balance += gainDollar;
+        return {
+          Fecha: t.fecha,
+          Resultado: t.resultado === 'win' ? 'WIN' : 'LOSS',
+          'Ganancia %': +t.porcentaje.toFixed(2),
+          'Ganancia $': +gainDollar.toFixed(2),
+          Balance: +balance.toFixed(2)
+        };
+      });
+
+      const ws = XLSX.utils.json_to_sheet(rows);
+      ws['!cols'] = [{ wch: 12 }, { wch: 10 }, { wch: 12 }, { wch: 12 }, { wch: 12 }];
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, `${MONTHS_ES[monthNum - 1]} ${year}`.slice(0, 31));
+      const mm = String(monthNum).padStart(2, '0');
+      XLSX.writeFile(wb, `reporte-${currentStrategy}-${year}-${mm}.xlsx`);
     }
 
     // Init
