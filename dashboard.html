@@ -247,6 +247,70 @@
     .acc-stat-cell { background:rgba(255,255,255,.025); padding:1.2rem; }
     .acc-stat-cell .acc-info-val { font-size:1.1rem; }
 
+    /* ══════ CUENTAS — blanco estilo FTMO ══════ */
+    #view-accounts, #view-account-detail { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 64px); }
+    #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow { color:var(--gold); }
+    #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before { background:var(--gold); }
+    #view-accounts .page-title, #view-account-detail .page-title { color:#151a2d; }
+    #view-accounts .page-sub, #view-account-detail .page-sub { color:#6b7280; }
+
+    #view-accounts .card, #view-account-detail .card { background:#fff; border:1px solid #e7e9f1; box-shadow:0 1px 3px rgba(16,24,40,.05); }
+    #view-accounts .card-head, #view-account-detail .card-head { border-bottom-color:#eef0f6; }
+    #view-accounts .card-title, #view-account-detail .card-title { color:#151a2d; }
+    #view-accounts .card-link, #view-account-detail .card-link { color:#94a3b8; }
+    #view-accounts .card-link:hover, #view-account-detail .card-link:hover { color:var(--gold); }
+
+    #view-accounts .acc-toolbar-left, #view-account-detail .acc-toolbar-left { color:#151a2d; }
+    #view-accounts .acc-check-label, #view-account-detail .acc-check-label { color:#6b7280; }
+    #view-accounts .acc-switch-slider, #view-account-detail .acc-switch-slider { background:#e2e5ec; }
+    #view-accounts .acc-switch-label, #view-account-detail .acc-switch-label { color:#6b7280; }
+
+    #view-accounts .acc-badge-active, #view-account-detail .acc-badge-active { background:#0eab7a; color:#fff; border:none; }
+    #view-accounts .acc-badge-closed, #view-account-detail .acc-badge-closed { background:#eef0f6; color:#6b7280; border:none; }
+    #view-accounts .acc-badge-kind, #view-account-detail .acc-badge-kind { background:#fff; color:#a3792e; border:1px solid #ecdba8; }
+
+    #view-accounts .acc-card-title, #view-account-detail .acc-card-title { color:#151a2d; }
+    #view-accounts .acc-card-title:hover, #view-account-detail .acc-card-title:hover { color:var(--gold); }
+    #view-accounts .acc-card-sub, #view-account-detail .acc-card-sub { color:#8892aa; }
+    #view-accounts .acc-divider, #view-account-detail .acc-divider { background:#eef0f6; }
+    #view-accounts .acc-info-label, #view-account-detail .acc-info-label { color:#94a3b8; }
+    #view-accounts .acc-info-val, #view-account-detail .acc-info-val { color:#151a2d; }
+    #view-accounts .acc-metrics-row, #view-account-detail .acc-metrics-row { border-top-color:#eef0f6; }
+
+    #view-accounts .acc-action-btn, #view-account-detail .acc-action-btn { background:#fff; border-color:#e2e5ec; color:#151a2d; }
+    #view-accounts .acc-action-btn:hover, #view-account-detail .acc-action-btn:hover { border-color:#151a2d; }
+    #view-accounts .acc-detail-btn, #view-account-detail .acc-detail-btn { background:#fff; border-color:#151a2d; color:#151a2d; }
+    #view-accounts .acc-detail-btn:hover, #view-account-detail .acc-detail-btn:hover { background:#f5f6fa; }
+
+    #view-accounts .acc-hidden-row, #view-account-detail .acc-hidden-row { background:#fff; border-color:#e7e9f1; color:#6b7280; }
+    #view-accounts .acc-hidden-row strong, #view-account-detail .acc-hidden-row strong { color:#151a2d; }
+    #view-accounts .acc-history-row, #view-account-detail .acc-history-row { border-bottom-color:#eef0f6; }
+    #view-accounts .acc-history-row:hover, #view-account-detail .acc-history-row:hover { background:#f8f9fc; }
+    #view-accounts .acc-history-name, #view-account-detail .acc-history-name { color:#151a2d; }
+    #view-accounts .acc-history-meta, #view-account-detail .acc-history-meta { color:#94a3b8; }
+    #view-accounts .acc-empty, #view-account-detail .acc-empty { color:#94a3b8; }
+
+    #view-account-detail .acc-detail-back { color:#8892aa; }
+    #view-account-detail .acc-detail-back:hover { color:var(--gold); }
+    #view-account-detail .acc-tabs { background:transparent; border:none; border-bottom:1px solid #e7e9f1; border-radius:0; padding:0; gap:1.6rem; }
+    #view-account-detail .acc-tab { color:#94a3b8; padding:.85rem 0; border-radius:0; border-bottom:2px solid transparent; }
+    #view-account-detail .acc-tab.active { background:none; color:#151a2d; border-bottom-color:var(--gold); }
+    #view-account-detail .acc-detail-val { color:#151a2d; }
+    #view-account-detail .acc-obj-row { color:#4b5775; }
+
+    #view-account-detail .trade-row { border-bottom-color:#eef0f6; }
+    #view-account-detail .trade-title { color:#4b5775; }
+    #view-account-detail .trade-date { color:#94a3b8; }
+
+    #view-account-detail .acc-cal-btn { background:#fff; border-color:#e2e5ec; color:#151a2d; }
+    #view-account-detail .acc-cal-title { color:#151a2d; }
+    #view-account-detail .acc-cal-weekday { color:#94a3b8; }
+    #view-account-detail .acc-cal-cell.empty-day:hover { background:#f5f6fa; }
+    #view-account-detail .acc-cal-daynum { color:#c2c9d6; }
+
+    #view-account-detail .acc-stats-grid { background:#eef0f6; border-color:#eef0f6; }
+    #view-account-detail .acc-stat-cell { background:#fff; }
+
     /* VIEWS */
     .view { display:none; }
     .view.active { display:block; }
@@ -272,6 +336,7 @@
       .dash-content { margin-left: 0; max-width: 100vw; padding: 1.5rem 1rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .content-grid { grid-template-columns: 1fr; }
+      #view-accounts, #view-account-detail { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
     }
   </style>
 </head>
@@ -1065,12 +1130,12 @@
       const sign = safe < 0 ? '-' : '';
       return sign + '$' + Math.abs(safe).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
-    function accValueColor(v) { const n = Number(v); return n > 0 ? '#4ade80' : n < 0 ? '#f87171' : '#fff'; }
+    function accValueColor(v) { const n = Number(v); return n > 0 ? '#16a34a' : n < 0 ? '#dc2626' : '#151a2d'; }
     function accKindLabel(k) { return k === 'fondeo' ? 'Fondeo' : 'Capital propio'; }
     function escAttr(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
     function accSparklineSVG(curve, w, h, color) {
-      if (!curve || curve.length < 2) return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="rgba(255,255,255,.15)" stroke-width="2"/></svg>`;
+      if (!curve || curve.length < 2) return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="#e2e5ec" stroke-width="2"/></svg>`;
       const min = Math.min(...curve), max = Math.max(...curve);
       const range = (max - min) || 1;
       const step = w / (curve.length - 1);
@@ -1185,7 +1250,7 @@
         <div class="acc-row-info">
           <div><span class="acc-info-label">Balance</span><span class="acc-info-val">${accFmtMoney(a.balance)}</span></div>
           <div><span class="acc-info-label">End</span><span class="acc-info-val">${endLabel}</span></div>
-          <div><span class="acc-info-label">Status</span><span class="acc-info-val" style="color:#4ade80">Activa</span></div>
+          <div><span class="acc-info-label">Status</span><span class="acc-info-val" style="color:#16a34a">Activa</span></div>
         </div>
         <div class="acc-row-chart">
           ${accSparklineSVG(m.curve, 130, 52, color)}
@@ -1199,7 +1264,7 @@
         <div class="acc-metrics-row">
           <div><span class="acc-info-label">Today's profit</span><span class="acc-info-val" style="color:${accValueColor(m.todayProfit)}">${accFmtMoney(m.todayProfit)}</span></div>
           <div><span class="acc-info-label">Equity</span><span class="acc-info-val">${accFmtMoney(m.equity)}</span></div>
-          <div><span class="acc-info-label">Unrealized PnL</span><span class="acc-info-val" style="color:rgba(255,255,255,.35)">${trades.length ? accFmtMoney(m.unrealizedPnl) : 'Sin operaciones'}</span></div>
+          <div><span class="acc-info-label">Unrealized PnL</span><span class="acc-info-val" style="color:#9aa1b5">${trades.length ? accFmtMoney(m.unrealizedPnl) : 'Sin operaciones'}</span></div>
         </div>
       </div>`;
     }
@@ -1219,7 +1284,7 @@
         const trades = accGetTrades(a.id);
         const m = accComputeMetrics(a.balance, trades);
         const resultLabel = a.result === 'passing' ? 'Passing' : a.result === 'not_passing' ? 'Not passing' : '—';
-        const resultColor = a.result === 'passing' ? '#4ade80' : a.result === 'not_passing' ? '#f87171' : '#8a8a8a';
+        const resultColor = a.result === 'passing' ? '#16a34a' : a.result === 'not_passing' ? '#dc2626' : '#94a3b8';
         return `<div class="acc-history-row" onclick="accGotoDetail('${a.id}')">
           <div class="acc-history-left">
             <span class="acc-history-name">${a.name}</span>
@@ -1423,10 +1488,10 @@
         data: { labels, datasets: [{ data: m.curve, borderColor:'#c9a84c', backgroundColor:'rgba(201,168,76,0.06)', borderWidth:2.5, pointRadius: labels.length>24?0:3, pointHoverRadius:5, pointBackgroundColor:'#c9a84c', fill:true, tension:.1 }] },
         options: {
           responsive: true, maintainAspectRatio: false,
-          plugins: { legend: { display:false }, tooltip: { callbacks: { label: ctx => ' ' + accFmtMoney(ctx.parsed.y) }, backgroundColor:'#07091a', titleColor:'rgba(255,255,255,.6)', bodyColor:'#fff', borderColor:'rgba(255,255,255,.1)', borderWidth:1, padding:10 } },
+          plugins: { legend: { display:false }, tooltip: { callbacks: { label: ctx => ' ' + accFmtMoney(ctx.parsed.y) }, backgroundColor:'#fff', titleColor:'#151a2d', bodyColor:'#151a2d', borderColor:'#e7e9f1', borderWidth:1, padding:10 } },
           scales: {
-            x: { grid: { color:'rgba(255,255,255,.05)' }, ticks: { font:{size:10}, color:'rgba(255,255,255,.35)', maxTicksLimit:10 } },
-            y: { grid: { color:'rgba(255,255,255,.06)' }, ticks: { callback: v => '$'+Number(v).toLocaleString(), font:{size:10}, color:'rgba(255,255,255,.35)' } }
+            x: { grid: { color:'#f0f2f7' }, ticks: { font:{size:10}, color:'#94a3b8', maxTicksLimit:10 } },
+            y: { grid: { color:'#f0f2f7' }, ticks: { callback: v => '$'+Number(v).toLocaleString(), font:{size:10}, color:'#94a3b8' } }
           }
         }
       });
@@ -1534,10 +1599,12 @@
         if (dayTrades) {
           const total = dayTrades.reduce((s,t) => s + Number(t.pnl), 0);
           const isWin = total >= 0;
-          html += `<div class="acc-cal-cell has-trade" style="background:${isWin?'#4ade80':'#f87171'}" onclick="accOpenTradeModal('${dayTrades[0].id}')">
-            <div class="acc-cal-daynum">${d}</div>
-            <div class="acc-cal-amount">${accFmtMoney(total)}</div>
-            <div class="acc-cal-count">${dayTrades.length} ${dayTrades.length===1?'trade':'trades'}</div>
+          const cellBg = isWin ? '#eafaf1' : '#fdecec';
+          const cellFg = isWin ? '#16a34a' : '#dc2626';
+          html += `<div class="acc-cal-cell has-trade" style="background:${cellBg}" onclick="accOpenTradeModal('${dayTrades[0].id}')">
+            <div class="acc-cal-daynum" style="color:${cellFg};opacity:.75">${d}</div>
+            <div class="acc-cal-amount" style="color:${cellFg}">${accFmtMoney(total)}</div>
+            <div class="acc-cal-count" style="color:${cellFg};opacity:.75">${dayTrades.length} ${dayTrades.length===1?'trade':'trades'}</div>
           </div>`;
         } else {
           html += `<div class="acc-cal-cell empty-day" onclick="accOpenTradeModal(null,'${ds}')"><div class="acc-cal-daynum">${d}</div></div>`;
@@ -1554,23 +1621,23 @@
       document.getElementById('acc-stats-grid').innerHTML = [
         cell('Balance', accFmtMoney(m.balance)),
         cell('Equity', accFmtMoney(m.equity)),
-        cell('Average profit', accFmtMoney(s.averageProfit), '#4ade80'),
-        cell('Average loss', accFmtMoney(s.averageLoss), '#f87171'),
+        cell('Average profit', accFmtMoney(s.averageProfit), '#16a34a'),
+        cell('Average loss', accFmtMoney(s.averageLoss), '#dc2626'),
         cell('Win rate', s.winRate.toFixed(2) + '%'),
         cell('Number of trades', String(s.numberOfTrades)),
         cell('Lots', s.lots.toFixed(2)),
-        cell('Sharpe Ratio', s.sharpeRatio.toFixed(2), s.sharpeRatio>=0?'#4ade80':'#f87171'),
+        cell('Sharpe Ratio', s.sharpeRatio.toFixed(2), s.sharpeRatio>=0?'#16a34a':'#dc2626'),
         cell('Average RRR', s.averageRRR.toFixed(2)),
-        cell('Expectancy', accFmtMoney(s.expectancy), s.expectancy>=0?'#4ade80':'#f87171'),
-        cell('Profit factor', Number.isFinite(s.profitFactor)?s.profitFactor.toFixed(2):'∞', s.profitFactor>=1?'#4ade80':'#f87171'),
+        cell('Expectancy', accFmtMoney(s.expectancy), s.expectancy>=0?'#16a34a':'#dc2626'),
+        cell('Profit factor', Number.isFinite(s.profitFactor)?s.profitFactor.toFixed(2):'∞', s.profitFactor>=1?'#16a34a':'#dc2626'),
       ].join('');
 
       const daily = accComputeDailySummary(trades);
       const el = document.getElementById('acc-daily-summary');
       if (!daily.length) { el.innerHTML = '<div class="acc-empty">Sin datos todavía.</div>'; return; }
-      el.innerHTML = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.9rem 0;border-bottom:1px solid var(--border);font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35)">
+      el.innerHTML = `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.9rem 0;border-bottom:1px solid #eef0f6;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#94a3b8">
         <span>Fecha</span><span style="text-align:center">Trades</span><span style="text-align:center">Lots</span><span style="text-align:right">Resultado</span>
-      </div>` + daily.map(r => `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.8rem 0;border-bottom:1px solid var(--border);font-size:.8rem">
+      </div>` + daily.map(r => `<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1.4fr;gap:.5rem;padding:.8rem 0;border-bottom:1px solid #eef0f6;font-size:.8rem">
         <span>${r.date}</span><span style="text-align:center">${r.trades}</span><span style="text-align:center">${r.lots.toFixed(2)}</span><span style="text-align:right;font-weight:700;color:${accValueColor(r.result)}">${accFmtMoney(r.result)}</span>
       </div>`).join('');
     }
@@ -1580,11 +1647,11 @@
       const isFondeo = a.kind === 'fondeo';
       function row(label, val, color) {
         const style = color ? `font-weight:700;font-size:.85rem;color:${color}` : 'font-weight:700;font-size:.85rem';
-        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.6rem;border-bottom:1px solid var(--border)"><span style="color:rgba(255,255,255,.35);font-size:.82rem">${label}</span><span style="${style}">${val}</span></div>`;
+        return `<div style="display:flex;justify-content:space-between;align-items:center;padding:1rem 1.6rem;border-bottom:1px solid #eef0f6"><span style="color:#94a3b8;font-size:.82rem">${label}</span><span style="${style}">${val}</span></div>`;
       }
       const detailsEl = document.getElementById('acc-account-details');
       detailsEl.innerHTML =
-        row('Status', a.status==='active' ? 'Activa' : 'Cerrada', a.status==='active'?'#4ade80':'#8a8a8a') +
+        row('Status', a.status==='active' ? 'Activa' : 'Cerrada', a.status==='active'?'#16a34a':'#94a3b8') +
         row(isFondeo ? (a.firm || 'Prop firm') : 'Cuenta', a.number) +
         row('Inicio', a.start_date) +
         row('Fin', a.end_date || '—') +
