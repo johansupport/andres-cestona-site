@@ -62,7 +62,7 @@
     .dash-layout { padding-top:72px; display:flex; min-height:100vh; gap:1rem; }
 
     /* SIDEBAR */
-    .sidebar { width:248px; flex-shrink:0; background:#fff; border:1px solid rgba(255,255,255,.07); border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,.5); margin:1.25rem 0 1.25rem 6rem; padding:1.5rem 0; position:sticky; top:calc(72px + 1.25rem); height:calc(100vh - 72px - 2.5rem); overflow-y:auto; }
+    .sidebar { width:248px; flex-shrink:0; background:#fff; border:1px solid rgba(255,255,255,.07); border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,.5); margin:1.25rem 0 1.25rem 5rem; padding:1.5rem 0; position:sticky; top:calc(72px + 1.25rem); height:calc(100vh - 72px - 2.5rem); overflow-y:auto; }
     .sidebar-cta { display:block; width:calc(100% - 2rem); margin:0 1rem 1.3rem; background:var(--gold); color:#05070f; border:none; border-radius:9px; padding:.85rem 1rem; font-size:.85rem; font-weight:800; cursor:pointer; font-family:'Inter',sans-serif; text-align:center; transition:background .2s; }
     .sidebar-cta:hover { background:var(--gold2); }
     .sidebar-heading { font-size:1.05rem; font-weight:800; color:#151a2d; padding:0 1rem; margin:0 0 1rem; }
@@ -313,18 +313,89 @@
     .acc-stat-cell { background:rgba(255,255,255,.025); padding:1.2rem; }
     .acc-stat-cell .acc-info-val { font-size:1.1rem; }
 
-    /* ══════ CUENTAS — blanco estilo FTMO ══════ */
-    #view-accounts, #view-account-detail { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
-    #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow { color:var(--gold); }
-    #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before { background:var(--gold); }
-    #view-accounts .page-title, #view-account-detail .page-title { color:#151a2d; }
-    #view-accounts .page-sub, #view-account-detail .page-sub { color:#6b7280; }
+    /* MIS TRADES */
+    #mt-stats-bar { grid-template-columns:repeat(6,1fr); }
+    .mt-stat-card { padding:1rem; margin:0; }
+    .mt-stat-label { font-size:.58rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,.25); margin-bottom:.4rem; }
+    .mt-stat-val { font-size:1.05rem; font-weight:800; color:#fff; }
+    .mt-stat-val.pos { color:#4ade80; }
+    .mt-stat-val.neg { color:#f87171; }
+    .mt-tpl-add { background:transparent; border:1px dashed rgba(255,255,255,.15); color:rgba(255,255,255,.4); padding:.35rem .8rem; border-radius:7px; font-size:.75rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
+    .mt-tpl-add:hover { border-color:var(--gold); color:var(--gold); }
+    .mt-nav-btn { background:rgba(255,255,255,.05); border:1px solid var(--border); color:#fff; width:30px; height:30px; border-radius:7px; cursor:pointer; font-size:.95rem; }
+    .mt-cal-head-row { background:rgba(255,255,255,.03); border-bottom:1px solid var(--border); }
+    .mt-cal-weekday { padding:.6rem .4rem; text-align:center; font-size:.58rem; font-weight:700; letter-spacing:1px; color:rgba(255,255,255,.25); }
+    .mt-cal-weekday-week { border-left:1px solid var(--border); }
 
-    #view-accounts .card, #view-account-detail .card { background:#fff; border:1px solid #e7e9f1; box-shadow:0 1px 3px rgba(16,24,40,.05); }
-    #view-accounts .card-head, #view-account-detail .card-head { border-bottom-color:#eef0f6; }
-    #view-accounts .card-title, #view-account-detail .card-title { color:#151a2d; }
-    #view-accounts .card-link, #view-account-detail .card-link { color:#94a3b8; }
-    #view-accounts .card-link:hover, #view-account-detail .card-link:hover { color:var(--gold); }
+    /* ══════ DASHBOARD — blanco estilo FTMO (todas las vistas) ══════ */
+    #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
+    #view-overview .page-eyebrow, #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow, #view-trades .page-eyebrow, #view-performance .page-eyebrow, #view-simulations .page-eyebrow, #view-mytrades .page-eyebrow, #view-profile .page-eyebrow { color:var(--gold); }
+    #view-overview .page-eyebrow::before, #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before, #view-trades .page-eyebrow::before, #view-performance .page-eyebrow::before, #view-simulations .page-eyebrow::before, #view-mytrades .page-eyebrow::before, #view-profile .page-eyebrow::before { background:var(--gold); }
+    #view-overview .page-title, #view-accounts .page-title, #view-account-detail .page-title, #view-trades .page-title, #view-performance .page-title, #view-simulations .page-title, #view-mytrades .page-title, #view-profile .page-title { color:#151a2d; }
+    #view-overview .page-sub, #view-accounts .page-sub, #view-account-detail .page-sub, #view-trades .page-sub, #view-performance .page-sub, #view-simulations .page-sub, #view-mytrades .page-sub, #view-profile .page-sub { color:#6b7280; }
+
+    #view-overview .card, #view-accounts .card, #view-account-detail .card, #view-trades .card, #view-performance .card, #view-simulations .card, #view-mytrades .card, #view-profile .card { background:#fff; border:1px solid #e7e9f1; box-shadow:0 1px 3px rgba(16,24,40,.05); }
+    #view-overview .card-head, #view-accounts .card-head, #view-account-detail .card-head, #view-trades .card-head, #view-performance .card-head, #view-simulations .card-head, #view-mytrades .card-head, #view-profile .card-head { border-bottom-color:#eef0f6; }
+    #view-overview .card-title, #view-accounts .card-title, #view-account-detail .card-title, #view-trades .card-title, #view-performance .card-title, #view-simulations .card-title, #view-mytrades .card-title, #view-profile .card-title { color:#151a2d; }
+    #view-overview .card-link, #view-accounts .card-link, #view-account-detail .card-link, #view-trades .card-link, #view-performance .card-link, #view-simulations .card-link, #view-mytrades .card-link, #view-profile .card-link { color:#94a3b8; }
+    #view-overview .card-link:hover, #view-accounts .card-link:hover, #view-account-detail .card-link:hover, #view-trades .card-link:hover, #view-performance .card-link:hover, #view-simulations .card-link:hover, #view-mytrades .card-link:hover, #view-profile .card-link:hover { color:var(--gold); }
+
+    /* Estado de estrategias (Resumen) */
+    #view-overview .strat-status-cell { background:#fff; }
+    #view-overview .strat-status-grid { background:#eef0f6; }
+    #view-overview .strat-status-name { color:#151a2d; }
+    #view-overview .strat-status-prices { color:#94a3b8; }
+
+    /* Stats grid (Rendimiento) */
+    #view-performance .stats-grid { background:#eef0f6; border-color:#eef0f6; }
+    #view-performance .stat-card { background:#fff; }
+    #view-performance .stat-card:hover { background:#fafbfd; }
+    #view-performance .stat-tag { color:#94a3b8; }
+    #view-performance .stat-desc { color:#9aa1b5; }
+    #view-overview .stat-tag { color:#94a3b8; }
+
+    /* Trade rows (Resumen home summary + Trades recientes) */
+    #view-overview .trade-row, #view-trades .trade-row { border-bottom-color:#eef0f6; }
+    #view-overview .trade-title, #view-trades .trade-title { color:#4b5775; }
+    #view-overview .trade-date, #view-trades .trade-date { color:#94a3b8; }
+    #view-trades .b-win { background:#eafaf1; color:#16a34a; border-color:#c8ecd9; }
+    #view-trades .b-loss { background:#fdecec; color:#dc2626; border-color:#f6cfcf; }
+    #view-trades .trade-r.pos { color:#16a34a; }
+    #view-trades .trade-r.neg { color:#dc2626; }
+
+    /* Stat numbers en verde (legibles sobre blanco) */
+    #view-overview .stat-num.green, #view-performance .stat-num.green { color:#16a34a; }
+    #view-overview .stat-num.white { color:#151a2d; }
+
+    /* Simulaciones */
+    #view-simulations .sim-card { border-bottom-color:#eef0f6; }
+    #view-simulations .sim-card:hover { background:#f8f9fc; }
+    #view-simulations .sim-name { color:#151a2d; }
+    #view-simulations .sim-metric-label { color:#9aa1b5; }
+    #view-simulations .sim-metric-val { color:#4b5775; }
+    #view-simulations .sim-final-val { color:#94a3b8; }
+    #view-simulations .sim-btn-del { border-color:#e2e5ec; color:#94a3b8; }
+    #view-simulations .sims-empty p { color:#94a3b8; }
+    #view-simulations .sim-metric-val.green, #view-simulations .sim-return { color:#16a34a; }
+
+    /* Mi perfil */
+    #view-profile .profile-cards { background:#eef0f6; }
+    #view-profile .profile-cell { background:#fff; }
+    #view-profile .profile-label { color:#94a3b8; }
+    #view-profile .profile-val { color:#151a2d; }
+    #view-profile .profile-input { background:#fff; border-color:#e2e5ec; color:#151a2d; }
+
+    /* Mis Trades */
+    #view-mytrades .mt-stat-card { background:#fff; }
+    #view-mytrades .mt-stat-label { color:#94a3b8; }
+    #view-mytrades .mt-stat-val { color:#151a2d; }
+    #view-mytrades .mt-stat-val.pos { color:#16a34a; }
+    #view-mytrades .mt-stat-val.neg { color:#dc2626; }
+    #view-mytrades .mt-cal-head-row { background:#f8f9fc; border-bottom-color:#eef0f6; }
+    #view-mytrades .mt-cal-weekday { color:#94a3b8; }
+    #view-mytrades .mt-cal-weekday-week { border-left-color:#eef0f6; }
+    #view-mytrades .mt-nav-btn { background:#fff; border-color:#e2e5ec; color:#151a2d; }
+    #view-mytrades .mt-tpl-add { color:#94a3b8; border-color:#d8dce6; }
 
     #view-accounts .acc-toolbar-left, #view-account-detail .acc-toolbar-left { color:#151a2d; }
     #view-accounts .acc-check-label, #view-account-detail .acc-check-label { color:#6b7280; }
@@ -409,13 +480,14 @@
       .dash-content { margin-left: 0; max-width: 100vw; padding: 1.5rem 1rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .content-grid { grid-template-columns: 1fr; }
-      #view-accounts, #view-account-detail { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
+      #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
       .acc-card { padding: 1.4rem 1.2rem; }
       .acc-row-info { gap: .4rem 1.2rem; }
       .acc-row-chart { flex-direction: column; align-items: flex-start; }
       .acc-actions { flex-direction: column; align-items: flex-start; gap: .9rem; width: 100%; }
       .acc-detail-btn { width: 100%; text-align: center; }
       .acc-metrics-row { grid-template-columns: 1fr; gap: .9rem; }
+      #mt-stats-bar { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
@@ -829,44 +901,44 @@
         </div>
 
         <!-- Stats bar -->
-        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:.7rem;margin-bottom:1.5rem" id="mt-stats-bar">
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Net P&L</div><div style="font-size:1.05rem;font-weight:800" id="mt-netpnl">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0;cursor:pointer" onclick="mtEditCapital()" title="Click para editar"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Capital <span style="color:var(--gold);font-size:.5rem">✎</span></div><div style="font-size:1.05rem;font-weight:800" id="mt-capital">$1,000</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Positivo</div><div style="font-size:1.05rem;font-weight:800;color:#4ade80" id="mt-pos">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Negativo</div><div style="font-size:1.05rem;font-weight:800;color:#f87171" id="mt-neg">$0.00</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">%</div><div style="font-size:1.05rem;font-weight:800" id="mt-pct">0.0%</div></div>
-          <div class="card" style="padding:1rem;margin:0"><div style="font-size:.58rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:.4rem">Saldo</div><div style="font-size:1.05rem;font-weight:800" id="mt-saldo">$1,000</div></div>
+        <div style="display:grid;gap:.7rem;margin-bottom:1.5rem" id="mt-stats-bar">
+          <div class="card mt-stat-card"><div class="mt-stat-label">Net P&L</div><div class="mt-stat-val" id="mt-netpnl">$0.00</div></div>
+          <div class="card mt-stat-card" style="cursor:pointer" onclick="mtEditCapital()" title="Click para editar"><div class="mt-stat-label">Capital <span style="color:var(--gold);font-size:.5rem">✎</span></div><div class="mt-stat-val" id="mt-capital">$1,000</div></div>
+          <div class="card mt-stat-card"><div class="mt-stat-label">Positivo</div><div class="mt-stat-val pos" id="mt-pos">$0.00</div></div>
+          <div class="card mt-stat-card"><div class="mt-stat-label">Negativo</div><div class="mt-stat-val neg" id="mt-neg">$0.00</div></div>
+          <div class="card mt-stat-card"><div class="mt-stat-label">%</div><div class="mt-stat-val" id="mt-pct">0.0%</div></div>
+          <div class="card mt-stat-card"><div class="mt-stat-label">Saldo</div><div class="mt-stat-val" id="mt-saldo">$1,000</div></div>
         </div>
 
         <!-- Plantillas -->
         <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;flex-wrap:wrap">
           <div id="mt-plantillas-list" style="display:flex;gap:.5rem;flex-wrap:wrap"></div>
-          <button onclick="mtNuevaPlantilla()" style="background:transparent;border:1px dashed rgba(255,255,255,.15);color:rgba(255,255,255,.4);padding:.35rem .8rem;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,255,255,.15)';this.style.color='rgba(255,255,255,.4)'">+ Nueva tabla</button>
+          <button onclick="mtNuevaPlantilla()" class="mt-tpl-add">+ Nueva tabla</button>
         </div>
 
         <!-- Controles -->
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem">
           <div style="display:flex;align-items:center;gap:.7rem">
-            <button onclick="mtPrev()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">‹</button>
+            <button onclick="mtPrev()" class="mt-nav-btn">‹</button>
             <span style="font-size:1rem;font-weight:800;min-width:150px;text-align:center" id="mt-month-title">—</span>
-            <button onclick="mtNext()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);color:#fff;width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:.95rem">›</button>
+            <button onclick="mtNext()" class="mt-nav-btn">›</button>
           </div>
           <button onclick="mtOpenModal(null)" style="background:var(--gold);color:#05070f;border:none;padding:.5rem 1.1rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">+ Añadir trade</button>
         </div>
 
         <!-- Calendario -->
         <div class="card" style="padding:0;overflow:hidden">
-          <div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;background:rgba(255,255,255,.03);border-bottom:1px solid var(--border)">
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">DOM</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">LUN</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">MAR</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">MIÉ</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">JUE</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">VIE</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25)">SÁB</div>
-            <div style="padding:.6rem .4rem;text-align:center;font-size:.58rem;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.25);border-left:1px solid var(--border)">SEMANA</div>
+          <div class="mt-cal-head-row" style="display:grid;grid-template-columns:repeat(7,1fr) 110px">
+            <div class="mt-cal-weekday">DOM</div>
+            <div class="mt-cal-weekday">LUN</div>
+            <div class="mt-cal-weekday">MAR</div>
+            <div class="mt-cal-weekday">MIÉ</div>
+            <div class="mt-cal-weekday">JUE</div>
+            <div class="mt-cal-weekday">VIE</div>
+            <div class="mt-cal-weekday">SÁB</div>
+            <div class="mt-cal-weekday mt-cal-weekday-week">SEMANA</div>
           </div>
-          <div id="mt-cal-body" style="color:rgba(255,255,255,.4);padding:1rem;font-size:.85rem">Cargando...</div>
+          <div id="mt-cal-body" style="padding:1rem;font-size:.85rem">Cargando...</div>
         </div>
       </div>
 
@@ -894,7 +966,7 @@
             </div>
             <div class="profile-cell">
               <label class="profile-label">Estado</label>
-              <div class="profile-val" style="color:var(--green)">● Activo</div>
+              <div class="profile-val" style="color:#16a34a">● Activo</div>
             </div>
           </div>
           <div class="profile-save-area">
@@ -989,8 +1061,8 @@
     // ── ESTADO DE ESTRATEGIAS (home) ──
     const STRAT_STATUS_META = {
       running: { label: 'Corriendo', color: 'var(--gold)', bg: 'rgba(201,168,76,.12)' },
-      tp: { label: 'TP', color: 'var(--green)', bg: 'rgba(74,222,128,.12)' },
-      sl: { label: 'SL', color: 'var(--red)', bg: 'rgba(248,113,113,.12)' },
+      tp: { label: 'TP', color: '#16a34a', bg: 'rgba(74,222,128,.14)' },
+      sl: { label: 'SL', color: '#dc2626', bg: 'rgba(248,113,113,.14)' },
     };
     const STRAT_STATUS_LIST = [
       { key: 'swing', label: 'XAUUSD', real: true },
@@ -1009,7 +1081,7 @@
         if (!s.real) {
           return `<div class="strat-status-cell">
             <div class="strat-status-name">${s.label}</div>
-            <div class="strat-status-badge" style="background:rgba(255,255,255,.05);color:rgba(255,255,255,.3)">Próximamente</div>
+            <div class="strat-status-badge" style="background:#eef0f6;color:#94a3b8">Próximamente</div>
           </div>`;
         }
         const r = map[s.key];
@@ -1031,7 +1103,7 @@
       if (accEl) {
         const active = accAccounts.filter(a => a.status === 'active');
         if (!active.length) {
-          accEl.innerHTML = `<p style="font-size:.82rem;color:rgba(255,255,255,.3)">No tienes cuentas activas todavía. <a href="javascript:void(0)" onclick="showView('accounts', document.querySelector('.sidebar-link[data-view=accounts]'))" style="color:var(--gold)">Crear una →</a></p>`;
+          accEl.innerHTML = `<p style="font-size:.82rem;color:#94a3b8">No tienes cuentas activas todavía. <a href="javascript:void(0)" onclick="showView('accounts', document.querySelector('.sidebar-link[data-view=accounts]'))" style="color:var(--gold)">Crear una →</a></p>`;
         } else {
           const totalBalance = active.reduce((s, a) => s + accComputeMetrics(a.balance, accGetTrades(a.id)).balance, 0);
           accEl.innerHTML = `<div style="display:flex;gap:2.2rem;flex-wrap:wrap">
@@ -1050,12 +1122,12 @@
         const { data: monthTrades } = await sb.from('user_trades').select('resultado').eq('user_id', currentUser.id).gte('fecha', from).lte('fecha', to);
         const trades = monthTrades || [];
         if (!trades.length) {
-          mtEl.innerHTML = `<p style="font-size:.82rem;color:rgba(255,255,255,.3)">Aún no registras trades este mes. <a href="javascript:void(0)" onclick="showView('mytrades', document.querySelector('.sidebar-link[onclick*=mytrades]'))" style="color:var(--gold)">Añadir →</a></p>`;
+          mtEl.innerHTML = `<p style="font-size:.82rem;color:#94a3b8">Aún no registras trades este mes. <a href="javascript:void(0)" onclick="showView('mytrades', document.querySelector('.sidebar-link[onclick*=mytrades]'))" style="color:var(--gold)">Añadir →</a></p>`;
         } else {
           const pnl = trades.reduce((s, t) => s + Number(t.resultado), 0);
           mtEl.innerHTML = `<div style="display:flex;gap:2.2rem;flex-wrap:wrap">
             <div><div class="stat-tag">Trades este mes</div><div class="stat-num white" style="font-size:1.7rem">${trades.length}</div></div>
-            <div><div class="stat-tag">Net P&L</div><div class="stat-num" style="font-size:1.7rem;color:${pnl>=0?'var(--green)':'var(--red)'}">${pnl>=0?'+':''}$${Math.abs(pnl).toFixed(2)}</div></div>
+            <div><div class="stat-tag">Net P&L</div><div class="stat-num" style="font-size:1.7rem;color:${pnl>=0?'#16a34a':'#dc2626'}">${pnl>=0?'+':''}$${Math.abs(pnl).toFixed(2)}</div></div>
           </div>`;
         }
       }
@@ -1182,9 +1254,9 @@
       el.innerHTML = mtPlantillas.map(p => {
         const active = p.id === mtActivePlantilla?.id;
         return `<div style="display:flex;align-items:center;gap:.3rem">
-          <button onclick="mtSwitchPlantilla('${p.id}')" style="padding:.35rem .85rem;border-radius:7px;font-size:.78rem;font-weight:${active?'700':'500'};cursor:pointer;background:${active?'rgba(201,168,76,.15)':'rgba(255,255,255,.05)'};border:1px solid ${active?'var(--gold)':'rgba(255,255,255,.08)'};color:${active?'var(--gold)':'rgba(255,255,255,.5)'};transition:all .2s">${p.nombre}</button>
-          <button onclick="mtRenamePlantilla('${p.id}','${p.nombre.replace(/'/g,"\'")}')" style="background:transparent;border:none;color:rgba(255,255,255,.2);cursor:pointer;font-size:.7rem;padding:.2rem" title="Renombrar">✎</button>
-          ${mtPlantillas.length > 1 ? `<button onclick="mtDeletePlantilla('${p.id}')" style="background:transparent;border:none;color:rgba(248,113,113,.3);cursor:pointer;font-size:.7rem;padding:.2rem" title="Eliminar">✕</button>` : ''}
+          <button onclick="mtSwitchPlantilla('${p.id}')" style="padding:.35rem .85rem;border-radius:7px;font-size:.78rem;font-weight:${active?'700':'500'};cursor:pointer;background:${active?'rgba(201,168,76,.12)':'#fff'};border:1px solid ${active?'var(--gold)':'#e2e5ec'};color:${active?'var(--gold)':'#4b5775'};transition:all .2s">${p.nombre}</button>
+          <button onclick="mtRenamePlantilla('${p.id}','${p.nombre.replace(/'/g,"\'")}')" style="background:transparent;border:none;color:#c2c9d6;cursor:pointer;font-size:.7rem;padding:.2rem" title="Renombrar">✎</button>
+          ${mtPlantillas.length > 1 ? `<button onclick="mtDeletePlantilla('${p.id}')" style="background:transparent;border:none;color:#e6a5a5;cursor:pointer;font-size:.7rem;padding:.2rem" title="Eliminar">✕</button>` : ''}
         </div>`;
       }).join('');
     }
@@ -1241,7 +1313,7 @@
 
     async function mtLoadMonth() {
       document.getElementById('mt-month-title').textContent = MT_MONTHS[mtMonth] + ' ' + mtYear;
-      document.getElementById('mt-cal-body').innerHTML = '<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.3)">Cargando...</div>';
+      document.getElementById('mt-cal-body').innerHTML = '<div style="padding:2rem;text-align:center;color:#94a3b8">Cargando...</div>';
       const from = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-01`;
       const last = new Date(mtYear, mtMonth+1, 0).getDate();
       const to = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(last).padStart(2,'0')}`;
@@ -1264,7 +1336,7 @@
         if(cells.length===7||d===days) {
           while(cells.length<7) cells.push('');
           const rowCells = cells.map(c => {
-            if(c==='') return `<div style="border-right:1px solid var(--border);min-height:70px"></div>`;
+            if(c==='') return `<div style="border-right:1px solid #eef0f6;min-height:70px"></div>`;
             const ds = `${mtYear}-${String(mtMonth+1).padStart(2,'0')}-${String(c).padStart(2,'0')}`;
             const t = map[ds];
             const isToday = today.getFullYear()===mtYear&&today.getMonth()===mtMonth&&today.getDate()===c;
@@ -1274,10 +1346,10 @@
               const pos = t.resultado>=0;
               const sign = pos?'+':'';
               const pct = mtCapital>0 ? (t.resultado/mtCapital*100) : t.porcentaje;
-              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'rgba(74,222,128,.12)':'rgba(248,113,113,.12)'};color:${pos?'#4ade80':'#f87171'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${pct.toFixed(1)}%</div></div>`;
+              chip = `<div style="margin-top:.3rem;padding:.2rem .35rem;border-radius:5px;font-size:.7rem;font-weight:700;background:${pos?'#eafaf1':'#fdecec'};color:${pos?'#16a34a':'#dc2626'}">${sign}$${Math.abs(t.resultado).toFixed(2)}<div style="font-size:.6rem;font-weight:500;opacity:.8">${sign}${pct.toFixed(1)}%</div></div>`;
             }
-            return `<div onclick="mtOpenModal('${ds}')" style="border-right:1px solid var(--border);min-height:70px;padding:.4rem .35rem;cursor:pointer;${bg}transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.03)'" onmouseout="this.style.background='${isToday?'rgba(201,168,76,.06)':'transparent'}'">
-              <div style="font-size:.65rem;color:${isToday?'var(--gold)':'rgba(255,255,255,.25)'}${isToday?';font-weight:700':''}">${c}</div>${chip}
+            return `<div onclick="mtOpenModal('${ds}')" style="border-right:1px solid #eef0f6;min-height:70px;padding:.4rem .35rem;cursor:pointer;${bg}transition:background .15s" onmouseover="this.style.background='${isToday?'rgba(201,168,76,.06)':'#f5f6fa'}'" onmouseout="this.style.background='${isToday?'rgba(201,168,76,.06)':'transparent'}'">
+              <div style="font-size:.65rem;color:${isToday?'var(--gold)':'#94a3b8'}${isToday?';font-weight:700':''}">${c}</div>${chip}
             </div>`;
           }).join('');
           const weekTrades = cells.filter(c=>c!=='').map(c=>{
@@ -1288,16 +1360,16 @@
           const wPct = mtCapital>0 ? (wPnl/mtCapital*100) : weekTrades.reduce((s,t)=>s+Number(t.porcentaje),0);
           const wPos = wPnl>=0;
           const wSign = wPos?'+':'';
-          const weekCol = `<div style="border-left:1px solid var(--border);min-height:70px;padding:.4rem .5rem;display:flex;flex-direction:column;justify-content:center;gap:.15rem">
-            <div style="font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.2)">Sem ${week}</div>
-            <div style="font-size:.82rem;font-weight:800;color:${weekTrades.length?(wPos?'#4ade80':'#f87171'):'rgba(255,255,255,.2)'}">${weekTrades.length?(wSign+'$'+Math.abs(wPnl).toFixed(2)):'—'}</div>
-            <div style="font-size:.65rem;font-weight:600;color:${weekTrades.length?(wPos?'#4ade80':'#f87171'):'transparent'}">${weekTrades.length?(wSign+wPct.toFixed(1)+'%'):''}</div>
+          const weekCol = `<div style="border-left:1px solid #eef0f6;min-height:70px;padding:.4rem .5rem;display:flex;flex-direction:column;justify-content:center;gap:.15rem">
+            <div style="font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#c2c9d6">Sem ${week}</div>
+            <div style="font-size:.82rem;font-weight:800;color:${weekTrades.length?(wPos?'#16a34a':'#dc2626'):'#c2c9d6'}">${weekTrades.length?(wSign+'$'+Math.abs(wPnl).toFixed(2)):'—'}</div>
+            <div style="font-size:.65rem;font-weight:600;color:${weekTrades.length?(wPos?'#16a34a':'#dc2626'):'transparent'}">${weekTrades.length?(wSign+wPct.toFixed(1)+'%'):''}</div>
           </div>`;
-          html += `<div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;border-bottom:1px solid var(--border)">${rowCells}${weekCol}</div>`;
+          html += `<div style="display:grid;grid-template-columns:repeat(7,1fr) 110px;border-bottom:1px solid #eef0f6">${rowCells}${weekCol}</div>`;
           cells=[]; week++;
         }
       }
-      document.getElementById('mt-cal-body').innerHTML = html || '<div style="padding:2rem;text-align:center;color:rgba(255,255,255,.3)">Sin trades este mes</div>';
+      document.getElementById('mt-cal-body').innerHTML = html || '<div style="padding:2rem;text-align:center;color:#94a3b8">Sin trades este mes</div>';
     }
 
     function mtRenderStats() {
@@ -1307,13 +1379,13 @@
       const cap = mtCapital, saldo = cap+pnl;
       const pnlEl = document.getElementById('mt-netpnl');
       pnlEl.textContent = (pnl>=0?'+':'')+'$'+Math.abs(pnl).toFixed(2);
-      pnlEl.style.color = pnl>=0?'#4ade80':'#f87171';
+      pnlEl.style.color = pnl>=0?'#16a34a':'#dc2626';
       document.getElementById('mt-capital').textContent = '$'+cap.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
       document.getElementById('mt-pos').textContent = '+$'+pos.toFixed(2);
       document.getElementById('mt-neg').textContent = '-$'+Math.abs(neg).toFixed(2);
       const pctEl = document.getElementById('mt-pct');
       pctEl.textContent = (pct>=0?'+':'')+pct.toFixed(1)+'%';
-      pctEl.style.color = pct>=0?'#4ade80':'#f87171';
+      pctEl.style.color = pct>=0?'#16a34a':'#dc2626';
       document.getElementById('mt-saldo').textContent = '$'+saldo.toFixed(2);
     }
 
