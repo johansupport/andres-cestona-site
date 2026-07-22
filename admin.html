@@ -80,6 +80,7 @@
     .result-btn { flex:1; padding:.65rem; border-radius:8px; border:1px solid var(--border); background:transparent; color:rgba(255,255,255,.35); font-size:.82rem; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
     .result-btn.win.active { background:rgba(74,222,128,.1); border-color:rgba(74,222,128,.3); color:var(--green); }
     .result-btn.loss.active { background:rgba(248,113,113,.1); border-color:rgba(248,113,113,.3); color:var(--red); }
+    .result-btn.running.active { background:rgba(201,168,76,.12); border-color:rgba(201,168,76,.35); color:var(--gold); }
 
     /* SUBMIT */
     .form-actions { display:flex; align-items:center; gap:1rem; margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid var(--border); }
@@ -161,6 +162,10 @@
         <button class="sidebar-link" onclick="showView('stats',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
           Cargar resultados
+        </button>
+        <button class="sidebar-link" onclick="showView('status',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Estado en vivo
         </button>
       </div>
       <div class="sidebar-divider"></div>
@@ -404,6 +409,17 @@
         </div>
       </div>
 
+      <!-- ESTADO EN VIVO -->
+      <div class="view" id="view-status">
+        <div class="page-head">
+          <div class="page-eyebrow">Panel de administración</div>
+          <div class="page-title">Estado en vivo de estrategias</div>
+          <div class="page-sub">Esto se muestra en el panel "Estado de estrategias" del dashboard de cada usuario · BTC y XAUAUD siguen como "Próximamente" hasta que tengan datos reales</div>
+        </div>
+
+        <div id="status-cards"></div>
+      </div>
+
     </main>
   </div>
 
@@ -535,6 +551,69 @@
         if (!document.getElementById('s-fecha').value) document.getElementById('s-fecha').value = new Date().toISOString().split('T')[0];
         loadStatsRecent();
       }
+      if (name === 'status') loadStrategyStatus();
+    }
+
+    // ── ESTADO EN VIVO ──
+    const STATUS_STRATS = [
+      { key: 'swing', label: 'XAUUSD' },
+      { key: 'tesla', label: 'TESLA' },
+    ];
+
+    async function loadStrategyStatus() {
+      const { data } = await sb.from('strategy_status').select('*');
+      const map = {};
+      (data || []).forEach(r => map[r.estrategia] = r);
+      document.getElementById('status-cards').innerHTML = STATUS_STRATS.map(s => {
+        const r = map[s.key] || { status: 'running', entry_price: '', tp_price: '', sl_price: '' };
+        return `<div class="form-card">
+          <div class="form-card-head"><span class="form-card-title">${s.label}</span></div>
+          <div class="form-card-body">
+            <div class="field" style="margin-bottom:1rem">
+              <label>Estado</label>
+              <div class="result-toggle">
+                <button type="button" class="result-btn running${r.status==='running'?' active':''}" onclick="setStatusValue('${s.key}','running',this)">● Corriendo</button>
+                <button type="button" class="result-btn win${r.status==='tp'?' active':''}" onclick="setStatusValue('${s.key}','tp',this)">✓ TP</button>
+                <button type="button" class="result-btn loss${r.status==='sl'?' active':''}" onclick="setStatusValue('${s.key}','sl',this)">✗ SL</button>
+              </div>
+              <input type="hidden" id="st-val-${s.key}" value="${r.status || 'running'}"/>
+            </div>
+            <div class="form-grid-3">
+              <div class="field"><label>Precio de entrada</label><input type="text" id="st-entry-${s.key}" value="${r.entry_price ?? ''}" placeholder="2.341"/></div>
+              <div class="field"><label>Take Profit</label><input type="text" id="st-tp-${s.key}" value="${r.tp_price ?? ''}" placeholder="2.367"/></div>
+              <div class="field"><label>Stop Loss</label><input type="text" id="st-sl-${s.key}" value="${r.sl_price ?? ''}" placeholder="2.328"/></div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-publish" onclick="saveStrategyStatus('${s.key}')">Guardar →</button>
+              <span class="publish-msg" id="st-msg-${s.key}" style="display:none"></span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function setStatusValue(key, val, btn) {
+      document.getElementById('st-val-' + key).value = val;
+      btn.parentElement.querySelectorAll('.result-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    async function saveStrategyStatus(key) {
+      const status = document.getElementById('st-val-' + key).value;
+      const entry_price = parseFloat(document.getElementById('st-entry-' + key).value);
+      const tp_price = parseFloat(document.getElementById('st-tp-' + key).value);
+      const sl_price = parseFloat(document.getElementById('st-sl-' + key).value);
+      const msg = document.getElementById('st-msg-' + key);
+      const { error } = await sb.from('strategy_status').upsert({
+        estrategia: key, status,
+        entry_price: isNaN(entry_price) ? null : entry_price,
+        tp_price: isNaN(tp_price) ? null : tp_price,
+        sl_price: isNaN(sl_price) ? null : sl_price,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'estrategia' });
+      msg.style.display = 'inline';
+      if (error) { msg.textContent = 'Error: ' + error.message; msg.className = 'publish-msg err'; }
+      else { msg.textContent = '¡Guardado!'; msg.className = 'publish-msg ok'; setTimeout(() => msg.style.display = 'none', 3000); }
     }
 
     /* ── ESTADÍSTICAS (strategy_results) ── */
