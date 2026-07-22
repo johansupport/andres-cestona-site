@@ -421,28 +421,28 @@
     .vtesti-stat-val { display:block; font-size:1.05rem; font-weight:800; color:#fff; }
 
     /* ── FAQ (home preview) ── */
-    .hfaq-section { background:var(--black); padding:6rem 4%; }
-    .hfaq-inner { max-width:900px; margin:0 auto; }
-    .hfaq-top { text-align:center; margin-bottom:3rem; }
-    .hfaq-top h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(1.8rem,3.2vw,2.6rem); font-weight:700; color:#fff; letter-spacing:-.5px; margin-bottom:.7rem; }
-    .hfaq-top h2 em { color:var(--gold); font-style:italic; }
-    .hfaq-top p { font-size:.92rem; color:rgba(255,255,255,.45); }
-    .hfaq-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
-    .hfaq-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:16px; overflow:hidden; transition:border-color .2s, background .2s; }
-    .hfaq-card:hover { border-color:rgba(201,168,76,.3); }
-    .hfaq-q { width:100%; display:flex; align-items:center; gap:1rem; padding:1.2rem 1.4rem; background:none; border:none; cursor:pointer; text-align:left; color:#fff; font-family:'Inter',sans-serif; }
-    .hfaq-icon { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:1.5px solid rgba(201,168,76,.4); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:1.2rem; font-weight:300; line-height:1; transition:transform .25s, background .25s, color .25s; }
+    .hfaq-section { background:var(--black); padding:7rem 4%; }
+    .hfaq-inner { max-width:1100px; margin:0 auto; }
+    .hfaq-top { text-align:center; margin-bottom:3.5rem; }
+    .hfaq-top h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,3.6vw,2.9rem); font-weight:800; color:#fff; letter-spacing:-.5px; margin-bottom:.8rem; }
+    .hfaq-top p { font-size:.98rem; color:rgba(255,255,255,.45); }
+    .hfaq-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.1rem; }
+    .hfaq-card { background:rgba(255,255,255,.045); border-radius:16px; overflow:hidden; transition:background .2s; }
+    .hfaq-card:hover { background:rgba(255,255,255,.075); }
+    .hfaq-q { width:100%; display:flex; align-items:center; gap:1.1rem; padding:1.5rem 1.8rem; background:none; border:none; cursor:pointer; text-align:left; color:#fff; font-family:'Inter',sans-serif; }
+    .hfaq-icon { flex-shrink:0; width:30px; height:30px; border-radius:50%; border:1.5px solid rgba(255,255,255,.3); color:rgba(255,255,255,.7); display:flex; align-items:center; justify-content:center; font-size:1.3rem; font-weight:300; line-height:1; transition:transform .25s, background .25s, color .25s, border-color .25s; }
+    .hfaq-card.open .hfaq-icon, .hfaq-card:hover .hfaq-icon { border-color:var(--gold); color:var(--gold); }
     .hfaq-card.open .hfaq-icon { transform:rotate(45deg); background:var(--gold); color:var(--black); }
-    .hfaq-text { font-size:.92rem; font-weight:700; }
+    .hfaq-text { font-size:1.02rem; font-weight:700; }
     .hfaq-a-wrap { display:grid; grid-template-rows:0fr; transition:grid-template-rows .3s ease; }
     .hfaq-a-inner { overflow:hidden; }
-    .hfaq-a { padding:0 1.4rem 1.3rem 3.6rem; margin:0; color:rgba(255,255,255,.5); font-size:.84rem; line-height:1.7; }
+    .hfaq-a { padding:0 1.8rem 1.5rem 4.5rem; margin:0; color:rgba(255,255,255,.5); font-size:.87rem; line-height:1.7; }
     .hfaq-card.open .hfaq-a-wrap { grid-template-rows:1fr; }
-    .hfaq-bottom { text-align:center; margin-top:2.2rem; }
-    .hfaq-bottom a { color:rgba(255,255,255,.5); font-size:.88rem; text-decoration:none; }
+    .hfaq-bottom { text-align:center; margin-top:2.6rem; }
+    .hfaq-bottom a { color:rgba(255,255,255,.5); font-size:.9rem; text-decoration:none; }
     .hfaq-bottom a strong { color:var(--gold); font-weight:700; }
     .hfaq-bottom a:hover strong { text-decoration:underline; }
-    @media (max-width:700px) { .hfaq-grid { grid-template-columns:1fr; } }
+    @media (max-width:700px) { .hfaq-grid { grid-template-columns:1fr; } .hfaq-q { padding:1.2rem 1.4rem; } .hfaq-a { padding:0 1.4rem 1.3rem 3.6rem; } }
 
     .cta-section { background:var(--black); padding:7rem 4%; text-align:center; }
     .cta-inner { max-width:640px; margin:0 auto; }
@@ -1036,8 +1036,8 @@
   <section class="hfaq-section" id="faq">
     <div class="hfaq-inner">
       <div class="hfaq-top reveal">
-        <h2>Preguntas <em>frecuentes</em></h2>
-        <p>Todo lo que necesitas saber antes de empezar.</p>
+        <h2>Preguntas Frecuentes</h2>
+        <p>Encuentra tus respuestas aquí.</p>
       </div>
       <div class="hfaq-grid reveal d1">
         <div class="hfaq-card">
