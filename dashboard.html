@@ -24,24 +24,24 @@
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
 
     /* NAV */
-    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 2rem 0 0; background:var(--black); border-bottom:1px solid var(--border); }
-    .nav-logo-area { width:220px; flex-shrink:0; display:flex; align-items:center; padding:0 1.5rem; height:100%; border-right:1px solid var(--border); }
-    .nav-logo { font-size:.95rem; font-weight:800; color:#fff; text-decoration:none; }
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:72px; display:flex; align-items:center; justify-content:space-between; padding:0 2rem 0 0; background:var(--black); border-bottom:1px solid var(--border); }
+    .nav-logo-area { width:248px; flex-shrink:0; display:flex; align-items:center; padding:0 1.5rem; height:100%; border-right:1px solid var(--border); }
+    .nav-logo { font-size:1.1rem; font-weight:800; color:#fff; text-decoration:none; }
     .nav-logo span { color:var(--gold); }
     .nav-right { display:flex; align-items:center; gap:.7rem; margin-left:auto; }
     .nav-user { font-size:.78rem; color:rgba(255,255,255,.4); }
     .nav-user strong { color:rgba(255,255,255,.85); font-weight:600; }
-    .nav-avatar { width:34px; height:34px; border-radius:50%; background:rgba(201,168,76,.15); border:1px solid rgba(201,168,76,.3); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:800; flex-shrink:0; }
-    .nav-avatar-lg { width:46px; height:46px; font-size:.85rem; }
+    .nav-avatar { width:40px; height:40px; border-radius:50%; background:rgba(201,168,76,.15); border:1px solid rgba(201,168,76,.3); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:.76rem; font-weight:800; flex-shrink:0; }
+    .nav-avatar-lg { width:52px; height:52px; font-size:.95rem; }
     .nav-profile-wrap { position:relative; }
-    .nav-profile-btn { display:flex; align-items:center; gap:.65rem; background:none; border:none; cursor:pointer; padding:.3rem .5rem .3rem .9rem; border-radius:100px; transition:background .2s; font-family:'Inter',sans-serif; }
+    .nav-profile-btn { display:flex; align-items:center; gap:.7rem; background:none; border:none; cursor:pointer; padding:.3rem .5rem .3rem .9rem; border-radius:100px; transition:background .2s; font-family:'Inter',sans-serif; }
     .nav-profile-btn:hover { background:rgba(255,255,255,.06); }
     .nav-bell-wrap { position:relative; }
-    .nav-bell { background:rgba(255,255,255,.05); border:1px solid var(--border); color:rgba(255,255,255,.55); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; position:relative; }
+    .nav-bell { background:rgba(255,255,255,.05); border:1px solid var(--border); color:rgba(255,255,255,.55); width:42px; height:42px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; position:relative; }
     .nav-bell:hover { color:#fff; border-color:rgba(255,255,255,.25); }
-    .nav-bell-dot { position:absolute; top:6px; right:7px; width:8px; height:8px; border-radius:50%; background:var(--red); border:2px solid var(--black); display:none; }
+    .nav-bell-dot { position:absolute; top:7px; right:8px; width:8px; height:8px; border-radius:50%; background:var(--red); border:2px solid var(--black); display:none; }
     .nav-bell-dot.show { display:block; }
-    .nav-profile-menu, .nav-notif-menu { display:none; position:absolute; top:calc(100% + 14px); right:0; background:#0d0f1a; border:1px solid var(--border); border-radius:16px; width:280px; box-shadow:0 30px 70px rgba(0,0,0,.45); z-index:210; overflow:hidden; }
+    .nav-profile-menu, .nav-notif-menu { display:none; position:absolute; top:calc(100% + 14px); right:0; background:#0d0f1a; border:1px solid var(--border); border-radius:16px; width:290px; box-shadow:0 30px 70px rgba(0,0,0,.45); z-index:210; overflow:hidden; }
     .nav-profile-menu.open, .nav-notif-menu.open { display:block; }
     .nav-profile-head { display:flex; align-items:center; gap:.8rem; padding:1.1rem; border-bottom:1px solid var(--border); }
     .nav-profile-name { font-size:.88rem; font-weight:700; color:#fff; }
@@ -59,10 +59,10 @@
     @media (max-width:768px) { .nav-user { display:none; } }
 
     /* LAYOUT */
-    .dash-layout { padding-top:64px; display:flex; min-height:100vh; gap:1.25rem; }
+    .dash-layout { padding-top:72px; display:flex; min-height:100vh; gap:1rem; }
 
     /* SIDEBAR */
-    .sidebar { width:220px; flex-shrink:0; background:#fff; border:1px solid rgba(255,255,255,.07); border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,.5); margin:1.25rem 0 1.25rem 1.25rem; padding:1.5rem 0; position:sticky; top:calc(64px + 1.25rem); height:calc(100vh - 64px - 2.5rem); overflow-y:auto; }
+    .sidebar { width:248px; flex-shrink:0; background:#fff; border:1px solid rgba(255,255,255,.07); border-radius:20px; box-shadow:0 24px 60px rgba(0,0,0,.5); margin:1.25rem 0 1.25rem .6rem; padding:1.5rem 0; position:sticky; top:calc(72px + 1.25rem); height:calc(100vh - 72px - 2.5rem); overflow-y:auto; }
     .sidebar-cta { display:block; width:calc(100% - 2rem); margin:0 1rem 1.3rem; background:var(--gold); color:#05070f; border:none; border-radius:9px; padding:.85rem 1rem; font-size:.85rem; font-weight:800; cursor:pointer; font-family:'Inter',sans-serif; text-align:center; transition:background .2s; }
     .sidebar-cta:hover { background:var(--gold2); }
     .sidebar-heading { font-size:1.05rem; font-weight:800; color:#151a2d; padding:0 1rem; margin:0 0 1rem; }
@@ -99,7 +99,7 @@
     .sidebar-lang-btn span:nth-child(2) { flex:1; }
 
     /* CONTENT */
-    .dash-content { flex:1; padding:2.5rem; overflow-x:hidden; max-width:calc(100vw - 220px); }
+    .dash-content { flex:1; padding:2.5rem; overflow-x:hidden; max-width:calc(100vw - 248px); }
 
     /* PAGE HEADER */
     .page-head { margin-bottom:2.5rem; }
@@ -242,30 +242,39 @@
     .acc-switch-slider::before { content:''; position:absolute; width:14px; height:14px; left:2.5px; top:2.5px; background:#fff; border-radius:50%; transition:.2s; }
     .acc-switch input:checked + .acc-switch-slider { background:var(--gold); }
     .acc-switch input:checked + .acc-switch-slider::before { transform:translateX(15px); }
-    .acc-list { display:flex; flex-direction:column; gap:1.2rem; margin-bottom:1rem; }
-    .acc-card { padding:1.5rem 1.7rem; }
-    .acc-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1rem; }
+    .acc-list { display:flex; flex-direction:column; gap:1.4rem; margin-bottom:1rem; }
+    .acc-card { padding:1.8rem 2rem; }
+    .acc-card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:1.1rem; }
     .acc-badges { display:flex; gap:.5rem; align-items:center; }
     .acc-badge { font-size:.62rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px; padding:.32rem .75rem; border-radius:100px; }
     .acc-badge-active { background:rgba(74,222,128,.1); color:#4ade80; border:1px solid rgba(74,222,128,.15); }
     .acc-badge-closed { background:rgba(255,255,255,.04); color:rgba(255,255,255,.35); border:1px solid var(--border); }
     .acc-badge-kind { background:rgba(201,168,76,.1); color:var(--gold); border:1px solid rgba(201,168,76,.2); }
     .acc-switch-label { display:flex; align-items:center; gap:.6rem; font-size:.7rem; color:rgba(255,255,255,.35); }
-    .acc-card-title { font-family:'Inter',sans-serif; font-size:1.25rem; font-weight:900; color:#fff; letter-spacing:-.3px; cursor:pointer; }
+    .acc-card-title { font-family:'Inter',sans-serif; font-size:1.3rem; font-weight:900; color:#fff; letter-spacing:-.3px; cursor:pointer; }
     .acc-card-title:hover { color:var(--gold); }
     .acc-card-sub { font-size:.78rem; color:rgba(255,255,255,.35); margin-top:.2rem; }
-    .acc-divider { height:1px; background:var(--border); margin:1.1rem 0; }
-    .acc-row-info { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; }
+    .acc-divider { height:1px; background:var(--border); margin:1.2rem 0; }
+    .acc-row-info { display:flex; flex-wrap:wrap; gap:.5rem 2rem; font-size:.85rem; }
+    .acc-inline-label { color:rgba(255,255,255,.4); font-weight:500; }
+    .acc-inline-val { font-weight:700; color:#fff; margin-left:.3rem; }
     .acc-info-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.3px; color:rgba(255,255,255,.35); display:block; margin-bottom:.3rem; }
     .acc-info-val { font-size:.92rem; font-weight:700; color:#fff; }
-    .acc-row-chart { display:flex; align-items:center; gap:1.5rem; margin-top:1.3rem; flex-wrap:wrap; }
+    .acc-row-chart { display:flex; align-items:center; gap:1.8rem; margin-top:1.4rem; flex-wrap:wrap; }
     .acc-row-chart canvas { flex-shrink:0; }
-    .acc-actions { display:flex; gap:.5rem; flex-wrap:wrap; flex:1; }
-    .acc-action-btn { display:flex; align-items:center; gap:.4rem; background:rgba(255,255,255,.04); border:1px solid var(--border); color:rgba(255,255,255,.6); padding:.5rem .85rem; border-radius:8px; font-size:.72rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; }
-    .acc-action-btn:hover { border-color:rgba(255,255,255,.2); color:#fff; }
+    .acc-actions { display:flex; gap:1.6rem; flex-wrap:wrap; flex:1; align-items:center; }
+    .acc-action-btn { display:flex; align-items:center; gap:.65rem; background:none; border:none; padding:0; cursor:pointer; font-family:'Inter',sans-serif; font-size:.8rem; font-weight:600; color:rgba(255,255,255,.75); white-space:nowrap; transition:color .2s; }
+    .acc-action-btn:hover { color:#fff; }
+    .acc-action-icon { width:34px; height:34px; border-radius:8px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:border-color .2s; }
+    .acc-action-btn:hover .acc-action-icon { border-color:rgba(255,255,255,.4); }
     .acc-detail-btn { background:transparent; border:1px solid var(--gold); color:var(--gold); padding:.5rem 1rem; border-radius:8px; font-size:.75rem; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; white-space:nowrap; }
     .acc-detail-btn:hover { background:rgba(201,168,76,.1); }
-    .acc-metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--border); }
+    .acc-metrics-row { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-top:1.4rem; padding-top:1.2rem; border-top:1px solid var(--border); }
+    .acc-metric-label-row { display:flex; align-items:center; gap:.35rem; margin-bottom:.6rem; }
+    .acc-metric-label { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.3px; color:rgba(255,255,255,.35); }
+    .acc-metric-info { color:rgba(255,255,255,.25); flex-shrink:0; }
+    .acc-metric-box { border:1px solid var(--border); border-radius:9px; padding:.85rem 1rem; font-size:.95rem; font-weight:700; text-align:center; color:#fff; }
+    .acc-metric-box.muted { background:rgba(255,255,255,.03); color:rgba(255,255,255,.3); font-weight:600; }
     .acc-hidden-row { display:flex; align-items:center; gap:.7rem; background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:12px; padding:.9rem 1.2rem; cursor:pointer; font-size:.82rem; color:rgba(255,255,255,.6); margin-bottom:1rem; }
     .acc-hidden-row strong { color:#fff; }
     .acc-history-row { display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.6rem; border-bottom:1px solid var(--border); cursor:pointer; font-size:.82rem; transition:background .2s; }
@@ -305,7 +314,7 @@
     .acc-stat-cell .acc-info-val { font-size:1.1rem; }
 
     /* ══════ CUENTAS — blanco estilo FTMO ══════ */
-    #view-accounts, #view-account-detail { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 64px); }
+    #view-accounts, #view-account-detail { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
     #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow { color:var(--gold); }
     #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before { background:var(--gold); }
     #view-accounts .page-title, #view-account-detail .page-title { color:#151a2d; }
@@ -332,10 +341,17 @@
     #view-accounts .acc-divider, #view-account-detail .acc-divider { background:#eef0f6; }
     #view-accounts .acc-info-label, #view-account-detail .acc-info-label { color:#94a3b8; }
     #view-accounts .acc-info-val, #view-account-detail .acc-info-val { color:#151a2d; }
+    #view-accounts .acc-inline-label, #view-account-detail .acc-inline-label { color:#6b7280; }
+    #view-accounts .acc-inline-val, #view-account-detail .acc-inline-val { color:#151a2d; }
     #view-accounts .acc-metrics-row, #view-account-detail .acc-metrics-row { border-top-color:#eef0f6; }
+    #view-accounts .acc-metric-label, #view-account-detail .acc-metric-label { color:#94a3b8; }
+    #view-accounts .acc-metric-info, #view-account-detail .acc-metric-info { color:#c2c9d6; }
+    #view-accounts .acc-metric-box, #view-account-detail .acc-metric-box { border-color:#e2e5ec; color:#151a2d; }
+    #view-accounts .acc-metric-box.muted, #view-account-detail .acc-metric-box.muted { background:#eef0f6; border-color:#eef0f6; color:#94a3b8; }
 
-    #view-accounts .acc-action-btn, #view-account-detail .acc-action-btn { background:#fff; border-color:#e2e5ec; color:#151a2d; }
-    #view-accounts .acc-action-btn:hover, #view-account-detail .acc-action-btn:hover { border-color:#151a2d; }
+    #view-accounts .acc-action-btn, #view-account-detail .acc-action-btn { color:#151a2d; }
+    #view-accounts .acc-action-icon, #view-account-detail .acc-action-icon { background:#fff; border-color:#e2e5ec; color:#151a2d; }
+    #view-accounts .acc-action-btn:hover .acc-action-icon, #view-account-detail .acc-action-btn:hover .acc-action-icon { border-color:#151a2d; }
     #view-accounts .acc-detail-btn, #view-account-detail .acc-detail-btn { background:#fff; border-color:#151a2d; color:#151a2d; }
     #view-accounts .acc-detail-btn:hover, #view-account-detail .acc-detail-btn:hover { background:#f5f6fa; }
 
@@ -387,13 +403,19 @@
       .sidebar {
         position: fixed; top: 1.25rem; left: 1.25rem; height: calc(100vh - 2.5rem);
         transform: translateX(-130%); transition: transform .3s;
-        z-index: 250; width: 220px;
+        z-index: 250; width: 248px;
       }
       .sidebar.sidebar-open { transform: translateX(0); }
       .dash-content { margin-left: 0; max-width: 100vw; padding: 1.5rem 1rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .content-grid { grid-template-columns: 1fr; }
       #view-accounts, #view-account-detail { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
+      .acc-card { padding: 1.4rem 1.2rem; }
+      .acc-row-info { gap: .4rem 1.2rem; }
+      .acc-row-chart { flex-direction: column; align-items: flex-start; }
+      .acc-actions { flex-direction: column; align-items: flex-start; gap: .9rem; width: 100%; }
+      .acc-detail-btn { width: 100%; text-align: center; }
+      .acc-metrics-row { grid-template-columns: 1fr; gap: .9rem; }
     }
   </style>
 </head>
@@ -441,7 +463,7 @@
       </div>
       <div class="nav-bell-wrap" id="navBellWrap">
         <button class="nav-bell" onclick="toggleNotifMenu(event)">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           <span class="nav-bell-dot" id="navBellDot"></span>
         </button>
         <div class="nav-notif-menu" id="navNotifMenu">
@@ -1375,12 +1397,13 @@
     function escAttr(s) { return String(s ?? '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
     function accSparklineSVG(curve, w, h, color) {
-      if (!curve || curve.length < 2) return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="#e2e5ec" stroke-width="2"/></svg>`;
+      if (!curve || curve.length < 2) return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${h/2}" x2="${w}" y2="${h/2}" stroke="#e2e5ec" stroke-width="2" stroke-dasharray="4,4"/></svg>`;
       const min = Math.min(...curve), max = Math.max(...curve);
       const range = (max - min) || 1;
       const step = w / (curve.length - 1);
       const pts = curve.map((v,i) => `${(i*step).toFixed(1)},${(h - ((v-min)/range)*h).toFixed(1)}`).join(' ');
-      return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      const baseY = (h - ((curve[0]-min)/range)*h).toFixed(1);
+      return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><line x1="0" y1="${baseY}" x2="${w}" y2="${baseY}" stroke="${color}" stroke-width="1" stroke-dasharray="3,3" opacity=".35"/><polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     }
 
     async function accLoadAll() {
@@ -1467,12 +1490,17 @@
       chevron.textContent = open ? '▾' : '▴';
     }
 
+    const ACC_ICON_KEY = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2l-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/><path d="M15.5 7.5l3 3M19 4l3 3"/></svg>';
+    const ACC_ICON_CHART = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>';
+    const ACC_ICON_MENTOR = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+    const ACC_ICON_INFO = '<svg class="acc-metric-info" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+
     function accCardHTML(a) {
       const trades = accGetTrades(a.id);
       const m = accComputeMetrics(a.balance, trades);
       const isFondeo = a.kind === 'fondeo';
       const titleLine = isFondeo ? `${a.step || '2-Step'}: ${a.number}` : a.number;
-      const color = m.curve[m.curve.length-1] >= m.curve[0] ? '#4ade80' : '#f87171';
+      const color = m.curve[m.curve.length-1] >= m.curve[0] ? '#16a34a' : '#dc2626';
       const endLabel = a.end_date ? new Date(a.end_date).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'}) : 'Ilimitado';
       return `<div class="card acc-card">
         <div class="acc-card-top">
@@ -1488,23 +1516,32 @@
         <div class="acc-card-sub">${a.name}</div>
         <div class="acc-divider"></div>
         <div class="acc-row-info">
-          <div><span class="acc-info-label">Balance</span><span class="acc-info-val">${accFmtMoney(a.balance)}</span></div>
-          <div><span class="acc-info-label">End</span><span class="acc-info-val">${endLabel}</span></div>
-          <div><span class="acc-info-label">Status</span><span class="acc-info-val" style="color:#16a34a">Activa</span></div>
+          <div><span class="acc-inline-label">Balance:</span><span class="acc-inline-val">${accFmtMoney(a.balance)}</span></div>
+          <div><span class="acc-inline-label">Fin:</span><span class="acc-inline-val">${endLabel}</span></div>
+          <div><span class="acc-inline-label">Estado:</span><span class="acc-inline-val" style="color:#16a34a">Activa</span></div>
         </div>
         <div class="acc-row-chart">
-          ${accSparklineSVG(m.curve, 130, 52, color)}
+          ${accSparklineSVG(m.curve, 150, 56, color)}
           <div class="acc-actions">
-            <button class="acc-action-btn" onclick="accOpenCredentials('${a.id}')">Credenciales</button>
-            <button class="acc-action-btn" onclick="accGotoDetail('${a.id}','statistics')">Account MetriX</button>
-            <button class="acc-action-btn" onclick="accOpenMentor()">Mentor</button>
+            <button class="acc-action-btn" onclick="accOpenCredentials('${a.id}')"><span class="acc-action-icon">${ACC_ICON_KEY}</span>Credenciales</button>
+            <button class="acc-action-btn" onclick="accGotoDetail('${a.id}','statistics')"><span class="acc-action-icon">${ACC_ICON_CHART}</span>Account MetriX</button>
+            <button class="acc-action-btn" onclick="accOpenMentor()"><span class="acc-action-icon">${ACC_ICON_MENTOR}</span>Mentor</button>
           </div>
           <button class="acc-detail-btn" onclick="accGotoDetail('${a.id}')">Detalle →</button>
         </div>
         <div class="acc-metrics-row">
-          <div><span class="acc-info-label">Today's profit</span><span class="acc-info-val" style="color:${accValueColor(m.todayProfit)}">${accFmtMoney(m.todayProfit)}</span></div>
-          <div><span class="acc-info-label">Equity</span><span class="acc-info-val">${accFmtMoney(m.equity)}</span></div>
-          <div><span class="acc-info-label">Unrealized PnL</span><span class="acc-info-val" style="color:#9aa1b5">${trades.length ? accFmtMoney(m.unrealizedPnl) : 'Sin operaciones'}</span></div>
+          <div>
+            <div class="acc-metric-label-row"><span class="acc-metric-label">Ganancia de hoy</span>${ACC_ICON_INFO}</div>
+            <div class="acc-metric-box" style="${m.todayProfit ? `color:${accValueColor(m.todayProfit)}` : ''}">${accFmtMoney(m.todayProfit)}</div>
+          </div>
+          <div>
+            <div class="acc-metric-label-row"><span class="acc-metric-label">Equity</span>${ACC_ICON_INFO}</div>
+            <div class="acc-metric-box">${accFmtMoney(m.equity)}</div>
+          </div>
+          <div>
+            <div class="acc-metric-label-row"><span class="acc-metric-label">PnL no realizado</span>${ACC_ICON_INFO}</div>
+            <div class="acc-metric-box ${trades.length ? '' : 'muted'}" style="${trades.length ? `color:${accValueColor(m.unrealizedPnl)}` : ''}">${trades.length ? accFmtMoney(m.unrealizedPnl) : 'Sin operaciones'}</div>
+          </div>
         </div>
       </div>`;
     }
