@@ -62,6 +62,28 @@
     .sidebar-link svg { flex-shrink:0; opacity:.55; transition:opacity .2s; }
     .sidebar-link:hover svg { opacity:.9; }
     .sidebar-divider { height:1px; background:#eef0f6; margin:1rem 1rem; }
+    .sidebar-collapse-btn { display:flex; align-items:center; justify-content:space-between; width:100%; background:none; border:none; cursor:pointer; font-family:'Inter',sans-serif; font-size:.85rem; font-weight:800; color:#151a2d; padding:.6rem; text-align:left; border-radius:8px; transition:background .2s; }
+    .sidebar-collapse-btn:hover { background:#f5f6fa; }
+    .sidebar-chevron { transition:transform .2s; color:#8892aa; flex-shrink:0; }
+    .sidebar-collapse-btn.open .sidebar-chevron { transform:rotate(180deg); }
+    .sidebar-collapse-body { display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s ease; }
+    .sidebar-collapse-inner { overflow:hidden; }
+    .sidebar-collapse-btn.open + .sidebar-collapse-body { grid-template-rows:1fr; }
+    .sidebar-note { padding:.5rem .6rem .3rem; font-size:.72rem; color:#94a3b8; }
+    .sidebar-toggle-row { display:flex; align-items:center; justify-content:space-between; padding:.55rem .6rem; margin-bottom:.2rem; }
+    .sidebar-toggle-label { display:flex; align-items:center; gap:.65rem; font-size:.78rem; font-weight:600; color:#4b5775; }
+    .sidebar-switch { position:relative; display:inline-block; width:34px; height:19px; flex-shrink:0; }
+    .sidebar-switch input { opacity:0; width:0; height:0; }
+    .sidebar-switch-slider { position:absolute; inset:0; background:#e2e5ec; border-radius:100px; transition:.2s; cursor:pointer; }
+    .sidebar-switch-slider::before { content:''; position:absolute; width:14px; height:14px; left:2.5px; top:2.5px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 2px rgba(0,0,0,.15); }
+    .sidebar-switch input:checked + .sidebar-switch-slider { background:var(--gold); }
+    .sidebar-switch input:checked + .sidebar-switch-slider::before { transform:translateX(15px); }
+    .sidebar-lang-btn { display:flex; align-items:center; gap:.65rem; width:100%; background:none; border:none; cursor:pointer; font-family:'Inter',sans-serif; font-size:.78rem; font-weight:600; color:#4b5775; padding:.55rem .6rem; text-align:left; border-radius:8px; transition:background .2s; }
+    .sidebar-lang-btn:hover { background:#f5f6fa; }
+    .sidebar-lang-btn.open .sidebar-chevron { transform:rotate(180deg); }
+    .sidebar-lang-btn.open + .sidebar-collapse-body { grid-template-rows:1fr; }
+    .sidebar-lang-flag { font-size:1rem; line-height:1; }
+    .sidebar-lang-btn span:nth-child(2) { flex:1; }
 
     /* CONTENT */
     .dash-content { flex:1; padding:2.5rem; overflow-x:hidden; max-width:calc(100vw - 220px); }
@@ -454,6 +476,81 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
           Panel Admin
         </a>
+      </div>
+
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <button class="sidebar-collapse-btn" onclick="this.classList.toggle('open')">
+          <span>Tools &amp; Services</span>
+          <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="sidebar-collapse-body"><div class="sidebar-collapse-inner">
+          <a href="calculadora.html" class="sidebar-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+            Calculadora
+          </a>
+          <a href="estadisticas.html" class="sidebar-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            Estadísticas
+          </a>
+        </div></div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <button class="sidebar-collapse-btn" onclick="this.classList.toggle('open')">
+          <span>Support</span>
+          <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="sidebar-collapse-body"><div class="sidebar-collapse-inner">
+          <a href="clases.html" class="sidebar-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            Clases
+          </a>
+          <a href="mailto:contacto@andrescestona.com" class="sidebar-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
+            Contacto
+          </a>
+        </div></div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <button class="sidebar-collapse-btn" onclick="this.classList.toggle('open')">
+          <span>Mobile app</span>
+          <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="sidebar-collapse-body"><div class="sidebar-collapse-inner">
+          <div class="sidebar-note">Disponible próximamente</div>
+        </div></div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section">
+        <div class="sidebar-toggle-row">
+          <span class="sidebar-toggle-label">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            Modo oscuro
+          </span>
+          <label class="sidebar-switch"><input type="checkbox" disabled/><span class="sidebar-switch-slider"></span></label>
+        </div>
+        <a href="index.html" class="sidebar-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+          Volver al sitio
+        </a>
+        <button class="sidebar-lang-btn" onclick="this.classList.toggle('open')" id="sidebarLangBtn">
+          <span class="sidebar-lang-flag" id="sidebarLangFlag">🇪🇸</span>
+          <span id="sidebarLangLabel">Español</span>
+          <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="sidebar-collapse-body"><div class="sidebar-collapse-inner">
+          <button class="sidebar-link" onclick="selectSidebarLang('Español','🇪🇸')" style="width:100%">
+            <span style="font-size:1rem">🇪🇸</span> Español
+          </button>
+          <button class="sidebar-link" onclick="selectSidebarLang('English','🇬🇧')" style="width:100%">
+            <span style="font-size:1rem">🇬🇧</span> English
+          </button>
+        </div></div>
       </div>
     </aside>
 
@@ -1804,6 +1901,12 @@
     function toggleNotifMenu(e) {
       e.stopPropagation();
       document.getElementById('navNotifMenu').classList.toggle('open');
+    }
+
+    function selectSidebarLang(label, flag) {
+      document.getElementById('sidebarLangLabel').textContent = label;
+      document.getElementById('sidebarLangFlag').textContent = flag;
+      document.getElementById('sidebarLangBtn').classList.remove('open');
     }
     document.addEventListener('click', (e) => {
       const wrap = document.getElementById('navBellWrap');
