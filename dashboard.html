@@ -129,20 +129,23 @@
     #view-overview .ov-tabs { display:inline-flex; background:#fff; border:1px solid #e2e5ec; border-radius:10px; padding:3px; margin-bottom:1.2rem; }
     #view-overview .ov-tab { padding:.45rem 1.1rem; font-size:.76rem; font-weight:700; color:#94a3b8; border-radius:7px; cursor:pointer; transition:all .2s; background:none; border:none; font-family:Inter,sans-serif; }
     #view-overview .ov-tab.active { background:var(--gold); color:#05070f; }
+    #view-overview .ov-strip-context { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:.65rem; padding:0 .2rem; }
+    #view-overview .ov-strip-context-main { font-size:.8rem; font-weight:700; color:#151a2d; }
+    #view-overview .ov-strip-context-sub { font-size:.68rem; color:#94a3b8; font-weight:600; }
     #view-overview .ov-strip { display:flex; align-items:center; gap:.6rem; margin-bottom:1.5rem; }
     #view-overview .ov-strip-arrow { width:28px; height:28px; border-radius:50%; border:1px solid #e2e5ec; background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; font-size:.8rem; color:#94a3b8; transition:all .2s; }
     #view-overview .ov-strip-arrow:hover { border-color:var(--gold); color:var(--gold); }
     #view-overview .ov-day-strip { display:flex; gap:.6rem; overflow-x:auto; flex:1; padding-bottom:.2rem; }
-    #view-overview .ov-day-pill { flex-shrink:0; width:52px; height:64px; border-radius:12px; background:#fff; border:1.5px solid #e2e5ec; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.35rem; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; }
-    #view-overview .ov-day-pill:hover { border-color:var(--gold); }
-    #view-overview .ov-day-pill.selected { background:#151a2d; border-color:#151a2d; }
+    #view-overview .ov-day-pill { flex-shrink:0; width:52px; height:64px; border-radius:12px; background:#fff; border:1.5px solid #e2e5ec; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.35rem; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; box-shadow:0 1px 3px rgba(20,25,45,.05); }
+    #view-overview .ov-day-pill:hover { border-color:var(--gold); transform:translateY(-1px); }
+    #view-overview .ov-day-pill.selected { background:#151a2d; border-color:#151a2d; box-shadow:0 6px 16px rgba(21,26,45,.25); }
     #view-overview .ov-day-pill.selected .ov-dow, #view-overview .ov-day-pill.selected .ov-dom { color:#fff; }
     #view-overview .ov-dow { font-size:.55rem; color:#94a3b8; font-weight:700; text-transform:uppercase; }
     #view-overview .ov-dom { font-size:.9rem; font-weight:800; color:#151a2d; }
     #view-overview .ov-dot { width:6px; height:6px; border-radius:50%; }
     #view-overview .ov-dot.win { background:#16a34a; } #view-overview .ov-dot.loss { background:#dc2626; } #view-overview .ov-dot.mixed { background:var(--gold); } #view-overview .ov-dot.none { background:#e2e5ec; }
-    #view-overview .ov-week-pill { flex-shrink:0; width:108px; height:64px; border-radius:12px; background:#fff; border:1.5px solid #e2e5ec; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.3rem; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; }
-    #view-overview .ov-week-pill:hover { border-color:var(--gold); }
+    #view-overview .ov-week-pill { flex-shrink:0; width:108px; height:64px; border-radius:12px; background:#fff; border:1.5px solid #e2e5ec; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.3rem; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; box-shadow:0 1px 3px rgba(20,25,45,.05); }
+    #view-overview .ov-week-pill:hover { border-color:var(--gold); transform:translateY(-1px); }
     #view-overview .ov-week-pill.selected { background:#151a2d; border-color:#151a2d; }
     #view-overview .ov-week-pill.selected .ov-wk-range, #view-overview .ov-week-pill.selected .ov-wk-pct { color:#fff; }
     #view-overview .ov-wk-range { font-size:.62rem; color:#94a3b8; font-weight:600; }
@@ -189,16 +192,22 @@
     #view-overview .ov-strat-card { background:#fff; border:1px solid #e2e5ec; border-top:3px solid #e2e5ec; border-radius:12px; padding:1rem 1.1rem; cursor:pointer; transition:all .2s; box-shadow:0 1px 3px rgba(20,25,45,.05); }
     #view-overview .ov-strat-card:hover { border-color:var(--gold); box-shadow:0 6px 16px rgba(201,168,76,.14); transform:translateY(-1px); }
     #view-overview .ov-strat-card.selected { border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
-    #view-overview .ov-strat-top { display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem; }
-    #view-overview .ov-strat-tag { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    #view-overview .ov-strat-top { display:flex; align-items:center; gap:.6rem; margin-bottom:.7rem; }
+    #view-overview .ov-strat-avatar { width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:.58rem; font-weight:800; color:#fff; flex-shrink:0; }
     #view-overview .ov-strat-name { font-weight:700; font-size:.82rem; color:#151a2d; }
-    #view-overview .ov-strat-time { font-size:.68rem; color:#94a3b8; margin-bottom:.5rem; }
-    #view-overview .ov-strat-status { font-size:.7rem; font-weight:600; }
+    #view-overview .ov-strat-time { font-size:.68rem; color:#94a3b8; }
+    #view-overview .ov-strat-status { font-size:.7rem; font-weight:600; margin-bottom:.7rem; }
     #view-overview .ov-strat-status.ok { color:#16a34a; }
     #view-overview .ov-strat-status.loss { color:#dc2626; }
     #view-overview .ov-strat-status.pending { color:#94a3b8; }
-    #view-overview .ov-strat-month { font-size:.62rem; color:#94a3b8; margin-top:.55rem; padding-top:.5rem; border-top:1px solid #eef0f6; }
+    #view-overview .ov-strat-month { padding-top:.7rem; border-top:1px solid #eef0f6; }
+    #view-overview .ov-strat-winbar-bg { height:5px; background:#eef0f6; border-radius:4px; overflow:hidden; margin-bottom:.4rem; }
+    #view-overview .ov-strat-winbar-fill { height:100%; border-radius:4px; }
+    #view-overview .ov-strat-month-label { font-size:.62rem; color:#94a3b8; font-weight:600; }
     #view-overview .ov-hint { font-size:.7rem; color:#94a3b8; margin:0 0 1.5rem .2rem; }
+    #view-overview .ov-feed-summary { display:inline-block; margin-left:.7rem; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:100px; background:#f5f6fa; color:#64748b; vertical-align:middle; }
+    #view-overview .ov-feed-summary.pos { background:#eafaf1; color:#16a34a; }
+    #view-overview .ov-feed-summary.neg { background:#fdecec; color:#dc2626; }
     #view-overview .ov-trade-header { display:flex; align-items:center; gap:.9rem; padding:.65rem 1.6rem; font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#94a3b8; border-bottom:1px solid #eef0f6; }
     #view-overview .ov-trade-header span:first-child { flex:1; padding-left:44px; }
     #view-overview .ov-trade-header span:nth-child(2) { width:74px; text-align:center; }
@@ -218,17 +227,23 @@
     #view-overview .ov-pnl.pos { color:#16a34a; } #view-overview .ov-pnl.neg { color:#dc2626; } #view-overview .ov-pnl.pend { color:#c2c9d6; font-weight:500; }
     #view-overview .ov-edit-btn { width:26px; height:26px; border-radius:50%; border:1px solid #e2e5ec; background:#fff; color:#94a3b8; font-size:.7rem; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all .2s; }
     #view-overview .ov-edit-btn:hover { border-color:var(--gold); color:var(--gold); }
-    #view-overview .ov-acc-item { margin-bottom:1.1rem; }
-    #view-overview .ov-acc-item:last-child { margin-bottom:0; }
+    #view-overview .ov-acc-item { margin-bottom:1.2rem; padding-bottom:1.2rem; border-bottom:1px solid #eef0f6; }
+    #view-overview .ov-acc-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
+    #view-overview .ov-acc-head { display:flex; align-items:center; gap:.6rem; margin-bottom:.7rem; }
+    #view-overview .ov-acc-icon { width:28px; height:28px; border-radius:8px; background:#151a2d; color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:800; flex-shrink:0; }
+    #view-overview .ov-acc-name { font-weight:700; color:#151a2d; font-size:.82rem; }
+    #view-overview .ov-acc-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:#94a3b8; }
     #view-overview .ov-acc-top { display:flex; justify-content:space-between; font-size:.76rem; margin-bottom:.4rem; }
-    #view-overview .ov-acc-name { font-weight:700; color:#151a2d; }
     #view-overview .ov-acc-goal { color:#94a3b8; }
     #view-overview .ov-progress-bg { height:6px; background:#eef0f6; border-radius:5px; overflow:hidden; }
     #view-overview .ov-progress-fill { height:100%; background:var(--gold); border-radius:5px; }
     #view-overview .ov-progress-fill.dd { background:#dc2626; }
     #view-overview .ov-dd-row { display:flex; justify-content:space-between; font-size:.65rem; color:#94a3b8; margin:.55rem 0 .3rem; }
+    #view-overview .ov-acc-equity { font-size:.68rem; color:#94a3b8; margin-top:.6rem; }
+    #view-overview .ov-acc-equity b { color:#151a2d; font-weight:700; }
     #view-overview .ov-streak-chip { display:inline-block; background:#eafaf1; color:#16a34a; font-size:.68rem; font-weight:700; padding:.3rem .7rem; border-radius:100px; margin-bottom:.9rem; }
-    #view-overview .ov-mini-stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.9rem 1.2rem; margin-bottom:.9rem; }
+    #view-overview .ov-mini-stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.7rem; margin-bottom:1rem; }
+    #view-overview .ov-mini-stat-box { background:#f9fafc; border:1px solid #eef0f6; border-radius:10px; padding:.75rem .9rem; }
     #view-overview .ov-bar-chart { display:flex; align-items:flex-end; gap:3px; height:36px; }
     #view-overview .ov-bar { flex:1; border-radius:2px 2px 0 0; }
     #view-overview .ov-bar.win { background:#16a34a; } #view-overview .ov-bar.loss { background:#dc2626; } #view-overview .ov-bar.none { background:#eef0f6; }
@@ -820,11 +835,13 @@
           <button class="ov-tab" data-zoom="month" onclick="ovSetZoom('month')">Mes</button>
         </div>
 
+        <div class="ov-strip-context" id="ov-day-context"></div>
         <div class="ov-strip" id="ov-day-row">
           <div class="ov-strip-arrow" onclick="ovShiftDayStrip(-1)">‹</div>
           <div class="ov-day-strip" id="ov-day-strip"></div>
           <div class="ov-strip-arrow" onclick="ovShiftDayStrip(1)">›</div>
         </div>
+        <div class="ov-strip-context" id="ov-week-context" style="display:none"></div>
         <div class="ov-strip" id="ov-week-row" style="display:none">
           <div class="ov-strip-arrow" onclick="ovShiftWeekStrip(-1)">‹</div>
           <div class="ov-day-strip" id="ov-week-strip"></div>
@@ -850,7 +867,10 @@
 
         <div class="card" style="margin-bottom:1.5rem">
           <div class="card-head">
-            <span class="card-title" id="ov-feed-title">Rutina del día</span>
+            <div>
+              <span class="card-title" id="ov-feed-title">Rutina del día</span>
+              <span class="ov-feed-summary" id="ov-feed-summary"></span>
+            </div>
             <span class="card-link" id="ov-feed-date"></span>
           </div>
           <div class="ov-trade-header"><span>Estrategia</span><span>Estado</span><span>%</span><span></span></div>
@@ -1242,6 +1262,7 @@
     function ovDateStr(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
     function ovTodayStr() { return ovDateStr(new Date()); }
     function ovMondayOf(d) { const x = new Date(d); const day = (x.getDay()+6)%7; x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x; }
+    function ovWeekOfMonth(d) { const firstDow = (new Date(d.getFullYear(), d.getMonth(), 1).getDay() + 6) % 7; return Math.ceil((d.getDate() + firstDow) / 7); }
 
     let ovResults = { xauaud: [], swing: [], btc: [], tesla: [] };
     let ovZoom = 'day';
@@ -1291,7 +1312,9 @@
       ovZoom = z;
       document.querySelectorAll('.ov-tab').forEach(t => t.classList.toggle('active', t.dataset.zoom === z));
       document.getElementById('ov-day-row').style.display = z === 'day' ? 'flex' : 'none';
+      document.getElementById('ov-day-context').style.display = z === 'day' ? 'flex' : 'none';
       document.getElementById('ov-week-row').style.display = z === 'week' ? 'flex' : 'none';
+      document.getElementById('ov-week-context').style.display = z === 'week' ? 'flex' : 'none';
       document.getElementById('ov-month-cal').classList.toggle('active', z === 'month');
       if (z === 'day') ovRenderFeedForDay(ovSelectedDate);
       else if (z === 'week') ovRenderFeedForWeek(ovSelectedWeekStart);
@@ -1313,6 +1336,15 @@
           <span class="ov-dow">${OV_DOW[d.getDay()]}</span><span class="ov-dom">${d.getDate()}</span><span class="ov-dot ${status}"></span>
         </button>`;
       }).join('');
+      const ctx = document.getElementById('ov-day-context');
+      if (ctx) {
+        const selD = new Date(ovSelectedDate + 'T00:00:00');
+        const first = days[0], last = days[days.length-1];
+        const rangeTxt = first.getMonth() === last.getMonth()
+          ? `${first.getDate()} – ${last.getDate()} ${OV_MONTHS_SHORT[last.getMonth()]}`
+          : `${first.getDate()} ${OV_MONTHS_SHORT[first.getMonth()]} – ${last.getDate()} ${OV_MONTHS_SHORT[last.getMonth()]}`;
+        ctx.innerHTML = `<span class="ov-strip-context-main">${OV_MONTHS_LONG[selD.getMonth()]} ${selD.getFullYear()} · Semana ${ovWeekOfMonth(selD)}</span><span class="ov-strip-context-sub">${rangeTxt}</span>`;
+      }
     }
     function ovShiftDayStrip(dir) { ovDayStripEnd = new Date(ovDayStripEnd); ovDayStripEnd.setDate(ovDayStripEnd.getDate() + dir*7); ovBuildDayStrip(); }
     function ovSelectDay(ds) {
@@ -1345,6 +1377,13 @@
       document.getElementById('ov-feed-date').textContent = `${OV_DOW_LONG[d.getDay()]} ${d.getDate()} ${OV_MONTHS_SHORT[d.getMonth()]} · en orden de horario`;
       const isToday = ds === ovTodayStr();
       document.getElementById('ov-trade-list').innerHTML = OV_STRATS.map(s => ovTradeRowHTML(s, ds, isToday)).join('');
+      const results = OV_STRATS.map(s => ovGetResult(s.key, ds)).filter(Boolean);
+      const sum = results.reduce((s,r) => s + Number(r.porcentaje), 0);
+      const summaryEl = document.getElementById('ov-feed-summary');
+      if (summaryEl) {
+        if (!results.length) { summaryEl.textContent = 'Sin operar'; summaryEl.className = 'ov-feed-summary'; }
+        else { summaryEl.textContent = `${results.length}/4 operadas · ${sum>=0?'+':''}${sum.toFixed(1)}%`; summaryEl.className = 'ov-feed-summary ' + (sum>=0?'pos':'neg'); }
+      }
     }
 
     // ── semana ──
@@ -1370,6 +1409,15 @@
           <span class="ov-wk-range">${range}</span><span class="ov-wk-pct ${pct>=0?'pos':'neg'}">${pct>=0?'+':''}${pct.toFixed(1)}%</span>
         </button>`;
       }).join('');
+      const ctx = document.getElementById('ov-week-context');
+      if (ctx) {
+        const monday = new Date(ovSelectedWeekStart + 'T00:00:00');
+        const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6);
+        const rangeTxt = monday.getMonth() === sunday.getMonth()
+          ? `${monday.getDate()} – ${sunday.getDate()} ${OV_MONTHS_SHORT[sunday.getMonth()]}`
+          : `${monday.getDate()} ${OV_MONTHS_SHORT[monday.getMonth()]} – ${sunday.getDate()} ${OV_MONTHS_SHORT[sunday.getMonth()]}`;
+        ctx.innerHTML = `<span class="ov-strip-context-main">${OV_MONTHS_LONG[monday.getMonth()]} ${monday.getFullYear()} · Semana ${ovWeekOfMonth(monday)}</span><span class="ov-strip-context-sub">${rangeTxt}</span>`;
+      }
     }
     function ovShiftWeekStrip(dir) { ovWeekStripEnd = new Date(ovWeekStripEnd); ovWeekStripEnd.setDate(ovWeekStripEnd.getDate() + dir*56); ovBuildWeekStrip(); }
     function ovSelectWeek(key) { ovSelectedWeekStart = key; ovBuildWeekStrip(); ovRenderFeedForWeek(key); }
@@ -1378,6 +1426,13 @@
       const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6);
       document.getElementById('ov-feed-title').textContent = 'Rutina semanal';
       document.getElementById('ov-feed-date').textContent = `${monday.getDate()} — ${sunday.getDate()} ${OV_MONTHS_SHORT[sunday.getMonth()]}`;
+      const weekSum = ovWeekPct(monday);
+      const weekOperated = OV_STRATS.reduce((n,s) => n + (ovResults[s.key]||[]).filter(r => r.fecha >= ovDateStr(monday) && r.fecha <= ovDateStr(sunday)).length, 0);
+      const summaryEl = document.getElementById('ov-feed-summary');
+      if (summaryEl) {
+        if (!weekOperated) { summaryEl.textContent = 'Sin operar'; summaryEl.className = 'ov-feed-summary'; }
+        else { summaryEl.textContent = `${weekOperated}/28 operadas · ${weekSum>=0?'+':''}${weekSum.toFixed(1)}%`; summaryEl.className = 'ov-feed-summary ' + (weekSum>=0?'pos':'neg'); }
+      }
       const days = [];
       for (let i = 0; i < 7; i++) { const d = new Date(monday); d.setDate(d.getDate()+i); days.push(d); }
       document.getElementById('ov-trade-list').innerHTML = days.map(d => {
@@ -1531,12 +1586,16 @@
         else { statusHtml = '⏳ Pendiente hoy'; statusClass = 'pending'; }
         const sel = ovZoom === 'month' && ovCalStrat === s.key;
         const mw = ovStratMonthWinrate(s.key);
-        const mwHtml = mw ? `${mw.wins}/${mw.total} este mes · ${mw.pct.toFixed(0)}%` : 'Sin datos este mes';
+        const monthHtml = mw
+          ? `<div class="ov-strat-winbar-bg"><div class="ov-strat-winbar-fill" style="width:${mw.pct}%;background:${s.color}"></div></div><div class="ov-strat-month-label">${mw.wins}/${mw.total} este mes · ${mw.pct.toFixed(0)}%</div>`
+          : `<div class="ov-strat-month-label" style="opacity:.6">Sin datos este mes</div>`;
         return `<div class="ov-strat-card${sel?' selected':''}" style="border-top-color:${s.color}" onclick="ovSelectStratCard('${s.key}')">
-          <div class="ov-strat-top"><span class="ov-strat-tag" style="background:${s.color}"></span><span class="ov-strat-name">${s.label}</span></div>
-          <div class="ov-strat-time">Horario: ${s.time}</div>
+          <div class="ov-strat-top">
+            <div class="ov-strat-avatar" style="background:${s.color}">${s.short}</div>
+            <div><div class="ov-strat-name">${s.label}</div><div class="ov-strat-time">${s.time}</div></div>
+          </div>
           <div class="ov-strat-status ${statusClass}">${statusHtml}</div>
-          <div class="ov-strat-month">${mwHtml}</div>
+          <div class="ov-strat-month">${monthHtml}</div>
         </div>`;
       }).join('');
     }
@@ -1610,13 +1669,16 @@
     }
 
     // ── tarjetas Tus cuentas / Este mes ──
+    function ovAccInitials(name) { return String(name||'').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase() || 'CT'; }
     function ovAccProgressItem(a) {
       const trades = accGetTrades(a.id);
       const m = accComputeMetrics(a.balance, trades);
       const gainPct = ((m.balance - a.balance) / a.balance) * 100;
+      const head = `<div class="ov-acc-head"><div class="ov-acc-icon">${ovAccInitials(a.name)}</div><div><div class="ov-acc-name">${a.name}</div><div class="ov-acc-tag">${accKindLabel(a.kind)} · #${a.number}</div></div></div>`;
       if (!(a.kind === 'fondeo' && a.profit_target_percent)) {
         return `<div class="ov-acc-item">
-          <div class="ov-acc-top"><span class="ov-acc-name">${a.name}</span><span class="ov-acc-goal">Balance</span></div>
+          ${head}
+          <div class="ov-acc-top"><span class="ov-acc-goal">Balance</span></div>
           <div class="stat-num green" style="font-size:1.3rem">${accFmtMoney(m.balance)}</div>
         </div>`;
       }
@@ -1626,10 +1688,12 @@
       const maxLossPct = a.max_loss_percent || 10;
       const ddPct = Math.max(0, Math.min(100, (lossPct/maxLossPct)*100));
       return `<div class="ov-acc-item">
-        <div class="ov-acc-top"><span class="ov-acc-name">${a.name}</span><span class="ov-acc-goal">${gainPct.toFixed(1)}% de ${targetPct}%</span></div>
+        ${head}
+        <div class="ov-acc-top"><span class="ov-acc-goal">Progreso hacia el objetivo</span><span>${gainPct.toFixed(1)}% de ${targetPct}%</span></div>
         <div class="ov-progress-bg"><div class="ov-progress-fill" style="width:${progressPct}%"></div></div>
         <div class="ov-dd-row"><span>Drawdown usado</span><span>${lossPct.toFixed(1)}% de ${maxLossPct}%</span></div>
         <div class="ov-progress-bg"><div class="ov-progress-fill dd" style="width:${ddPct}%"></div></div>
+        <div class="ov-acc-equity">Balance actual: <b>${accFmtMoney(m.balance)}</b> · P&L: <b style="color:${(m.balance-a.balance)>=0?'#16a34a':'#dc2626'}">${(m.balance-a.balance)>=0?'+':''}${accFmtMoney(m.balance-a.balance)}</b></div>
       </div>`;
     }
 
@@ -1686,10 +1750,10 @@
       mtEl.innerHTML = `
         ${streak >= 2 ? `<div class="ov-streak-chip">🔥 ${streak} días ganadores seguidos</div>` : ''}
         <div class="ov-mini-stat-grid">
-          <div><div class="stat-tag">Trades</div><div class="stat-num" style="font-size:1.3rem">${trades.length}</div></div>
-          <div><div class="stat-tag">Net P&L</div><div class="stat-num" style="font-size:1.3rem;color:${pnl>=0?'#16a34a':'#dc2626'}">${pnl>=0?'+':''}$${Math.abs(pnl).toFixed(2)}</div></div>
-          <div><div class="stat-tag">Winrate</div><div class="stat-num" style="font-size:1.3rem">${winrate.toFixed(0)}%</div></div>
-          <div><div class="stat-tag">Vs. mes anterior</div><div class="stat-num" style="font-size:1.3rem;color:${vsPrev>=0?'#16a34a':'#dc2626'}">${vsPrev>=0?'+':''}${vsPrev.toFixed(0)}%</div></div>
+          <div class="ov-mini-stat-box"><div class="stat-tag">Trades</div><div class="stat-num" style="font-size:1.3rem">${trades.length}</div></div>
+          <div class="ov-mini-stat-box"><div class="stat-tag">Net P&L</div><div class="stat-num" style="font-size:1.3rem;color:${pnl>=0?'#16a34a':'#dc2626'}">${pnl>=0?'+':''}$${Math.abs(pnl).toFixed(2)}</div></div>
+          <div class="ov-mini-stat-box"><div class="stat-tag">Winrate</div><div class="stat-num" style="font-size:1.3rem">${winrate.toFixed(0)}%</div></div>
+          <div class="ov-mini-stat-box"><div class="stat-tag">Vs. mes anterior</div><div class="stat-num" style="font-size:1.3rem;color:${vsPrev>=0?'#16a34a':'#dc2626'}">${vsPrev>=0?'+':''}${vsPrev.toFixed(0)}%</div></div>
         </div>
         <div class="ov-bar-chart">${barsHtml}</div>
       `;
