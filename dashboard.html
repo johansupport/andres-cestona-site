@@ -125,13 +125,82 @@
     /* CONTENT GRID */
     .content-grid { display:grid; grid-template-columns:1.6fr 1fr; gap:1.5rem; }
 
-    /* STRATEGY STATUS PANEL */
-    .strat-status-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); }
-    .strat-status-cell { background:rgba(255,255,255,.02); padding:1.5rem 1.2rem; text-align:center; }
-    .strat-status-name { font-size:.8rem; font-weight:700; color:#fff; margin-bottom:.8rem; }
-    .strat-status-badge { display:inline-block; font-size:.65rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; padding:.4rem 1rem; border-radius:100px; }
-    .strat-status-prices { font-size:.62rem; color:rgba(255,255,255,.25); margin-top:.7rem; line-height:1.5; }
-    @media (max-width:768px) { .strat-status-grid { grid-template-columns:repeat(2,1fr); } }
+    /* RESUMEN — checklist + calendario premium (estilo FTMO) */
+    #view-overview .ov-tabs { display:inline-flex; background:#fff; border:1px solid #e2e5ec; border-radius:10px; padding:3px; margin-bottom:1.2rem; }
+    #view-overview .ov-tab { padding:.45rem 1.1rem; font-size:.76rem; font-weight:700; color:#94a3b8; border-radius:7px; cursor:pointer; transition:all .2s; background:none; border:none; font-family:Inter,sans-serif; }
+    #view-overview .ov-tab.active { background:var(--gold); color:#05070f; }
+    #view-overview .ov-strip { display:flex; align-items:center; gap:.6rem; margin-bottom:1.5rem; }
+    #view-overview .ov-strip-arrow { width:28px; height:28px; border-radius:50%; border:1px solid #e2e5ec; background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; font-size:.8rem; color:#94a3b8; transition:all .2s; }
+    #view-overview .ov-strip-arrow:hover { border-color:var(--gold); color:var(--gold); }
+    #view-overview .ov-day-strip { display:flex; gap:.6rem; overflow-x:auto; flex:1; padding-bottom:.2rem; }
+    #view-overview .ov-day-pill { flex-shrink:0; width:52px; height:64px; border-radius:12px; background:#fff; border:1.5px solid #e2e5ec; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.35rem; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; }
+    #view-overview .ov-day-pill:hover { border-color:var(--gold); }
+    #view-overview .ov-day-pill.selected { background:#151a2d; border-color:#151a2d; }
+    #view-overview .ov-day-pill.selected .ov-dow, #view-overview .ov-day-pill.selected .ov-dom { color:#fff; }
+    #view-overview .ov-dow { font-size:.55rem; color:#94a3b8; font-weight:700; text-transform:uppercase; }
+    #view-overview .ov-dom { font-size:.9rem; font-weight:800; color:#151a2d; }
+    #view-overview .ov-dot { width:6px; height:6px; border-radius:50%; }
+    #view-overview .ov-dot.win { background:#16a34a; } #view-overview .ov-dot.loss { background:#dc2626; } #view-overview .ov-dot.mixed { background:var(--gold); } #view-overview .ov-dot.none { background:#e2e5ec; }
+    #view-overview .ov-week-pill { flex-shrink:0; width:108px; height:64px; border-radius:12px; background:#fff; border:1.5px solid #e2e5ec; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.3rem; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; }
+    #view-overview .ov-week-pill:hover { border-color:var(--gold); }
+    #view-overview .ov-week-pill.selected { background:#151a2d; border-color:#151a2d; }
+    #view-overview .ov-week-pill.selected .ov-wk-range, #view-overview .ov-week-pill.selected .ov-wk-pct { color:#fff; }
+    #view-overview .ov-wk-range { font-size:.62rem; color:#94a3b8; font-weight:600; }
+    #view-overview .ov-wk-pct { font-size:.88rem; font-weight:800; color:#151a2d; }
+    #view-overview .ov-wk-pct.pos { color:#16a34a; } #view-overview .ov-wk-pct.neg { color:#dc2626; }
+    #view-overview .ov-month-cal { display:none; background:#fff; border:1px solid #e2e5ec; border-radius:14px; padding:1.2rem 1.4rem; margin-bottom:1.5rem; }
+    #view-overview .ov-month-cal.active { display:block; }
+    #view-overview .ov-cal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+    #view-overview .ov-cal-title { font-weight:700; font-size:.9rem; color:#151a2d; }
+    #view-overview .ov-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:.4rem; }
+    #view-overview .ov-cal-dow { font-size:.6rem; color:#94a3b8; text-align:center; font-weight:700; padding-bottom:.3rem; }
+    #view-overview .ov-cal-cell { aspect-ratio:1; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; }
+    #view-overview .ov-cal-cell.win { background:#eafaf1; color:#16a34a; }
+    #view-overview .ov-cal-cell.loss { background:#fdecec; color:#dc2626; }
+    #view-overview .ov-cal-cell.none { background:#f5f6fa; color:#c2c9d6; }
+    #view-overview .ov-cal-cell.empty { background:transparent; }
+    #view-overview .ov-strategies { display:grid; grid-template-columns:repeat(4,1fr); gap:.9rem; margin-bottom:.5rem; }
+    #view-overview .ov-strat-card { background:#fff; border:1px solid #e2e5ec; border-radius:12px; padding:1rem 1.1rem; cursor:pointer; transition:border-color .2s; }
+    #view-overview .ov-strat-card:hover { border-color:var(--gold); }
+    #view-overview .ov-strat-card.selected { border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
+    #view-overview .ov-strat-top { display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem; }
+    #view-overview .ov-strat-tag { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    #view-overview .ov-strat-name { font-weight:700; font-size:.82rem; color:#151a2d; }
+    #view-overview .ov-strat-time { font-size:.68rem; color:#94a3b8; margin-bottom:.5rem; }
+    #view-overview .ov-strat-status { font-size:.7rem; font-weight:600; }
+    #view-overview .ov-strat-status.ok { color:#16a34a; }
+    #view-overview .ov-strat-status.loss { color:#dc2626; }
+    #view-overview .ov-strat-status.pending { color:#94a3b8; }
+    #view-overview .ov-hint { font-size:.7rem; color:#94a3b8; margin:0 0 1.5rem .2rem; }
+    #view-overview .ov-trade-row { display:flex; align-items:center; gap:.9rem; padding:.85rem 1.6rem; border-bottom:1px solid #eef0f6; }
+    #view-overview .ov-trade-row:last-child { border-bottom:none; }
+    #view-overview .ov-strat-icon { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:800; color:#fff; flex-shrink:0; }
+    #view-overview .ov-trade-main { flex:1; min-width:0; }
+    #view-overview .ov-trade-symbol { font-weight:700; font-size:.78rem; color:#151a2d; }
+    #view-overview .ov-trade-time { font-size:.66rem; color:#94a3b8; }
+    #view-overview .ov-badge { font-size:.6rem; font-weight:700; padding:.28rem .7rem; border-radius:100px; flex-shrink:0; }
+    #view-overview .ov-badge.tp { background:#eafaf1; color:#16a34a; }
+    #view-overview .ov-badge.sl { background:#fdecec; color:#dc2626; }
+    #view-overview .ov-badge.pending { background:#eef0f6; color:#94a3b8; }
+    #view-overview .ov-pnl { font-weight:700; font-size:.78rem; width:64px; text-align:right; flex-shrink:0; }
+    #view-overview .ov-pnl.pos { color:#16a34a; } #view-overview .ov-pnl.neg { color:#dc2626; } #view-overview .ov-pnl.pend { color:#c2c9d6; font-weight:500; }
+    #view-overview .ov-edit-btn { width:26px; height:26px; border-radius:50%; border:1px solid #e2e5ec; background:#fff; color:#94a3b8; font-size:.7rem; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; transition:all .2s; }
+    #view-overview .ov-edit-btn:hover { border-color:var(--gold); color:var(--gold); }
+    #view-overview .ov-acc-item { margin-bottom:1.1rem; }
+    #view-overview .ov-acc-item:last-child { margin-bottom:0; }
+    #view-overview .ov-acc-top { display:flex; justify-content:space-between; font-size:.76rem; margin-bottom:.4rem; }
+    #view-overview .ov-acc-name { font-weight:700; color:#151a2d; }
+    #view-overview .ov-acc-goal { color:#94a3b8; }
+    #view-overview .ov-progress-bg { height:6px; background:#eef0f6; border-radius:5px; overflow:hidden; }
+    #view-overview .ov-progress-fill { height:100%; background:var(--gold); border-radius:5px; }
+    #view-overview .ov-progress-fill.dd { background:#dc2626; }
+    #view-overview .ov-dd-row { display:flex; justify-content:space-between; font-size:.65rem; color:#94a3b8; margin:.55rem 0 .3rem; }
+    #view-overview .ov-streak-chip { display:inline-block; background:#eafaf1; color:#16a34a; font-size:.68rem; font-weight:700; padding:.3rem .7rem; border-radius:100px; margin-bottom:.9rem; }
+    #view-overview .ov-mini-stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.9rem 1.2rem; margin-bottom:.9rem; }
+    #view-overview .ov-bar-chart { display:flex; align-items:flex-end; gap:3px; height:36px; }
+    #view-overview .ov-bar { flex:1; border-radius:2px 2px 0 0; }
+    #view-overview .ov-bar.win { background:#16a34a; } #view-overview .ov-bar.loss { background:#dc2626; } #view-overview .ov-bar.none { background:#eef0f6; }
+    @media (max-width:768px) { #view-overview .ov-strategies { grid-template-columns:repeat(2,1fr); } }
 
     /* CARDS */
     .card { background:rgba(255,255,255,.025); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
@@ -344,12 +413,6 @@
     #view-overview .card-title, #view-accounts .card-title, #view-account-detail .card-title, #view-trades .card-title, #view-performance .card-title, #view-simulations .card-title, #view-mytrades .card-title, #view-profile .card-title { color:#151a2d; }
     #view-overview .card-link, #view-accounts .card-link, #view-account-detail .card-link, #view-trades .card-link, #view-performance .card-link, #view-simulations .card-link, #view-mytrades .card-link, #view-profile .card-link { color:#94a3b8; }
     #view-overview .card-link:hover, #view-accounts .card-link:hover, #view-account-detail .card-link:hover, #view-trades .card-link:hover, #view-performance .card-link:hover, #view-simulations .card-link:hover, #view-mytrades .card-link:hover, #view-profile .card-link:hover { color:var(--gold); }
-
-    /* Estado de estrategias (Resumen) */
-    #view-overview .strat-status-cell { background:#fff; }
-    #view-overview .strat-status-grid { background:#eef0f6; }
-    #view-overview .strat-status-name { color:#151a2d; }
-    #view-overview .strat-status-prices { color:#94a3b8; }
 
     /* Stats grid (Rendimiento) */
     #view-performance .stats-grid { background:#eef0f6; border-color:#eef0f6; }
@@ -709,12 +772,41 @@
           <div class="page-sub">Tu resumen personal</div>
         </div>
 
+        <div class="ov-tabs">
+          <button class="ov-tab active" data-zoom="day" onclick="ovSetZoom('day')">Día</button>
+          <button class="ov-tab" data-zoom="week" onclick="ovSetZoom('week')">Semana</button>
+          <button class="ov-tab" data-zoom="month" onclick="ovSetZoom('month')">Mes</button>
+        </div>
+
+        <div class="ov-strip" id="ov-day-row">
+          <div class="ov-strip-arrow" onclick="ovShiftDayStrip(-1)">‹</div>
+          <div class="ov-day-strip" id="ov-day-strip"></div>
+          <div class="ov-strip-arrow" onclick="ovShiftDayStrip(1)">›</div>
+        </div>
+        <div class="ov-strip" id="ov-week-row" style="display:none">
+          <div class="ov-strip-arrow" onclick="ovShiftWeekStrip(-1)">‹</div>
+          <div class="ov-day-strip" id="ov-week-strip"></div>
+          <div class="ov-strip-arrow" onclick="ovShiftWeekStrip(1)">›</div>
+        </div>
+
+        <div class="ov-month-cal" id="ov-month-cal">
+          <div class="ov-cal-head">
+            <div class="ov-strip-arrow" onclick="ovCalPrev()">‹</div>
+            <div class="ov-cal-title" id="ov-cal-title">—</div>
+            <div class="ov-strip-arrow" onclick="ovCalNext()">›</div>
+          </div>
+          <div class="ov-cal-grid" id="ov-cal-grid"></div>
+        </div>
+
+        <div class="ov-strategies" id="ov-strat-cards"></div>
+        <div class="ov-hint">Toca un activo para ver su calendario mensual completo</div>
+
         <div class="card" style="margin-bottom:1.5rem">
           <div class="card-head">
-            <span class="card-title">Estado de estrategias</span>
-            <a href="estadisticas.html" class="card-link">Ver estadísticas →</a>
+            <span class="card-title" id="ov-feed-title">Rutina del día</span>
+            <span class="card-link" id="ov-feed-date"></span>
           </div>
-          <div class="strat-status-grid" id="strat-status-grid"></div>
+          <div id="ov-trade-list"></div>
         </div>
 
         <div class="content-grid">
@@ -727,22 +819,10 @@
           </div>
           <div class="card">
             <div class="card-head">
-              <span class="card-title">Mis Trades · este mes</span>
+              <span class="card-title">Este mes</span>
               <a href="javascript:void(0)" onclick="showView('mytrades', document.querySelector('.sidebar-link[onclick*=mytrades]'))" class="card-link">Ver diario →</a>
             </div>
             <div class="card-body" id="home-mytrades-summary" style="padding:1.4rem 1.6rem"></div>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:1.5rem">
-          <div class="card-head">
-            <span class="card-title">Historial verificado de Andrés</span>
-            <a href="estadisticas.html" class="card-link">Ver estadísticas completas →</a>
-          </div>
-          <div class="card-body" style="padding:1.4rem 1.6rem;display:flex;gap:2.5rem;flex-wrap:wrap">
-            <div><div class="stat-tag">Rendimiento total</div><div class="stat-num gold" style="font-size:1.7rem">+337%</div></div>
-            <div><div class="stat-tag">Winrate histórico</div><div class="stat-num green" style="font-size:1.7rem">71.5%</div></div>
-            <div><div class="stat-tag">2026 YTD</div><div class="stat-num green" style="font-size:1.7rem">+34.6%</div></div>
           </div>
         </div>
       </div>
@@ -1077,7 +1157,8 @@
       await loadTrades();
       await loadSimulations();
       await accLoadAll();
-      await renderStrategyStatusPanel();
+      await ovLoadResults();
+      ovRefreshAll();
       await loadHomeSummary();
       document.getElementById('loading-screen').style.display = 'none';
     }
@@ -1098,79 +1179,369 @@
       } catch(e) {}
     }
 
-    // ── ESTADO DE ESTRATEGIAS (home) ──
-    const STRAT_STATUS_META = {
-      running: { label: 'Corriendo', color: 'var(--gold)', bg: 'rgba(201,168,76,.12)' },
-      tp: { label: 'TP', color: '#16a34a', bg: 'rgba(74,222,128,.14)' },
-      sl: { label: 'SL', color: '#dc2626', bg: 'rgba(248,113,113,.14)' },
-    };
-    const STRAT_STATUS_LIST = [
-      { key: 'swing', label: 'XAUUSD', real: true },
-      { key: 'tesla', label: 'TESLA', real: true },
-      { key: 'btc', label: 'BTC', real: false },
-      { key: 'xauaud', label: 'XAUAUD', real: false },
+    // ── RESUMEN PREMIUM: rutina diaria / semanal / calendario mensual ──
+    const OV_STRATS = [
+      { key: 'xauaud', label: 'XAUAUD', short: 'AU', time: '7:00 AM', color: '#8A6DFF' },
+      { key: 'swing', label: 'XAUUSD', short: 'US', time: '11:00 AM', color: '#c9a84c' },
+      { key: 'btc', label: 'BTC', short: 'BT', time: '1:00 PM', color: '#F2A93B' },
+      { key: 'tesla', label: 'TESLA', short: 'TS', time: '3:30 PM', color: '#5B6CF9' },
     ];
+    const OV_DOW = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
+    const OV_DOW_LONG = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+    const OV_MONTHS_SHORT = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    const OV_MONTHS_LONG = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
-    async function renderStrategyStatusPanel() {
-      const el = document.getElementById('strat-status-grid');
+    function ovDateStr(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+    function ovTodayStr() { return ovDateStr(new Date()); }
+    function ovMondayOf(d) { const x = new Date(d); const day = (x.getDay()+6)%7; x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x; }
+
+    let ovResults = { xauaud: [], swing: [], btc: [], tesla: [] };
+    let ovZoom = 'day';
+    let ovSelectedDate = ovTodayStr();
+    let ovDayStripEnd = new Date();
+    let ovSelectedWeekStart = ovDateStr(ovMondayOf(new Date()));
+    let ovWeekStripEnd = ovMondayOf(new Date());
+    let ovCalStrat = 'xauaud';
+    let ovCalYear = new Date().getFullYear();
+    let ovCalMonth = new Date().getMonth();
+
+    async function ovFetchStrategyRows(strategy) {
+      let all = [], from = 0; const pageSize = 1000;
+      while (true) {
+        const { data: page, error } = await sb.from('strategy_results')
+          .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha')
+          .range(from, from + pageSize - 1);
+        if (error || !page) break;
+        all = all.concat(page);
+        if (page.length < pageSize) break;
+        from += pageSize;
+      }
+      return all;
+    }
+
+    async function ovLoadResults() {
+      const keys = OV_STRATS.map(s => s.key);
+      const arrs = await Promise.all(keys.map(ovFetchStrategyRows));
+      ovResults = {};
+      keys.forEach((k, i) => { ovResults[k] = arrs[i]; });
+    }
+
+    function ovGetResult(stratKey, dateStr) {
+      return (ovResults[stratKey] || []).find(r => r.fecha === dateStr) || null;
+    }
+
+    function ovDayStatus(dateStr) {
+      const results = OV_STRATS.map(s => ovGetResult(s.key, dateStr)).filter(Boolean);
+      if (!results.length) return 'none';
+      const wins = results.filter(r => r.resultado === 'win').length;
+      if (wins === results.length) return 'win';
+      if (wins === 0) return 'loss';
+      return 'mixed';
+    }
+
+    function ovSetZoom(z) {
+      ovZoom = z;
+      document.querySelectorAll('.ov-tab').forEach(t => t.classList.toggle('active', t.dataset.zoom === z));
+      document.getElementById('ov-day-row').style.display = z === 'day' ? 'flex' : 'none';
+      document.getElementById('ov-week-row').style.display = z === 'week' ? 'flex' : 'none';
+      document.getElementById('ov-month-cal').classList.toggle('active', z === 'month');
+      if (z === 'day') ovRenderFeedForDay(ovSelectedDate);
+      else if (z === 'week') ovRenderFeedForWeek(ovSelectedWeekStart);
+      else if (z === 'month') ovBuildCalendar();
+      ovBuildStratCards();
+    }
+
+    // ── día ──
+    function ovBuildDayStrip() {
+      const el = document.getElementById('ov-day-strip');
       if (!el) return;
-      const { data } = await sb.from('strategy_status').select('*');
-      const map = {};
-      (data || []).forEach(r => map[r.estrategia] = r);
-      el.innerHTML = STRAT_STATUS_LIST.map(s => {
-        if (!s.real) {
-          return `<div class="strat-status-cell">
-            <div class="strat-status-name">${s.label}</div>
-            <div class="strat-status-badge" style="background:#eef0f6;color:#94a3b8">Próximamente</div>
-          </div>`;
-        }
-        const r = map[s.key];
-        const meta = STRAT_STATUS_META[r?.status || 'running'];
-        const priceParts = [];
-        if (r?.entry_price) priceParts.push('Entrada ' + r.entry_price);
-        if (r?.tp_price) priceParts.push('TP ' + r.tp_price);
-        if (r?.sl_price) priceParts.push('SL ' + r.sl_price);
-        return `<div class="strat-status-cell">
-          <div class="strat-status-name">${s.label}</div>
-          <div class="strat-status-badge" style="background:${meta.bg};color:${meta.color}">${meta.label}</div>
-          ${priceParts.length ? `<div class="strat-status-prices">${priceParts.join(' · ')}</div>` : ''}
+      const days = [];
+      for (let i = 13; i >= 0; i--) { const d = new Date(ovDayStripEnd); d.setDate(d.getDate() - i); days.push(d); }
+      el.innerHTML = days.map(d => {
+        const ds = ovDateStr(d);
+        const status = ovDayStatus(ds);
+        const sel = ds === ovSelectedDate;
+        return `<button class="ov-day-pill${sel?' selected':''}" onclick="ovSelectDay('${ds}')">
+          <span class="ov-dow">${OV_DOW[d.getDay()]}</span><span class="ov-dom">${d.getDate()}</span><span class="ov-dot ${status}"></span>
+        </button>`;
+      }).join('');
+    }
+    function ovShiftDayStrip(dir) { ovDayStripEnd = new Date(ovDayStripEnd); ovDayStripEnd.setDate(ovDayStripEnd.getDate() + dir*7); ovBuildDayStrip(); }
+    function ovSelectDay(ds) {
+      ovSelectedDate = ds;
+      const d = new Date(ds + 'T00:00:00');
+      const end = new Date(ovDayStripEnd);
+      const start = new Date(end); start.setDate(start.getDate() - 13);
+      if (d < start || d > end) ovDayStripEnd = d;
+      ovBuildDayStrip();
+      ovRenderFeedForDay(ds);
+    }
+    function ovTradeRowHTML(s, ds, pendingIfEmpty) {
+      const r = ovGetResult(s.key, ds);
+      let badgeClass, badgeText, pnlClass, pnlText;
+      if (r?.resultado === 'win') { badgeClass = 'tp'; badgeText = 'TP ✅'; pnlClass = 'pos'; pnlText = '+' + r.porcentaje + '%'; }
+      else if (r?.resultado === 'loss') { badgeClass = 'sl'; badgeText = 'SL ❌'; pnlClass = 'neg'; pnlText = r.porcentaje + '%'; }
+      else if (pendingIfEmpty) { badgeClass = 'pending'; badgeText = 'Pendiente'; pnlClass = 'pend'; pnlText = '—'; }
+      else { badgeClass = 'pending'; badgeText = 'No operado'; pnlClass = 'pend'; pnlText = '—'; }
+      return `<div class="ov-trade-row">
+        <div class="ov-strat-icon" style="background:${s.color}">${s.short}</div>
+        <div class="ov-trade-main"><div class="ov-trade-symbol">${s.label}</div><div class="ov-trade-time">${s.time}</div></div>
+        <span class="ov-badge ${badgeClass}">${badgeText}</span>
+        <div class="ov-pnl ${pnlClass}">${pnlText}</div>
+        <button class="ov-edit-btn" onclick="ovOpenEdit('${s.key}','${ds}')">✎</button>
+      </div>`;
+    }
+    function ovRenderFeedForDay(ds) {
+      const d = new Date(ds + 'T00:00:00');
+      document.getElementById('ov-feed-title').textContent = 'Rutina del día';
+      document.getElementById('ov-feed-date').textContent = `${OV_DOW_LONG[d.getDay()]} ${d.getDate()} ${OV_MONTHS_SHORT[d.getMonth()]} · en orden de horario`;
+      const isToday = ds === ovTodayStr();
+      document.getElementById('ov-trade-list').innerHTML = OV_STRATS.map(s => ovTradeRowHTML(s, ds, isToday)).join('');
+    }
+
+    // ── semana ──
+    function ovWeekPct(monday) {
+      const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6);
+      const from = ovDateStr(monday), to = ovDateStr(sunday);
+      let sum = 0;
+      OV_STRATS.forEach(s => { (ovResults[s.key]||[]).forEach(r => { if (r.fecha >= from && r.fecha <= to) sum += Number(r.porcentaje); }); });
+      return sum;
+    }
+    function ovBuildWeekStrip() {
+      const el = document.getElementById('ov-week-strip');
+      if (!el) return;
+      const weeks = [];
+      for (let i = 7; i >= 0; i--) { const monday = new Date(ovWeekStripEnd); monday.setDate(monday.getDate() - i*7); weeks.push(monday); }
+      el.innerHTML = weeks.map(monday => {
+        const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6);
+        const range = `${monday.getDate()}-${sunday.getDate()} ${OV_MONTHS_SHORT[sunday.getMonth()]}`;
+        const pct = ovWeekPct(monday);
+        const key = ovDateStr(monday);
+        const sel = key === ovSelectedWeekStart;
+        return `<button class="ov-week-pill${sel?' selected':''}" onclick="ovSelectWeek('${key}')">
+          <span class="ov-wk-range">${range}</span><span class="ov-wk-pct ${pct>=0?'pos':'neg'}">${pct>=0?'+':''}${pct.toFixed(1)}%</span>
+        </button>`;
+      }).join('');
+    }
+    function ovShiftWeekStrip(dir) { ovWeekStripEnd = new Date(ovWeekStripEnd); ovWeekStripEnd.setDate(ovWeekStripEnd.getDate() + dir*56); ovBuildWeekStrip(); }
+    function ovSelectWeek(key) { ovSelectedWeekStart = key; ovBuildWeekStrip(); ovRenderFeedForWeek(key); }
+    function ovRenderFeedForWeek(mondayStr) {
+      const monday = new Date(mondayStr + 'T00:00:00');
+      const sunday = new Date(monday); sunday.setDate(sunday.getDate() + 6);
+      document.getElementById('ov-feed-title').textContent = 'Rutina semanal';
+      document.getElementById('ov-feed-date').textContent = `${monday.getDate()} — ${sunday.getDate()} ${OV_MONTHS_SHORT[sunday.getMonth()]}`;
+      const days = [];
+      for (let i = 0; i < 7; i++) { const d = new Date(monday); d.setDate(d.getDate()+i); days.push(d); }
+      document.getElementById('ov-trade-list').innerHTML = days.map(d => {
+        const ds = ovDateStr(d);
+        const status = ovDayStatus(ds);
+        const results = OV_STRATS.map(s => ovGetResult(s.key, ds)).filter(Boolean);
+        const sum = results.reduce((s,r) => s + Number(r.porcentaje), 0);
+        const label = status==='none' ? 'Sin operar' : (status==='win' ? 'Todo TP' : (status==='loss' ? 'Todo SL' : 'Mixto'));
+        const cls = status==='win' ? 'tp' : (status==='loss' ? 'sl' : 'pending');
+        return `<div class="ov-trade-row" style="cursor:pointer" onclick="ovSetZoom('day');ovSelectDay('${ds}')">
+          <div class="ov-strat-icon" style="background:#151a2d">${OV_DOW[d.getDay()].slice(0,2)}</div>
+          <div class="ov-trade-main"><div class="ov-trade-symbol">${OV_DOW_LONG[d.getDay()]} ${d.getDate()}</div><div class="ov-trade-time">${results.length} de 4 estrategias operadas</div></div>
+          <span class="ov-badge ${cls}">${label}</span>
+          <div class="ov-pnl ${sum>=0?'pos':'neg'}">${results.length ? (sum>=0?'+':'')+sum.toFixed(1)+'%' : '—'}</div>
         </div>`;
       }).join('');
     }
 
-    async function loadHomeSummary() {
-      const accEl = document.getElementById('home-accounts-summary');
-      if (accEl) {
-        const active = accAccounts.filter(a => a.status === 'active');
-        if (!active.length) {
-          accEl.innerHTML = `<p style="font-size:.82rem;color:#94a3b8">No tienes cuentas activas todavía. <a href="javascript:void(0)" onclick="showView('accounts', document.querySelector('.sidebar-link[data-view=accounts]'))" style="color:var(--gold)">Crear una →</a></p>`;
-        } else {
-          const totalBalance = active.reduce((s, a) => s + accComputeMetrics(a.balance, accGetTrades(a.id)).balance, 0);
-          accEl.innerHTML = `<div style="display:flex;gap:2.2rem;flex-wrap:wrap">
-            <div><div class="stat-tag">Cuentas activas</div><div class="stat-num white" style="font-size:1.7rem">${active.length}</div></div>
-            <div><div class="stat-tag">Balance combinado</div><div class="stat-num green" style="font-size:1.7rem">${accFmtMoney(totalBalance)}</div></div>
-          </div>`;
-        }
+    // ── mes (calendario por activo) ──
+    function ovBuildCalendar() {
+      const meta = OV_STRATS.find(s => s.key === ovCalStrat);
+      document.getElementById('ov-cal-title').textContent = `${meta.label} — ${OV_MONTHS_LONG[ovCalMonth]} ${ovCalYear}`;
+      let html = ['L','M','X','J','V','S','D'].map(d => `<div class="ov-cal-dow">${d}</div>`).join('');
+      const firstDow = (new Date(ovCalYear, ovCalMonth, 1).getDay() + 6) % 7;
+      const daysInMonth = new Date(ovCalYear, ovCalMonth+1, 0).getDate();
+      for (let i = 0; i < firstDow; i++) html += `<div class="ov-cal-cell empty"></div>`;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const ds = `${ovCalYear}-${String(ovCalMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const r = ovGetResult(ovCalStrat, ds);
+        const cls = r ? (r.resultado === 'win' ? 'win' : 'loss') : 'none';
+        const title = r ? (r.resultado==='win'?'+':'') + r.porcentaje + '%' : 'Sin datos';
+        html += `<div class="ov-cal-cell ${cls}" title="${title}">${d}</div>`;
       }
+      document.getElementById('ov-cal-grid').innerHTML = html;
+    }
+    function ovCalPrev() { ovCalMonth--; if (ovCalMonth < 0) { ovCalMonth = 11; ovCalYear--; } ovBuildCalendar(); }
+    function ovCalNext() { ovCalMonth++; if (ovCalMonth > 11) { ovCalMonth = 0; ovCalYear++; } ovBuildCalendar(); }
 
-      const mtEl = document.getElementById('home-mytrades-summary');
-      if (mtEl) {
-        const now = new Date();
-        const from = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
-        const last = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
-        const to = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(last).padStart(2,'0')}`;
-        const { data: monthTrades } = await sb.from('user_trades').select('resultado').eq('user_id', currentUser.id).gte('fecha', from).lte('fecha', to);
-        const trades = monthTrades || [];
-        if (!trades.length) {
-          mtEl.innerHTML = `<p style="font-size:.82rem;color:#94a3b8">Aún no registras trades este mes. <a href="javascript:void(0)" onclick="showView('mytrades', document.querySelector('.sidebar-link[onclick*=mytrades]'))" style="color:var(--gold)">Añadir →</a></p>`;
-        } else {
-          const pnl = trades.reduce((s, t) => s + Number(t.resultado), 0);
-          mtEl.innerHTML = `<div style="display:flex;gap:2.2rem;flex-wrap:wrap">
-            <div><div class="stat-tag">Trades este mes</div><div class="stat-num white" style="font-size:1.7rem">${trades.length}</div></div>
-            <div><div class="stat-tag">Net P&L</div><div class="stat-num" style="font-size:1.7rem;color:${pnl>=0?'#16a34a':'#dc2626'}">${pnl>=0?'+':''}$${Math.abs(pnl).toFixed(2)}</div></div>
-          </div>`;
-        }
+    // ── checklist de hoy (strat-cards) ──
+    function ovBuildStratCards() {
+      const el = document.getElementById('ov-strat-cards');
+      if (!el) return;
+      const today = ovTodayStr();
+      el.innerHTML = OV_STRATS.map(s => {
+        const r = ovGetResult(s.key, today);
+        let statusHtml, statusClass;
+        if (r?.resultado === 'win') { statusHtml = `✅ TP hoy · +${r.porcentaje}%`; statusClass = 'ok'; }
+        else if (r?.resultado === 'loss') { statusHtml = `❌ SL hoy · ${r.porcentaje}%`; statusClass = 'loss'; }
+        else { statusHtml = '⏳ Pendiente hoy'; statusClass = 'pending'; }
+        const sel = ovZoom === 'month' && ovCalStrat === s.key;
+        return `<div class="ov-strat-card${sel?' selected':''}" onclick="ovSelectStratCard('${s.key}')">
+          <div class="ov-strat-top"><span class="ov-strat-tag" style="background:${s.color}"></span><span class="ov-strat-name">${s.label}</span></div>
+          <div class="ov-strat-time">Horario: ${s.time}</div>
+          <div class="ov-strat-status ${statusClass}">${statusHtml}</div>
+        </div>`;
+      }).join('');
+    }
+    function ovSelectStratCard(key) { ovCalStrat = key; ovSetZoom('month'); }
+
+    function ovRefreshAll() {
+      ovBuildDayStrip();
+      ovBuildWeekStrip();
+      ovBuildStratCards();
+      if (ovZoom === 'day') ovRenderFeedForDay(ovSelectedDate);
+      else if (ovZoom === 'week') ovRenderFeedForWeek(ovSelectedWeekStart);
+      if (ovZoom === 'month') ovBuildCalendar();
+    }
+
+    // ── editar un resultado (upsert / delete en strategy_results) ──
+    function ovOpenEdit(stratKey, ds) {
+      const r = ovGetResult(stratKey, ds);
+      const meta = OV_STRATS.find(s => s.key === stratKey);
+      const resultado = r?.resultado || 'win';
+      const overlay = document.createElement('div');
+      overlay.id = 'acc-modal';
+      overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)';
+      overlay.innerHTML = `<div style="background:#0d0f1a;border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:2rem;width:100%;max-width:340px;position:relative">
+        <button onclick="document.getElementById('acc-modal').remove()" style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.06);border:none;color:#fff;width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:.9rem">✕</button>
+        <div style="font-size:1rem;font-weight:800;margin-bottom:.3rem">${meta.label} · ${ds}</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.4);margin-bottom:1.2rem">Horario: ${meta.time}</div>
+        <div style="display:flex;gap:.6rem;margin-bottom:1rem">
+          <button type="button" id="ov-e-btn-win" onclick="ovSetEditResult('win')" style="flex:1;padding:.6rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:Inter,sans-serif;background:${resultado==='win'?'rgba(74,222,128,.14)':'transparent'};border:1px solid ${resultado==='win'?'#4ade80':'rgba(255,255,255,.15)'};color:${resultado==='win'?'#4ade80':'rgba(255,255,255,.5)'}">✓ WIN</button>
+          <button type="button" id="ov-e-btn-loss" onclick="ovSetEditResult('loss')" style="flex:1;padding:.6rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer;font-family:Inter,sans-serif;background:${resultado==='loss'?'rgba(248,113,113,.14)':'transparent'};border:1px solid ${resultado==='loss'?'#f87171':'rgba(255,255,255,.15)'};color:${resultado==='loss'?'#f87171':'rgba(255,255,255,.5)'}">✗ LOSS</button>
+        </div>
+        <input type="hidden" id="ov-e-resultado" value="${resultado}"/>
+        ${accFieldHTML('ov-e-porcentaje','Riesgo del trade (%)','number', Math.abs(r?.porcentaje ?? 1), '1')}
+        <div style="display:flex;gap:.6rem;margin-top:.4rem">
+          ${r ? `<button onclick="ovDeleteResult('${stratKey}','${ds}')" style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);color:#f87171;padding:.65rem .9rem;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">Eliminar</button>` : ''}
+          <button onclick="ovSaveResult('${stratKey}','${ds}')" style="flex:1;background:var(--gold);color:#05070f;border:none;padding:.65rem;border-radius:8px;font-weight:800;font-size:.86rem;cursor:pointer">Guardar</button>
+        </div>
+      </div>`;
+      overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+      document.body.appendChild(overlay);
+    }
+    function ovSetEditResult(val) {
+      document.getElementById('ov-e-resultado').value = val;
+      const win = document.getElementById('ov-e-btn-win'), loss = document.getElementById('ov-e-btn-loss');
+      win.style.background = val==='win' ? 'rgba(74,222,128,.14)' : 'transparent';
+      win.style.borderColor = val==='win' ? '#4ade80' : 'rgba(255,255,255,.15)';
+      win.style.color = val==='win' ? '#4ade80' : 'rgba(255,255,255,.5)';
+      loss.style.background = val==='loss' ? 'rgba(248,113,113,.14)' : 'transparent';
+      loss.style.borderColor = val==='loss' ? '#f87171' : 'rgba(255,255,255,.15)';
+      loss.style.color = val==='loss' ? '#f87171' : 'rgba(255,255,255,.5)';
+    }
+    async function ovSaveResult(stratKey, ds) {
+      const resultado = document.getElementById('ov-e-resultado').value;
+      const riesgo = parseFloat(document.getElementById('ov-e-porcentaje').value);
+      if (isNaN(riesgo)) { alert('Ingresá el riesgo del trade.'); return; }
+      const porcentaje = resultado === 'win' ? Math.abs(riesgo) : -Math.abs(riesgo);
+      const { error } = await sb.from('strategy_results').upsert({ estrategia: stratKey, fecha: ds, resultado, porcentaje }, { onConflict: 'estrategia,fecha' });
+      if (error) { alert('Error al guardar: ' + error.message); return; }
+      document.getElementById('acc-modal').remove();
+      await ovLoadResults();
+      ovRefreshAll();
+    }
+    async function ovDeleteResult(stratKey, ds) {
+      if (!confirm('¿Eliminar este resultado?')) return;
+      await sb.from('strategy_results').delete().eq('estrategia', stratKey).eq('fecha', ds);
+      document.getElementById('acc-modal').remove();
+      await ovLoadResults();
+      ovRefreshAll();
+    }
+
+    // ── tarjetas Tus cuentas / Este mes ──
+    function ovAccProgressItem(a) {
+      const trades = accGetTrades(a.id);
+      const m = accComputeMetrics(a.balance, trades);
+      const gainPct = ((m.balance - a.balance) / a.balance) * 100;
+      if (!(a.kind === 'fondeo' && a.profit_target_percent)) {
+        return `<div class="ov-acc-item">
+          <div class="ov-acc-top"><span class="ov-acc-name">${a.name}</span><span class="ov-acc-goal">Balance</span></div>
+          <div class="stat-num green" style="font-size:1.3rem">${accFmtMoney(m.balance)}</div>
+        </div>`;
       }
+      const targetPct = a.profit_target_percent;
+      const progressPct = Math.max(0, Math.min(100, (gainPct/targetPct)*100));
+      const lossPct = Math.max(0, -gainPct);
+      const maxLossPct = a.max_loss_percent || 10;
+      const ddPct = Math.max(0, Math.min(100, (lossPct/maxLossPct)*100));
+      return `<div class="ov-acc-item">
+        <div class="ov-acc-top"><span class="ov-acc-name">${a.name}</span><span class="ov-acc-goal">${gainPct.toFixed(1)}% de ${targetPct}%</span></div>
+        <div class="ov-progress-bg"><div class="ov-progress-fill" style="width:${progressPct}%"></div></div>
+        <div class="ov-dd-row"><span>Drawdown usado</span><span>${lossPct.toFixed(1)}% de ${maxLossPct}%</span></div>
+        <div class="ov-progress-bg"><div class="ov-progress-fill dd" style="width:${ddPct}%"></div></div>
+      </div>`;
+    }
+
+    function ovRenderAccountsCard() {
+      const accEl = document.getElementById('home-accounts-summary');
+      if (!accEl) return;
+      const active = accAccounts.filter(a => a.status === 'active');
+      if (!active.length) {
+        accEl.innerHTML = `<p style="font-size:.82rem;color:#94a3b8">No tienes cuentas activas todavía. <a href="javascript:void(0)" onclick="showView('accounts', document.querySelector('.sidebar-link[data-view=accounts]'))" style="color:var(--gold)">Crear una →</a></p>`;
+        return;
+      }
+      accEl.innerHTML = active.map(ovAccProgressItem).join('');
+    }
+
+    async function ovRenderMonthCard() {
+      const mtEl = document.getElementById('home-mytrades-summary');
+      if (!mtEl) return;
+      const now = new Date();
+      const y = now.getFullYear(), m = now.getMonth();
+      const from = `${y}-${String(m+1).padStart(2,'0')}-01`;
+      const lastDay = new Date(y, m+1, 0).getDate();
+      const to = `${y}-${String(m+1).padStart(2,'0')}-${String(lastDay).padStart(2,'0')}`;
+      const { data: monthTrades } = await sb.from('user_trades').select('fecha,resultado').eq('user_id', currentUser.id).gte('fecha', from).lte('fecha', to);
+      const trades = monthTrades || [];
+      if (!trades.length) {
+        mtEl.innerHTML = `<p style="font-size:.82rem;color:#94a3b8">Aún no registras trades este mes. <a href="javascript:void(0)" onclick="showView('mytrades', document.querySelector('.sidebar-link[onclick*=mytrades]'))" style="color:var(--gold)">Añadir →</a></p>`;
+        return;
+      }
+      const pm = m === 0 ? 11 : m - 1, py = m === 0 ? y - 1 : y;
+      const pFrom = `${py}-${String(pm+1).padStart(2,'0')}-01`;
+      const pLastDay = new Date(py, pm+1, 0).getDate();
+      const pTo = `${py}-${String(pm+1).padStart(2,'0')}-${String(pLastDay).padStart(2,'0')}`;
+      const { data: prevTrades } = await sb.from('user_trades').select('resultado').eq('user_id', currentUser.id).gte('fecha', pFrom).lte('fecha', pTo);
+
+      const pnl = trades.reduce((s,t) => s + Number(t.resultado), 0);
+      const wins = trades.filter(t => Number(t.resultado) >= 0).length;
+      const winrate = trades.length ? (wins/trades.length*100) : 0;
+      const prevPnl = (prevTrades||[]).reduce((s,t) => s + Number(t.resultado), 0);
+      const vsPrev = prevPnl !== 0 ? ((pnl-prevPnl)/Math.abs(prevPnl)*100) : (pnl > 0 ? 100 : 0);
+
+      const dayMap = {};
+      trades.forEach(t => { dayMap[t.fecha] = (dayMap[t.fecha]||0) + Number(t.resultado); });
+      const sortedDates = Object.keys(dayMap).sort();
+      let streak = 0;
+      for (let i = sortedDates.length-1; i >= 0; i--) { if (dayMap[sortedDates[i]] > 0) streak++; else break; }
+      const barsVals = sortedDates.slice(-14).map(ds => dayMap[ds]);
+      const maxAbs = Math.max(...barsVals.map(v => Math.abs(v)), 1);
+      const barsHtml = barsVals.map(v => {
+        const s = v > 0 ? 'win' : (v < 0 ? 'loss' : 'none');
+        const h = v === 0 ? 6 : Math.max(6, Math.round((Math.abs(v)/maxAbs)*28) + 6);
+        return `<div class="ov-bar ${s}" style="height:${h}px"></div>`;
+      }).join('');
+
+      mtEl.innerHTML = `
+        ${streak >= 2 ? `<div class="ov-streak-chip">🔥 ${streak} días ganadores seguidos</div>` : ''}
+        <div class="ov-mini-stat-grid">
+          <div><div class="stat-tag">Trades</div><div class="stat-num" style="font-size:1.3rem">${trades.length}</div></div>
+          <div><div class="stat-tag">Net P&L</div><div class="stat-num" style="font-size:1.3rem;color:${pnl>=0?'#16a34a':'#dc2626'}">${pnl>=0?'+':''}$${Math.abs(pnl).toFixed(2)}</div></div>
+          <div><div class="stat-tag">Winrate</div><div class="stat-num" style="font-size:1.3rem">${winrate.toFixed(0)}%</div></div>
+          <div><div class="stat-tag">Vs. mes anterior</div><div class="stat-num" style="font-size:1.3rem;color:${vsPrev>=0?'#16a34a':'#dc2626'}">${vsPrev>=0?'+':''}${vsPrev.toFixed(0)}%</div></div>
+        </div>
+        <div class="ov-bar-chart">${barsHtml}</div>
+      `;
+    }
+
+    async function loadHomeSummary() {
+      ovRenderAccountsCard();
+      await ovRenderMonthCard();
     }
 
     let simsData = [];
