@@ -547,12 +547,12 @@
             <span class="strat-btn-name">TESLA</span>
             <span class="strat-btn-desc">Day trading · ~13 trades/mes</span>
           </button>
-          <button class="strat-btn disabled" title="Próximamente" disabled>
-            <span class="strat-btn-name">BTC <span class="soon-tag">Próximamente</span></span>
-            <span class="strat-btn-desc">Estrategia en preparación</span>
+          <button class="strat-btn" data-strategy="xauaud" onclick="selectStrategy('xauaud',this)">
+            <span class="strat-btn-name">XAUAUD</span>
+            <span class="strat-btn-desc">Day trading · sesión Londres</span>
           </button>
           <button class="strat-btn disabled" title="Próximamente" disabled>
-            <span class="strat-btn-name">XAUAUD <span class="soon-tag">Próximamente</span></span>
+            <span class="strat-btn-name">BTC <span class="soon-tag">Próximamente</span></span>
             <span class="strat-btn-desc">Estrategia en preparación</span>
           </button>
         </div>
@@ -659,7 +659,7 @@ const sb = supabase.createClient(
   'https://uhjxybyzpqksyysifatn.supabase.co',
   'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP'
 );
-const STRATEGY_NAMES = { swing: 'XAUUSD Swing', daily: 'XAUUSD Daily', tesla: 'TESLA', btc: 'BTC' };
+const STRATEGY_NAMES = { swing: 'XAUUSD Swing', daily: 'XAUUSD Daily', tesla: 'TESLA', btc: 'BTC', xauaud: 'XAUAUD' };
 
 /* ─── INIT ─── */
 document.addEventListener('DOMContentLoaded', () => {

@@ -470,8 +470,8 @@
 
       <button class="strategy-btn active" data-strategy="swing" onclick="switchStrategy('swing')">XAUUSD</button>
       <button class="strategy-btn" data-strategy="tesla" onclick="switchStrategy('tesla')">TESLA</button>
+      <button class="strategy-btn" data-strategy="xauaud" onclick="switchStrategy('xauaud')">XAUAUD</button>
       <button class="strategy-btn disabled" data-strategy="btc" title="Próximamente" disabled>BTC <span class="soon-tag">Próximamente</span></button>
-      <button class="strategy-btn disabled" data-strategy="xauaud" title="Próximamente" disabled>XAUAUD <span class="soon-tag">Próximamente</span></button>
     </div>
   </section>
 
@@ -527,6 +527,7 @@
       daily: { estrategia: 'XAUUSD Daily', activo: 'XAUUSD', tipo: 'Daily' },
       tesla: { estrategia: 'TESLA', activo: 'TSLA', tipo: 'Daily' },
       btc: { estrategia: 'BTC', activo: 'BTC', tipo: 'Daily' },
+      xauaud: { estrategia: 'XAUAUD', activo: 'XAU/AUD', tipo: 'Daily' },
     };
 
     function buildStrategyData(strategy, trades) {
@@ -630,6 +631,7 @@
     function renderGestion() {
       const isDaily = currentStrategy === 'daily';
       const isTesla = currentStrategy === 'tesla';
+      const isXauaud = currentStrategy === 'xauaud';
       const totalTrades = data.resumenAnual.reduce((s, a) => s + a.trades, 0);
       const avgPerMonth = (totalTrades / data.meses.length).toFixed(0);
       return `
@@ -647,9 +649,9 @@
 
       <h2 class="mgmt-section-title">Condiciones de la Estrategia</h2>
       <table class="mgmt-table">
-        <tr><td>Instrumento</td><td>${isTesla ? 'TSLA (Tesla Inc.)' : 'XAU/USD (Oro spot)'}</td></tr>
-        <tr><td>Modalidad</td><td>${isTesla ? 'Day trading (intradía)' : isDaily ? 'Operativa diaria (intradía y daily)' : 'Swing trading (multiday)'}</td></tr>
-        <tr><td>Sesiones operativas</td><td>${isTesla ? 'Nueva York (NYSE)' : 'Londres · Nueva York'}</td></tr>
+        <tr><td>Instrumento</td><td>${isTesla ? 'TSLA (Tesla Inc.)' : isXauaud ? 'XAU/AUD (Oro vs. Dólar australiano)' : 'XAU/USD (Oro spot)'}</td></tr>
+        <tr><td>Modalidad</td><td>${isTesla ? 'Day trading (intradía)' : isXauaud ? 'Day trading (intradía)' : isDaily ? 'Operativa diaria (intradía y daily)' : 'Swing trading (multiday)'}</td></tr>
+        <tr><td>Sesiones operativas</td><td>${isTesla ? 'Nueva York (NYSE)' : isXauaud ? 'Londres' : 'Londres · Nueva York'}</td></tr>
         <tr><td>Gestión de riesgo</td><td>R fijo por operación</td></tr>
         <tr><td>Frecuencia media</td><td>~${avgPerMonth} trades/mes</td></tr>
         <tr><td>Desde</td><td>${data.inicio}</td></tr>
@@ -666,6 +668,7 @@
     function renderEstrategia() {
       const isDaily = currentStrategy === 'daily';
       const isTesla = currentStrategy === 'tesla';
+      const isXauaud = currentStrategy === 'xauaud';
       const totalTrades = data.resumenAnual.reduce((s, a) => s + a.trades, 0);
       const totalWins = data.resumenAnual.reduce((s, a) => s + a.wins, 0);
       const overallWR = (totalWins / totalTrades * 100).toFixed(1);
@@ -675,6 +678,8 @@
       <p class="strat-lead">
         ${isTesla
           ? 'La estrategia <strong>TESLA</strong> opera intradía sobre acciones de Tesla (TSLA), buscando movimientos direccionales de alta probabilidad con entradas precisas en zonas clave y gestión de riesgo fija para preservar el capital a largo plazo.'
+          : isXauaud
+          ? 'La estrategia <strong>XAUAUD</strong> opera intradía sobre el oro frente al dólar australiano (XAU/AUD), con entradas en la apertura de la sesión de Londres y una gestión de riesgo fija de R:R 1:1,5 para preservar el capital a largo plazo.'
           : isDaily
           ? 'La estrategia <strong>XAUUSD Daily</strong> se basa en el análisis técnico del oro en marcos temporales de 1H a Daily. Operamos a favor de la tendencia principal con entradas precisas en zonas de demanda/oferta institucional, usando gestión de riesgo fija para preservar el capital a largo plazo.'
           : 'La estrategia <strong>XAUUSD Swing</strong> busca capturar movimientos de alta probabilidad en el oro con trades de máximo 1 día. Se apoya en análisis técnico de precisión, niveles clave y confluencias de alto impacto con una media de ~16 trades al mes.'}
@@ -684,15 +689,15 @@
         <div class="strat-card">
           <div class="strat-card-header">
             <h3>${data.estrategia}</h3>
-            <p>${isTesla ? 'Day trading · Alta frecuencia' : isDaily ? 'Operativa activa · Alta frecuencia' : 'Swing trading · Baja frecuencia'}</p>
+            <p>${isTesla ? 'Day trading · Alta frecuencia' : isXauaud ? 'Day trading · Alta frecuencia' : isDaily ? 'Operativa activa · Alta frecuencia' : 'Swing trading · Baja frecuencia'}</p>
           </div>
           <div class="strat-card-body">
-            <div class="strat-row"><span>Instrumento</span><span>${isTesla ? 'TSLA' : 'XAU/USD'}</span></div>
-            <div class="strat-row"><span>Timeframe principal</span><span>${isTesla ? '15M / 1H / Daily' : isDaily ? '1H / 4H / Daily' : 'Daily / Weekly'}</span></div>
-            <div class="strat-row"><span>Duración media trade</span><span>${isTesla ? 'Intradía' : isDaily ? 'Horas / 1-2 días' : 'Máximo 1 día'}</span></div>
+            <div class="strat-row"><span>Instrumento</span><span>${isTesla ? 'TSLA' : isXauaud ? 'XAU/AUD' : 'XAU/USD'}</span></div>
+            <div class="strat-row"><span>Timeframe principal</span><span>${isTesla ? '15M / 1H / Daily' : isXauaud ? '15M / 1H' : isDaily ? '1H / 4H / Daily' : 'Daily / Weekly'}</span></div>
+            <div class="strat-row"><span>Duración media trade</span><span>${isTesla ? 'Intradía' : isXauaud ? 'Intradía' : isDaily ? 'Horas / 1-2 días' : 'Máximo 1 día'}</span></div>
             <div class="strat-row"><span>Frecuencia</span><span>~${avgPerMonth} trades/mes</span></div>
             <div class="strat-row"><span>Winrate histórico</span><span>${overallWR}%</span></div>
-            <div class="strat-row"><span>Ratio R:R medio</span><span>${isTesla ? '1:1' : isDaily ? '1:2' : '1:1'}</span></div>
+            <div class="strat-row"><span>Ratio R:R medio</span><span>${isTesla ? '1:1' : isXauaud ? '1:1,5' : isDaily ? '1:2' : '1:1'}</span></div>
           </div>
         </div>
         <div class="strat-card">
@@ -860,7 +865,7 @@
       for (let d = 1; d <= daysInMonth; d++) cells.push({ day: d, trade: dayMap[d] || null });
       while (cells.length % 7 !== 0) cells.push(null);
 
-      const TV_BASE = 'https://www.tradingview.com/chart/?symbol=' + (data.activo === 'TSLA' ? 'NASDAQ:TSLA' : 'XAUUSD');
+      const TV_BASE = 'https://www.tradingview.com/chart/?symbol=' + (data.activo === 'TSLA' ? 'NASDAQ:TSLA' : data.activo === 'XAU/AUD' ? 'XAUAUD' : 'XAUUSD');
       const hdr = DAY_LABELS.map(d => `<div class="cal-day-hdr">${d}</div>`).join('');
       const grid = cells.map(c => {
         if (!c) return `<div class="cal-cell empty"></div>`;
@@ -1002,9 +1007,9 @@
         <div class="char-block">
           <div class="char-block-title">Información general</div>
           <div class="char-row"><span class="char-label">Estrategia</span><span class="char-value">${data.estrategia}</span></div>
-          <div class="char-row"><span class="char-label">Activo</span><span class="char-value">${currentStrategy === 'tesla' ? 'TSLA (Tesla Inc.)' : 'XAUUSD (Oro)'}</span></div>
-          <div class="char-row"><span class="char-label">Tipo de operativa</span><span class="char-value">${currentStrategy === 'tesla' ? 'Day trading' : currentStrategy === 'daily' ? 'Intradía / Daily' : 'Swing (multiday)'}</span></div>
-          <div class="char-row"><span class="char-label">Frecuencia operativa</span><span class="char-value">${currentStrategy === 'tesla' ? '~13 trades/mes' : currentStrategy === 'daily' ? '~10 trades/mes' : '~5 trades/mes'}</span></div>
+          <div class="char-row"><span class="char-label">Activo</span><span class="char-value">${currentStrategy === 'tesla' ? 'TSLA (Tesla Inc.)' : currentStrategy === 'xauaud' ? 'XAU/AUD (Oro)' : 'XAUUSD (Oro)'}</span></div>
+          <div class="char-row"><span class="char-label">Tipo de operativa</span><span class="char-value">${currentStrategy === 'tesla' ? 'Day trading' : currentStrategy === 'xauaud' ? 'Day trading' : currentStrategy === 'daily' ? 'Intradía / Daily' : 'Swing (multiday)'}</span></div>
+          <div class="char-row"><span class="char-label">Frecuencia operativa</span><span class="char-value">${currentStrategy === 'tesla' ? '~13 trades/mes' : currentStrategy === 'xauaud' ? '~' + Math.round(totalTrades / meses.length) + ' trades/mes' : currentStrategy === 'daily' ? '~10 trades/mes' : '~5 trades/mes'}</span></div>
           <div class="char-row"><span class="char-label">Período auditado</span><span class="char-value">${periodo}</span></div>
           <div class="char-row"><span class="char-label">Años de historial</span><span class="char-value">${years.length} años</span></div>
         </div>
@@ -1019,8 +1024,8 @@
         </div>
         <div class="char-block">
           <div class="char-block-title">Condiciones del instrumento</div>
-          <div class="char-row"><span class="char-label">Par operado</span><span class="char-value">${currentStrategy === 'tesla' ? 'TSLA' : 'XAU/USD'}</span></div>
-          <div class="char-row"><span class="char-label">Sesión</span><span class="char-value">${currentStrategy === 'tesla' ? 'Nueva York (NYSE)' : 'Londres / Nueva York'}</span></div>
+          <div class="char-row"><span class="char-label">Par operado</span><span class="char-value">${currentStrategy === 'tesla' ? 'TSLA' : currentStrategy === 'xauaud' ? 'XAU/AUD' : 'XAU/USD'}</span></div>
+          <div class="char-row"><span class="char-label">Sesión</span><span class="char-value">${currentStrategy === 'tesla' ? 'Nueva York (NYSE)' : currentStrategy === 'xauaud' ? 'Londres' : 'Londres / Nueva York'}</span></div>
           <div class="char-row"><span class="char-label">Tipo de cuenta</span><span class="char-value">${currentStrategy === 'tesla' ? 'Acciones / Opciones' : 'Standard / ECN'}</span></div>
           <div class="char-row"><span class="char-label">Gestión de riesgo</span><span class="char-value">R fijo por trade</span></div>
         </div>

@@ -721,7 +721,7 @@
             <button class="panel-tab active" onclick="switchPanelTab('xau',this)">XAUUSD</button>
             <button class="panel-tab" onclick="switchPanelTab('tsla',this)">TESLA</button>
             <button class="panel-tab" onclick="switchPanelTab('btc',this)">BTC</button>
-            <button class="panel-tab disabled" title="Próximamente" disabled>XAUAUD</button>
+            <button class="panel-tab disabled" id="tab-xauaud" title="Próximamente" disabled>XAUAUD</button>
           </div>
           <div class="panel-main-body">
             <div class="panel-main-text">
@@ -1173,6 +1173,16 @@
           { val: 'Cripto', label: 'Mercado' },
         ],
       },
+      xauaud: {
+        eyebrow: 'XAUAUD · Rendimiento total', value: '—', sub: 'Historial en construcción', delta: null,
+        chartLbl: 'Rendimiento por año',
+        chart: [],
+        stats: [
+          { val: '—', label: 'Desde inicio' },
+          { val: '—', label: 'Trades verificados' },
+          { val: '—', label: 'Winrate histórico' },
+        ],
+      },
     };
     function renderPanelChart(bars) {
       const el = document.getElementById('panel-chart');
@@ -1277,12 +1287,36 @@
           <div><div class="tick-lbl">2025</div><div class="tick-val pos">+59.0%</div></div>
           <div><div class="tick-lbl">2026 YTD</div><div class="tick-val pos">+63.0%</div></div>
           <div><div class="tick-lbl">Activo</div><div class="tick-val">TSLA</div></div>`
+      },
+      xauaud: {
+        grid: `
+        <div class="mkt-card">
+          <div class="mkt-tag tag-s">Estrategia</div>
+          <div class="mkt-card-title">XAUAUD Day Trading</div>
+          <div class="mkt-card-desc">Operativa intradía sobre oro frente al dólar australiano, con entradas en la apertura de la sesión de Londres. Riesgo fijo por operación, sin apalancamiento excesivo.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">—</div><div class="mkt-stat-lbl">Trades promedio</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+        </div>
+        <div class="mkt-card">
+          <div class="mkt-tag tag-a">Análisis</div>
+          <div class="mkt-card-title">Historial en construcción</div>
+          <div class="mkt-card-desc">Publicaremos el historial operación a operación en cuanto esté cargado y verificado.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">—</div><div class="mkt-stat-lbl">Winrate histórico</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+        </div>
+        <div class="mkt-card">
+          <div class="mkt-tag tag-p">Rendimiento</div>
+          <div class="mkt-card-title">Próximamente con historial real</div>
+          <div class="mkt-card-desc">Capital inicial de $1,000. Resultados auditables con la calculadora pública en cuanto haya historial cargado.</div>
+          <div class="mkt-card-meta"><div><div class="mkt-stat">—</div><div class="mkt-stat-lbl">Balance final verificado</div></div><a href="calculadora.html" class="mkt-arrow">→</a></div>
+        </div>`,
+        lead: 'Operativa activa sobre XAU/AUD. Historial en construcción — se actualiza automáticamente en cuanto haya datos verificados.',
+        ticker: `<div><div class="tick-lbl">Activo</div><div class="tick-val">XAU/AUD</div></div>`
       }
     };
 
     function selectHomeStrategy(key) {
       document.getElementById('pill-swing').classList.toggle('active', key === 'swing');
       document.getElementById('pill-tesla').classList.toggle('active', key === 'tesla');
+      document.getElementById('pill-xauaud').classList.toggle('active', key === 'xauaud');
       const d = HOME_STRATEGY_DATA[key];
       document.getElementById('markets-grid').innerHTML = d.grid;
       document.getElementById('mkt-ticker').innerHTML = d.ticker;
@@ -1346,9 +1380,10 @@
 
     async function loadLiveHomeStrategies() {
       try {
-        const [{ data: swingRows, error: swingErr }, { data: teslaRows, error: teslaErr }] = await Promise.all([
+        const [{ data: swingRows, error: swingErr }, { data: teslaRows, error: teslaErr }, { data: xauaudRows, error: xauaudErr }] = await Promise.all([
           fetchAllStrategyRows('swing'),
           fetchAllStrategyRows('tesla'),
+          fetchAllStrategyRows('xauaud'),
         ]);
         if (swingErr || teslaErr || !swingRows?.length || !teslaRows?.length) return;
 
@@ -1394,6 +1429,63 @@
         HOME_STRATEGY_DATA.tesla.ticker = tesla.resumenAnual.map(a =>
           `<div><div class="tick-lbl">${a.año}${a.año === new Date().getFullYear() ? ' YTD' : ''}</div><div class="tick-val ${a.rendimiento>=0?'pos':'neg'}">${a.rendimiento>=0?'+':''}${a.rendimiento.toFixed(1)}%</div></div>`
         ).join('') + '<div><div class="tick-lbl">Activo</div><div class="tick-val">TSLA</div></div>';
+
+        // XAUAUD: recién incorporada — se activa sola en cuanto haya resultados reales cargados
+        if (!xauaudErr && xauaudRows?.length) {
+          const xauaud = buildStrategyTotals(xauaudRows);
+          PANEL_DATA.xauaud.value = (xauaud.totalReturn >= 0 ? '+' : '') + xauaud.totalReturn.toFixed(0) + '%';
+          PANEL_DATA.xauaud.sub = 'Desde inicio';
+          PANEL_DATA.xauaud.chart = xauaud.resumenAnual.map(a => ({ year: String(a.año), value: a.rendimiento }));
+          PANEL_DATA.xauaud.stats = [
+            { val: xauaud.totalReturn.toFixed(0) + '<sup>%</sup>', label: 'Desde inicio' },
+            { val: xauaud.totalTrades.toLocaleString('es-ES'), label: 'Trades verificados' },
+            { val: wrFmt(xauaud.winrate), label: 'Winrate histórico' },
+          ];
+          const avgMes = Math.round(xauaud.totalTrades / xauaud.mesesCount);
+          const finalBal = Math.round(xauaud.finalBalance).toLocaleString('en-US');
+          HOME_STRATEGY_DATA.xauaud.grid = `
+          <div class="mkt-card">
+            <div class="mkt-tag tag-s">Estrategia</div>
+            <div class="mkt-card-title">XAUAUD Day Trading</div>
+            <div class="mkt-card-desc">Operativa intradía sobre oro frente al dólar australiano, con entradas en la apertura de la sesión de Londres. Riesgo fijo por operación, sin apalancamiento excesivo.</div>
+            <div class="mkt-card-meta"><div><div class="mkt-stat">~${avgMes}/mes</div><div class="mkt-stat-lbl">Trades promedio</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+          </div>
+          <div class="mkt-card">
+            <div class="mkt-tag tag-a">Análisis</div>
+            <div class="mkt-card-title">Historial verificado</div>
+            <div class="mkt-card-desc">${xauaud.totalTrades} trades documentados. Winrate del ${xauaud.winrate.toFixed(1)}% histórico. Todos los meses publicados con detalle operación a operación.</div>
+            <div class="mkt-card-meta"><div><div class="mkt-stat">${xauaud.winrate.toFixed(1)}%</div><div class="mkt-stat-lbl">Winrate histórico</div></div><a href="estadisticas.html" class="mkt-arrow">→</a></div>
+          </div>
+          <div class="mkt-card">
+            <div class="mkt-tag tag-p">Rendimiento</div>
+            <div class="mkt-card-title">${xauaud.totalReturn>=0?'+':''}${xauaud.totalReturn.toFixed(0)}% desde inicio</div>
+            <div class="mkt-card-desc">Capital inicial de $1,000 convertido en $${finalBal} en ${xauaud.mesesCount} meses. Resultados auditables con la calculadora pública.</div>
+            <div class="mkt-card-meta"><div><div class="mkt-stat">$${finalBal}</div><div class="mkt-stat-lbl">Balance final verificado</div></div><a href="calculadora.html" class="mkt-arrow">→</a></div>
+          </div>`;
+          HOME_STRATEGY_DATA.xauaud.lead = 'Operativa activa sobre XAU/AUD. Cada decisión documentada, cada resultado verificado.';
+          HOME_STRATEGY_DATA.xauaud.ticker = xauaud.resumenAnual.map(a =>
+            `<div><div class="tick-lbl">${a.año}${a.año === new Date().getFullYear() ? ' YTD' : ''}</div><div class="tick-val ${a.rendimiento>=0?'pos':'neg'}">${a.rendimiento>=0?'+':''}${a.rendimiento.toFixed(1)}%</div></div>`
+          ).join('') + '<div><div class="tick-lbl">Activo</div><div class="tick-val">XAU/AUD</div></div>';
+
+          const xauaudTab = document.getElementById('tab-xauaud');
+          if (xauaudTab && xauaudTab.disabled) {
+            xauaudTab.disabled = false;
+            xauaudTab.classList.remove('disabled');
+            xauaudTab.removeAttribute('title');
+            xauaudTab.onclick = function () { switchPanelTab('xauaud', this); };
+          }
+          const xauaudPill = document.getElementById('pill-xauaud');
+          if (xauaudPill && xauaudPill.disabled) {
+            xauaudPill.disabled = false;
+            xauaudPill.classList.remove('disabled');
+            xauaudPill.removeAttribute('title');
+            xauaudPill.onclick = function () { selectHomeStrategy('xauaud'); };
+            const titleEl = xauaudPill.querySelector('.strategy-pill-title');
+            const subEl = xauaudPill.querySelector('.strategy-pill-sub');
+            if (titleEl) titleEl.innerHTML = 'XAUAUD';
+            if (subEl) subEl.textContent = 'Estrategia activa · datos reales';
+          }
+        }
 
         // Refresh whatever is currently on screen with the live numbers
         renderPanelChart(PANEL_DATA.xau.chart);
