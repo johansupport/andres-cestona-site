@@ -159,8 +159,13 @@
     #view-overview .ov-cal-cell.loss { background:#fdecec; color:#dc2626; }
     #view-overview .ov-cal-cell.none { background:#f5f6fa; color:#c2c9d6; }
     #view-overview .ov-cal-cell.empty { background:transparent; }
+    #view-overview .ov-banner { display:none; align-items:center; justify-content:space-between; gap:1.5rem; background:linear-gradient(90deg,rgba(201,168,76,.14),rgba(201,168,76,.03)); border:1px solid rgba(201,168,76,.35); border-radius:14px; padding:1.2rem 1.6rem; margin-bottom:1.5rem; flex-wrap:wrap; }
+    #view-overview .ov-banner-title { font-weight:800; font-size:.95rem; color:#151a2d; margin-bottom:.25rem; }
+    #view-overview .ov-banner-sub { font-size:.76rem; color:#8a7548; }
+    #view-overview .ov-banner-btn { background:#151a2d; color:#fff; padding:.6rem 1.2rem; border-radius:8px; font-size:.78rem; font-weight:700; text-decoration:none; white-space:nowrap; }
+    #view-overview .ov-info { opacity:.45; cursor:help; vertical-align:-1px; }
     #view-overview .ov-strategies { display:grid; grid-template-columns:repeat(4,1fr); gap:.9rem; margin-bottom:.5rem; }
-    #view-overview .ov-strat-card { background:#fff; border:1px solid #e2e5ec; border-radius:12px; padding:1rem 1.1rem; cursor:pointer; transition:border-color .2s; }
+    #view-overview .ov-strat-card { background:#fff; border:1px solid #e2e5ec; border-top:3px solid #e2e5ec; border-radius:12px; padding:1rem 1.1rem; cursor:pointer; transition:border-color .2s; }
     #view-overview .ov-strat-card:hover { border-color:var(--gold); }
     #view-overview .ov-strat-card.selected { border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
     #view-overview .ov-strat-top { display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem; }
@@ -171,7 +176,13 @@
     #view-overview .ov-strat-status.ok { color:#16a34a; }
     #view-overview .ov-strat-status.loss { color:#dc2626; }
     #view-overview .ov-strat-status.pending { color:#94a3b8; }
+    #view-overview .ov-strat-month { font-size:.62rem; color:#94a3b8; margin-top:.55rem; padding-top:.5rem; border-top:1px solid #eef0f6; }
     #view-overview .ov-hint { font-size:.7rem; color:#94a3b8; margin:0 0 1.5rem .2rem; }
+    #view-overview .ov-trade-header { display:flex; align-items:center; gap:.9rem; padding:.65rem 1.6rem; font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#94a3b8; border-bottom:1px solid #eef0f6; }
+    #view-overview .ov-trade-header span:first-child { flex:1; padding-left:44px; }
+    #view-overview .ov-trade-header span:nth-child(2) { width:74px; text-align:center; }
+    #view-overview .ov-trade-header span:nth-child(3) { width:64px; text-align:right; flex-shrink:0; }
+    #view-overview .ov-trade-header span:nth-child(4) { width:26px; }
     #view-overview .ov-trade-row { display:flex; align-items:center; gap:.9rem; padding:.85rem 1.6rem; border-bottom:1px solid #eef0f6; }
     #view-overview .ov-trade-row:last-child { border-bottom:none; }
     #view-overview .ov-strat-icon { width:32px; height:32px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:.6rem; font-weight:800; color:#fff; flex-shrink:0; }
@@ -415,9 +426,9 @@
     #view-overview .card-link:hover, #view-accounts .card-link:hover, #view-account-detail .card-link:hover, #view-trades .card-link:hover, #view-performance .card-link:hover, #view-simulations .card-link:hover, #view-mytrades .card-link:hover, #view-profile .card-link:hover { color:var(--gold); }
 
     /* Stats grid (Rendimiento) */
-    #view-performance .stats-grid { background:#eef0f6; border-color:#eef0f6; }
-    #view-performance .stat-card { background:#fff; }
-    #view-performance .stat-card:hover { background:#fafbfd; }
+    #view-performance .stats-grid, #view-overview .stats-grid { background:#eef0f6; border-color:#eef0f6; }
+    #view-performance .stat-card, #view-overview .stat-card { background:#fff; }
+    #view-performance .stat-card:hover, #view-overview .stat-card:hover { background:#fafbfd; }
     #view-performance .stat-tag { color:#94a3b8; }
     #view-performance .stat-desc { color:#9aa1b5; }
     #view-overview .stat-tag { color:#94a3b8; }
@@ -772,6 +783,16 @@
           <div class="page-sub">Tu resumen personal</div>
         </div>
 
+        <div class="ov-banner" id="ov-streak-banner"></div>
+
+        <div class="card" style="margin-bottom:1.5rem">
+          <div class="card-head">
+            <span class="card-title">Estadísticas del mes</span>
+            <span class="card-link" id="ov-month-stats-period"></span>
+          </div>
+          <div class="stats-grid" id="ov-month-stats" style="margin:1.4rem 1.6rem 1.6rem;width:calc(100% - 3.2rem)"></div>
+        </div>
+
         <div class="ov-tabs">
           <button class="ov-tab active" data-zoom="day" onclick="ovSetZoom('day')">Día</button>
           <button class="ov-tab" data-zoom="week" onclick="ovSetZoom('week')">Semana</button>
@@ -806,6 +827,7 @@
             <span class="card-title" id="ov-feed-title">Rutina del día</span>
             <span class="card-link" id="ov-feed-date"></span>
           </div>
+          <div class="ov-trade-header"><span>Estrategia</span><span>Estado</span><span>%</span><span></span></div>
           <div id="ov-trade-list"></div>
         </div>
 
@@ -1369,6 +1391,72 @@
     function ovCalNext() { ovCalMonth++; if (ovCalMonth > 11) { ovCalMonth = 0; ovCalYear++; } ovBuildCalendar(); }
 
     // ── checklist de hoy (strat-cards) ──
+    let ovMonthStats = null;
+
+    function ovComputeMonthStats() {
+      const now = new Date();
+      const prefix = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+      const byStrat = {};
+      let all = [];
+      OV_STRATS.forEach(s => {
+        const rows = (ovResults[s.key]||[]).filter(r => r.fecha.startsWith(prefix));
+        byStrat[s.key] = rows;
+        all = all.concat(rows);
+      });
+      const total = all.length;
+      const wins = all.filter(r => r.resultado === 'win').length;
+      const winrate = total ? (wins/total*100) : 0;
+      const dayMap = {};
+      all.forEach(r => { (dayMap[r.fecha] = dayMap[r.fecha]||[]).push(r); });
+      const dayEntries = Object.keys(dayMap).sort().map(fecha => ({ fecha, sum: dayMap[fecha].reduce((s,r)=>s+Number(r.porcentaje),0) }));
+      let streak = 0;
+      for (let i = dayEntries.length-1; i >= 0; i--) { if (dayEntries[i].sum > 0) streak++; else break; }
+      let bestStratKey = OV_STRATS[0].key, bestSum = -Infinity;
+      OV_STRATS.forEach(s => {
+        const sum = byStrat[s.key].reduce((a,r) => a + Number(r.porcentaje), 0);
+        if (sum > bestSum) { bestSum = sum; bestStratKey = s.key; }
+      });
+      return { total, winrate, streak, byStrat, bestStratMeta: OV_STRATS.find(s => s.key === bestStratKey), monthLabel: `${OV_MONTHS_LONG[now.getMonth()]} ${now.getFullYear()}` };
+    }
+
+    function ovStratMonthWinrate(stratKey) {
+      const rows = ovMonthStats?.byStrat?.[stratKey] || [];
+      if (!rows.length) return null;
+      const wins = rows.filter(r => r.resultado === 'win').length;
+      return { wins, total: rows.length, pct: wins/rows.length*100 };
+    }
+
+    function ovRenderMonthStatsCard() {
+      const el = document.getElementById('ov-month-stats');
+      const periodEl = document.getElementById('ov-month-stats-period');
+      if (!el || !ovMonthStats) return;
+      const s = ovMonthStats;
+      if (periodEl) periodEl.textContent = s.monthLabel;
+      el.innerHTML = `
+        <div class="stat-card"><div class="stat-tag">Trades</div><div class="stat-num white" style="font-size:1.6rem">${s.total}</div></div>
+        <div class="stat-card"><div class="stat-tag">Winrate <svg class="ov-info" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Trades ganados / total registrado este mes"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="stat-num" style="font-size:1.6rem;color:${s.winrate>=50?'#16a34a':'#dc2626'}">${s.winrate.toFixed(0)}%</div></div>
+        <div class="stat-card"><div class="stat-tag">Racha actual <svg class="ov-info" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Días consecutivos con resultado combinado positivo"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="stat-num gold" style="font-size:1.6rem">${s.streak} ${s.streak===1?'día':'días'}</div></div>
+        <div class="stat-card"><div class="stat-tag">Mejor estrategia</div><div class="stat-num white" style="font-size:1.6rem">${s.bestStratMeta.label}</div></div>
+      `;
+    }
+
+    function ovRenderStreakBanner() {
+      const el = document.getElementById('ov-streak-banner');
+      if (!el || !ovMonthStats) return;
+      if (ovMonthStats.streak >= 3) {
+        el.style.display = 'flex';
+        el.innerHTML = `
+          <div>
+            <div class="ov-banner-title">🔥 Racha de ${ovMonthStats.streak} días ganadores</div>
+            <div class="ov-banner-sub">Resultado combinado positivo los últimos ${ovMonthStats.streak} días. Seguí así.</div>
+          </div>
+          <a href="estadisticas.html" class="ov-banner-btn">Ver estadísticas →</a>
+        `;
+      } else {
+        el.style.display = 'none';
+      }
+    }
+
     function ovBuildStratCards() {
       const el = document.getElementById('ov-strat-cards');
       if (!el) return;
@@ -1380,16 +1468,22 @@
         else if (r?.resultado === 'loss') { statusHtml = `❌ SL hoy · ${r.porcentaje}%`; statusClass = 'loss'; }
         else { statusHtml = '⏳ Pendiente hoy'; statusClass = 'pending'; }
         const sel = ovZoom === 'month' && ovCalStrat === s.key;
-        return `<div class="ov-strat-card${sel?' selected':''}" onclick="ovSelectStratCard('${s.key}')">
+        const mw = ovStratMonthWinrate(s.key);
+        const mwHtml = mw ? `${mw.wins}/${mw.total} este mes · ${mw.pct.toFixed(0)}%` : 'Sin datos este mes';
+        return `<div class="ov-strat-card${sel?' selected':''}" style="border-top-color:${s.color}" onclick="ovSelectStratCard('${s.key}')">
           <div class="ov-strat-top"><span class="ov-strat-tag" style="background:${s.color}"></span><span class="ov-strat-name">${s.label}</span></div>
           <div class="ov-strat-time">Horario: ${s.time}</div>
           <div class="ov-strat-status ${statusClass}">${statusHtml}</div>
+          <div class="ov-strat-month">${mwHtml}</div>
         </div>`;
       }).join('');
     }
     function ovSelectStratCard(key) { ovCalStrat = key; ovSetZoom('month'); }
 
     function ovRefreshAll() {
+      ovMonthStats = ovComputeMonthStats();
+      ovRenderMonthStatsCard();
+      ovRenderStreakBanner();
       ovBuildDayStrip();
       ovBuildWeekStrip();
       ovBuildStratCards();
