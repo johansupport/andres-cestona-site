@@ -230,6 +230,10 @@
     #view-overview .ov-acc-item { margin-bottom:1.2rem; padding-bottom:1.2rem; border-bottom:1px solid #eef0f6; }
     #view-overview .ov-acc-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
     #view-overview .ov-acc-head { display:flex; align-items:center; gap:.6rem; margin-bottom:.7rem; }
+    #view-overview .ov-acc-select-wrap { position:relative; margin-bottom:1.1rem; }
+    #view-overview .ov-acc-select { appearance:none; -webkit-appearance:none; width:100%; background:#f9fafc; border:1px solid #e2e5ec; border-radius:10px; padding:.7rem 2.2rem .7rem .9rem; font-size:.8rem; font-weight:700; color:#151a2d; font-family:Inter,sans-serif; cursor:pointer; transition:border-color .2s; }
+    #view-overview .ov-acc-select:hover, #view-overview .ov-acc-select:focus { border-color:var(--gold); outline:none; }
+    #view-overview .ov-acc-select-wrap::after { content:''; position:absolute; right:.9rem; top:50%; width:8px; height:8px; border-right:1.5px solid #94a3b8; border-bottom:1.5px solid #94a3b8; transform:translateY(-65%) rotate(45deg); pointer-events:none; }
     #view-overview .ov-acc-icon { width:28px; height:28px; border-radius:8px; background:#151a2d; color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:800; flex-shrink:0; }
     #view-overview .ov-acc-name { font-weight:700; color:#151a2d; font-size:.82rem; }
     #view-overview .ov-acc-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:.4px; color:#94a3b8; }
@@ -252,7 +256,9 @@
     /* CARDS */
     .card { background:rgba(255,255,255,.025); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
     .card-head { display:flex; justify-content:space-between; align-items:center; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
-    .card-title { font-size:.82rem; font-weight:700; color:#fff; }
+    .card-title { font-size:.82rem; font-weight:700; color:#fff; display:inline-flex; align-items:center; gap:.55rem; }
+    .card-title-icon { width:24px; height:24px; border-radius:7px; background:rgba(201,168,76,.12); color:var(--gold); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+    #view-overview .card-title-icon, #view-accounts .card-title-icon, #view-account-detail .card-title-icon, #view-trades .card-title-icon, #view-performance .card-title-icon, #view-simulations .card-title-icon, #view-mytrades .card-title-icon, #view-profile .card-title-icon { background:#fdf6e5; }
     .card-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
     .card-link:hover { color:var(--gold); }
     .card-body { padding:0 1.6rem; }
@@ -880,14 +886,14 @@
         <div class="content-grid">
           <div class="card">
             <div class="card-head">
-              <span class="card-title">Tus cuentas</span>
+              <span class="card-title"><span class="card-title-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/><path d="M6 15h4"/></svg></span>Tus cuentas</span>
               <a href="javascript:void(0)" onclick="showView('accounts', document.querySelector('.sidebar-link[data-view=accounts]'))" class="card-link">Ver todas →</a>
             </div>
             <div class="card-body" id="home-accounts-summary" style="padding:1.4rem 1.6rem"></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <span class="card-title">Este mes</span>
+              <span class="card-title"><span class="card-title-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></span>Este mes</span>
               <a href="javascript:void(0)" onclick="showView('mytrades', document.querySelector('.sidebar-link[onclick*=mytrades]'))" class="card-link">Ver diario →</a>
             </div>
             <div class="card-body" id="home-mytrades-summary" style="padding:1.4rem 1.6rem"></div>
@@ -1697,6 +1703,8 @@
       </div>`;
     }
 
+    let ovSelectedAccountId = null;
+    function ovSelectAccount(id) { ovSelectedAccountId = id; ovRenderAccountsCard(); }
     function ovRenderAccountsCard() {
       const accEl = document.getElementById('home-accounts-summary');
       if (!accEl) return;
@@ -1705,7 +1713,15 @@
         accEl.innerHTML = `<p style="font-size:.82rem;color:#94a3b8">No tienes cuentas activas todavía. <a href="javascript:void(0)" onclick="showView('accounts', document.querySelector('.sidebar-link[data-view=accounts]'))" style="color:var(--gold)">Crear una →</a></p>`;
         return;
       }
-      accEl.innerHTML = active.map(ovAccProgressItem).join('');
+      if (!ovSelectedAccountId || !active.some(a => a.id === ovSelectedAccountId)) ovSelectedAccountId = active[0].id;
+      const selectHtml = active.length > 1 ? `
+        <div class="ov-acc-select-wrap">
+          <select class="ov-acc-select" onchange="ovSelectAccount(this.value)">
+            ${active.map(a => `<option value="${a.id}"${a.id===ovSelectedAccountId?' selected':''}>${a.name} · #${a.number}</option>`).join('')}
+          </select>
+        </div>` : '';
+      const chosen = active.find(a => a.id === ovSelectedAccountId);
+      accEl.innerHTML = selectHtml + ovAccProgressItem(chosen);
     }
 
     async function ovRenderMonthCard() {
