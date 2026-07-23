@@ -148,25 +148,46 @@
     #view-overview .ov-wk-range { font-size:.62rem; color:#94a3b8; font-weight:600; }
     #view-overview .ov-wk-pct { font-size:.88rem; font-weight:800; color:#151a2d; }
     #view-overview .ov-wk-pct.pos { color:#16a34a; } #view-overview .ov-wk-pct.neg { color:#dc2626; }
-    #view-overview .ov-month-cal { display:none; background:#fff; border:1px solid #e2e5ec; border-radius:14px; padding:1.2rem 1.4rem; margin-bottom:1.5rem; }
+    #view-overview .ov-month-cal { display:none; background:#fff; border:1px solid #e2e5ec; border-radius:14px; padding:1.3rem 1.5rem 1.5rem; margin-bottom:1.5rem; box-shadow:0 1px 3px rgba(20,25,45,.05); }
     #view-overview .ov-month-cal.active { display:block; }
-    #view-overview .ov-cal-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
-    #view-overview .ov-cal-title { font-weight:700; font-size:.9rem; color:#151a2d; }
-    #view-overview .ov-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:.4rem; }
-    #view-overview .ov-cal-dow { font-size:.6rem; color:#94a3b8; text-align:center; font-weight:700; padding-bottom:.3rem; }
-    #view-overview .ov-cal-cell { aspect-ratio:1; border-radius:7px; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; }
-    #view-overview .ov-cal-cell.win { background:#eafaf1; color:#16a34a; }
-    #view-overview .ov-cal-cell.loss { background:#fdecec; color:#dc2626; }
-    #view-overview .ov-cal-cell.none { background:#f5f6fa; color:#c2c9d6; }
+    #view-overview .ov-cal-strat-tabs { display:flex; gap:.5rem; margin-bottom:1.1rem; flex-wrap:wrap; }
+    #view-overview .ov-cal-strat-tab { display:flex; align-items:center; gap:.45rem; padding:.42rem .9rem; border-radius:100px; border:1.5px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:700; color:#64748b; cursor:pointer; transition:all .2s; font-family:Inter,sans-serif; }
+    #view-overview .ov-cal-strat-tab:hover { border-color:#c2c9d6; }
+    #view-overview .ov-cal-strat-tab .ov-cal-strat-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+    #view-overview .ov-cal-strat-tab.selected { color:#fff; border-color:transparent; }
+    #view-overview .ov-cal-toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.1rem; flex-wrap:wrap; gap:.8rem; padding-bottom:1.1rem; border-bottom:1px solid #eef0f6; }
+    #view-overview .ov-cal-toolbar-left { display:flex; align-items:center; gap:.7rem; }
+    #view-overview .ov-cal-today-btn { padding:.42rem .95rem; border-radius:8px; border:1px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:700; color:#151a2d; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; }
+    #view-overview .ov-cal-today-btn:hover { border-color:var(--gold); color:var(--gold); }
+    #view-overview .ov-cal-title { font-weight:800; font-size:.95rem; color:#151a2d; min-width:140px; text-align:center; }
+    #view-overview .ov-cal-toolbar-right { display:flex; align-items:center; gap:.55rem; flex-wrap:wrap; }
+    #view-overview .ov-cal-stat-pill { display:inline-flex; align-items:center; gap:.35rem; background:#f5f6fa; border-radius:100px; padding:.42rem .85rem; font-size:.68rem; color:#64748b; font-weight:600; white-space:nowrap; }
+    #view-overview .ov-cal-stat-pill b { font-weight:800; color:#151a2d; }
+    #view-overview .ov-cal-stat-pill.pos b { color:#16a34a; } #view-overview .ov-cal-stat-pill.neg b { color:#dc2626; }
+    #view-overview .ov-cal-grid { display:grid; grid-template-columns:28px repeat(7,1fr); gap:.35rem; }
+    #view-overview .ov-cal-dow { font-size:.6rem; color:#94a3b8; text-align:center; font-weight:700; padding-bottom:.4rem; text-transform:uppercase; letter-spacing:.4px; }
+    #view-overview .ov-cal-weeklabel { display:flex; align-items:center; justify-content:center; font-size:.56rem; font-weight:800; color:#c2c9d6; }
+    #view-overview .ov-cal-cell { border-radius:8px; min-height:50px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.15rem; }
+    #view-overview .ov-cal-cell.clickable { cursor:pointer; transition:transform .15s; }
+    #view-overview .ov-cal-cell.clickable:hover { transform:scale(1.06); }
+    #view-overview .ov-cal-cell.today { box-shadow:inset 0 0 0 1.5px var(--gold); }
+    #view-overview .ov-cal-daynum { font-size:.72rem; font-weight:700; color:#c2c9d6; }
+    #view-overview .ov-cal-cell.win .ov-cal-daynum { color:#16a34a; }
+    #view-overview .ov-cal-cell.loss .ov-cal-daynum { color:#dc2626; }
+    #view-overview .ov-cal-pct { font-size:.58rem; font-weight:700; }
+    #view-overview .ov-cal-cell.win { background:#eafaf1; } #view-overview .ov-cal-cell.win .ov-cal-pct { color:#16a34a; }
+    #view-overview .ov-cal-cell.loss { background:#fdecec; } #view-overview .ov-cal-cell.loss .ov-cal-pct { color:#dc2626; }
+    #view-overview .ov-cal-cell.none { background:#f9fafc; }
     #view-overview .ov-cal-cell.empty { background:transparent; }
+    @media (max-width:768px) { #view-overview .ov-cal-grid { grid-template-columns:20px repeat(7,1fr); gap:.25rem; } #view-overview .ov-cal-cell { min-height:38px; } #view-overview .ov-cal-daynum { font-size:.62rem; } #view-overview .ov-cal-pct { font-size:.5rem; } }
     #view-overview .ov-banner { display:none; align-items:center; justify-content:space-between; gap:1.5rem; background:linear-gradient(90deg,rgba(201,168,76,.14),rgba(201,168,76,.03)); border:1px solid rgba(201,168,76,.35); border-radius:14px; padding:1.2rem 1.6rem; margin-bottom:1.5rem; flex-wrap:wrap; }
     #view-overview .ov-banner-title { font-weight:800; font-size:.95rem; color:#151a2d; margin-bottom:.25rem; }
     #view-overview .ov-banner-sub { font-size:.76rem; color:#8a7548; }
     #view-overview .ov-banner-btn { background:#151a2d; color:#fff; padding:.6rem 1.2rem; border-radius:8px; font-size:.78rem; font-weight:700; text-decoration:none; white-space:nowrap; }
     #view-overview .ov-info { opacity:.45; cursor:help; vertical-align:-1px; }
     #view-overview .ov-strategies { display:grid; grid-template-columns:repeat(4,1fr); gap:.9rem; margin-bottom:.5rem; }
-    #view-overview .ov-strat-card { background:#fff; border:1px solid #e2e5ec; border-top:3px solid #e2e5ec; border-radius:12px; padding:1rem 1.1rem; cursor:pointer; transition:border-color .2s; }
-    #view-overview .ov-strat-card:hover { border-color:var(--gold); }
+    #view-overview .ov-strat-card { background:#fff; border:1px solid #e2e5ec; border-top:3px solid #e2e5ec; border-radius:12px; padding:1rem 1.1rem; cursor:pointer; transition:all .2s; box-shadow:0 1px 3px rgba(20,25,45,.05); }
+    #view-overview .ov-strat-card:hover { border-color:var(--gold); box-shadow:0 6px 16px rgba(201,168,76,.14); transform:translateY(-1px); }
     #view-overview .ov-strat-card.selected { border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
     #view-overview .ov-strat-top { display:flex; align-items:center; gap:.5rem; margin-bottom:.3rem; }
     #view-overview .ov-strat-tag { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
@@ -811,10 +832,15 @@
         </div>
 
         <div class="ov-month-cal" id="ov-month-cal">
-          <div class="ov-cal-head">
-            <div class="ov-strip-arrow" onclick="ovCalPrev()">‹</div>
-            <div class="ov-cal-title" id="ov-cal-title">—</div>
-            <div class="ov-strip-arrow" onclick="ovCalNext()">›</div>
+          <div class="ov-cal-strat-tabs" id="ov-cal-strat-tabs"></div>
+          <div class="ov-cal-toolbar">
+            <div class="ov-cal-toolbar-left">
+              <button class="ov-cal-today-btn" onclick="ovCalToday()">Hoy</button>
+              <div class="ov-strip-arrow" onclick="ovCalPrev()">‹</div>
+              <div class="ov-cal-title" id="ov-cal-title">—</div>
+              <div class="ov-strip-arrow" onclick="ovCalNext()">›</div>
+            </div>
+            <div class="ov-cal-toolbar-right" id="ov-cal-stats"></div>
           </div>
           <div class="ov-cal-grid" id="ov-cal-grid"></div>
         </div>
@@ -1371,21 +1397,57 @@
     }
 
     // ── mes (calendario por activo) ──
+    function ovBuildCalStratTabs() {
+      const el = document.getElementById('ov-cal-strat-tabs');
+      if (!el) return;
+      el.innerHTML = OV_STRATS.map(s => {
+        const sel = s.key === ovCalStrat;
+        return `<button class="ov-cal-strat-tab${sel?' selected':''}" style="${sel?`background:${s.color};border-color:${s.color}`:''}" onclick="ovSelectCalStrat('${s.key}')">
+          <span class="ov-cal-strat-dot" style="background:${sel?'#fff':s.color}"></span>${s.label}
+        </button>`;
+      }).join('');
+    }
+    function ovSelectCalStrat(key) { ovCalStrat = key; ovBuildCalendar(); ovBuildStratCards(); }
+    function ovCalToday() { const n = new Date(); ovCalYear = n.getFullYear(); ovCalMonth = n.getMonth(); ovBuildCalendar(); }
     function ovBuildCalendar() {
-      const meta = OV_STRATS.find(s => s.key === ovCalStrat);
-      document.getElementById('ov-cal-title').textContent = `${meta.label} — ${OV_MONTHS_LONG[ovCalMonth]} ${ovCalYear}`;
-      let html = ['L','M','X','J','V','S','D'].map(d => `<div class="ov-cal-dow">${d}</div>`).join('');
+      ovBuildCalStratTabs();
+      document.getElementById('ov-cal-title').textContent = `${OV_MONTHS_LONG[ovCalMonth]} ${ovCalYear}`;
+      let html = `<div class="ov-cal-weeklabel"></div>` + ['L','M','X','J','V','S','D'].map(d => `<div class="ov-cal-dow">${d}</div>`).join('');
       const firstDow = (new Date(ovCalYear, ovCalMonth, 1).getDay() + 6) % 7;
       const daysInMonth = new Date(ovCalYear, ovCalMonth+1, 0).getDate();
-      for (let i = 0; i < firstDow; i++) html += `<div class="ov-cal-cell empty"></div>`;
+      const todayStr = ovTodayStr();
+      const cells = [];
+      for (let i = 0; i < firstDow; i++) cells.push({ empty: true });
+      let monthTrades = 0, monthWins = 0;
       for (let d = 1; d <= daysInMonth; d++) {
         const ds = `${ovCalYear}-${String(ovCalMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
         const r = ovGetResult(ovCalStrat, ds);
-        const cls = r ? (r.resultado === 'win' ? 'win' : 'loss') : 'none';
-        const title = r ? (r.resultado==='win'?'+':'') + r.porcentaje + '%' : 'Sin datos';
-        html += `<div class="ov-cal-cell ${cls}" title="${title}">${d}</div>`;
+        if (r) { monthTrades++; if (r.resultado === 'win') monthWins++; }
+        cells.push({ day: d, ds, r, today: ds === todayStr });
+      }
+      while (cells.length % 7 !== 0) cells.push({ empty: true });
+      for (let row = 0; row < cells.length / 7; row++) {
+        html += `<div class="ov-cal-weeklabel">S${row+1}</div>`;
+        for (let col = 0; col < 7; col++) {
+          const c = cells[row*7 + col];
+          if (c.empty) { html += `<div class="ov-cal-cell empty"></div>`; continue; }
+          const cls = c.r ? (c.r.resultado === 'win' ? 'win' : 'loss') : 'none';
+          const title = c.r ? (c.r.resultado==='win'?'+':'') + c.r.porcentaje + '%' : 'Sin datos';
+          const pctHtml = c.r ? `<span class="ov-cal-pct">${c.r.resultado==='win'?'+':''}${c.r.porcentaje}%</span>` : '';
+          html += `<div class="ov-cal-cell clickable ${cls}${c.today?' today':''}" title="${title}" onclick="ovOpenEdit('${ovCalStrat}','${c.ds}')">
+            <span class="ov-cal-daynum">${c.day}</span>${pctHtml}
+          </div>`;
+        }
       }
       document.getElementById('ov-cal-grid').innerHTML = html;
+      const winrate = monthTrades ? Math.round(monthWins/monthTrades*100) : 0;
+      const statsEl = document.getElementById('ov-cal-stats');
+      if (statsEl) {
+        statsEl.innerHTML = `
+          <span class="ov-cal-stat-pill${monthTrades ? (winrate>=50?' pos':' neg') : ''}">Winrate: <b>${monthTrades ? winrate+'%' : '—'}</b></span>
+          <span class="ov-cal-stat-pill">Días operados: <b>${monthTrades}</b></span>
+        `;
+      }
     }
     function ovCalPrev() { ovCalMonth--; if (ovCalMonth < 0) { ovCalMonth = 11; ovCalYear--; } ovBuildCalendar(); }
     function ovCalNext() { ovCalMonth++; if (ovCalMonth > 11) { ovCalMonth = 0; ovCalYear++; } ovBuildCalendar(); }
