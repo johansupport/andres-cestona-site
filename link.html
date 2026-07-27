@@ -211,6 +211,8 @@
     }
     .q-option.selected .q-option-letter, .q-option:hover .q-option-letter { border-color: var(--gold); color: var(--gold); }
     .q-option-text { font-size: .93rem; font-weight: 600; color: #fff; }
+    .q-option-body { display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+    .q-option-hint { font-size: .74rem; font-weight: 500; color: rgba(255,255,255,.32); }
 
     /* text / textarea / phone inputs — underline style like the reference, with a filled backdrop so they read as a field */
     .qinput {
@@ -230,16 +232,20 @@
     .qtextarea:focus { border-color: var(--gold); background: rgba(255,255,255,.07); }
     .qtextarea::placeholder { color: rgba(255,255,255,.4); }
 
-    .qphone-row { display: flex; gap: 1.1rem; align-items: flex-end; }
-    .qphone-country { flex-shrink: 0; }
+    .qphone-row { display: flex; gap: .7rem; align-items: stretch; }
+    .qphone-country { flex: 0 0 152px; }
     .qphone-country select {
-      background: rgba(255,255,255,.05); border: none; border-bottom: 2px solid rgba(255,255,255,.3);
+      width: 100%; height: 100%; box-sizing: border-box; appearance: none; -webkit-appearance: none;
+      background: rgba(255,255,255,.05) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="rgba(255,255,255,.4)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat right .8rem center;
+      border: none; border-bottom: 2px solid rgba(255,255,255,.3);
       border-radius: 10px 10px 0 0;
-      color: #fff; font-size: 1rem; font-weight: 600; padding: 1rem .8rem .8rem; outline: none;
+      color: #fff; font-size: .82rem; font-weight: 600; padding: 1rem 1.4rem .8rem .7rem; outline: none;
       font-family: 'Inter', sans-serif; cursor: pointer; transition: border-color .2s, background .2s;
+      text-overflow: ellipsis; overflow: hidden; white-space: nowrap;
     }
-    .qphone-country select:focus { border-color: var(--gold); background: rgba(255,255,255,.07); }
-    .qphone-number { flex: 1; }
+    .qphone-country select:focus { border-color: var(--gold); background-color: rgba(255,255,255,.07); }
+    .qphone-number { flex: 1; min-width: 0; }
+    .qphone-number .qinput { padding-right: 2.6rem; }
 
     .qnav { display: flex; align-items: center; gap: 1.2rem; margin-top: 2.2rem; }
     .qnav-back { font-size: .8rem; color: rgba(255,255,255,.4); text-decoration: none; background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; }
@@ -466,8 +472,8 @@
             <p class="qcard-sub">Para adaptar la conversación a tu nivel.</p>
             <div class="q-options">
               <button type="button" class="q-option" data-field="experience" data-value="Principiante" onclick="selectOption(this)"><span class="q-option-letter">A</span><span class="q-option-text">Principiante</span></button>
-              <button type="button" class="q-option" data-field="experience" data-value="Con experiencia" onclick="selectOption(this)"><span class="q-option-letter">B</span><span class="q-option-text">Con experiencia</span></button>
-              <button type="button" class="q-option" data-field="experience" data-value="Profesional" onclick="selectOption(this)"><span class="q-option-letter">C</span><span class="q-option-text">Profesional</span></button>
+              <button type="button" class="q-option" data-field="experience" data-value="Con experiencia" onclick="selectOption(this)"><span class="q-option-letter">B</span><span class="q-option-body"><span class="q-option-text">Con experiencia</span><span class="q-option-hint">$0-5k USD/mes</span></span></button>
+              <button type="button" class="q-option" data-field="experience" data-value="Profesional" onclick="selectOption(this)"><span class="q-option-letter">C</span><span class="q-option-body"><span class="q-option-text">Profesional</span><span class="q-option-hint">$5k-10k+ USD/mes</span></span></button>
             </div>
             <button type="button" class="q-back-link" onclick="goTo('q1')">← Atrás</button>
           </div>
@@ -549,7 +555,7 @@
                 </select>
               </div>
               <div class="qphone-number">
-                <input type="tel" class="qinput" id="q-phone" placeholder="600 000 000" autocomplete="tel-national" />
+                <input type="tel" class="qinput" id="q-phone" placeholder="600 000 000" inputmode="numeric" autocomplete="off" name="qphone-number" />
               </div>
             </div>
             <div class="qnav">
