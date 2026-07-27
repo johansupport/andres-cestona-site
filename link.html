@@ -167,18 +167,37 @@
     }
     .cred-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
     .cred-tab {
+      display: inline-flex; align-items: center; gap: .5rem;
       font-family: 'Inter', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .3px;
       color: rgba(255,255,255,.45); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12);
-      border-radius: 100px; padding: .4rem .9rem; cursor: pointer; transition: all .2s;
+      border-radius: 100px; padding: .35rem .9rem .35rem .4rem; cursor: pointer; transition: all .2s;
     }
     .cred-tab:hover { border-color: rgba(201,168,76,.45); color: #fff; }
     .cred-tab.active { background: var(--gold); border-color: var(--gold); color: #0d0d0d; }
+    .cred-tab-icon {
+      width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: .6rem; font-weight: 800;
+    }
     .cred-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: .9rem; }
-    .cred-num { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; }
+    .cred-num { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; transition: opacity .2s ease, transform .2s ease; }
+    .cred-num.swap { opacity: 0; transform: translateY(4px); }
     .cred-num span { color: var(--gold); }
     .cred-lbl { font-size: .65rem; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: 1px; margin-top: .15rem; }
     .cred-link { font-size: .78rem; font-weight: 600; color: rgba(255,255,255,.6); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.2); padding-bottom: 1px; transition: color .2s, border-color .2s; }
     .cred-link:hover { color: var(--gold); border-color: var(--gold); }
+
+    .cred-chart-wrap { margin: 0 0 1.2rem; padding-top: 1.1rem; border-top: 1px solid rgba(255,255,255,.08); }
+    .cred-chart-lbl { font-size: .6rem; color: rgba(255,255,255,.32); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: .7rem; }
+    .cred-chart { display: flex; align-items: flex-end; gap: .5rem; height: 66px; }
+    .cred-chart-col { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: .3rem; height: 100%; flex: 1; }
+    .cred-chart-val, .cred-chart-year { opacity: 0; transform: translateY(4px); transition: opacity .35s ease, transform .35s ease; }
+    .cred-chart-val.show, .cred-chart-year.show { opacity: 1; transform: none; }
+    .cred-chart-val { font-size: .56rem; font-weight: 700; color: rgba(255,255,255,.6); white-space: nowrap; }
+    .cred-chart-bar { width: 100%; max-width: 24px; height: 0; border-radius: 3px 3px 0 0; transition: height .55s cubic-bezier(.22,1,.36,1); }
+    .cred-chart-bar.pos { background: rgba(201,168,76,.55); }
+    .cred-chart-bar.neg { background: rgba(248,113,113,.55); }
+    .cred-chart-bar:hover { filter: brightness(1.3); }
+    .cred-chart-year { font-size: .56rem; font-weight: 600; color: rgba(255,255,255,.35); white-space: nowrap; }
 
     .btn-gold {
       background: var(--gold); color: var(--black); padding: .9rem 1.9rem; border-radius: 10px;
@@ -436,10 +455,22 @@
 
         <div class="cred-block">
           <div class="cred-tabs" id="cred-tabs">
-            <button type="button" class="cred-tab active" data-strat="swing" onclick="credSelectStrategy('swing')">XAUUSD</button>
-            <button type="button" class="cred-tab" data-strat="tesla" onclick="credSelectStrategy('tesla')">TESLA</button>
-            <button type="button" class="cred-tab" data-strat="xauaud" onclick="credSelectStrategy('xauaud')">XAUAUD</button>
-            <button type="button" class="cred-tab" data-strat="btc" onclick="credSelectStrategy('btc')">BTC</button>
+            <button type="button" class="cred-tab active" data-strat="swing" onclick="credSelectStrategy('swing')">
+              <span class="cred-tab-icon" style="background:var(--gold);color:#0d0d0d"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+              XAUUSD
+            </button>
+            <button type="button" class="cred-tab" data-strat="tesla" onclick="credSelectStrategy('tesla')">
+              <span class="cred-tab-icon" style="background:#dc2626;color:#fff"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
+              TESLA
+            </button>
+            <button type="button" class="cred-tab" data-strat="xauaud" onclick="credSelectStrategy('xauaud')">
+              <span class="cred-tab-icon" style="background:#8A6DFF;color:#fff"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/><path d="M8 15l2-6 2 4 2-4 2 6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              XAUAUD
+            </button>
+            <button type="button" class="cred-tab" data-strat="btc" onclick="credSelectStrategy('btc')">
+              <span class="cred-tab-icon" style="background:#f7931a;color:#fff">₿</span>
+              BTC
+            </button>
           </div>
           <div class="cred-row">
             <div>
@@ -454,6 +485,10 @@
               <div class="cred-num"><span id="cred-winrate">71.6</span>%</div>
               <div class="cred-lbl">Winrate histórico</div>
             </div>
+          </div>
+          <div class="cred-chart-wrap">
+            <div class="cred-chart-lbl">Rendimiento por año</div>
+            <div class="cred-chart" id="cred-chart"></div>
           </div>
           <a href="estadisticas.html" class="cred-link">Ver historial completo →</a>
         </div>
@@ -654,7 +689,7 @@
       const pageSize = 1000;
       while (true) {
         const { data: page, error } = await sb.from('strategy_results')
-          .select('resultado,porcentaje').eq('estrategia', estrategia)
+          .select('fecha,resultado,porcentaje').eq('estrategia', estrategia).order('fecha')
           .range(from, from + pageSize - 1);
         if (error || !page) return [];
         all = all.concat(page);
@@ -664,13 +699,49 @@
       return all;
     }
 
+    function credRenderChart(bars) {
+      const el = document.getElementById('cred-chart');
+      if (!bars || !bars.length) { el.innerHTML = ''; return; }
+      const maxAbs = Math.max(...bars.map(b => Math.abs(b.value)), 1);
+      el.innerHTML = bars.map(b => {
+        const h = Math.max(5, Math.round((Math.abs(b.value) / maxAbs) * 40));
+        const sign = b.value > 0 ? '+' : '';
+        return `<div class="cred-chart-col">
+          <span class="cred-chart-val">${sign}${b.value.toFixed(1)}%</span>
+          <span class="cred-chart-bar ${b.value >= 0 ? 'pos' : 'neg'}" data-h="${h}"></span>
+          <span class="cred-chart-year">${b.year}</span>
+        </div>`;
+      }).join('');
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        el.querySelectorAll('.cred-chart-bar').forEach((bar, i) => {
+          bar.style.transitionDelay = (i * 80) + 'ms';
+          bar.style.height = bar.dataset.h + 'px';
+        });
+        el.querySelectorAll('.cred-chart-val').forEach((lbl, i) => {
+          lbl.style.transitionDelay = (i * 80 + 200) + 'ms';
+          lbl.classList.add('show');
+        });
+        el.querySelectorAll('.cred-chart-year').forEach((lbl, i) => {
+          lbl.style.transitionDelay = (i * 80 + 300) + 'ms';
+          lbl.classList.add('show');
+        });
+      }));
+    }
+
     function credRender() {
       const d = credData[credSelected];
       if (!d) return;
-      document.getElementById('cred-return').textContent = (d.totalReturn >= 0 ? '+' : '') + d.totalReturn.toFixed(0);
-      document.getElementById('cred-trades').textContent = d.totalTrades.toLocaleString('es-ES');
-      document.getElementById('cred-winrate').textContent = d.winrate.toFixed(1);
-      document.getElementById('cred-desde').textContent = CRED_STRATS.find(s => s.key === credSelected).desde;
+      const nums = [document.getElementById('cred-return'), document.getElementById('cred-trades'), document.getElementById('cred-winrate')]
+        .map(el => el.closest('.cred-num'));
+      nums.forEach(n => n.classList.add('swap'));
+      setTimeout(() => {
+        document.getElementById('cred-return').textContent = (d.totalReturn >= 0 ? '+' : '') + d.totalReturn.toFixed(0);
+        document.getElementById('cred-trades').textContent = d.totalTrades.toLocaleString('es-ES');
+        document.getElementById('cred-winrate').textContent = d.winrate.toFixed(1);
+        document.getElementById('cred-desde').textContent = CRED_STRATS.find(s => s.key === credSelected).desde;
+        nums.forEach(n => n.classList.remove('swap'));
+      }, 160);
+      credRenderChart(d.resumenAnual);
     }
 
     function credSelectStrategy(key) {
@@ -688,7 +759,13 @@
         const wins = rows.filter(r => r.resultado === 'win').length;
         const winrate = totalTrades ? wins / totalTrades * 100 : 0;
         const totalReturn = rows.reduce((sum, r) => sum + Number(r.porcentaje), 0);
-        credData[s.key] = { totalTrades, winrate, totalReturn };
+        const anualMap = new Map();
+        rows.forEach(r => {
+          const year = r.fecha.slice(0, 4);
+          anualMap.set(year, (anualMap.get(year) || 0) + Number(r.porcentaje));
+        });
+        const resumenAnual = [...anualMap.entries()].map(([year, value]) => ({ year, value: +value.toFixed(1) }));
+        credData[s.key] = { totalTrades, winrate, totalReturn, resumenAnual };
       }
       CRED_STRATS.forEach(s => {
         const btn = document.querySelector(`.cred-tab[data-strat="${s.key}"]`);
