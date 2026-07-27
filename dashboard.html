@@ -126,9 +126,9 @@
     .content-grid { display:grid; grid-template-columns:1.6fr 1fr; gap:1.5rem; }
 
     /* RESUMEN — checklist + calendario premium (estilo FTMO) */
-    #view-overview .ov-tabs { display:inline-flex; background:#fff; border:1px solid #e2e5ec; border-radius:10px; padding:3px; margin-bottom:1.2rem; }
-    #view-overview .ov-tab { padding:.45rem 1.1rem; font-size:.76rem; font-weight:700; color:#94a3b8; border-radius:7px; cursor:pointer; transition:all .2s; background:none; border:none; font-family:Inter,sans-serif; }
-    #view-overview .ov-tab.active { background:var(--gold); color:#05070f; }
+    #view-overview .ov-tabs, #view-performance .ov-tabs, #view-trades .ov-tabs, #view-fondeo .ov-tabs { display:inline-flex; background:#fff; border:1px solid #e2e5ec; border-radius:10px; padding:3px; margin-bottom:1.2rem; }
+    #view-overview .ov-tab, #view-performance .ov-tab, #view-trades .ov-tab, #view-fondeo .ov-tab { padding:.45rem 1.1rem; font-size:.76rem; font-weight:700; color:#94a3b8; border-radius:7px; cursor:pointer; transition:all .2s; background:none; border:none; font-family:Inter,sans-serif; }
+    #view-overview .ov-tab.active, #view-performance .ov-tab.active, #view-trades .ov-tab.active, #view-fondeo .ov-tab.active { background:var(--gold); color:#05070f; }
     #view-overview .ov-strip-context { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:.65rem; padding:0 .2rem; }
     #view-overview .ov-strip-context-main { font-size:.8rem; font-weight:700; color:#151a2d; }
     #view-overview .ov-strip-context-sub { font-size:.68rem; color:#94a3b8; font-weight:600; }
@@ -140,6 +140,7 @@
     #view-overview .ov-day-pill:hover { border-color:var(--gold); transform:translateY(-1px); }
     #view-overview .ov-day-pill.selected { background:#151a2d; border-color:#151a2d; box-shadow:0 6px 16px rgba(21,26,45,.25); }
     #view-overview .ov-day-pill.selected .ov-dow, #view-overview .ov-day-pill.selected .ov-dom { color:#fff; }
+    #view-overview .ov-week-divider { width:1px; align-self:stretch; background:#e2e5ec; flex-shrink:0; margin:6px 3px; }
     #view-overview .ov-dow { font-size:.55rem; color:#94a3b8; font-weight:700; text-transform:uppercase; }
     #view-overview .ov-dom { font-size:.9rem; font-weight:800; color:#151a2d; }
     #view-overview .ov-dot { width:6px; height:6px; border-radius:50%; }
@@ -153,11 +154,14 @@
     #view-overview .ov-wk-pct.pos { color:#16a34a; } #view-overview .ov-wk-pct.neg { color:#dc2626; }
     #view-overview .ov-month-cal { display:none; background:#fff; border:1px solid #e2e5ec; border-radius:14px; padding:1.3rem 1.5rem 1.5rem; margin-bottom:1.5rem; box-shadow:0 1px 3px rgba(20,25,45,.05); }
     #view-overview .ov-month-cal.active { display:block; }
-    #view-overview .ov-cal-strat-tabs { display:flex; gap:.5rem; margin-bottom:1.1rem; flex-wrap:wrap; }
-    #view-overview .ov-cal-strat-tab { display:flex; align-items:center; gap:.45rem; padding:.42rem .9rem; border-radius:100px; border:1.5px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:700; color:#64748b; cursor:pointer; transition:all .2s; font-family:Inter,sans-serif; }
-    #view-overview .ov-cal-strat-tab:hover { border-color:#c2c9d6; }
-    #view-overview .ov-cal-strat-tab .ov-cal-strat-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
-    #view-overview .ov-cal-strat-tab.selected { color:#fff; border-color:transparent; }
+    #view-overview .ov-cal-strat-tabs, #view-trades .ov-cal-strat-tabs, #view-fondeo .ov-cal-strat-tabs, #view-performance .ov-cal-strat-tabs { display:flex; gap:.5rem; margin-bottom:1.1rem; flex-wrap:wrap; }
+    #view-overview #ov-month-strat-tabs.ov-cal-strat-tabs { margin-bottom:0; }
+    #view-trades #tl-strat-filter.ov-cal-strat-tabs { margin-bottom:0; }
+    #view-performance #perf-year-strat-tabs.ov-cal-strat-tabs { margin-bottom:1.2rem; }
+    #view-overview .ov-cal-strat-tab, #view-trades .ov-cal-strat-tab, #view-fondeo .ov-cal-strat-tab, #view-performance .ov-cal-strat-tab { display:flex; align-items:center; gap:.45rem; padding:.42rem .9rem; border-radius:100px; border:1.5px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:700; color:#64748b; cursor:pointer; transition:all .2s; font-family:Inter,sans-serif; }
+    #view-overview .ov-cal-strat-tab:hover, #view-trades .ov-cal-strat-tab:hover, #view-fondeo .ov-cal-strat-tab:hover, #view-performance .ov-cal-strat-tab:hover { border-color:#c2c9d6; }
+    #view-overview .ov-cal-strat-tab .ov-cal-strat-dot, #view-trades .ov-cal-strat-tab .ov-cal-strat-dot, #view-fondeo .ov-cal-strat-tab .ov-cal-strat-dot, #view-performance .ov-cal-strat-tab .ov-cal-strat-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+    #view-overview .ov-cal-strat-tab.selected, #view-trades .ov-cal-strat-tab.selected, #view-fondeo .ov-cal-strat-tab.selected, #view-performance .ov-cal-strat-tab.selected { color:#fff; border-color:transparent; }
     #view-overview .ov-cal-toolbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:1.1rem; flex-wrap:wrap; gap:.8rem; padding-bottom:1.1rem; border-bottom:1px solid #eef0f6; }
     #view-overview .ov-cal-toolbar-left { display:flex; align-items:center; gap:.7rem; }
     #view-overview .ov-cal-today-btn { padding:.42rem .95rem; border-radius:8px; border:1px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:700; color:#151a2d; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; }
@@ -167,22 +171,22 @@
     #view-overview .ov-cal-stat-pill { display:inline-flex; align-items:center; gap:.35rem; background:#f5f6fa; border-radius:100px; padding:.42rem .85rem; font-size:.68rem; color:#64748b; font-weight:600; white-space:nowrap; }
     #view-overview .ov-cal-stat-pill b { font-weight:800; color:#151a2d; }
     #view-overview .ov-cal-stat-pill.pos b { color:#16a34a; } #view-overview .ov-cal-stat-pill.neg b { color:#dc2626; }
-    #view-overview .ov-cal-grid { display:grid; grid-template-columns:28px repeat(7,1fr); gap:.35rem; }
-    #view-overview .ov-cal-dow { font-size:.6rem; color:#94a3b8; text-align:center; font-weight:700; padding-bottom:.4rem; text-transform:uppercase; letter-spacing:.4px; }
-    #view-overview .ov-cal-weeklabel { display:flex; align-items:center; justify-content:center; font-size:.56rem; font-weight:800; color:#c2c9d6; }
-    #view-overview .ov-cal-cell { border-radius:8px; min-height:50px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.15rem; }
-    #view-overview .ov-cal-cell.clickable { cursor:pointer; transition:transform .15s; }
-    #view-overview .ov-cal-cell.clickable:hover { transform:scale(1.06); }
-    #view-overview .ov-cal-cell.today { box-shadow:inset 0 0 0 1.5px var(--gold); }
-    #view-overview .ov-cal-daynum { font-size:.72rem; font-weight:700; color:#c2c9d6; }
-    #view-overview .ov-cal-cell.win .ov-cal-daynum { color:#16a34a; }
-    #view-overview .ov-cal-cell.loss .ov-cal-daynum { color:#dc2626; }
-    #view-overview .ov-cal-pct { font-size:.58rem; font-weight:700; }
-    #view-overview .ov-cal-cell.win { background:#eafaf1; } #view-overview .ov-cal-cell.win .ov-cal-pct { color:#16a34a; }
-    #view-overview .ov-cal-cell.loss { background:#fdecec; } #view-overview .ov-cal-cell.loss .ov-cal-pct { color:#dc2626; }
-    #view-overview .ov-cal-cell.none { background:#f9fafc; }
-    #view-overview .ov-cal-cell.empty { background:transparent; }
-    @media (max-width:768px) { #view-overview .ov-cal-grid { grid-template-columns:20px repeat(7,1fr); gap:.25rem; } #view-overview .ov-cal-cell { min-height:38px; } #view-overview .ov-cal-daynum { font-size:.62rem; } #view-overview .ov-cal-pct { font-size:.5rem; } }
+    #view-overview .ov-cal-grid, #view-fondeo .ov-cal-grid { display:grid; grid-template-columns:28px repeat(7,1fr); gap:.35rem; }
+    #view-overview .ov-cal-dow, #view-fondeo .ov-cal-dow { font-size:.6rem; color:#94a3b8; text-align:center; font-weight:700; padding-bottom:.4rem; text-transform:uppercase; letter-spacing:.4px; }
+    #view-overview .ov-cal-weeklabel, #view-fondeo .ov-cal-weeklabel { display:flex; align-items:center; justify-content:center; font-size:.56rem; font-weight:800; color:#c2c9d6; }
+    #view-overview .ov-cal-cell, #view-fondeo .ov-cal-cell { border-radius:8px; min-height:50px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.15rem; }
+    #view-overview .ov-cal-cell.clickable, #view-fondeo .ov-cal-cell.clickable { cursor:pointer; transition:transform .15s; }
+    #view-overview .ov-cal-cell.clickable:hover, #view-fondeo .ov-cal-cell.clickable:hover { transform:scale(1.06); }
+    #view-overview .ov-cal-cell.today, #view-fondeo .ov-cal-cell.today { box-shadow:inset 0 0 0 1.5px var(--gold); }
+    #view-overview .ov-cal-daynum, #view-fondeo .ov-cal-daynum { font-size:.72rem; font-weight:700; color:#c2c9d6; }
+    #view-overview .ov-cal-cell.win .ov-cal-daynum, #view-fondeo .ov-cal-cell.win .ov-cal-daynum { color:#16a34a; }
+    #view-overview .ov-cal-cell.loss .ov-cal-daynum, #view-fondeo .ov-cal-cell.loss .ov-cal-daynum { color:#dc2626; }
+    #view-overview .ov-cal-pct, #view-fondeo .ov-cal-pct { font-size:.58rem; font-weight:700; }
+    #view-overview .ov-cal-cell.win, #view-fondeo .ov-cal-cell.win { background:#eafaf1; } #view-overview .ov-cal-cell.win .ov-cal-pct, #view-fondeo .ov-cal-cell.win .ov-cal-pct { color:#16a34a; }
+    #view-overview .ov-cal-cell.loss, #view-fondeo .ov-cal-cell.loss { background:#fdecec; } #view-overview .ov-cal-cell.loss .ov-cal-pct, #view-fondeo .ov-cal-cell.loss .ov-cal-pct { color:#dc2626; }
+    #view-overview .ov-cal-cell.none, #view-fondeo .ov-cal-cell.none { background:#f9fafc; }
+    #view-overview .ov-cal-cell.empty, #view-fondeo .ov-cal-cell.empty { background:transparent; }
+    @media (max-width:768px) { #view-overview .ov-cal-grid, #view-fondeo .ov-cal-grid { grid-template-columns:20px repeat(7,1fr); gap:.25rem; } #view-overview .ov-cal-cell, #view-fondeo .ov-cal-cell { min-height:38px; } #view-overview .ov-cal-daynum, #view-fondeo .ov-cal-daynum { font-size:.62rem; } #view-overview .ov-cal-pct, #view-fondeo .ov-cal-pct { font-size:.5rem; } }
     #view-overview .ov-banner { display:none; align-items:center; justify-content:space-between; gap:1.5rem; background:linear-gradient(90deg,rgba(201,168,76,.14),rgba(201,168,76,.03)); border:1px solid rgba(201,168,76,.35); border-radius:14px; padding:1.2rem 1.6rem; margin-bottom:1.5rem; flex-wrap:wrap; }
     #view-overview .ov-banner-title { font-weight:800; font-size:.95rem; color:#151a2d; margin-bottom:.25rem; }
     #view-overview .ov-banner-sub { font-size:.76rem; color:#8a7548; }
@@ -200,7 +204,9 @@
     #view-overview .ov-strat-status.ok { color:#16a34a; }
     #view-overview .ov-strat-status.loss { color:#dc2626; }
     #view-overview .ov-strat-status.pending { color:#94a3b8; }
+    #view-overview .ov-strat-status.running { color:#a3822c; }
     #view-overview .ov-strat-month { padding-top:.7rem; border-top:1px solid #eef0f6; }
+    #view-overview .ov-strat-month .ov-bar-chart { height:26px; margin-bottom:.5rem; }
     #view-overview .ov-strat-winbar-bg { height:5px; background:#eef0f6; border-radius:4px; overflow:hidden; margin-bottom:.4rem; }
     #view-overview .ov-strat-winbar-fill { height:100%; border-radius:4px; }
     #view-overview .ov-strat-month-label { font-size:.62rem; color:#94a3b8; font-weight:600; }
@@ -231,8 +237,9 @@
     #view-overview .ov-acc-item:last-child { margin-bottom:0; padding-bottom:0; border-bottom:none; }
     #view-overview .ov-acc-head { display:flex; align-items:center; gap:.6rem; margin-bottom:.7rem; }
     #view-overview .ov-acc-select-wrap { position:relative; margin-bottom:1.1rem; }
-    #view-overview .ov-acc-select { appearance:none; -webkit-appearance:none; width:100%; background:#f9fafc; border:1px solid #e2e5ec; border-radius:10px; padding:.7rem 2.2rem .7rem .9rem; font-size:.8rem; font-weight:700; color:#151a2d; font-family:Inter,sans-serif; cursor:pointer; transition:border-color .2s; }
-    #view-overview .ov-acc-select:hover, #view-overview .ov-acc-select:focus { border-color:var(--gold); outline:none; }
+    #view-overview .ov-acc-select, #view-trades .ov-acc-select, #view-fondeo .ov-acc-select { appearance:none; -webkit-appearance:none; background:#f9fafc; border:1px solid #e2e5ec; border-radius:10px; padding:.7rem 2.2rem .7rem .9rem; font-size:.8rem; font-weight:700; color:#151a2d; font-family:Inter,sans-serif; cursor:pointer; transition:border-color .2s; }
+    #view-overview .ov-acc-select { width:100%; }
+    #view-overview .ov-acc-select:hover, #view-overview .ov-acc-select:focus, #view-trades .ov-acc-select:hover, #view-trades .ov-acc-select:focus, #view-fondeo .ov-acc-select:hover, #view-fondeo .ov-acc-select:focus { border-color:var(--gold); outline:none; }
     #view-overview .ov-acc-select-wrap::after { content:''; position:absolute; right:.9rem; top:50%; width:8px; height:8px; border-right:1.5px solid #94a3b8; border-bottom:1.5px solid #94a3b8; transform:translateY(-65%) rotate(45deg); pointer-events:none; }
     #view-overview .ov-acc-icon { width:28px; height:28px; border-radius:8px; background:#151a2d; color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:.62rem; font-weight:800; flex-shrink:0; }
     #view-overview .ov-acc-name { font-weight:700; color:#151a2d; font-size:.82rem; }
@@ -258,7 +265,7 @@
     .card-head { display:flex; justify-content:space-between; align-items:center; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
     .card-title { font-size:.82rem; font-weight:700; color:#fff; display:inline-flex; align-items:center; gap:.55rem; }
     .card-title-icon { width:24px; height:24px; border-radius:7px; background:rgba(201,168,76,.12); color:var(--gold); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
-    #view-overview .card-title-icon, #view-accounts .card-title-icon, #view-account-detail .card-title-icon, #view-trades .card-title-icon, #view-performance .card-title-icon, #view-simulations .card-title-icon, #view-mytrades .card-title-icon, #view-profile .card-title-icon { background:#fdf6e5; }
+    #view-overview .card-title-icon, #view-accounts .card-title-icon, #view-account-detail .card-title-icon, #view-trades .card-title-icon, #view-performance .card-title-icon, #view-simulations .card-title-icon, #view-mytrades .card-title-icon, #view-profile .card-title-icon, #view-plan .card-title-icon, #view-fondeo .card-title-icon { background:#fdf6e5; }
     .card-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
     .card-link:hover { color:var(--gold); }
     .card-body { padding:0 1.6rem; }
@@ -286,26 +293,26 @@
     .perf-trades { font-size:.65rem; color:rgba(255,255,255,.2); margin-top:.3rem; }
 
     /* SIMULATIONS */
-    .sims-list { display:flex; flex-direction:column; gap:0; }
-    .sim-card { display:grid; grid-template-columns:1fr auto; align-items:center; gap:2rem; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); transition:background .2s; cursor:pointer; }
-    .sim-card:last-child { border-bottom:none; }
-    .sim-card:hover { background:rgba(255,255,255,.03); }
-    .sim-left { display:flex; flex-direction:column; gap:.5rem; }
+    .sims-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:1.1rem; padding:1.4rem 1.6rem; }
+    .sim-card { display:flex; flex-direction:column; gap:1rem; padding:1.4rem 1.5rem; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.02); transition:all .2s; cursor:pointer; }
+    .sim-card:hover { border-color:rgba(201,168,76,.35); box-shadow:0 10px 24px rgba(0,0,0,.16); transform:translateY(-2px); }
+    .sim-card-top { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; }
+    .sim-left { display:flex; flex-direction:column; gap:.35rem; min-width:0; }
     .sim-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); }
     .sim-name { font-size:.95rem; font-weight:700; color:#fff; }
-    .sim-metrics { display:flex; gap:1.8rem; margin-top:.3rem; }
-    .sim-metric { display:flex; flex-direction:column; gap:.15rem; }
-    .sim-metric-label { font-size:.58rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); }
+    .sim-return-box { text-align:right; flex-shrink:0; }
+    .sim-return { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:900; color:var(--green); line-height:1; letter-spacing:-.5px; }
+    .sim-final-val { font-size:.65rem; color:rgba(255,255,255,.3); margin-top:.3rem; }
+    .sim-metrics-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.6rem; }
+    .sim-metric-box { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:9px; padding:.55rem .75rem; }
+    .sim-metric-label { font-size:.56rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); display:block; margin-bottom:.25rem; }
     .sim-metric-val { font-size:.82rem; font-weight:700; color:rgba(255,255,255,.7); }
     .sim-metric-val.green { color:var(--green); }
-    .sim-right { display:flex; flex-direction:column; align-items:flex-end; gap:.6rem; flex-shrink:0; }
-    .sim-return { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:var(--green); line-height:1; letter-spacing:-1px; }
-    .sim-final-val { font-size:.72rem; color:rgba(255,255,255,.3); }
-    .sim-actions { display:flex; gap:.5rem; }
-    .sim-btn { border-radius:7px; padding:.35rem .8rem; font-size:.72rem; font-weight:600; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; border:none; }
+    .sim-actions { display:flex; gap:.5rem; padding-top:.9rem; border-top:1px solid var(--border); }
+    .sim-btn { flex:1; text-align:center; border-radius:7px; padding:.5rem .8rem; font-size:.72rem; font-weight:600; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; border:none; }
     .sim-btn-detail { background:rgba(201,168,76,.12); color:var(--gold); border:1px solid rgba(201,168,76,.2); }
     .sim-btn-detail:hover { background:rgba(201,168,76,.2); }
-    .sim-btn-del { background:transparent; color:rgba(255,255,255,.2); border:1px solid var(--border); }
+    .sim-btn-del { flex:0 0 auto; background:transparent; color:rgba(255,255,255,.2); border:1px solid var(--border); }
     .sim-btn-del:hover { border-color:#f87171; color:#f87171; }
     .sims-empty { padding:3rem 1.6rem; text-align:center; }
     .sims-empty p { font-size:.85rem; color:rgba(255,255,255,.25); }
@@ -455,24 +462,24 @@
     .mt-cal-weekday-week { border-left:1px solid var(--border); }
 
     /* ══════ DASHBOARD — blanco estilo FTMO (todas las vistas) ══════ */
-    #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
-    #view-overview .page-eyebrow, #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow, #view-trades .page-eyebrow, #view-performance .page-eyebrow, #view-simulations .page-eyebrow, #view-mytrades .page-eyebrow, #view-profile .page-eyebrow { color:var(--gold); }
-    #view-overview .page-eyebrow::before, #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before, #view-trades .page-eyebrow::before, #view-performance .page-eyebrow::before, #view-simulations .page-eyebrow::before, #view-mytrades .page-eyebrow::before, #view-profile .page-eyebrow::before { background:var(--gold); }
-    #view-overview .page-title, #view-accounts .page-title, #view-account-detail .page-title, #view-trades .page-title, #view-performance .page-title, #view-simulations .page-title, #view-mytrades .page-title, #view-profile .page-title { color:#151a2d; }
-    #view-overview .page-sub, #view-accounts .page-sub, #view-account-detail .page-sub, #view-trades .page-sub, #view-performance .page-sub, #view-simulations .page-sub, #view-mytrades .page-sub, #view-profile .page-sub { color:#6b7280; }
+    #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-plan, #view-fondeo { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
+    #view-overview .page-eyebrow, #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow, #view-trades .page-eyebrow, #view-performance .page-eyebrow, #view-simulations .page-eyebrow, #view-mytrades .page-eyebrow, #view-profile .page-eyebrow, #view-plan .page-eyebrow, #view-fondeo .page-eyebrow { color:var(--gold); }
+    #view-overview .page-eyebrow::before, #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before, #view-trades .page-eyebrow::before, #view-performance .page-eyebrow::before, #view-simulations .page-eyebrow::before, #view-mytrades .page-eyebrow::before, #view-profile .page-eyebrow::before, #view-plan .page-eyebrow::before, #view-fondeo .page-eyebrow::before { background:var(--gold); }
+    #view-overview .page-title, #view-accounts .page-title, #view-account-detail .page-title, #view-trades .page-title, #view-performance .page-title, #view-simulations .page-title, #view-mytrades .page-title, #view-profile .page-title, #view-plan .page-title, #view-fondeo .page-title { color:#151a2d; }
+    #view-overview .page-sub, #view-accounts .page-sub, #view-account-detail .page-sub, #view-trades .page-sub, #view-performance .page-sub, #view-simulations .page-sub, #view-mytrades .page-sub, #view-profile .page-sub, #view-plan .page-sub, #view-fondeo .page-sub { color:#6b7280; }
 
-    #view-overview .card, #view-accounts .card, #view-account-detail .card, #view-trades .card, #view-performance .card, #view-simulations .card, #view-mytrades .card, #view-profile .card { background:#fff; border:1px solid #e7e9f1; box-shadow:0 1px 3px rgba(16,24,40,.05); }
-    #view-overview .card-head, #view-accounts .card-head, #view-account-detail .card-head, #view-trades .card-head, #view-performance .card-head, #view-simulations .card-head, #view-mytrades .card-head, #view-profile .card-head { border-bottom-color:#eef0f6; }
-    #view-overview .card-title, #view-accounts .card-title, #view-account-detail .card-title, #view-trades .card-title, #view-performance .card-title, #view-simulations .card-title, #view-mytrades .card-title, #view-profile .card-title { color:#151a2d; }
-    #view-overview .card-link, #view-accounts .card-link, #view-account-detail .card-link, #view-trades .card-link, #view-performance .card-link, #view-simulations .card-link, #view-mytrades .card-link, #view-profile .card-link { color:#94a3b8; }
-    #view-overview .card-link:hover, #view-accounts .card-link:hover, #view-account-detail .card-link:hover, #view-trades .card-link:hover, #view-performance .card-link:hover, #view-simulations .card-link:hover, #view-mytrades .card-link:hover, #view-profile .card-link:hover { color:var(--gold); }
+    #view-overview .card, #view-accounts .card, #view-account-detail .card, #view-trades .card, #view-performance .card, #view-simulations .card, #view-mytrades .card, #view-profile .card, #view-plan .card, #view-fondeo .card { background:#fff; border:1px solid #e7e9f1; box-shadow:0 1px 3px rgba(16,24,40,.05); }
+    #view-overview .card-head, #view-accounts .card-head, #view-account-detail .card-head, #view-trades .card-head, #view-performance .card-head, #view-simulations .card-head, #view-mytrades .card-head, #view-profile .card-head, #view-plan .card-head, #view-fondeo .card-head { border-bottom-color:#eef0f6; }
+    #view-overview .card-title, #view-accounts .card-title, #view-account-detail .card-title, #view-trades .card-title, #view-performance .card-title, #view-simulations .card-title, #view-mytrades .card-title, #view-profile .card-title, #view-plan .card-title, #view-fondeo .card-title { color:#151a2d; }
+    #view-overview .card-link, #view-accounts .card-link, #view-account-detail .card-link, #view-trades .card-link, #view-performance .card-link, #view-simulations .card-link, #view-mytrades .card-link, #view-profile .card-link, #view-plan .card-link, #view-fondeo .card-link { color:#94a3b8; }
+    #view-overview .card-link:hover, #view-accounts .card-link:hover, #view-account-detail .card-link:hover, #view-trades .card-link:hover, #view-performance .card-link:hover, #view-simulations .card-link:hover, #view-mytrades .card-link:hover, #view-profile .card-link:hover, #view-plan .card-link:hover, #view-fondeo .card-link:hover { color:var(--gold); }
 
     /* Stats grid (Rendimiento) */
-    #view-performance .stats-grid, #view-overview .stats-grid { background:#eef0f6; border-color:#eef0f6; }
-    #view-performance .stat-card, #view-overview .stat-card { background:#fff; }
-    #view-performance .stat-card:hover, #view-overview .stat-card:hover { background:#fafbfd; }
-    #view-performance .stat-tag { color:#94a3b8; }
-    #view-performance .stat-desc { color:#9aa1b5; }
+    #view-performance .stats-grid, #view-overview .stats-grid, #view-trades .stats-grid, #view-fondeo .stats-grid { background:#eef0f6; border-color:#eef0f6; }
+    #view-performance .stat-card, #view-overview .stat-card, #view-trades .stat-card, #view-fondeo .stat-card { background:#fff; }
+    #view-performance .stat-card:hover, #view-overview .stat-card:hover, #view-trades .stat-card:hover, #view-fondeo .stat-card:hover { background:#fafbfd; }
+    #view-performance .stat-tag, #view-trades .stat-tag, #view-fondeo .stat-tag { color:#94a3b8; }
+    #view-performance .stat-desc, #view-trades .stat-desc, #view-fondeo .stat-desc { color:#9aa1b5; }
     #view-overview .stat-tag { color:#94a3b8; }
 
     /* Trade rows (Resumen home summary + Trades recientes) */
@@ -483,27 +490,30 @@
     #view-trades .b-loss { background:#fdecec; color:#dc2626; border-color:#f6cfcf; }
     #view-trades .trade-r.pos { color:#16a34a; }
     #view-trades .trade-r.neg { color:#dc2626; }
+    #view-trades .acc-empty { color:#94a3b8; }
 
     /* Stat numbers en verde (legibles sobre blanco) */
-    #view-overview .stat-num.green, #view-performance .stat-num.green { color:#16a34a; }
-    #view-overview .stat-num.white { color:#151a2d; }
+    #view-overview .stat-num.green, #view-performance .stat-num.green, #view-trades .stat-num.green, #view-fondeo .stat-num.green { color:#16a34a; }
+    #view-overview .stat-num.white, #view-trades .stat-num.white, #view-fondeo .stat-num.white { color:#151a2d; }
 
     /* Simulaciones */
-    #view-simulations .sim-card { border-bottom-color:#eef0f6; }
-    #view-simulations .sim-card:hover { background:#f8f9fc; }
+    #view-simulations .sim-card { background:#fff; border-color:#e7e9f1; }
+    #view-simulations .sim-card:hover { box-shadow:0 10px 24px rgba(16,24,40,.08); }
     #view-simulations .sim-name { color:#151a2d; }
+    #view-simulations .sim-metric-box { background:#f9fafc; border-color:#eef0f6; }
     #view-simulations .sim-metric-label { color:#9aa1b5; }
     #view-simulations .sim-metric-val { color:#4b5775; }
     #view-simulations .sim-final-val { color:#94a3b8; }
+    #view-simulations .sim-actions { border-top-color:#eef0f6; }
     #view-simulations .sim-btn-del { border-color:#e2e5ec; color:#94a3b8; }
     #view-simulations .sims-empty p { color:#94a3b8; }
     #view-simulations .sim-metric-val.green, #view-simulations .sim-return { color:#16a34a; }
 
     /* Mi perfil */
-    #view-profile .profile-cards { background:#eef0f6; }
-    #view-profile .profile-cell { background:#fff; }
-    #view-profile .profile-label { color:#94a3b8; }
-    #view-profile .profile-val { color:#151a2d; }
+    #view-profile .profile-cards, #view-plan .profile-cards, #view-fondeo .profile-cards { background:#eef0f6; }
+    #view-profile .profile-cell, #view-plan .profile-cell, #view-fondeo .profile-cell { background:#fff; }
+    #view-profile .profile-label, #view-plan .profile-label, #view-fondeo .profile-label { color:#94a3b8; }
+    #view-profile .profile-val, #view-plan .profile-val, #view-fondeo .profile-val { color:#151a2d; }
     #view-profile .profile-input { background:#fff; border-color:#e2e5ec; color:#151a2d; }
 
     /* Mis Trades */
@@ -531,7 +541,7 @@
     #view-accounts .acc-card-title:hover, #view-account-detail .acc-card-title:hover { color:var(--gold); }
     #view-accounts .acc-card-sub, #view-account-detail .acc-card-sub { color:#8892aa; }
     #view-accounts .acc-divider, #view-account-detail .acc-divider { background:#eef0f6; }
-    #view-accounts .acc-info-label, #view-account-detail .acc-info-label { color:#94a3b8; }
+    #view-accounts .acc-info-label, #view-account-detail .acc-info-label, #view-performance .acc-info-label, #view-fondeo .acc-info-label { color:#94a3b8; }
     #view-accounts .acc-info-val, #view-account-detail .acc-info-val { color:#151a2d; }
     #view-accounts .acc-inline-label, #view-account-detail .acc-inline-label { color:#6b7280; }
     #view-accounts .acc-inline-val, #view-account-detail .acc-inline-val { color:#151a2d; }
@@ -564,8 +574,9 @@
     #view-account-detail .acc-tabs { background:transparent; border:none; border-bottom:1px solid #e7e9f1; border-radius:0; padding:0; gap:1.6rem; }
     #view-account-detail .acc-tab { color:#94a3b8; padding:.85rem 0; border-radius:0; border-bottom:2px solid transparent; }
     #view-account-detail .acc-tab.active { background:none; color:#151a2d; border-bottom-color:var(--gold); }
-    #view-account-detail .acc-detail-val { color:#151a2d; }
-    #view-account-detail .acc-obj-row { color:#4b5775; }
+    #view-account-detail .acc-detail-val, #view-performance .acc-detail-val, #view-fondeo .acc-detail-val { color:#151a2d; }
+    #view-account-detail .acc-obj-row, #view-performance .acc-obj-row, #view-fondeo .acc-obj-row { color:#4b5775; }
+    #view-performance .acc-objectives, #view-fondeo .acc-objectives { border-top-color:#eef0f6; }
 
     #view-account-detail .trade-row { border-bottom-color:#eef0f6; }
     #view-account-detail .trade-title { color:#4b5775; }
@@ -605,7 +616,7 @@
       .dash-content { margin-left: 0; max-width: 100vw; padding: 1.5rem 1rem; }
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .content-grid { grid-template-columns: 1fr; }
-      #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
+      #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-plan, #view-fondeo { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
       .acc-card { padding: 1.4rem 1.2rem; }
       .acc-row-info { gap: .4rem 1.2rem; }
       .acc-row-chart { flex-direction: column; align-items: flex-start; }
@@ -684,10 +695,10 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           Resumen
         </button>
-        <a href="premium.html" class="sidebar-link">
+        <button class="sidebar-link" onclick="showView('plan',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 3l-3 6 3 12 3-12z"/></svg>
           Premium
-        </a>
+        </button>
         <button class="sidebar-link" data-view="accounts" onclick="showView('accounts',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
           Cuentas
@@ -707,6 +718,10 @@
         <button class="sidebar-link" onclick="showView('performance',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
           Rendimiento
+        </button>
+        <button class="sidebar-link" onclick="showView('fondeo',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+          Simulador de fondeo
         </button>
       </div>
       <div class="sidebar-divider"></div>
@@ -832,7 +847,8 @@
             <span class="card-title">Estadísticas del mes</span>
             <span class="card-link" id="ov-month-stats-period"></span>
           </div>
-          <div class="stats-grid" id="ov-month-stats" style="margin:1.4rem 1.6rem 1.6rem;width:calc(100% - 3.2rem)"></div>
+          <div class="ov-cal-strat-tabs" id="ov-month-strat-tabs" style="padding:1.2rem 1.6rem 0"></div>
+          <div class="stats-grid" id="ov-month-stats" style="margin:1rem 1.6rem 1.6rem;width:calc(100% - 3.2rem)"></div>
         </div>
 
         <div class="ov-tabs">
@@ -1040,14 +1056,35 @@
         <div class="page-head">
           <div class="page-eyebrow">Operaciones</div>
           <div class="page-title">Trades recientes</div>
-          <div class="page-sub">Historial completo de operaciones documentadas</div>
+          <div class="page-sub">Historial completo y filtrable de tus señales y tus cuentas</div>
         </div>
+
+        <div class="ov-tabs">
+          <button class="ov-tab active" id="tl-tab-signals" onclick="tlSetSource('signals')">Señales</button>
+          <button class="ov-tab" id="tl-tab-accounts" onclick="tlSetSource('accounts')">Mis cuentas</button>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem">
+          <div class="card-head"><span class="card-title">Filtros</span></div>
+          <div style="padding:1.2rem 1.6rem;display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:space-between">
+            <div class="ov-cal-strat-tabs" id="tl-strat-filter"></div>
+            <select class="ov-acc-select" id="tl-period-filter" style="width:auto" onchange="tlRender()">
+              <option value="7">Últimos 7 días</option>
+              <option value="30" selected>Últimos 30 días</option>
+              <option value="90">Últimos 3 meses</option>
+              <option value="all">Todo el historial</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="tl-summary" style="margin-bottom:1.5rem"></div>
+
         <div class="card">
           <div class="card-head">
-            <span class="card-title">Todas las operaciones</span>
-            <a href="trades.html" class="card-link">Ver diario completo →</a>
+            <span class="card-title" id="tl-list-title">Operaciones</span>
+            <a href="trades.html" class="card-link">Ver diario público →</a>
           </div>
-          <div class="card-body" id="dash-trades-full"></div>
+          <div class="card-body" id="tl-list" style="padding:0 1.6rem"></div>
         </div>
       </div>
 
@@ -1056,18 +1093,22 @@
         <div class="page-head">
           <div class="page-eyebrow">Rendimiento</div>
           <div class="page-title">Historial anual</div>
-          <div class="page-sub">Rendimiento verificado año a año · Sin interés compuesto</div>
+          <div class="page-sub">Rendimiento año a año, calculado sobre el historial real registrado por estrategia</div>
         </div>
-        <div class="stats-grid" style="margin-bottom:0">
-          <div class="stat-card"><div class="stat-tag">2022</div><div class="stat-num green">+76.4%</div><div class="stat-desc">~190 trades · Inicio de historial</div></div>
-          <div class="stat-card"><div class="stat-tag">2023</div><div class="stat-num green">+85.8%</div><div class="stat-desc">~200 trades · Mejor año</div></div>
-          <div class="stat-card"><div class="stat-tag">2024</div><div class="stat-num green">+70.2%</div><div class="stat-desc">~200 trades · Consistencia</div></div>
-          <div class="stat-card"><div class="stat-tag">2025</div><div class="stat-num green">+70.4%</div><div class="stat-desc">~200 trades · Año completo</div></div>
+        <div class="ov-cal-strat-tabs" id="perf-year-strat-tabs" style="margin-bottom:1.2rem"></div>
+        <div class="stats-grid" id="perf-year-grid" style="margin-bottom:2.5rem"></div>
+
+        <div class="page-head" style="margin-bottom:1.2rem">
+          <div class="page-eyebrow">Tu progreso</div>
+          <div class="page-title" style="font-size:1.6rem">Tu rendimiento personal</div>
+          <div class="page-sub">Elige una estrategia o una cuenta para ver el detalle y qué mejorar</div>
         </div>
-        <div class="stats-grid" style="margin-top:1px;border-top:none;border-radius:0 0 16px 16px;">
-          <div class="stat-card" style="grid-column:1/3"><div class="stat-tag">2026 YTD</div><div class="stat-num green">+34.6%</div><div class="stat-desc">~67 trades · Año en curso</div></div>
-          <div class="stat-card" style="grid-column:3/5"><div class="stat-tag">Total acumulado</div><div class="stat-num gold">+337%</div><div class="stat-desc">$1,000 → $4,374 · 2022–2026</div></div>
+        <div class="ov-tabs">
+          <button class="ov-tab active" id="perf-tab-strategy" onclick="perfSetMode('strategy')">Por estrategia</button>
+          <button class="ov-tab" id="perf-tab-account" onclick="perfSetMode('account')">Por cuenta</button>
         </div>
+        <div class="stats-grid" id="perf-list" style="margin-bottom:1.5rem"></div>
+        <div id="perf-detail"></div>
       </div>
 
       <!-- SIMULACIONES -->
@@ -1170,6 +1211,100 @@
         </div>
       </div>
 
+      <!-- MI PLAN (Premium) -->
+      <div class="view" id="view-plan">
+        <div class="page-head">
+          <div class="page-eyebrow">Cuenta</div>
+          <div class="page-title">Mi plan</div>
+          <div class="page-sub">Detalle de tu suscripción con Andrés Cestona</div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Suscripción actual</span></div>
+          <div class="profile-cards">
+            <div class="profile-cell">
+              <label class="profile-label">Plan</label>
+              <div class="profile-val" id="plan-name">—</div>
+            </div>
+            <div class="profile-cell">
+              <label class="profile-label">Estado</label>
+              <div class="profile-val" id="plan-status" style="font-weight:700">—</div>
+            </div>
+            <div class="profile-cell">
+              <label class="profile-label">Inicio</label>
+              <div class="profile-val" id="plan-inicio">—</div>
+            </div>
+            <div class="profile-cell">
+              <label class="profile-label">Próximo pago</label>
+              <div class="profile-val" id="plan-proximo">—</div>
+            </div>
+          </div>
+          <div class="profile-save-area">
+            <a href="mailto:contacto@andrescestona.com" class="btn-gold" style="text-decoration:none">Consultar pago o renovación</a>
+            <a href="premium.html" style="font-size:.78rem;color:#94a3b8">Ver todos los planes disponibles →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIMULADOR DE FONDEO -->
+      <div class="view" id="view-fondeo">
+        <div class="page-head">
+          <div class="page-eyebrow">Fondeo</div>
+          <div class="page-title">Simulador de cuentas de fondeo</div>
+          <div class="page-sub">Descubre cómo le habría ido a un reto de fondeo con el historial real de cada estrategia</div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem">
+          <div class="card-head"><span class="card-title">Configura el reto</span></div>
+          <div style="padding:1.4rem 1.6rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem">
+            <div>
+              <label class="profile-label">Estrategia</label>
+              <select class="ov-acc-select" id="fd-strategy" style="width:100%">
+                <option value="xauaud">XAUAUD</option>
+                <option value="swing">XAUUSD</option>
+                <option value="btc">BTC</option>
+                <option value="tesla">TESLA</option>
+                <option value="combined">Combinado (promedio)</option>
+              </select>
+            </div>
+            <div>
+              <label class="profile-label">Capital de la cuenta ($)</label>
+              <input type="number" id="fd-capital" class="ov-acc-select" style="width:100%" value="10000" min="1"/>
+            </div>
+            <div>
+              <label class="profile-label">Riesgo por operación (%)</label>
+              <input type="number" id="fd-risk" class="ov-acc-select" style="width:100%" value="1" min="0.1" step="0.1"/>
+            </div>
+            <div>
+              <label class="profile-label">Objetivo de ganancia (%)</label>
+              <input type="number" id="fd-target" class="ov-acc-select" style="width:100%" value="10" min="1"/>
+            </div>
+            <div>
+              <label class="profile-label">Pérdida máxima permitida (%)</label>
+              <input type="number" id="fd-maxloss" class="ov-acc-select" style="width:100%" value="10" min="1"/>
+            </div>
+            <div>
+              <label class="profile-label">Fecha de inicio</label>
+              <input type="date" id="fd-start" class="ov-acc-select" style="width:100%"/>
+            </div>
+            <div>
+              <label class="profile-label">Plazo</label>
+              <select class="ov-acc-select" id="fd-months" style="width:100%">
+                <option value="1">1 mes</option>
+                <option value="2">2 meses</option>
+                <option value="3" selected>3 meses</option>
+                <option value="6">6 meses</option>
+                <option value="unlimited">Sin límite</option>
+              </select>
+            </div>
+          </div>
+          <div style="padding:0 1.6rem 1.5rem">
+            <button class="btn-gold" onclick="fdSimulate()">Simular reto de fondeo →</button>
+          </div>
+        </div>
+
+        <div id="fd-results"></div>
+      </div>
+
     </main>
   </div>
 
@@ -1208,12 +1343,15 @@
       'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP'
     );
     let currentUser = null;
+    let currentProfile = null;
 
     async function init() {
       const { data } = await sb.auth.getSession();
       if (!data.session) { location.href = 'auth.html'; return; }
       currentUser = data.session.user;
       const { data: profile } = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+      currentProfile = profile || {};
+      renderPlanView();
       const name = profile?.nombre || currentUser.user_metadata?.nombre || currentUser.email.split('@')[0];
       document.getElementById('nav-name').textContent = name;
       const initials = name.trim().split(/\s+/).map(w => w[0]).slice(0,2).join('').toUpperCase();
@@ -1228,29 +1366,13 @@
       if (currentUser.email === 'johantrading2021@gmail.com') {
         document.getElementById('admin-panel-link').style.display = 'flex';
       }
-      await loadTrades();
       await loadSimulations();
       await accLoadAll();
       await ovLoadResults();
       ovRefreshAll();
+      tlRender();
       await loadHomeSummary();
       document.getElementById('loading-screen').style.display = 'none';
-    }
-
-    async function loadTrades() {
-      try {
-        const trades = await (await fetch('./data/trades-journal.json')).json();
-        const renderRow = t => {
-          const w = t.resultado === 'win';
-          return `<div class="trade-row">
-            <span class="badge ${w?'b-win':'b-loss'}">${w?'WIN':'LOSS'}</span>
-            <span class="trade-date">${t.fecha}</span>
-            <span class="trade-title">${t.titulo}</span>
-            <span class="trade-r ${w?'pos':'neg'}">${t.resultado_r>0?'+':''}${t.resultado_r}R</span>
-          </div>`;
-        };
-        document.getElementById('dash-trades-full').innerHTML = trades.map(renderRow).join('');
-      } catch(e) {}
     }
 
     // ── RESUMEN PREMIUM: rutina diaria / semanal / calendario mensual ──
@@ -1334,11 +1456,12 @@
       if (!el) return;
       const days = [];
       for (let i = 13; i >= 0; i--) { const d = new Date(ovDayStripEnd); d.setDate(d.getDate() - i); days.push(d); }
-      el.innerHTML = days.map(d => {
+      el.innerHTML = days.map((d,i) => {
         const ds = ovDateStr(d);
         const status = ovDayStatus(ds);
         const sel = ds === ovSelectedDate;
-        return `<button class="ov-day-pill${sel?' selected':''}" onclick="ovSelectDay('${ds}')">
+        const divider = (i > 0 && d.getDay() === 1) ? `<div class="ov-week-divider"></div>` : '';
+        return `${divider}<button class="ov-day-pill${sel?' selected':''}" onclick="ovSelectDay('${ds}')">
           <span class="ov-dow">${OV_DOW[d.getDay()]}</span><span class="ov-dom">${d.getDate()}</span><span class="ov-dot ${status}"></span>
         </button>`;
       }).join('');
@@ -1516,6 +1639,8 @@
     // ── checklist de hoy (strat-cards) ──
     let ovMonthStats = null;
 
+    let ovMonthStratFilter = 'all';
+
     function ovComputeMonthStats() {
       const now = new Date();
       const prefix = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
@@ -1526,11 +1651,13 @@
         byStrat[s.key] = rows;
         all = all.concat(rows);
       });
-      const total = all.length;
-      const wins = all.filter(r => r.resultado === 'win').length;
+      const filtered = ovMonthStratFilter === 'all' ? all : (byStrat[ovMonthStratFilter] || []);
+      const total = filtered.length;
+      const wins = filtered.filter(r => r.resultado === 'win').length;
       const winrate = total ? (wins/total*100) : 0;
+      const netPct = filtered.reduce((s,r) => s + Number(r.porcentaje), 0);
       const dayMap = {};
-      all.forEach(r => { (dayMap[r.fecha] = dayMap[r.fecha]||[]).push(r); });
+      filtered.forEach(r => { (dayMap[r.fecha] = dayMap[r.fecha]||[]).push(r); });
       const dayEntries = Object.keys(dayMap).sort().map(fecha => ({ fecha, sum: dayMap[fecha].reduce((s,r)=>s+Number(r.porcentaje),0) }));
       let streak = 0;
       for (let i = dayEntries.length-1; i >= 0; i--) { if (dayEntries[i].sum > 0) streak++; else break; }
@@ -1539,7 +1666,7 @@
         const sum = byStrat[s.key].reduce((a,r) => a + Number(r.porcentaje), 0);
         if (sum > bestSum) { bestSum = sum; bestStratKey = s.key; }
       });
-      return { total, winrate, streak, byStrat, bestStratMeta: OV_STRATS.find(s => s.key === bestStratKey), monthLabel: `${OV_MONTHS_LONG[now.getMonth()]} ${now.getFullYear()}` };
+      return { total, winrate, streak, netPct, byStrat, bestStratMeta: OV_STRATS.find(s => s.key === bestStratKey), monthLabel: `${OV_MONTHS_LONG[now.getMonth()]} ${now.getFullYear()}` };
     }
 
     function ovStratMonthWinrate(stratKey) {
@@ -1549,17 +1676,38 @@
       return { wins, total: rows.length, pct: wins/rows.length*100 };
     }
 
+    function ovSelectMonthStrat(key) {
+      ovMonthStratFilter = key;
+      ovMonthStats = ovComputeMonthStats();
+      ovRenderMonthStatsCard();
+    }
+
+    function ovMonthStratTabsHTML() {
+      const opts = [{ key:'all', label:'Todas', color:'#151a2d' }, ...OV_STRATS];
+      return opts.map(o => {
+        const sel = o.key === ovMonthStratFilter;
+        return `<button class="ov-cal-strat-tab${sel?' selected':''}" style="${sel?`background:${o.color};border-color:${o.color}`:''}" onclick="ovSelectMonthStrat('${o.key}')">
+          ${o.key!=='all'?`<span class="ov-cal-strat-dot" style="background:${sel?'#fff':o.color}"></span>`:''}${o.label}
+        </button>`;
+      }).join('');
+    }
+
     function ovRenderMonthStatsCard() {
       const el = document.getElementById('ov-month-stats');
       const periodEl = document.getElementById('ov-month-stats-period');
+      const tabsEl = document.getElementById('ov-month-strat-tabs');
       if (!el || !ovMonthStats) return;
       const s = ovMonthStats;
       if (periodEl) periodEl.textContent = s.monthLabel;
+      if (tabsEl) tabsEl.innerHTML = ovMonthStratTabsHTML();
+      const fourthCard = ovMonthStratFilter === 'all'
+        ? `<div class="stat-card"><div class="stat-tag">Mejor estrategia</div><div class="stat-num white" style="font-size:1.6rem">${s.bestStratMeta.label}</div></div>`
+        : `<div class="stat-card"><div class="stat-tag">Resultado neto</div><div class="stat-num" style="font-size:1.6rem;color:${s.netPct>=0?'#16a34a':'#dc2626'}">${s.netPct>=0?'+':''}${s.netPct.toFixed(1)}%</div></div>`;
       el.innerHTML = `
         <div class="stat-card"><div class="stat-tag">Trades</div><div class="stat-num white" style="font-size:1.6rem">${s.total}</div></div>
         <div class="stat-card"><div class="stat-tag">Winrate <svg class="ov-info" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Trades ganados / total registrado este mes"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="stat-num" style="font-size:1.6rem;color:${s.winrate>=50?'#16a34a':'#dc2626'}">${s.winrate.toFixed(0)}%</div></div>
         <div class="stat-card"><div class="stat-tag">Racha actual <svg class="ov-info" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Días consecutivos con resultado combinado positivo"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="stat-num gold" style="font-size:1.6rem">${s.streak} ${s.streak===1?'día':'días'}</div></div>
-        <div class="stat-card"><div class="stat-tag">Mejor estrategia</div><div class="stat-num white" style="font-size:1.6rem">${s.bestStratMeta.label}</div></div>
+        ${fourthCard}
       `;
     }
 
@@ -1580,21 +1728,41 @@
       }
     }
 
+    function ovParseTimeToMinutes(t) {
+      const m = String(t).match(/(\d+):(\d+)\s*(AM|PM)/i);
+      if (!m) return 0;
+      let h = parseInt(m[1],10); const min = parseInt(m[2],10); const ap = m[3].toUpperCase();
+      if (ap === 'PM' && h !== 12) h += 12;
+      if (ap === 'AM' && h === 12) h = 0;
+      return h*60 + min;
+    }
+
+    function ovStrat14DayBars(stratKey) {
+      const today = new Date();
+      const out = [];
+      for (let i = 13; i >= 0; i--) { const d = new Date(today); d.setDate(d.getDate()-i); const r = ovGetResult(stratKey, ovDateStr(d)); out.push(r ? (r.resultado === 'win' ? 'win' : 'loss') : 'none'); }
+      return out;
+    }
+
     function ovBuildStratCards() {
       const el = document.getElementById('ov-strat-cards');
       if (!el) return;
       const today = ovTodayStr();
+      const nowMin = new Date().getHours()*60 + new Date().getMinutes();
       el.innerHTML = OV_STRATS.map(s => {
         const r = ovGetResult(s.key, today);
         let statusHtml, statusClass;
         if (r?.resultado === 'win') { statusHtml = `✅ TP hoy · +${r.porcentaje}%`; statusClass = 'ok'; }
         else if (r?.resultado === 'loss') { statusHtml = `❌ SL hoy · ${r.porcentaje}%`; statusClass = 'loss'; }
-        else { statusHtml = '⏳ Pendiente hoy'; statusClass = 'pending'; }
+        else if (nowMin < ovParseTimeToMinutes(s.time)) { statusHtml = `⏳ Esperando · ${s.time}`; statusClass = 'pending'; }
+        else { statusHtml = '▶ Corriendo'; statusClass = 'running'; }
         const sel = ovZoom === 'month' && ovCalStrat === s.key;
         const mw = ovStratMonthWinrate(s.key);
+        const bars = ovStrat14DayBars(s.key);
+        const barsHtml = `<div class="ov-bar-chart">${bars.map(st => `<div class="ov-bar ${st}" style="height:${st==='none'?6:26}px"></div>`).join('')}</div>`;
         const monthHtml = mw
-          ? `<div class="ov-strat-winbar-bg"><div class="ov-strat-winbar-fill" style="width:${mw.pct}%;background:${s.color}"></div></div><div class="ov-strat-month-label">${mw.wins}/${mw.total} este mes · ${mw.pct.toFixed(0)}%</div>`
-          : `<div class="ov-strat-month-label" style="opacity:.6">Sin datos este mes</div>`;
+          ? `${barsHtml}<div class="ov-strat-month-label">${mw.wins}/${mw.total} este mes · ${mw.pct.toFixed(0)}%</div>`
+          : `${barsHtml}<div class="ov-strat-month-label" style="opacity:.6">Sin datos este mes</div>`;
         return `<div class="ov-strat-card${sel?' selected':''}" style="border-top-color:${s.color}" onclick="ovSelectStratCard('${s.key}')">
           <div class="ov-strat-top">
             <div class="ov-strat-avatar" style="background:${s.color}">${s.short}</div>
@@ -1617,6 +1785,122 @@
       if (ovZoom === 'day') ovRenderFeedForDay(ovSelectedDate);
       else if (ovZoom === 'week') ovRenderFeedForWeek(ovSelectedWeekStart);
       if (ovZoom === 'month') ovBuildCalendar();
+    }
+
+    // ── TRADES RECIENTES: historial completo filtrable (señales / cuentas) ──
+    let tlSource = 'signals';
+    let tlStratFilter = 'all';
+    let tlAccountFilter = 'all';
+
+    function tlSetSource(src) {
+      tlSource = src;
+      tlStratFilter = 'all';
+      tlAccountFilter = 'all';
+      document.getElementById('tl-tab-signals').classList.toggle('active', src === 'signals');
+      document.getElementById('tl-tab-accounts').classList.toggle('active', src === 'accounts');
+      tlRender();
+    }
+    function tlSetStratFilter(key) { tlStratFilter = key; tlRender(); }
+    function tlSetAccountFilter(id) { tlAccountFilter = id; tlRender(); }
+
+    function tlFilterTabsHTML() {
+      if (tlSource === 'signals') {
+        const opts = [{ key:'all', label:'Todas', color:'#151a2d' }, ...OV_STRATS];
+        return opts.map(o => {
+          const sel = o.key === tlStratFilter;
+          return `<button class="ov-cal-strat-tab${sel?' selected':''}" style="${sel?`background:${o.color};border-color:${o.color}`:''}" onclick="tlSetStratFilter('${o.key}')">
+            ${o.key!=='all'?`<span class="ov-cal-strat-dot" style="background:${sel?'#fff':o.color}"></span>`:''}${o.label}
+          </button>`;
+        }).join('');
+      }
+      const active = accAccounts.filter(a => a.status === 'active');
+      const opts = [{ id:'all', name:'Todas' }, ...active];
+      return opts.map(a => {
+        const sel = a.id === tlAccountFilter;
+        return `<button class="ov-cal-strat-tab${sel?' selected':''}" style="${sel?'background:#151a2d;border-color:#151a2d':''}" onclick="tlSetAccountFilter('${a.id}')">${a.name}</button>`;
+      }).join('');
+    }
+
+    function tlPeriodCutoff() {
+      const sel = document.getElementById('tl-period-filter');
+      const val = sel ? sel.value : '30';
+      if (val === 'all') return null;
+      const d = new Date(); d.setDate(d.getDate() - parseInt(val, 10));
+      return ovDateStr(d);
+    }
+
+    function tlGetSignalRows() {
+      const cutoff = tlPeriodCutoff();
+      let rows = [];
+      OV_STRATS.forEach(s => {
+        if (tlStratFilter !== 'all' && tlStratFilter !== s.key) return;
+        (ovResults[s.key]||[]).forEach(r => { if (!cutoff || r.fecha >= cutoff) rows.push({ ...r, stratMeta: s }); });
+      });
+      return rows.sort((a,b) => b.fecha.localeCompare(a.fecha));
+    }
+
+    function tlGetAccountRows() {
+      const cutoff = tlPeriodCutoff();
+      const active = accAccounts.filter(a => a.status === 'active');
+      let rows = [];
+      active.forEach(a => {
+        if (tlAccountFilter !== 'all' && tlAccountFilter !== a.id) return;
+        accGetTrades(a.id).forEach(t => { if (!cutoff || t.date >= cutoff) rows.push({ ...t, accMeta: a }); });
+      });
+      return rows.sort((a,b) => b.date.localeCompare(a.date));
+    }
+
+    function tlRender() {
+      const filterEl = document.getElementById('tl-strat-filter');
+      const summaryEl = document.getElementById('tl-summary');
+      const listEl = document.getElementById('tl-list');
+      const titleEl = document.getElementById('tl-list-title');
+      if (!filterEl || !summaryEl || !listEl) return;
+      filterEl.innerHTML = tlFilterTabsHTML();
+      if (tlSource === 'signals') {
+        const rows = tlGetSignalRows();
+        const total = rows.length, wins = rows.filter(r => r.resultado === 'win').length;
+        const winrate = total ? (wins/total*100) : 0;
+        const net = rows.reduce((s,r) => s + Number(r.porcentaje), 0);
+        titleEl.textContent = 'Operaciones de señales';
+        summaryEl.innerHTML = `
+          <div class="stat-card"><div class="stat-tag">Trades</div><div class="stat-num white" style="font-size:1.6rem">${total}</div></div>
+          <div class="stat-card"><div class="stat-tag">Winrate</div><div class="stat-num" style="font-size:1.6rem;color:${winrate>=50?'#16a34a':'#dc2626'}">${total?winrate.toFixed(0)+'%':'—'}</div></div>
+          <div class="stat-card"><div class="stat-tag">Resultado neto</div><div class="stat-num" style="font-size:1.6rem;color:${net>=0?'#16a34a':'#dc2626'}">${total?(net>=0?'+':'')+net.toFixed(1)+'%':'—'}</div></div>
+          <div class="stat-card"><div class="stat-tag">TP / SL</div><div class="stat-num white" style="font-size:1.6rem">${wins}/${total-wins}</div></div>
+        `;
+        listEl.innerHTML = rows.length ? rows.map(r => {
+          const w = r.resultado === 'win';
+          return `<div class="trade-row">
+            <span class="badge ${w?'b-win':'b-loss'}">${w?'TP':'SL'}</span>
+            <span class="trade-date">${r.fecha}</span>
+            <span class="trade-title">${r.stratMeta.label}</span>
+            <span class="trade-r ${w?'pos':'neg'}">${w?'+':''}${Number(r.porcentaje).toFixed(1)}%</span>
+          </div>`;
+        }).join('') : '<div class="acc-empty">No hay operaciones de señales en este periodo.</div>';
+      } else {
+        const rows = tlGetAccountRows();
+        const total = rows.length;
+        const netAmt = rows.reduce((s,t) => s + Number(t.pnl), 0);
+        const wins = rows.filter(t => Number(t.pnl) > 0).length;
+        const winrate = total ? (wins/total*100) : 0;
+        titleEl.textContent = 'Operaciones de mis cuentas';
+        summaryEl.innerHTML = `
+          <div class="stat-card"><div class="stat-tag">Trades</div><div class="stat-num white" style="font-size:1.6rem">${total}</div></div>
+          <div class="stat-card"><div class="stat-tag">Winrate</div><div class="stat-num" style="font-size:1.6rem;color:${winrate>=50?'#16a34a':'#dc2626'}">${total?winrate.toFixed(0)+'%':'—'}</div></div>
+          <div class="stat-card"><div class="stat-tag">P&amp;L neto</div><div class="stat-num" style="font-size:1.6rem;color:${netAmt>=0?'#16a34a':'#dc2626'}">${total?accFmtMoney(netAmt):'—'}</div></div>
+          <div class="stat-card"><div class="stat-tag">Ganados / Perdidos</div><div class="stat-num white" style="font-size:1.6rem">${wins}/${total-wins}</div></div>
+        `;
+        listEl.innerHTML = rows.length ? rows.map(t => {
+          const w = Number(t.pnl) > 0;
+          return `<div class="trade-row">
+            <span class="badge ${w?'b-win':'b-loss'}">${w?'WIN':'LOSS'}</span>
+            <span class="trade-date">${t.date}</span>
+            <span class="trade-title">${t.accMeta.name}</span>
+            <span class="trade-r ${w?'pos':'neg'}">${w?'+':''}${accFmtMoney(t.pnl)}</span>
+          </div>`;
+        }).join('') : '<div class="acc-empty">No hay operaciones de cuentas en este periodo.</div>';
+      }
     }
 
     // ── editar un resultado (upsert / delete en strategy_results) ──
@@ -1796,23 +2080,25 @@
         const ganancia = (Number(s.resultado_final) - Number(s.capital_inicial)).toLocaleString('es-ES',{maximumFractionDigits:0});
         return `
         <div class="sim-card" onclick="openSimModal('${s.id}')">
-          <div class="sim-left">
-            <div class="sim-tag">Simulación · ${new Date(s.created_at).toLocaleDateString('es-ES')}</div>
-            <div class="sim-name">${s.nombre}</div>
-            <div class="sim-metrics">
-              <div class="sim-metric"><span class="sim-metric-label">Capital inicial</span><span class="sim-metric-val">$${Number(s.capital_inicial).toLocaleString()}</span></div>
-              <div class="sim-metric"><span class="sim-metric-label">Riesgo/op</span><span class="sim-metric-val">${s.riesgo_pct}%</span></div>
-              <div class="sim-metric"><span class="sim-metric-label">Ganancia neta</span><span class="sim-metric-val green">+$${ganancia}</span></div>
-              <div class="sim-metric"><span class="sim-metric-label">Balance final</span><span class="sim-metric-val">$${final}</span></div>
+          <div class="sim-card-top">
+            <div class="sim-left">
+              <div class="sim-tag">Simulación · ${new Date(s.created_at).toLocaleDateString('es-ES')}</div>
+              <div class="sim-name">${s.nombre}</div>
+            </div>
+            <div class="sim-return-box">
+              <div class="sim-return">+${pct}%</div>
+              <div class="sim-final-val">rendimiento total</div>
             </div>
           </div>
-          <div class="sim-right">
-            <div class="sim-return">+${pct}%</div>
-            <div class="sim-final-val">rendimiento total</div>
-            <div class="sim-actions" onclick="event.stopPropagation()">
-              <button class="sim-btn sim-btn-detail" onclick="openSimModal('${s.id}')">Ver detalles</button>
-              <button class="sim-btn sim-btn-del" onclick="deleteSim('${s.id}')">✕</button>
-            </div>
+          <div class="sim-metrics-grid">
+            <div class="sim-metric-box"><span class="sim-metric-label">Capital inicial</span><span class="sim-metric-val">$${Number(s.capital_inicial).toLocaleString()}</span></div>
+            <div class="sim-metric-box"><span class="sim-metric-label">Riesgo/op</span><span class="sim-metric-val">${s.riesgo_pct}%</span></div>
+            <div class="sim-metric-box"><span class="sim-metric-label">Ganancia neta</span><span class="sim-metric-val green">+$${ganancia}</span></div>
+            <div class="sim-metric-box"><span class="sim-metric-label">Balance final</span><span class="sim-metric-val">$${final}</span></div>
+          </div>
+          <div class="sim-actions" onclick="event.stopPropagation()">
+            <button class="sim-btn sim-btn-detail" onclick="openSimModal('${s.id}')">Ver detalles</button>
+            <button class="sim-btn sim-btn-del" onclick="deleteSim('${s.id}')">✕</button>
           </div>
         </div>`;
       }).join('')}</div>`;
@@ -1863,9 +2149,393 @@
       }
     }
 
+    // ── MI PLAN (Premium) ──
+    function ovPlanStatusMeta(estado) {
+      const e = String(estado||'').toLowerCase();
+      if (e === 'activo') return { label:'● Activo', color:'#16a34a' };
+      if (e === 'vencido') return { label:'● Vencido', color:'#dc2626' };
+      if (e === 'pendiente') return { label:'● Pendiente de pago', color:'#c9a84c' };
+      return { label:'Sin configurar', color:'#94a3b8' };
+    }
+    function renderPlanView() {
+      const p = currentProfile || {};
+      const nameEl = document.getElementById('plan-name');
+      const statusEl = document.getElementById('plan-status');
+      const inicioEl = document.getElementById('plan-inicio');
+      const proximoEl = document.getElementById('plan-proximo');
+      if (!nameEl) return;
+      const statusMeta = ovPlanStatusMeta(p.estado);
+      nameEl.textContent = p.plan || 'Sin plan asignado — contacta con soporte';
+      statusEl.textContent = statusMeta.label;
+      statusEl.style.color = statusMeta.color;
+      inicioEl.textContent = p.fecha_inicio ? new Date(p.fecha_inicio + 'T00:00:00').toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'}) : '—';
+      proximoEl.textContent = p.fecha_proximo_pago ? new Date(p.fecha_proximo_pago + 'T00:00:00').toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'}) : '—';
+    }
+
+    // ── RENDIMIENTO: historial anual dinámico por estrategia ──
+    let perfYearStratFilter = 'all';
+
+    function perfYearlyCompute(stratFilter) {
+      let rows;
+      if (stratFilter === 'all') {
+        const dateMap = {};
+        OV_STRATS.forEach(s => (ovResults[s.key]||[]).forEach(r => { (dateMap[r.fecha] = dateMap[r.fecha]||[]).push(Number(r.porcentaje)); }));
+        rows = Object.keys(dateMap).sort().map(fecha => ({ fecha, porcentaje: dateMap[fecha].reduce((a,b)=>a+b,0)/dateMap[fecha].length }));
+      } else {
+        rows = [...(ovResults[stratFilter]||[])].sort((a,b) => a.fecha.localeCompare(b.fecha));
+      }
+      if (!rows.length) return { years: [], totalReturn: 0, startBalance: 1000, endBalance: 1000, totalTrades: 0 };
+      const byYear = {};
+      rows.forEach(r => { const y = r.fecha.slice(0,4); (byYear[y] = byYear[y]||[]).push(r); });
+      const years = Object.keys(byYear).sort();
+      let balance = 1000;
+      const startBalance = balance;
+      const yearStats = years.map(y => {
+        const yRows = byYear[y];
+        const yearStart = balance;
+        yRows.forEach(r => { balance *= (1 + Number(r.porcentaje)/100); });
+        return { year: y, returnPct: ((balance - yearStart)/yearStart)*100, trades: yRows.length };
+      });
+      return { years: yearStats, totalReturn: ((balance - startBalance)/startBalance)*100, startBalance, endBalance: balance, totalTrades: rows.length };
+    }
+
+    function perfYearStratTabsHTML() {
+      const opts = [{ key:'all', label:'Todas', color:'#151a2d' }, ...OV_STRATS];
+      return opts.map(o => {
+        const sel = o.key === perfYearStratFilter;
+        return `<button class="ov-cal-strat-tab${sel?' selected':''}" style="${sel?`background:${o.color};border-color:${o.color}`:''}" onclick="perfSelectYearStrat('${o.key}')">
+          ${o.key!=='all'?`<span class="ov-cal-strat-dot" style="background:${sel?'#fff':o.color}"></span>`:''}${o.label}
+        </button>`;
+      }).join('');
+    }
+    function perfSelectYearStrat(key) { perfYearStratFilter = key; perfRenderYearGrid(); }
+
+    function perfRenderYearGrid() {
+      const tabsEl = document.getElementById('perf-year-strat-tabs');
+      const gridEl = document.getElementById('perf-year-grid');
+      if (!tabsEl || !gridEl) return;
+      tabsEl.innerHTML = perfYearStratTabsHTML();
+      const accent = perfYearStratFilter === 'all' ? '#151a2d' : (OV_STRATS.find(s => s.key === perfYearStratFilter)?.color || '#151a2d');
+      const data = perfYearlyCompute(perfYearStratFilter);
+      if (!data.years.length) {
+        gridEl.innerHTML = `<div class="stat-card" style="grid-column:1/-1"><div class="stat-desc">Todavía no hay historial registrado para esta selección.</div></div>`;
+        return;
+      }
+      const currentYear = String(new Date().getFullYear());
+      const bestYear = data.years.reduce((b,y) => y.returnPct > b.returnPct ? y : b, data.years[0]);
+      const cards = data.years.map((y,i) => {
+        const tag = y.year === currentYear ? `${y.year} YTD` : y.year;
+        let note = i === 0 ? 'Inicio de historial' : `${y.trades} trades`;
+        if (data.years.length > 1 && y.year === bestYear.year) note = 'Mejor año';
+        return `<div class="stat-card" style="border-top:3px solid ${accent}"><div class="stat-tag">${tag}</div><div class="stat-num" style="color:${y.returnPct>=0?'#16a34a':'#dc2626'}">${y.returnPct>=0?'+':''}${y.returnPct.toFixed(1)}%</div><div class="stat-desc">${y.trades} trades · ${note}</div></div>`;
+      }).join('');
+      const totalCard = `<div class="stat-card" style="grid-column:span 2;border-top:3px solid var(--gold)"><div class="stat-tag">Total acumulado</div><div class="stat-num gold">${data.totalReturn>=0?'+':''}${data.totalReturn.toFixed(0)}%</div><div class="stat-desc">$${data.startBalance.toLocaleString()} → $${Math.round(data.endBalance).toLocaleString()} · ${data.years[0].year}–${data.years[data.years.length-1].year}</div></div>`;
+      gridEl.innerHTML = cards + totalCard;
+    }
+
+    // ── RENDIMIENTO (por estrategia / por cuenta) ──
+    let perfMode = 'strategy';
+    let perfSelectedKey = null;
+
+    function perfSetMode(mode) {
+      perfMode = mode;
+      perfSelectedKey = null;
+      document.getElementById('perf-tab-strategy').classList.toggle('active', mode === 'strategy');
+      document.getElementById('perf-tab-account').classList.toggle('active', mode === 'account');
+      document.getElementById('perf-detail').innerHTML = '';
+      perfRenderList();
+    }
+
+    function perfStratSummary(stratKey) {
+      const rows = ovResults[stratKey] || [];
+      const total = rows.length;
+      const wins = rows.filter(r => r.resultado === 'win').length;
+      const winrate = total ? (wins/total*100) : 0;
+      const netPct = rows.reduce((s,r) => s + Number(r.porcentaje), 0);
+      const avgWin = wins ? rows.filter(r=>r.resultado==='win').reduce((s,r)=>s+Number(r.porcentaje),0)/wins : 0;
+      const lossCount = total - wins;
+      const avgLoss = lossCount ? rows.filter(r=>r.resultado==='loss').reduce((s,r)=>s+Number(r.porcentaje),0)/lossCount : 0;
+      return { total, wins, lossCount, winrate, netPct, avgWin, avgLoss };
+    }
+
+    function perfRenderList() {
+      const el = document.getElementById('perf-list');
+      if (!el) return;
+      if (perfMode === 'strategy') {
+        el.innerHTML = OV_STRATS.map(s => {
+          const sum = perfStratSummary(s.key);
+          const sel = perfSelectedKey === s.key;
+          return `<div class="stat-card" style="cursor:pointer;${sel?`box-shadow:inset 0 0 0 2px ${s.color}`:''}" onclick="perfOpenDetail('${s.key}')">
+            <div class="stat-tag">${s.label}</div>
+            <div class="stat-num" style="font-size:1.6rem;color:${sum.netPct>=0?'#16a34a':'#dc2626'}">${sum.total?`${sum.netPct>=0?'+':''}${sum.netPct.toFixed(1)}%`:'—'}</div>
+            <div class="stat-desc">${sum.total ? `${sum.total} trades · ${sum.winrate.toFixed(0)}% winrate` : 'Sin datos aún'}</div>
+          </div>`;
+        }).join('');
+      } else {
+        const active = accAccounts.filter(a => a.status === 'active');
+        if (!active.length) { el.innerHTML = `<div class="stat-card" style="grid-column:1/-1"><div class="stat-desc">No tienes cuentas activas todavía.</div></div>`; return; }
+        el.innerHTML = active.map(a => {
+          const trades = accGetTrades(a.id);
+          const m = accComputeMetrics(a.balance, trades);
+          const gainPct = ((m.balance - a.balance)/a.balance)*100;
+          const sel = perfSelectedKey === a.id;
+          return `<div class="stat-card" style="cursor:pointer;${sel?'box-shadow:inset 0 0 0 2px var(--gold)':''}" onclick="perfOpenDetail('${a.id}')">
+            <div class="stat-tag">${a.name}</div>
+            <div class="stat-num" style="font-size:1.6rem;color:${gainPct>=0?'#16a34a':'#dc2626'}">${trades.length?`${gainPct>=0?'+':''}${gainPct.toFixed(1)}%`:'—'}</div>
+            <div class="stat-desc">${trades.length ? `${trades.length} trades · ${accFmtMoney(m.balance)}` : 'Sin operaciones aún'}</div>
+          </div>`;
+        }).join('');
+      }
+    }
+
+    function perfNote(condition, text) { return condition ? `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:var(--gold)"></span>${text}</div>` : ''; }
+
+    function perfOpenDetail(key) {
+      perfSelectedKey = key;
+      perfRenderList();
+      const el = document.getElementById('perf-detail');
+      if (perfMode === 'strategy') {
+        const s = OV_STRATS.find(x => x.key === key);
+        const sum = perfStratSummary(key);
+        if (!sum.total) {
+          el.innerHTML = `<div class="card" style="padding:1.6rem"><div class="card-title" style="margin-bottom:.6rem">${s.label}</div><div class="stat-desc">Todavía no hay resultados registrados para esta estrategia.</div></div>`;
+          return;
+        }
+        const notes = [
+          perfNote(sum.winrate < 50, `Tu winrate está en ${sum.winrate.toFixed(0)}% — por debajo del 50%. Revisa el criterio de entrada antes de operar.`),
+          perfNote(sum.winrate >= 50 && sum.winrate < 65, `Winrate saludable (${sum.winrate.toFixed(0)}%). Mantén la disciplina de riesgo por operación.`),
+          perfNote(sum.winrate >= 65, `Excelente winrate (${sum.winrate.toFixed(0)}%). Cuidado con sobre-arriesgar por exceso de confianza.`),
+          perfNote(Math.abs(sum.avgLoss) > sum.avgWin && sum.avgWin > 0, `Tus pérdidas promedio (${sum.avgLoss.toFixed(1)}%) superan tus ganancias promedio (+${sum.avgWin.toFixed(1)}%) — ajusta el ratio riesgo/beneficio.`),
+          perfNote(sum.netPct < 0, `Resultado neto negativo este historial. Considera pausar y revisar la estrategia con Andrés.`),
+        ].join('');
+        el.innerHTML = `<div class="card" style="padding:1.6rem">
+          <div class="card-title" style="margin-bottom:1rem">${s.label} · detalle</div>
+          <div class="acc-detail-grid" style="margin-bottom:1rem">
+            <div><span class="acc-info-label">Resultado neto</span><div class="acc-detail-val" style="color:${sum.netPct>=0?'#16a34a':'#dc2626'};font-size:1.4rem">${sum.netPct>=0?'+':''}${sum.netPct.toFixed(1)}%</div></div>
+            <div><span class="acc-info-label">Winrate</span><div class="acc-detail-val" style="font-size:1.4rem">${sum.winrate.toFixed(0)}%</div></div>
+            <div><span class="acc-info-label">Trades (TP/SL)</span><div class="acc-detail-val" style="font-size:1.4rem">${sum.wins}/${sum.lossCount}</div></div>
+            <div><span class="acc-info-label">Ganancia / pérdida media</span><div class="acc-detail-val" style="font-size:1.4rem">+${sum.avgWin.toFixed(1)}% / ${sum.avgLoss.toFixed(1)}%</div></div>
+          </div>
+          <div class="acc-objectives" style="margin-top:0;padding-top:1rem">${notes || '<div class="acc-obj-row">Sin observaciones adicionales por ahora.</div>'}</div>
+        </div>`;
+      } else {
+        const a = accAccounts.find(x => x.id === key);
+        if (!a) { el.innerHTML = ''; return; }
+        const trades = accGetTrades(a.id);
+        const m = accComputeMetrics(a.balance, trades);
+        const stats = accComputeStatistics(trades);
+        const gainPct = ((m.balance - a.balance)/a.balance)*100;
+        if (!trades.length) {
+          el.innerHTML = `<div class="card" style="padding:1.6rem"><div class="card-title" style="margin-bottom:.6rem">${a.name}</div><div class="stat-desc">Todavía no hay operaciones registradas en esta cuenta.</div></div>`;
+          return;
+        }
+        const notes = [
+          perfNote(stats.winRate < 50, `Winrate de ${stats.winRate.toFixed(0)}% — por debajo del 50%. Revisa qué setups te están fallando más.`),
+          perfNote(stats.profitFactor < 1.2 && stats.profitFactor !== Infinity, `Profit factor de ${stats.profitFactor.toFixed(2)} es ajustado. Busca mejorar el ratio ganancia/pérdida.`),
+          perfNote(stats.averageRRR < 1, `Tu ratio riesgo/beneficio medio (${stats.averageRRR.toFixed(2)}) es bajo — intenta dejar correr más las operaciones ganadoras.`),
+          perfNote(gainPct < 0, `La cuenta está en negativo (${gainPct.toFixed(1)}%). Considera reducir el riesgo por operación temporalmente.`),
+          perfNote(gainPct >= 0 && stats.winRate >= 50, `Buen progreso: ${gainPct.toFixed(1)}% de ganancia con ${stats.winRate.toFixed(0)}% de winrate. Mantén la consistencia.`),
+        ].join('');
+        el.innerHTML = `<div class="card" style="padding:1.6rem">
+          <div class="card-title" style="margin-bottom:1rem">${a.name} · detalle</div>
+          <div class="acc-detail-grid" style="margin-bottom:1rem">
+            <div><span class="acc-info-label">Ganancia / pérdida</span><div class="acc-detail-val" style="color:${gainPct>=0?'#16a34a':'#dc2626'};font-size:1.4rem">${gainPct>=0?'+':''}${gainPct.toFixed(1)}%</div></div>
+            <div><span class="acc-info-label">Winrate</span><div class="acc-detail-val" style="font-size:1.4rem">${stats.winRate.toFixed(0)}%</div></div>
+            <div><span class="acc-info-label">Profit factor</span><div class="acc-detail-val" style="font-size:1.4rem">${stats.profitFactor === Infinity ? '∞' : stats.profitFactor.toFixed(2)}</div></div>
+            <div><span class="acc-info-label">Ratio riesgo/beneficio</span><div class="acc-detail-val" style="font-size:1.4rem">${stats.averageRRR.toFixed(2)}</div></div>
+          </div>
+          <div class="acc-objectives" style="margin-top:0;padding-top:1rem">${notes || '<div class="acc-obj-row">Sin observaciones adicionales por ahora.</div>'}</div>
+        </div>`;
+      }
+    }
+
+    // ── SIMULADOR DE FONDEO ──
+    function fdInitDefaults() {
+      const el = document.getElementById('fd-start');
+      if (!el || el.value) return;
+      const d = new Date(); d.setMonth(d.getMonth() - 3);
+      el.value = ovDateStr(d);
+    }
+
+    function fdWindowRows(stratKey, startStr, endStr) {
+      let rows;
+      if (stratKey === 'combined') {
+        const dateMap = {};
+        OV_STRATS.forEach(s => (ovResults[s.key]||[]).forEach(r => { (dateMap[r.fecha] = dateMap[r.fecha]||[]).push(r.resultado); }));
+        rows = Object.keys(dateMap).sort().map(fecha => {
+          const arr = dateMap[fecha];
+          const wins = arr.filter(x => x === 'win').length;
+          return { fecha, resultado: wins >= arr.length/2 ? 'win' : 'loss' };
+        });
+      } else {
+        rows = [...(ovResults[stratKey]||[])].map(r => ({ fecha:r.fecha, resultado:r.resultado })).sort((a,b) => a.fecha.localeCompare(b.fecha));
+      }
+      return rows.filter(r => r.fecha >= startStr && (!endStr || r.fecha <= endStr));
+    }
+
+    function fdSimulate() {
+      const stratKey = document.getElementById('fd-strategy').value;
+      const capital = parseFloat(document.getElementById('fd-capital').value) || 0;
+      const riskPct = parseFloat(document.getElementById('fd-risk').value) || 0;
+      const target = parseFloat(document.getElementById('fd-target').value) || 0;
+      const maxLoss = parseFloat(document.getElementById('fd-maxloss').value) || 0;
+      const startStr = document.getElementById('fd-start').value;
+      const monthsSel = document.getElementById('fd-months').value;
+      const el = document.getElementById('fd-results');
+      if (capital <= 0 || riskPct <= 0) { alert('Ingresa un capital y un riesgo por operación válidos.'); return; }
+      if (!startStr) { alert('Elige una fecha de inicio.'); return; }
+
+      let endStr = null;
+      if (monthsSel !== 'unlimited') {
+        const end = new Date(startStr + 'T00:00:00');
+        end.setMonth(end.getMonth() + parseInt(monthsSel, 10));
+        endStr = ovDateStr(end);
+      }
+
+      const rows = fdWindowRows(stratKey, startStr, endStr);
+      if (!rows.length) {
+        el.innerHTML = `<div class="card" style="padding:1.6rem"><div class="stat-desc">No hay historial registrado para esta estrategia en el periodo elegido.</div></div>`;
+        return;
+      }
+
+      let balance = capital, peak = capital, maxDD = 0;
+      const targetBalance = capital * (1 + target/100);
+      const floorBalance = capital * (1 - maxLoss/100);
+      let phase = 'eval', outcomeDate = null, withdrawableStartBalance = null;
+      const daily = [];
+      for (const r of rows) {
+        const win = r.resultado === 'win';
+        const prevPhase = phase;
+        balance *= win ? (1 + riskPct/100) : (1 - riskPct/100);
+        if (balance > peak) peak = balance;
+        const dd = peak > 0 ? ((peak - balance)/peak)*100 : 0;
+        if (dd > maxDD) maxDD = dd;
+
+        let dayPhase = prevPhase;
+        if (prevPhase === 'eval') {
+          if (balance <= floorBalance) { phase = 'blown'; outcomeDate = r.fecha; dayPhase = 'blown'; }
+          else if (balance >= targetBalance) { phase = 'withdrawable'; outcomeDate = r.fecha; withdrawableStartBalance = balance; dayPhase = 'milestone'; }
+        }
+        daily.push({ fecha: r.fecha, balance, win, phase: dayPhase, pct: win ? riskPct : -riskPct });
+        if (phase === 'blown') break;
+      }
+
+      const withdrawableDays = daily.filter(d => d.phase === 'withdrawable').length;
+      const withdrawableProfit = phase === 'withdrawable' ? (balance - targetBalance) : 0;
+      fdRenderResults({ stratKey, capital, riskPct, target, maxLoss, startStr, daily, phase, outcomeDate, maxDD, finalBalance: balance, withdrawableDays, withdrawableProfit });
+    }
+
+    function fdMonthCalendarHTML(year, month, dayMap, outcomeDate, outcomeType) {
+      const todayStr = ovTodayStr();
+      let html = `<div class="ov-cal-weeklabel"></div>` + ['L','M','X','J','V','S','D'].map(d => `<div class="ov-cal-dow">${d}</div>`).join('');
+      const firstDow = (new Date(year, month, 1).getDay() + 6) % 7;
+      const daysInMonth = new Date(year, month+1, 0).getDate();
+      const cells = [];
+      for (let i = 0; i < firstDow; i++) cells.push({ empty:true });
+      for (let d = 1; d <= daysInMonth; d++) {
+        const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        cells.push({ day:d, ds, info: dayMap[ds], today: ds === todayStr, milestone: ds === outcomeDate });
+      }
+      while (cells.length % 7 !== 0) cells.push({ empty:true });
+      for (let row = 0; row < cells.length/7; row++) {
+        html += `<div class="ov-cal-weeklabel">S${row+1}</div>`;
+        for (let col = 0; col < 7; col++) {
+          const c = cells[row*7 + col];
+          if (c.empty) { html += `<div class="ov-cal-cell empty"></div>`; continue; }
+          const info = c.info;
+          const withdrawable = info && (info.phase === 'withdrawable' || info.phase === 'milestone');
+          const cls = !info ? 'none' : (info.win ? 'win' : 'loss');
+          const arrow = info ? (info.win ? '▲' : '▼') : '';
+          const bg = withdrawable ? `background:${info.win?'rgba(201,168,76,.22)':'rgba(201,168,76,.14)'} !important;` : '';
+          const ring = c.milestone ? `box-shadow:0 0 0 2px ${outcomeType==='blown' && c.milestone ?'#dc2626':'#c9a84c'};` : (info && info.phase === 'blown' ? 'box-shadow:0 0 0 2px #dc2626;' : '');
+          const badge = c.milestone ? ' 🏁' : (info && info.phase === 'blown' ? ' 🚫' : '');
+          const pctColor = withdrawable ? 'color:#a3822c;' : '';
+          const pctHtml = info ? `<span class="ov-cal-pct" style="${pctColor}">${arrow} ${info.pct>=0?'+':''}${info.pct.toFixed(1)}%</span>` : '';
+          const title = info ? `${info.win?'Ganada':'Perdida'} · balance ${accFmtMoney(info.balance)}${withdrawable?' · fase retirable':''}` : 'Sin datos';
+          html += `<div class="ov-cal-cell ${cls}${c.today?' today':''}" style="${bg}${ring}" title="${title}">
+            <span class="ov-cal-daynum">${c.day}${badge}</span>${pctHtml}
+          </div>`;
+        }
+      }
+      return html;
+    }
+
+    function fdRenderResults(sim) {
+      const el = document.getElementById('fd-results');
+      const stratLabel = sim.stratKey === 'combined' ? 'Combinado' : (OV_STRATS.find(s => s.key === sim.stratKey)?.label || sim.stratKey);
+      const gainPct = ((sim.finalBalance - sim.capital)/sim.capital)*100;
+      const outcomeMeta = sim.phase === 'withdrawable'
+        ? { label:'✅ Objetivo alcanzado', color:'#16a34a' }
+        : sim.phase === 'blown'
+        ? { label:'❌ Cuenta reventada', color:'#dc2626' }
+        : { label:'⏳ En evaluación', color:'#94a3b8' };
+
+      const dayMap = {};
+      sim.daily.forEach(d => { dayMap[d.fecha] = d; });
+      let months = [...new Set(sim.daily.map(d => d.fecha.slice(0,7)))].sort();
+      let cappedNote = '';
+      if (months.length > 6) { cappedNote = `<div class="stat-desc" style="margin-bottom:1rem">Mostrando los últimos 6 meses de una simulación más larga.</div>`; months = months.slice(-6); }
+
+      const legend = `<div style="display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.2rem;font-size:.72rem;color:#94a3b8">
+        <span><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#eafaf1;border:1px solid #16a34a;margin-right:.35rem"></span>Ganada (evaluación)</span>
+        <span><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#fdecec;border:1px solid #dc2626;margin-right:.35rem"></span>Perdida (evaluación)</span>
+        <span><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:rgba(201,168,76,.3);border:1px solid var(--gold);margin-right:.35rem"></span>Fase retirable</span>
+        <span>🏁 Meta alcanzada · 🚫 Cuenta reventada</span>
+      </div>`;
+
+      const calendarsHTML = months.map(ym => {
+        const [y,m] = ym.split('-').map(Number);
+        return `<div class="card" style="padding:1.3rem 1.5rem;margin-bottom:1rem">
+          <div class="card-title" style="margin-bottom:1rem">${OV_MONTHS_LONG[m-1]} ${y}</div>
+          <div class="ov-cal-grid">${fdMonthCalendarHTML(y, m-1, dayMap, sim.outcomeDate, sim.phase)}</div>
+        </div>`;
+      }).join('');
+
+      const notes = [];
+      if (sim.phase === 'blown') {
+        notes.push(`<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#dc2626"></span>La cuenta se habría reventado el ${sim.outcomeDate}, tras un drawdown de ${sim.maxDD.toFixed(1)}% frente al límite de ${sim.maxLoss}%.</div>`);
+        notes.push(`<div class="acc-obj-row"><span class="acc-obj-dot" style="background:var(--gold)"></span>Considera un límite de pérdida más amplio, un objetivo más conservador, o un riesgo por operación menor.</div>`);
+      } else if (sim.phase === 'withdrawable') {
+        const days = sim.daily.findIndex(d => d.fecha === sim.outcomeDate) + 1;
+        notes.push(`<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#16a34a"></span>El objetivo de ${sim.target}% se habría alcanzado el ${sim.outcomeDate}, tras ${days} días operados.</div>`);
+        notes.push(`<div class="acc-obj-row"><span class="acc-obj-dot" style="background:var(--gold)"></span>A partir de ahí, ${sim.withdrawableDays} días más generaron ${accFmtMoney(sim.withdrawableProfit)} de ganancia acumulada retirable.</div>`);
+        notes.push(`<div class="acc-obj-row"><span class="acc-obj-dot" style="background:var(--gold)"></span>El drawdown máximo durante todo el proceso fue de ${sim.maxDD.toFixed(1)}%, dentro del límite de ${sim.maxLoss}%.</div>`);
+      } else {
+        notes.push(`<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#94a3b8"></span>En el periodo simulado no se alcanzó el objetivo ni se rompió el límite de pérdida. Balance actual: ${accFmtMoney(sim.finalBalance)}.</div>`);
+        notes.push(`<div class="acc-obj-row"><span class="acc-obj-dot" style="background:var(--gold)"></span>Drawdown máximo alcanzado: ${sim.maxDD.toFixed(1)}% de ${sim.maxLoss}% permitido.</div>`);
+      }
+
+      const withdrawableCard = sim.phase === 'withdrawable' ? `
+        <div class="stats-grid" style="margin-bottom:1.5rem;border-color:rgba(201,168,76,.4)">
+          <div class="stat-card" style="border-top:3px solid var(--gold)"><div class="stat-tag">Ganancia retirable acumulada</div><div class="stat-num gold" style="font-size:1.4rem">${accFmtMoney(sim.withdrawableProfit)}</div></div>
+          <div class="stat-card"><div class="stat-tag">Días en fase retirable</div><div class="stat-num white" style="font-size:1.4rem">${sim.withdrawableDays}</div></div>
+          <div class="stat-card" style="grid-column:span 2"><div class="stat-tag">Objetivo alcanzado el</div><div class="stat-num white" style="font-size:1.4rem">${sim.outcomeDate}</div></div>
+        </div>` : '';
+
+      el.innerHTML = `
+        <div class="stats-grid" style="margin-bottom:1.5rem">
+          <div class="stat-card" style="border-top:3px solid ${outcomeMeta.color}"><div class="stat-tag">Estado</div><div class="stat-num" style="font-size:1.25rem;color:${outcomeMeta.color}">${outcomeMeta.label}</div></div>
+          <div class="stat-card"><div class="stat-tag">Balance final</div><div class="stat-num white" style="font-size:1.4rem">${accFmtMoney(sim.finalBalance)}</div></div>
+          <div class="stat-card"><div class="stat-tag">Ganancia / pérdida total</div><div class="stat-num" style="font-size:1.4rem;color:${gainPct>=0?'#16a34a':'#dc2626'}">${gainPct>=0?'+':''}${gainPct.toFixed(1)}%</div></div>
+          <div class="stat-card"><div class="stat-tag">Drawdown máximo</div><div class="stat-num" style="font-size:1.4rem;color:${sim.maxDD>sim.maxLoss?'#dc2626':'#151a2d'}">${sim.maxDD.toFixed(1)}%</div></div>
+        </div>
+        ${withdrawableCard}
+        <div class="card" style="padding:1.6rem;margin-bottom:1.5rem">
+          <div class="card-title" style="margin-bottom:1rem">${stratLabel} · riesgo ${sim.riskPct}%/operación · ${sim.daily.length} días operados desde ${sim.startStr}</div>
+          <div class="acc-objectives" style="margin-top:0;padding-top:0;border-top:none">${notes.join('')}</div>
+        </div>
+        ${cappedNote}
+        ${legend}
+        ${calendarsHTML}
+      `;
+    }
+
     function showView(name, btn) {
       if (name === 'mytrades' && currentUser) { if(!mtActivePlantilla) mtLoadPlantillas(); else mtLoadMonth(); }
       if (name === 'accounts' && currentUser) { accLoadAll(); }
+      if (name === 'performance' && currentUser) { perfRenderYearGrid(); perfRenderList(); }
+      if (name === 'trades' && currentUser) { tlRender(); }
+      if (name === 'fondeo' && currentUser) { fdInitDefaults(); }
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
       document.getElementById('view-' + name).classList.add('active');
@@ -1893,6 +2563,7 @@
       mtActivePlantilla = mtPlantillas.find(p => p.id === savedId) || mtPlantillas[0];
       mtCapital = parseFloat(localStorage.getItem('mt_capital_' + mtActivePlantilla?.id) || '1000');
       mtRenderPlantillas();
+      await mtLoadMonth();
     }
 
     function mtRenderPlantillas() {

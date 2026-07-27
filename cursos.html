@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cursos Online — Andrés Cestona</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+  <title>Planes — Andrés Cestona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --navy: #07091a; --navy2: #0c0f26; --navy3: #111535; --blue: #2563eb; --blue-mid: #3b82f6; --blue-soft: #93c5fd; --white: #ffffff; --off-white: #f0f4ff; --gray-100: #e2e8f4; --gray-400: #8892aa; --gray-600: #4b5775; }
+    :root { --navy: #07091a; --navy2: #0c0f26; --navy3: #111535; --blue: #2563eb; --blue-mid: #3b82f6; --blue-soft: #93c5fd; --white: #ffffff; --off-white: #f0f4ff; --gray-100: #e2e8f4; --gray-400: #8892aa; --gray-600: #4b5775; --pblack: #080808; --pgold: #c9a84c; --pgold2: #e8c97a; --pgreen: #4ade80; --pblue: #60a5fa; --pviolet: #a78bfa; --pmuted: #8a8a8a; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--navy); overflow-x: hidden; }
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 2%; height: 62px; background: var(--navy); border-bottom: 1px solid rgba(255,255,255,0.05); }
@@ -24,34 +24,110 @@
     .nav-estudiante { background: var(--blue); color: var(--white); padding: 0.45rem 0.9rem; border-radius: 7px; font-weight: 700; font-size: 0.82rem; text-decoration: none; white-space: nowrap; transition: background 0.15s; }
     .nav-estudiante:hover { background: #1d4ed8; }
 
-    .page-hero { background: linear-gradient(140deg, var(--navy) 0%, var(--navy2) 55%, #0e1440 100%); padding: 8rem 4% 5rem; text-align: center; position: relative; overflow: hidden; }
-    .page-hero::before { content: ''; position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,0.18) 0%, transparent 65%); pointer-events: none; }
-    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1.5rem; }
-    .eyebrow::before { content: '●'; color: var(--blue-mid); font-size: 0.45rem; }
-    .eyebrow span { font-size: 0.72rem; font-weight: 600; color: var(--blue-soft); text-transform: uppercase; letter-spacing: 1.2px; }
-    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 900; color: var(--white); line-height: 1.1; margin-bottom: 1rem; }
-    .page-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.6); max-width: 540px; margin: 0 auto; line-height: 1.75; }
+    .page-hero { background: var(--pblack); padding: 9rem 4% 4rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; top: -15%; left: 50%; transform: translateX(-50%); width: 700px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.1) 0%, transparent 65%); pointer-events: none; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--pgold); }
+    .eyebrow span { font-size: 0.68rem; font-weight: 600; color: var(--pgold); text-transform: uppercase; letter-spacing: 2px; }
+    .page-hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(2.3rem, 5vw, 3.3rem); font-weight: 700; color: #fff; line-height: 1.15; letter-spacing: -.5px; margin-bottom: 1rem; }
+    .page-hero h1 em { color: var(--pgold); font-style: italic; }
+    .page-hero p { font-size: 1rem; color: rgba(255,255,255,0.45); max-width: 540px; margin: 0 auto; line-height: 1.8; }
 
-    .courses-section { padding: 5rem 4%; }
-    .courses-inner { max-width: 1100px; margin: 0 auto; }
-    .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    /* ── SIGNALS SECTION (light) ── */
+    .signals-section { background: var(--white); padding: 5.5rem 4% 6rem; position: relative; }
+    .signals-inner { max-width: 1180px; margin: 0 auto; position:relative; z-index:1; }
+    .signals-top { display:flex; flex-direction:column; align-items:center; text-align:center; margin:0 auto 3rem; max-width:600px; }
+    .sig-eyebrow { display:inline-flex; align-items:center; gap:.5rem; margin-bottom:1rem; }
+    .sig-eyebrow::before { content:''; width:20px; height:1px; background: var(--pgold); }
+    .sig-eyebrow span { font-size:.65rem; font-weight:600; color: #a3822c; text-transform:uppercase; letter-spacing:2px; }
+    .signals-h2 { font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,3.5vw,2.7rem); font-weight:700; color: var(--navy); line-height:1.15; letter-spacing:-.5px; }
+    .signals-h2 em { color: #a3822c; font-style:italic; }
+    .signals-lead { font-size:.92rem; color: var(--gray-600); line-height:1.75; margin-top:.8rem; }
 
-    .course-card { border: 1px solid var(--gray-100); border-radius: 20px; overflow: hidden; transition: all 0.25s; }
-    .course-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(37,99,235,0.12); border-color: rgba(37,99,235,0.25); }
-    .course-thumb { aspect-ratio: 16/9; background: linear-gradient(135deg, var(--navy2), var(--navy3)); display: flex; align-items: center; justify-content: center; font-size: 3rem; position: relative; }
-    .course-badge { position: absolute; top: 1rem; right: 1rem; background: var(--blue); color: var(--white); font-size: 0.7rem; font-weight: 700; padding: 0.3rem 0.7rem; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .course-badge.nuevo { background: #059669; }
-    .course-body { padding: 1.6rem; }
-    .course-level { font-size: 0.7rem; font-weight: 700; color: var(--blue-mid); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
-    .course-title { font-size: 1.2rem; font-weight: 800; color: var(--navy); margin-bottom: 0.6rem; line-height: 1.3; }
-    .course-desc { font-size: 0.85rem; color: var(--gray-600); line-height: 1.65; margin-bottom: 1.2rem; }
-    .course-meta { display: flex; gap: 1.2rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
-    .course-meta span { font-size: 0.78rem; color: var(--gray-400); display: flex; align-items: center; gap: 0.3rem; }
-    .course-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 1rem; border-top: 1px solid var(--gray-100); }
-    .course-price { font-size: 1.4rem; font-weight: 900; color: var(--navy); }
-    .course-price-old { font-size: 0.85rem; color: var(--gray-400); text-decoration: line-through; margin-left: 0.4rem; }
-    .btn-course { background: var(--blue); color: var(--white); padding: 0.55rem 1.2rem; border-radius: 8px; font-weight: 700; font-size: 0.82rem; text-decoration: none; transition: background 0.15s; }
-    .btn-course:hover { background: #1d4ed8; }
+    .sig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .sig-combo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 1.5rem; }
+
+    .sig-card {
+      position: relative; border-radius: 18px; overflow: hidden;
+      background: var(--white); border: 1px solid var(--gray-100); box-shadow: 0 2px 12px rgba(15,23,42,.04);
+      transition: box-shadow .3s, transform .3s, border-color .3s;
+      display: flex; flex-direction: column;
+    }
+    .sig-card:hover { box-shadow: 0 20px 44px rgba(15,23,42,.1); transform: translateY(-4px); border-color: rgba(201,168,76,.5); }
+    .sig-card.full-combo { border-color: rgba(201,168,76,.5); }
+
+    /* sparkline chart header */
+    .sig-chart { position: relative; padding: 1.2rem 1.4rem 0; background: var(--off-white); border-bottom: 1px solid var(--gray-100); }
+    .sig-chart-top { display:flex; align-items:center; justify-content:space-between; margin-bottom: .5rem; }
+    .sig-ticker { display:flex; align-items:center; gap:.5rem; }
+    .sig-live-dot { width:6px; height:6px; border-radius:50%; background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,.15); animation: sig-pulse 2s infinite; flex-shrink:0; }
+    @keyframes sig-pulse { 0%,100%{ opacity:1 } 50%{ opacity:.35 } }
+    .sig-ticker-pair { font-family:'Space Grotesk',sans-serif; font-size:.76rem; font-weight:700; color: var(--navy); letter-spacing:.3px; }
+    .sig-ribbon { font-size:.6rem; font-weight:800; padding:.28rem .65rem; border-radius:100px; text-transform:uppercase; letter-spacing:.6px; }
+    .sig-ribbon.gold { background: rgba(201,168,76,.14); color: #a3822c; border:1px solid rgba(201,168,76,.35); }
+    .sig-chart svg { display:block; width:100%; height:60px; }
+
+    .sig-body { padding: 1.4rem 1.4rem 1.6rem; display:flex; flex-direction:column; flex: 1; }
+    .sig-tag { display:inline-block; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; padding:.25rem .7rem; border-radius:100px; margin-bottom:.9rem; align-self:flex-start; }
+    .tag-btc { background: rgba(247,147,26,.12); color:#c1690e; border:1px solid rgba(247,147,26,.3); }
+    .tag-xau { background: rgba(201,168,76,.14); color: #a3822c; border:1px solid rgba(201,168,76,.35); }
+    .tag-aud { background: rgba(37,99,235,.08); color: var(--blue); border:1px solid rgba(37,99,235,.25); }
+    .tag-combo { background: rgba(124,58,237,.08); color: #7c3aed; border:1px solid rgba(124,58,237,.25); }
+    .sig-title { font-family:'Space Grotesk',sans-serif; font-size:1.1rem; font-weight:700; color: var(--navy); margin-bottom:.5rem; line-height:1.3; }
+    .sig-desc { font-size:.82rem; color: var(--gray-600); line-height:1.6; margin-bottom:1rem; }
+    .sig-features { list-style:none; display:flex; flex-direction:column; gap:.4rem; margin-bottom:1.2rem; }
+    .sig-features li { font-size:.79rem; color: var(--gray-600); display:flex; align-items:flex-start; gap:.5rem; line-height:1.4; }
+    .sig-features li::before { content:'✓'; color: #a3822c; font-weight:800; flex-shrink:0; }
+    .sig-divider { border:none; border-top: 1px solid var(--gray-100); margin: 0 0 1.1rem; }
+
+    .sig-price-row { margin-top: auto; }
+    .sig-price-plan-label { font-size:.64rem; font-weight:700; color: var(--gray-400); text-transform:uppercase; letter-spacing:.8px; margin-bottom:.4rem; }
+    .sig-price-main { display:flex; align-items:baseline; gap:.4rem; }
+    .sig-price-amount { font-family:'Space Grotesk',sans-serif; font-size: 1.8rem; font-weight:700; color: var(--navy); }
+    .sig-price-suffix { font-size:.8rem; color: var(--gray-400); font-weight:600; }
+    .sig-price-annual { margin-top:.3rem; }
+    .sig-price-annual-amount { font-size:.78rem; color: var(--gray-600); font-weight:600; }
+    .sig-price-row .btn-sig { margin-top: 1rem; }
+    .sig-price-alt { display:flex; align-items:baseline; flex-wrap:wrap; gap:.3rem; margin-top:.45rem; padding-top:.45rem; border-top: 1px dashed var(--gray-100); }
+    .sig-price-alt-label { font-size:.68rem; font-weight:700; color: #a3822c; text-transform:uppercase; letter-spacing:.4px; }
+    .sig-price-alt-amount { font-size:1rem; font-weight:700; color: var(--navy); }
+    .sig-price-alt-sub { font-size:.7rem; color: var(--gray-400); font-weight:600; }
+
+    /* "Leer más" extras accordion */
+    .sig-more { margin-bottom: 1.1rem; }
+    .sig-more summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:.35rem; font-size:.78rem; font-weight:700; color: #a3822c; user-select:none; }
+    .sig-more summary::-webkit-details-marker { display:none; }
+    .sig-more summary .sig-more-arrow { font-size:.62rem; transition: transform .2s; display:inline-block; }
+    .sig-more[open] summary .sig-more-arrow { transform: rotate(180deg); }
+    .sig-more-list { list-style:none; display:flex; flex-direction:column; gap:.4rem; margin-top:.8rem; padding-top:.8rem; border-top: 1px solid var(--gray-100); }
+    .sig-more-list li { font-size:.77rem; color: var(--gray-600); display:flex; align-items:flex-start; gap:.5rem; line-height:1.45; }
+    .sig-more-list li::before { content:'+'; color: var(--blue); font-weight:800; flex-shrink:0; }
+
+    /* combo CTA banner (replaces inline combo cards) */
+    .combo-cta {
+      margin-top: 2rem; border-radius: 20px; padding: 2.2rem 2.4rem;
+      display:flex; align-items:center; justify-content:space-between; gap:2rem; flex-wrap:wrap;
+      background: linear-gradient(120deg, rgba(201,168,76,.07) 0%, rgba(201,168,76,.02) 100%);
+      border: 1px solid rgba(201,168,76,.3);
+    }
+    .combo-cta-tag { display:inline-block; font-size:.6rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; padding:.25rem .7rem; border-radius:100px; margin-bottom:.7rem; background: rgba(124,58,237,.08); color:#7c3aed; border:1px solid rgba(124,58,237,.25); }
+    .combo-cta-text h3 { font-family:'Space Grotesk',sans-serif; font-size:1.25rem; font-weight:700; color: var(--navy); margin-bottom:.4rem; }
+    .combo-cta-text p { font-size:.85rem; color: var(--gray-600); line-height:1.6; max-width: 480px; }
+    .combo-cta .btn-sig { white-space:nowrap; flex-shrink:0; padding:.9rem 1.4rem; }
+    @media (max-width: 640px) { .combo-cta { padding: 1.8rem; } }
+
+    .btn-sig { display:block; text-align:center; background:transparent; color: #a3822c; border: 1px solid rgba(201,168,76,.5); padding:.75rem; border-radius:9px; font-weight:700; font-size:.85rem; text-decoration:none; transition: all .2s; }
+    .btn-sig:hover { background: rgba(201,168,76,.08); border-color: var(--pgold); }
+    .btn-sig.filled { background: var(--pgold); color: #fff; border-color: var(--pgold); }
+    .btn-sig.filled:hover { background: #b6923e; }
+
+    .signals-note { text-align:center; margin-top: 2.4rem; font-size:.8rem; color: var(--gray-400); }
+    .signals-note strong { color: var(--gray-600); }
+
+    @media (max-width: 900px) {
+      .sig-grid { grid-template-columns: 1fr; }
+      .sig-combo-grid { grid-template-columns: 1fr; }
+    }
 
     footer { background: var(--navy); color: rgba(255,255,255,0.45); text-align: center; padding: 2.5rem 4%; font-size: 0.82rem; }
     footer strong { color: rgba(255,255,255,0.85); }
@@ -181,7 +257,7 @@
           <div class="nav-drop-label">Formación</div>
           <a class="nav-drop-item" href="cursos.html">
             <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3L2 8l10 5 10-5-10-5z"/><path d="M6 10.6V16c0 1.7 2.7 3 6 3s6-1.3 6-3v-5.4"/><path d="M22 8v6"/></svg></span>
-            <span class="nav-drop-text"><span class="nav-drop-title">Cursos Online</span><span class="nav-drop-desc">Contenido grabado a tu ritmo, por niveles</span></span>
+            <span class="nav-drop-text"><span class="nav-drop-title">Planes</span><span class="nav-drop-desc">Señales y planes de trading por mercado</span></span>
           </a>
           <a class="nav-drop-item" href="premium.html">
             <span class="nav-drop-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.9 6.3 6.9.8-5 4.7 1.3 6.8L12 17.3 5.9 20.6l1.3-6.8-5-4.7 6.9-.8L12 2z"/></svg></span>
@@ -250,123 +326,155 @@
 
   <section class="page-hero">
     <div class="eyebrow"><span>Academia</span></div>
-    <h1>Cursos online</h1>
-    <p>Aprende a tu ritmo con contenido grabado, actualizado y diseñado para que puedas aplicarlo desde el primer día.</p>
+    <h1>Señales de <em>trading</em> por mercado</h1>
+    <p>Indicador propietario y señales en tiempo real. Elige un mercado, combina dos o hazte con el pack completo.</p>
   </section>
 
-  <section class="courses-section">
-    <div class="courses-inner">
-      <div class="courses-grid">
+  <section class="signals-section" id="precios">
+    <div class="signals-inner">
+      <div class="signals-top">
+        <div class="sig-eyebrow"><span>Planes</span></div>
+        <h2 class="signals-h2">Elige tu <em>mercado</em></h2>
+        <p class="signals-lead">Cada mercado se paga mensual o anual en 12 cuotas, sin permanencia.</p>
+      </div>
 
-        <div class="course-card">
-          <div class="course-thumb">📊<div class="course-badge nuevo">Nuevo</div></div>
-          <div class="course-body">
-            <div class="course-level">Principiante</div>
-            <div class="course-title">Inversión desde Cero: tu primera cartera</div>
-            <div class="course-desc">Aprende los fundamentos de la inversión, cómo abrirte un bróker, diversificar y construir tu primera cartera con cualquier capital.</div>
-            <div class="course-meta">
-              <span>🎬 42 videos</span>
-              <span>⏱ 18 horas</span>
-              <span>👤 1,200 alumnos</span>
+      <div class="sig-grid">
+
+        <div class="sig-card">
+          <div class="sig-chart">
+            <div class="sig-chart-top">
+              <div class="sig-ticker"><span class="sig-live-dot"></span><span class="sig-ticker-pair">BTC/USD</span></div>
             </div>
-            <div class="course-footer">
-              <div><span class="course-price">€97</span><span class="course-price-old">€197</span></div>
-              <a href="#" class="btn-course">Ver curso →</a>
+            <svg viewBox="0 0 300 60" preserveAspectRatio="none">
+              <defs><linearGradient id="grad-btc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f7931a" stop-opacity=".3"/><stop offset="100%" stop-color="#f7931a" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0,46 L30,50 L60,38 L90,42 L120,26 L150,32 L180,14 L210,20 L240,6 L270,12 L300,2 L300,60 L0,60 Z" fill="url(#grad-btc)"/>
+              <path d="M0,46 L30,50 L60,38 L90,42 L120,26 L150,32 L180,14 L210,20 L240,6 L270,12 L300,2" fill="none" stroke="#f7931a" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="sig-body">
+            <span class="sig-tag tag-btc">Ideas</span>
+            <h3 class="sig-title">Señales Bitcoin</h3>
+            <p class="sig-desc">Entradas y salidas en tiempo real sobre BTC/USD, con indicador propio incluido.</p>
+            <ul class="sig-features">
+              <li>Indicador propietario BTC incluido</li>
+              <li>Señales diarias — +30 al mes según el mes</li>
+              <li>Comunidad y soporte incluidos</li>
+            </ul>
+            <details class="sig-more">
+              <summary>Leer más <span class="sig-more-arrow">▾</span></summary>
+              <ul class="sig-more-list">
+                <li>Seguimiento diario del mercado junto al indicador</li>
+                <li>Acceso a la plataforma con histórico completo de señales</li>
+                <li>Videos de introducción para configurar el indicador</li>
+                <li>Guías en PDF de interpretación de señales</li>
+                <li>Plan de gestión de riesgo por operación</li>
+                <li>Alertas instantáneas por Telegram</li>
+                <li>Actualizaciones del indicador incluidas</li>
+              </ul>
+            </details>
+            <hr class="sig-divider"/>
+            <div class="sig-price-row">
+              <div class="sig-price-main"><span class="sig-price-amount">€99</span><span class="sig-price-suffix">/ mes</span></div>
+              <div class="sig-price-alt"><span class="sig-price-alt-label">o anual</span><span class="sig-price-alt-amount">€79/mes</span><span class="sig-price-alt-sub">· total €950/año en 12 cuotas</span></div>
+              <a href="auth.html" class="btn-sig">Acceder →</a>
             </div>
           </div>
         </div>
 
-        <div class="course-card">
-          <div class="course-thumb">📈</div>
-          <div class="course-body">
-            <div class="course-level">Intermedio</div>
-            <div class="course-title">Análisis Técnico Aplicado a los Mercados</div>
-            <div class="course-desc">Domina los patrones, indicadores y estrategias de análisis técnico para tomar decisiones de inversión con mayor precisión.</div>
-            <div class="course-meta">
-              <span>🎬 58 videos</span>
-              <span>⏱ 24 horas</span>
-              <span>👤 890 alumnos</span>
+        <div class="sig-card">
+          <div class="sig-chart">
+            <div class="sig-chart-top">
+              <div class="sig-ticker"><span class="sig-live-dot"></span><span class="sig-ticker-pair">XAU/USD</span></div>
             </div>
-            <div class="course-footer">
-              <div><span class="course-price">€147</span><span class="course-price-old">€297</span></div>
-              <a href="#" class="btn-course">Ver curso →</a>
+            <svg viewBox="0 0 300 60" preserveAspectRatio="none">
+              <defs><linearGradient id="grad-xau" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c9a84c" stop-opacity=".3"/><stop offset="100%" stop-color="#c9a84c" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0,44 L30,40 L60,34 L90,36 L120,26 L150,22 L180,16 L210,18 L240,8 L270,10 L300,2 L300,60 L0,60 Z" fill="url(#grad-xau)"/>
+              <path d="M0,44 L30,40 L60,34 L90,36 L120,26 L150,22 L180,16 L210,18 L240,8 L270,10 L300,2" fill="none" stroke="#c9a84c" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="sig-body">
+            <span class="sig-tag tag-xau">Ideas</span>
+            <h3 class="sig-title">Señales XAUUSD</h3>
+            <p class="sig-desc">La estrategia que opera Andrés sobre el oro, con histórico verificado desde 2021.</p>
+            <ul class="sig-features">
+              <li>Indicador propietario XAUUSD incluido</li>
+              <li>~13 señales/mes por canal privado</li>
+              <li>Sesión de análisis semanal en vivo</li>
+            </ul>
+            <details class="sig-more">
+              <summary>Leer más <span class="sig-more-arrow">▾</span></summary>
+              <ul class="sig-more-list">
+                <li>Seguimiento diario del mercado junto al indicador</li>
+                <li>Acceso a la plataforma con histórico completo de señales</li>
+                <li>Videos de introducción para configurar el indicador</li>
+                <li>Guías en PDF de interpretación de señales</li>
+                <li>Plan de gestión de riesgo por operación</li>
+                <li>Alertas instantáneas por Telegram</li>
+                <li>Actualizaciones del indicador incluidas</li>
+              </ul>
+            </details>
+            <hr class="sig-divider"/>
+            <div class="sig-price-row">
+              <div class="sig-price-main"><span class="sig-price-amount">€129</span><span class="sig-price-suffix">/ mes</span></div>
+              <div class="sig-price-alt"><span class="sig-price-alt-label">o anual</span><span class="sig-price-alt-amount">€103/mes</span><span class="sig-price-alt-sub">· total €1.240/año en 12 cuotas</span></div>
+              <a href="auth.html" class="btn-sig">Acceder →</a>
             </div>
           </div>
         </div>
 
-        <div class="course-card">
-          <div class="course-thumb">💼</div>
-          <div class="course-body">
-            <div class="course-level">Avanzado</div>
-            <div class="course-title">Gestión de Carteras y Estrategia a Largo Plazo</div>
-            <div class="course-desc">Construye y gestiona una cartera diversificada, controla el riesgo y desarrolla una estrategia que trabaje por ti mientras duermes.</div>
-            <div class="course-meta">
-              <span>🎬 71 videos</span>
-              <span>⏱ 32 horas</span>
-              <span>👤 640 alumnos</span>
+        <div class="sig-card">
+          <div class="sig-chart">
+            <div class="sig-chart-top">
+              <div class="sig-ticker"><span class="sig-live-dot"></span><span class="sig-ticker-pair">XAU/AUD</span></div>
             </div>
-            <div class="course-footer">
-              <div><span class="course-price">€197</span><span class="course-price-old">€397</span></div>
-              <a href="#" class="btn-course">Ver curso →</a>
-            </div>
+            <svg viewBox="0 0 300 60" preserveAspectRatio="none">
+              <defs><linearGradient id="grad-aud" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2563eb" stop-opacity=".25"/><stop offset="100%" stop-color="#2563eb" stop-opacity="0"/></linearGradient></defs>
+              <path d="M0,48 L30,52 L60,40 L90,44 L120,30 L150,34 L180,20 L210,26 L240,12 L270,16 L300,4 L300,60 L0,60 Z" fill="url(#grad-aud)"/>
+              <path d="M0,48 L30,52 L60,40 L90,44 L120,30 L150,34 L180,20 L210,26 L240,12 L270,16 L300,4" fill="none" stroke="#2563eb" stroke-width="2"/>
+            </svg>
           </div>
-        </div>
-
-        <div class="course-card">
-          <div class="course-thumb">₿<div class="course-badge">Popular</div></div>
-          <div class="course-body">
-            <div class="course-level">Intermedio</div>
-            <div class="course-title">Criptoactivos: Inversión Inteligente sin Casino</div>
-            <div class="course-desc">Aprende a invertir en cripto con criterio, sin depender de la suerte: análisis on-chain, ciclos de mercado y gestión del riesgo.</div>
-            <div class="course-meta">
-              <span>🎬 36 videos</span>
-              <span>⏱ 14 horas</span>
-              <span>👤 1,100 alumnos</span>
-            </div>
-            <div class="course-footer">
-              <div><span class="course-price">€127</span><span class="course-price-old">€247</span></div>
-              <a href="#" class="btn-course">Ver curso →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="course-card">
-          <div class="course-thumb">🧠</div>
-          <div class="course-body">
-            <div class="course-level">Todos los niveles</div>
-            <div class="course-title">Psicología del Inversor: domina tus emociones</div>
-            <div class="course-desc">El factor que más dinero te hace perder no son los mercados: eres tú. Aprende a controlar el miedo, la avaricia y los sesgos cognitivos.</div>
-            <div class="course-meta">
-              <span>🎬 28 videos</span>
-              <span>⏱ 10 horas</span>
-              <span>👤 780 alumnos</span>
-            </div>
-            <div class="course-footer">
-              <div><span class="course-price">€77</span><span class="course-price-old">€147</span></div>
-              <a href="#" class="btn-course">Ver curso →</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="course-card">
-          <div class="course-thumb">🌍</div>
-          <div class="course-body">
-            <div class="course-level">Avanzado</div>
-            <div class="course-title">Fiscalidad del Inversor: paga menos, gana más</div>
-            <div class="course-desc">Todo lo que necesitas saber sobre impuestos, declaración de inversiones y estrategias legales para optimizar tu carga fiscal.</div>
-            <div class="course-meta">
-              <span>🎬 22 videos</span>
-              <span>⏱ 8 horas</span>
-              <span>👤 520 alumnos</span>
-            </div>
-            <div class="course-footer">
-              <div><span class="course-price">€87</span><span class="course-price-old">€167</span></div>
-              <a href="#" class="btn-course">Ver curso →</a>
+          <div class="sig-body">
+            <span class="sig-tag tag-aud">Ideas</span>
+            <h3 class="sig-title">Señales XAUAUD</h3>
+            <p class="sig-desc">Oro frente al dólar australiano, mismo sistema de señales e indicador propio.</p>
+            <ul class="sig-features">
+              <li>Indicador propietario XAUAUD incluido</li>
+              <li>~11 señales/mes por canal privado</li>
+              <li>Comunidad y soporte incluidos</li>
+            </ul>
+            <details class="sig-more">
+              <summary>Leer más <span class="sig-more-arrow">▾</span></summary>
+              <ul class="sig-more-list">
+                <li>Seguimiento diario del mercado junto al indicador</li>
+                <li>Acceso a la plataforma con histórico completo de señales</li>
+                <li>Videos de introducción para configurar el indicador</li>
+                <li>Guías en PDF de interpretación de señales</li>
+                <li>Plan de gestión de riesgo por operación</li>
+                <li>Alertas instantáneas por Telegram</li>
+                <li>Actualizaciones del indicador incluidas</li>
+              </ul>
+            </details>
+            <hr class="sig-divider"/>
+            <div class="sig-price-row">
+              <div class="sig-price-main"><span class="sig-price-amount">€99</span><span class="sig-price-suffix">/ mes</span></div>
+              <div class="sig-price-alt"><span class="sig-price-alt-label">o anual</span><span class="sig-price-alt-amount">€79/mes</span><span class="sig-price-alt-sub">· total €950/año en 12 cuotas</span></div>
+              <a href="auth.html" class="btn-sig">Acceder →</a>
             </div>
           </div>
         </div>
 
       </div>
+
+      <div class="combo-cta">
+        <div class="combo-cta-text">
+          <span class="combo-cta-tag">Combo · 2 y 3 mercados</span>
+          <h3>¿Quieres combinar mercados?</h3>
+          <p>Los packs BTC + XAUAUD y BTC + XAUUSD + XAUAUD, con seguimiento diario conjunto e indicadores combinados, están organizados en Academia Premium.</p>
+        </div>
+        <a href="premium.html#precios" class="btn-sig filled">Ver combos en Academia Premium →</a>
+      </div>
+
+      <p class="signals-note">Cancela cuando quieras. <strong>Sin permanencia</strong> en los planes mensuales.</p>
     </div>
   </section>
 
