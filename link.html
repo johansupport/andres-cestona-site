@@ -165,6 +165,14 @@
       background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 16px;
       padding: 1.5rem 1.6rem; margin-bottom: 2.2rem;
     }
+    .cred-tabs { display: flex; gap: .5rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+    .cred-tab {
+      font-family: 'Inter', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: .3px;
+      color: rgba(255,255,255,.45); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 100px; padding: .4rem .9rem; cursor: pointer; transition: all .2s;
+    }
+    .cred-tab:hover { border-color: rgba(201,168,76,.45); color: #fff; }
+    .cred-tab.active { background: var(--gold); border-color: var(--gold); color: #0d0d0d; }
     .cred-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: .9rem; }
     .cred-num { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: #fff; }
     .cred-num span { color: var(--gold); }
@@ -427,17 +435,23 @@
         </div>
 
         <div class="cred-block">
+          <div class="cred-tabs" id="cred-tabs">
+            <button type="button" class="cred-tab active" data-strat="swing" onclick="credSelectStrategy('swing')">XAUUSD</button>
+            <button type="button" class="cred-tab" data-strat="tesla" onclick="credSelectStrategy('tesla')">TESLA</button>
+            <button type="button" class="cred-tab" data-strat="xauaud" onclick="credSelectStrategy('xauaud')">XAUAUD</button>
+            <button type="button" class="cred-tab" data-strat="btc" onclick="credSelectStrategy('btc')">BTC</button>
+          </div>
           <div class="cred-row">
             <div>
-              <div class="cred-num"><span>+412</span>%</div>
-              <div class="cred-lbl">Desde 2021</div>
+              <div class="cred-num"><span id="cred-return">+412</span>%</div>
+              <div class="cred-lbl" id="cred-desde">Desde 2021</div>
             </div>
             <div>
-              <div class="cred-num"><span>1.051</span></div>
+              <div class="cred-num"><span id="cred-trades">1.051</span></div>
               <div class="cred-lbl">Trades verificados</div>
             </div>
             <div>
-              <div class="cred-num"><span>71.6</span>%</div>
+              <div class="cred-num"><span id="cred-winrate">71.6</span>%</div>
               <div class="cred-lbl">Winrate histórico</div>
             </div>
           </div>
@@ -624,6 +638,71 @@
 
     // TODO: pegar acá tu link real de Calendly cuando tengas cuenta (ej: 'https://calendly.com/tu-usuario/llamada')
     const CALENDLY_URL = '';
+
+    // ── CREDIBILIDAD: pills de estrategia (mismos datos que "Elige tu estrategia" del inicio) ──
+    const CRED_STRATS = [
+      { key: 'swing', label: 'XAUUSD', desde: 'Desde 2021' },
+      { key: 'tesla', label: 'TESLA', desde: 'Desde 2025' },
+      { key: 'xauaud', label: 'XAUAUD', desde: 'Desde inicio' },
+      { key: 'btc', label: 'BTC', desde: 'Desde inicio' },
+    ];
+    let credData = {};
+    let credSelected = 'swing';
+
+    async function credFetchStrategyRows(estrategia) {
+      let all = [], from = 0;
+      const pageSize = 1000;
+      while (true) {
+        const { data: page, error } = await sb.from('strategy_results')
+          .select('resultado,porcentaje').eq('estrategia', estrategia)
+          .range(from, from + pageSize - 1);
+        if (error || !page) return [];
+        all = all.concat(page);
+        if (page.length < pageSize) break;
+        from += pageSize;
+      }
+      return all;
+    }
+
+    function credRender() {
+      const d = credData[credSelected];
+      if (!d) return;
+      document.getElementById('cred-return').textContent = (d.totalReturn >= 0 ? '+' : '') + d.totalReturn.toFixed(0);
+      document.getElementById('cred-trades').textContent = d.totalTrades.toLocaleString('es-ES');
+      document.getElementById('cred-winrate').textContent = d.winrate.toFixed(1);
+      document.getElementById('cred-desde').textContent = CRED_STRATS.find(s => s.key === credSelected).desde;
+    }
+
+    function credSelectStrategy(key) {
+      if (!credData[key]) return;
+      credSelected = key;
+      document.querySelectorAll('.cred-tab').forEach(b => b.classList.toggle('active', b.dataset.strat === key));
+      credRender();
+    }
+
+    async function credLoadAll() {
+      for (const s of CRED_STRATS) {
+        const rows = await credFetchStrategyRows(s.key);
+        if (!rows.length) { credData[s.key] = null; continue; }
+        const totalTrades = rows.length;
+        const wins = rows.filter(r => r.resultado === 'win').length;
+        const winrate = totalTrades ? wins / totalTrades * 100 : 0;
+        const totalReturn = rows.reduce((sum, r) => sum + Number(r.porcentaje), 0);
+        credData[s.key] = { totalTrades, winrate, totalReturn };
+      }
+      CRED_STRATS.forEach(s => {
+        const btn = document.querySelector(`.cred-tab[data-strat="${s.key}"]`);
+        if (!btn) return;
+        if (!credData[s.key]) btn.style.display = 'none';
+      });
+      if (!credData[credSelected]) {
+        const firstAvailable = CRED_STRATS.find(s => credData[s.key]);
+        if (firstAvailable) credSelectStrategy(firstAvailable.key);
+        return;
+      }
+      credRender();
+    }
+    credLoadAll();
 
     const answers = {};
     let calendlyInited = false;
