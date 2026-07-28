@@ -192,24 +192,29 @@
     #view-overview .ov-banner-sub { font-size:.76rem; color:#8a7548; }
     #view-overview .ov-banner-btn { background:#151a2d; color:#fff; padding:.6rem 1.2rem; border-radius:8px; font-size:.78rem; font-weight:700; text-decoration:none; white-space:nowrap; }
     #view-overview .ov-info { opacity:.45; cursor:help; vertical-align:-1px; }
-    #view-overview .ov-strategies { display:grid; grid-template-columns:repeat(4,1fr); gap:.9rem; margin-bottom:.5rem; }
-    #view-overview .ov-strat-card { background:#fff; border:1px solid #e2e5ec; border-top:3px solid #e2e5ec; border-radius:12px; padding:1rem 1.1rem; cursor:pointer; transition:all .2s; box-shadow:0 1px 3px rgba(20,25,45,.05); }
-    #view-overview .ov-strat-card:hover { border-color:var(--gold); box-shadow:0 6px 16px rgba(201,168,76,.14); transform:translateY(-1px); }
-    #view-overview .ov-strat-card.selected { border-color:var(--gold); box-shadow:0 0 0 1px var(--gold); }
-    #view-overview .ov-strat-top { display:flex; align-items:center; gap:.6rem; margin-bottom:.7rem; }
-    #view-overview .ov-strat-avatar { width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:.58rem; font-weight:800; color:#fff; flex-shrink:0; }
-    #view-overview .ov-strat-name { font-weight:700; font-size:.82rem; color:#151a2d; }
-    #view-overview .ov-strat-time { font-size:.68rem; color:#94a3b8; }
-    #view-overview .ov-strat-status { font-size:.7rem; font-weight:600; margin-bottom:.7rem; }
-    #view-overview .ov-strat-status.ok { color:#16a34a; }
-    #view-overview .ov-strat-status.loss { color:#dc2626; }
-    #view-overview .ov-strat-status.pending { color:#94a3b8; }
-    #view-overview .ov-strat-status.running { color:#a3822c; }
-    #view-overview .ov-strat-month { padding-top:.7rem; border-top:1px solid #eef0f6; }
-    #view-overview .ov-strat-month .ov-bar-chart { height:26px; margin-bottom:.5rem; }
+    #view-overview .ov-strategies { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:.5rem; }
+    #view-overview .ov-strat-card { background:#fff; border:1px solid #eef0f6; border-radius:16px; padding:1.25rem 1.3rem; cursor:pointer; transition:all .2s; box-shadow:0 1px 3px rgba(20,25,45,.05); }
+    #view-overview .ov-strat-card:hover { border-color:#e2e5ec; box-shadow:0 14px 28px -8px rgba(20,25,45,.12); transform:translateY(-2px); }
+    #view-overview .ov-strat-card.selected { border-color:rgba(201,168,76,.5); box-shadow:0 0 0 1px var(--gold), 0 14px 28px -8px rgba(201,168,76,.16); background:linear-gradient(180deg,#fffdf6,#fff 60%); }
+    #view-overview .ov-strat-top { display:flex; align-items:center; gap:.8rem; margin-bottom:1rem; }
+    #view-overview .ov-strat-avatar { width:40px; height:40px; border-radius:13px; display:flex; align-items:center; justify-content:center; font-size:.66rem; font-weight:800; color:#fff; flex-shrink:0; box-shadow:0 6px 14px -4px rgba(20,25,45,.35); }
+    #view-overview .ov-strat-name { font-weight:800; font-size:.9rem; color:#151a2d; letter-spacing:-.1px; }
+    #view-overview .ov-strat-time { font-size:.66rem; color:#94a3b8; font-weight:600; margin-top:.15rem; }
+    #view-overview .ov-strat-status { display:inline-flex; align-items:center; gap:.4rem; font-size:.68rem; font-weight:700; padding:.34rem .7rem; border-radius:100px; margin-bottom:1rem; }
+    #view-overview .ov-strat-status-dot { width:6px; height:6px; border-radius:50%; background:currentColor; flex-shrink:0; }
+    #view-overview .ov-strat-status.ok { background:rgba(14,171,122,.1); color:#0eab7a; }
+    #view-overview .ov-strat-status.loss { background:rgba(220,38,38,.09); color:#dc2626; }
+    #view-overview .ov-strat-status.pending { background:#f5f6fa; color:#94a3b8; }
+    #view-overview .ov-strat-status.running { background:rgba(201,168,76,.1); color:#a3792e; }
+    #view-overview .ov-strat-status.running .ov-strat-status-dot { animation:ovPulseDot 1.4s ease-in-out infinite; }
+    @keyframes ovPulseDot { 0%,100% { opacity:1; } 50% { opacity:.25; } }
+    #view-overview .ov-strat-month { padding-top:.9rem; border-top:1px solid #f2f3f7; }
+    #view-overview .ov-strat-month .ov-bar-chart { height:26px; margin-bottom:.6rem; }
     #view-overview .ov-strat-winbar-bg { height:5px; background:#eef0f6; border-radius:4px; overflow:hidden; margin-bottom:.4rem; }
     #view-overview .ov-strat-winbar-fill { height:100%; border-radius:4px; }
-    #view-overview .ov-strat-month-label { font-size:.62rem; color:#94a3b8; font-weight:600; }
+    #view-overview .ov-strat-month-row { display:flex; align-items:baseline; justify-content:space-between; }
+    #view-overview .ov-strat-month-label { font-size:.66rem; color:#94a3b8; font-weight:600; }
+    #view-overview .ov-strat-month-pct { font-size:.76rem; font-weight:800; }
     #view-overview .ov-hint { font-size:.7rem; color:#94a3b8; margin:0 0 1.5rem .2rem; }
     #view-overview .ov-feed-summary { display:inline-block; margin-left:.7rem; font-size:.68rem; font-weight:700; padding:.2rem .6rem; border-radius:100px; background:#f5f6fa; color:#64748b; vertical-align:middle; }
     #view-overview .ov-feed-summary.pos { background:#eafaf1; color:#16a34a; }
@@ -282,8 +287,8 @@
     #view-overview .ov-mini-stat-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.7rem; margin-bottom:1rem; }
     #view-overview .ov-mini-stat-box { background:#f9fafc; border:1px solid #eef0f6; border-radius:10px; padding:.75rem .9rem; }
     #view-overview .ov-bar-chart { display:flex; align-items:flex-end; gap:3px; height:36px; }
-    #view-overview .ov-bar { flex:1; border-radius:2px 2px 0 0; }
-    #view-overview .ov-bar.win { background:#16a34a; } #view-overview .ov-bar.loss { background:#dc2626; } #view-overview .ov-bar.none { background:#eef0f6; }
+    #view-overview .ov-bar { flex:1; border-radius:3px; }
+    #view-overview .ov-bar.win { background:#0eab7a; } #view-overview .ov-bar.loss { background:#dc2626; } #view-overview .ov-bar.none { background:#eef0f6; }
     @media (max-width:768px) { #view-overview .ov-strategies { grid-template-columns:repeat(2,1fr); } }
 
     /* CARDS */
@@ -809,23 +814,28 @@
       </div>
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">
-        <span class="sidebar-label">Sitio</span>
-        <a href="estadisticas.html" class="sidebar-link">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-          Estadísticas
-        </a>
-        <a href="trades.html" class="sidebar-link">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Diario de Trades
-        </a>
-        <a href="calculadora.html" class="sidebar-link">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
-          Calculadora
-        </a>
-        <a href="admin.html" id="admin-panel-link" class="sidebar-link" style="display:none;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
-          Panel Admin
-        </a>
+        <button class="sidebar-collapse-btn" onclick="this.classList.toggle('open')">
+          <span>Sitio</span>
+          <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="sidebar-collapse-body"><div class="sidebar-collapse-inner">
+          <a href="estadisticas.html" class="sidebar-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            Estadísticas
+          </a>
+          <a href="trades.html" class="sidebar-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Diario de Trades
+          </a>
+          <a href="calculadora.html" class="sidebar-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+            Calculadora
+          </a>
+          <a href="admin.html" id="admin-panel-link" class="sidebar-link" style="display:none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
+            Panel Admin
+          </a>
+        </div></div>
       </div>
 
       <div class="sidebar-divider"></div>
@@ -1849,6 +1859,12 @@
       return out;
     }
 
+    function ovShadeColor(hex, percent) {
+      const num = parseInt(hex.replace('#',''), 16);
+      let r = (num >> 16) + percent, g = ((num >> 8) & 0x00FF) + percent, b = (num & 0x0000FF) + percent;
+      r = Math.max(Math.min(255,r),0); g = Math.max(Math.min(255,g),0); b = Math.max(Math.min(255,b),0);
+      return '#' + ((r<<16) | (g<<8) | b).toString(16).padStart(6,'0');
+    }
     function ovBuildStratCards() {
       const el = document.getElementById('ov-strat-cards');
       if (!el) return;
@@ -1856,21 +1872,23 @@
       const nowMin = new Date().getHours()*60 + new Date().getMinutes();
       el.innerHTML = OV_STRATS.map(s => {
         const r = ovGetResult(s.key, today);
+        const dot = '<span class="ov-strat-status-dot"></span>';
         let statusHtml, statusClass;
-        if (r?.resultado === 'win') { statusHtml = `✅ TP hoy · +${r.porcentaje}%`; statusClass = 'ok'; }
-        else if (r?.resultado === 'loss') { statusHtml = `❌ SL hoy · ${r.porcentaje}%`; statusClass = 'loss'; }
-        else if (nowMin < ovParseTimeToMinutes(s.time)) { statusHtml = `⏳ Esperando · ${s.time}`; statusClass = 'pending'; }
-        else { statusHtml = '▶ Corriendo'; statusClass = 'running'; }
+        if (r?.resultado === 'win') { statusHtml = `${dot}TP hoy · +${r.porcentaje}%`; statusClass = 'ok'; }
+        else if (r?.resultado === 'loss') { statusHtml = `${dot}SL hoy · ${r.porcentaje}%`; statusClass = 'loss'; }
+        else if (nowMin < ovParseTimeToMinutes(s.time)) { statusHtml = `${dot}Esperando · ${s.time}`; statusClass = 'pending'; }
+        else { statusHtml = `${dot}Corriendo`; statusClass = 'running'; }
         const sel = ovZoom === 'month' && ovCalStrat === s.key;
         const mw = ovStratMonthWinrate(s.key);
         const bars = ovStrat14DayBars(s.key);
         const barsHtml = `<div class="ov-bar-chart">${bars.map(st => `<div class="ov-bar ${st}" style="height:${st==='none'?6:26}px"></div>`).join('')}</div>`;
+        const pctColor = mw ? (mw.pct >= 50 ? '#0eab7a' : '#dc2626') : '#94a3b8';
         const monthHtml = mw
-          ? `${barsHtml}<div class="ov-strat-month-label">${mw.wins}/${mw.total} este mes · ${mw.pct.toFixed(0)}%</div>`
+          ? `${barsHtml}<div class="ov-strat-month-row"><span class="ov-strat-month-label">${mw.wins}/${mw.total} este mes</span><span class="ov-strat-month-pct" style="color:${pctColor}">${mw.pct.toFixed(0)}%</span></div>`
           : `${barsHtml}<div class="ov-strat-month-label" style="opacity:.6">Sin datos este mes</div>`;
-        return `<div class="ov-strat-card${sel?' selected':''}" style="border-top-color:${s.color}" onclick="ovSelectStratCard('${s.key}')">
+        return `<div class="ov-strat-card${sel?' selected':''}" onclick="ovSelectStratCard('${s.key}')">
           <div class="ov-strat-top">
-            <div class="ov-strat-avatar" style="background:${s.color}">${s.short}</div>
+            <div class="ov-strat-avatar" style="background:linear-gradient(135deg,${s.color},${ovShadeColor(s.color,-35)})">${s.short}</div>
             <div><div class="ov-strat-name">${s.label}</div><div class="ov-strat-time">${s.time}</div></div>
           </div>
           <div class="ov-strat-status ${statusClass}">${statusHtml}</div>
