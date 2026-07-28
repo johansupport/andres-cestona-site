@@ -525,6 +525,24 @@
       .acc-stats-your { grid-template-columns:1fr; }
     }
 
+    /* SOPORTE / COMUNIDAD */
+    .sup-banner { position:relative; background:linear-gradient(135deg,#1a1030 0%,#2b2159 55%,#151a2d 100%); border-radius:20px; padding:2.4rem 2rem 2.2rem; text-align:center; overflow:hidden; margin-bottom:1.8rem; }
+    .sup-banner::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 18% 20%, rgba(201,168,76,.2), transparent 45%), radial-gradient(circle at 82% 78%, rgba(139,109,255,.2), transparent 45%); pointer-events:none; }
+    .sup-banner-chips { position:relative; display:flex; flex-wrap:wrap; justify-content:center; gap:.6rem; margin-bottom:1.7rem; }
+    .sup-chip { display:inline-flex; align-items:center; gap:.4rem; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); color:#e9d9a8; font-size:.7rem; font-weight:700; padding:.4rem .85rem; border-radius:100px; }
+    .sup-banner-icon { position:relative; width:56px; height:56px; border-radius:50%; background:rgba(201,168,76,.14); border:1px solid rgba(201,168,76,.3); color:var(--gold); display:flex; align-items:center; justify-content:center; margin:0 auto 1.1rem; }
+    .sup-banner-title { position:relative; font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900; color:#fff; margin-bottom:.6rem; }
+    .sup-banner-sub { position:relative; font-size:.85rem; color:rgba(255,255,255,.55); max-width:480px; margin:0 auto 1.5rem; line-height:1.55; }
+    .sup-banner-btn { position:relative; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); color:rgba(255,255,255,.5); padding:.75rem 1.6rem; border-radius:9px; font-size:.82rem; font-weight:700; font-family:'Inter',sans-serif; cursor:not-allowed; }
+    .sup-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.2rem; }
+    .sup-card { position:relative; display:block; background:#fff; border:1px solid #eef0f6; border-radius:16px; padding:1.6rem; text-decoration:none; transition:all .2s; box-shadow:0 1px 3px rgba(20,25,45,.05); }
+    .sup-card:hover { border-color:#e2e5ec; box-shadow:0 14px 28px -8px rgba(20,25,45,.1); transform:translateY(-2px); }
+    .sup-card-icon { width:42px; height:42px; border-radius:12px; background:#fdf6e5; color:var(--gold); display:flex; align-items:center; justify-content:center; margin-bottom:1rem; }
+    .sup-card-title { font-weight:800; font-size:.95rem; color:#151a2d; margin-bottom:.35rem; }
+    .sup-card-desc { font-size:.8rem; color:#94a3b8; line-height:1.45; padding-right:1.5rem; }
+    .sup-card-arrow { position:absolute; top:1.6rem; right:1.6rem; color:#c2c9d6; font-size:1rem; }
+    @media (max-width:768px) { .sup-grid { grid-template-columns:1fr; } .sup-banner { padding:2rem 1.2rem; } }
+
     /* MIS TRADES */
     #mt-stats-bar { grid-template-columns:repeat(6,1fr); }
     .mt-stat-card { padding:1rem; margin:0; }
@@ -540,11 +558,11 @@
     .mt-cal-weekday-week { border-left:1px solid var(--border); }
 
     /* ══════ DASHBOARD — blanco estilo FTMO (todas las vistas) ══════ */
-    #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-plan, #view-fondeo { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
+    #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-plan, #view-fondeo, #view-support { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
     #view-overview .page-eyebrow, #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow, #view-trades .page-eyebrow, #view-performance .page-eyebrow, #view-simulations .page-eyebrow, #view-mytrades .page-eyebrow, #view-profile .page-eyebrow, #view-plan .page-eyebrow, #view-fondeo .page-eyebrow { color:var(--gold); }
     #view-overview .page-eyebrow::before, #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before, #view-trades .page-eyebrow::before, #view-performance .page-eyebrow::before, #view-simulations .page-eyebrow::before, #view-mytrades .page-eyebrow::before, #view-profile .page-eyebrow::before, #view-plan .page-eyebrow::before, #view-fondeo .page-eyebrow::before { background:var(--gold); }
-    #view-overview .page-title, #view-accounts .page-title, #view-account-detail .page-title, #view-trades .page-title, #view-performance .page-title, #view-simulations .page-title, #view-mytrades .page-title, #view-profile .page-title, #view-plan .page-title, #view-fondeo .page-title { color:#151a2d; }
-    #view-overview .page-sub, #view-accounts .page-sub, #view-account-detail .page-sub, #view-trades .page-sub, #view-performance .page-sub, #view-simulations .page-sub, #view-mytrades .page-sub, #view-profile .page-sub, #view-plan .page-sub, #view-fondeo .page-sub { color:#6b7280; }
+    #view-overview .page-title, #view-accounts .page-title, #view-account-detail .page-title, #view-trades .page-title, #view-performance .page-title, #view-simulations .page-title, #view-mytrades .page-title, #view-profile .page-title, #view-plan .page-title, #view-fondeo .page-title, #view-support .page-title { color:#151a2d; }
+    #view-overview .page-sub, #view-accounts .page-sub, #view-account-detail .page-sub, #view-trades .page-sub, #view-performance .page-sub, #view-simulations .page-sub, #view-mytrades .page-sub, #view-profile .page-sub, #view-plan .page-sub, #view-fondeo .page-sub, #view-support .page-sub { color:#6b7280; }
 
     #view-overview .card, #view-accounts .card, #view-account-detail .card, #view-trades .card, #view-performance .card, #view-simulations .card, #view-mytrades .card, #view-profile .card, #view-plan .card, #view-fondeo .card { background:#fff; border:1px solid #e7e9f1; box-shadow:0 1px 3px rgba(16,24,40,.05); }
     #view-overview .card-head, #view-accounts .card-head, #view-account-detail .card-head, #view-trades .card-head, #view-performance .card-head, #view-simulations .card-head, #view-mytrades .card-head, #view-profile .card-head, #view-plan .card-head, #view-fondeo .card-head { border-bottom-color:#eef0f6; }
@@ -696,7 +714,7 @@
       .acc-stats-grid, .acc-permitted-grid { grid-template-columns: repeat(2, 1fr); }
       .acc-metrics-3col { grid-template-columns: 1fr; gap:.8rem; }
       .content-grid { grid-template-columns: 1fr; }
-      #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-plan, #view-fondeo { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
+      #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-plan, #view-fondeo, #view-support { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
       .acc-card { padding: 1.4rem 1.2rem; }
       .acc-row-info { gap: .4rem 1.2rem; }
       .acc-row-chart { flex-direction: column; align-items: flex-start; }
@@ -863,6 +881,10 @@
           <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="sidebar-collapse-body"><div class="sidebar-collapse-inner">
+          <button class="sidebar-link" onclick="showView('support',this)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1.5-5.5A8.38 8.38 0 0 1 4 12a8.5 8.5 0 0 1 8.5-8.5h.5A8.38 8.38 0 0 1 21 11v.5z"/></svg>
+            Comunidad
+          </button>
           <a href="clases.html" class="sidebar-link">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
             Clases
@@ -1357,6 +1379,44 @@
             <a href="mailto:contacto@andrescestona.com" class="btn-gold" style="text-decoration:none">Consultar pago o renovación</a>
             <a href="premium.html" style="font-size:.78rem;color:#94a3b8">Ver todos los planes disponibles →</a>
           </div>
+        </div>
+      </div>
+
+      <!-- SOPORTE / COMUNIDAD -->
+      <div class="view" id="view-support">
+        <div class="page-head">
+          <div class="page-eyebrow">Comunidad</div>
+          <div class="page-title">Soporte</div>
+          <div class="page-sub">Todo lo que necesitas para resolver dudas y conectar con otros traders</div>
+        </div>
+
+        <div class="sup-banner">
+          <div class="sup-banner-chips">
+            <span class="sup-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>Señales</span>
+            <span class="sup-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.6.5 1 1.3 1 2.2v.3h6v-.3c0-.9.4-1.7 1-2.2A6 6 0 0 0 12 3z"/></svg>Ideas de trading</span>
+            <span class="sup-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1.5-5.5A8.38 8.38 0 0 1 4 12a8.5 8.5 0 0 1 8.5-8.5h.5A8.38 8.38 0 0 1 21 11v.5z"/></svg>Análisis en vivo</span>
+            <span class="sup-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>Trade del día</span>
+            <span class="sup-chip"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3"/></svg>Retos</span>
+          </div>
+          <div class="sup-banner-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20.3 5.4A17.6 17.6 0 0 0 15.9 4c-.2.4-.5.9-.6 1.3a16.3 16.3 0 0 0-4.6 0c-.2-.4-.4-.9-.6-1.3-1.5.3-3 .7-4.4 1.4C2.9 9 2.2 12.6 2.5 16.1a17.7 17.7 0 0 0 5.4 2.7c.4-.6.8-1.2 1.1-1.9-.6-.2-1.2-.5-1.7-.9l.4-.3c3.3 1.5 6.9 1.5 10.2 0l.4.3c-.5.3-1.1.6-1.7.9.3.7.7 1.3 1.1 1.9a17.6 17.6 0 0 0 5.4-2.7c.4-4-.6-7.6-2.8-10.7zM9.7 13.9c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2zm5.6 0c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2z"/></svg></div>
+          <div class="sup-banner-title">Únete a nuestra comunidad de Discord</div>
+          <div class="sup-banner-sub">Comparte ideas, resuelve dudas y sigue las señales en tiempo real junto a otros traders.</div>
+          <button class="sup-banner-btn" disabled title="Próximamente">Próximamente</button>
+        </div>
+
+        <div class="sup-grid">
+          <a href="clases.html" class="sup-card">
+            <div class="sup-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+            <div class="sup-card-title">Clases</div>
+            <div class="sup-card-desc">Accede a las clases grabadas y en vivo con Andrés.</div>
+            <span class="sup-card-arrow">→</span>
+          </a>
+          <a href="mailto:contacto@andrescestona.com" class="sup-card">
+            <div class="sup-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg></div>
+            <div class="sup-card-title">Contacto</div>
+            <div class="sup-card-desc">Escríbenos directamente si necesitas ayuda con tu cuenta.</div>
+            <span class="sup-card-arrow">→</span>
+          </a>
         </div>
       </div>
 
