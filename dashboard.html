@@ -541,6 +541,19 @@
     .sup-card-title { font-weight:800; font-size:.95rem; color:#151a2d; margin-bottom:.35rem; }
     .sup-card-desc { font-size:.8rem; color:#94a3b8; line-height:1.45; padding-right:1.5rem; }
     .sup-card-arrow { position:absolute; top:1.6rem; right:1.6rem; color:#c2c9d6; font-size:1rem; }
+    .sup-discover { margin-top:2.2rem; }
+    .sup-discover-head { text-align:center; margin-bottom:1.5rem; }
+    .sup-discover-title { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:900; color:#151a2d; margin-bottom:.4rem; }
+    .sup-discover-sub { font-size:.85rem; color:#94a3b8; max-width:480px; margin:0 auto; }
+    .sup-discover-row { display:flex; gap:1rem; overflow-x:auto; padding:.2rem .2rem .8rem; }
+    .sup-profile-card { flex:0 0 172px; background:#fff; border:1px solid #eef0f6; border-radius:16px; padding:1.5rem 1.1rem; text-align:center; text-decoration:none; transition:all .2s; box-shadow:0 1px 3px rgba(20,25,45,.05); }
+    .sup-profile-card:hover { border-color:#e2e5ec; box-shadow:0 14px 28px -8px rgba(20,25,45,.1); transform:translateY(-2px); }
+    .sup-profile-avatar { width:52px; height:52px; border-radius:50%; color:#fff; font-weight:800; font-size:.82rem; display:flex; align-items:center; justify-content:center; margin:0 auto .9rem; box-shadow:0 6px 14px -4px rgba(20,25,45,.3); }
+    .sup-profile-name { font-weight:800; font-size:.85rem; color:#151a2d; }
+    .sup-profile-role { font-size:.64rem; color:#94a3b8; margin:.2rem 0 .8rem; }
+    .sup-profile-stat { font-size:.74rem; font-weight:800; color:#0eab7a; margin-bottom:.9rem; }
+    .sup-profile-btn { display:inline-block; font-size:.68rem; font-weight:700; color:#a3792e; border:1px solid #ecdba8; padding:.4rem .9rem; border-radius:100px; transition:background .2s; }
+    .sup-profile-card:hover .sup-profile-btn { background:#fdf6e5; }
     @media (max-width:768px) { .sup-grid { grid-template-columns:1fr; } .sup-banner { padding:2rem 1.2rem; } }
 
     /* MIS TRADES */
@@ -1418,6 +1431,17 @@
             <span class="sup-card-arrow">→</span>
           </a>
         </div>
+
+        <div class="sup-discover">
+          <div class="sup-discover-head">
+            <div class="sup-discover-title">Descubre a nuestros alumnos</div>
+            <div class="sup-discover-sub">Sigue su progreso real y anímate a ser el próximo en compartir resultados.</div>
+          </div>
+          <div class="sup-discover-row" id="sup-discover-row"></div>
+          <div style="text-align:center;margin-top:1.3rem">
+            <a href="testimonios.html" class="card-link">Ver todos los testimonios →</a>
+          </div>
+        </div>
       </div>
 
       <!-- SIMULADOR DE FONDEO -->
@@ -1557,6 +1581,27 @@
       { key: 'btc', label: 'BTC', short: 'BT', time: '1:00 PM', color: '#F2A93B' },
       { key: 'tesla', label: 'TESLA', short: 'TS', time: '3:30 PM', color: '#5B6CF9' },
     ];
+    // Alumnos reales tomados de testimonios.html, para la sección "Descubre a nuestros alumnos" de Soporte
+    const SUP_STUDENTS = [
+      { initials:'MC', name:'María C.', role:'Enfermera · México', result:'+28% en 2024', color:'#8A6DFF' },
+      { initials:'JR', name:'Javier R.', role:'Ingeniero · España', result:'+41% en 2024', color:'#c9a84c' },
+      { initials:'LP', name:'Laura P.', role:'Emprendedora · Colombia', result:'+53% en 2024', color:'#F2A93B' },
+      { initials:'AG', name:'Alejandro G.', role:'Contador · Argentina', result:'+22% en 2024', color:'#5B6CF9' },
+      { initials:'SR', name:'Sara R.', role:'Diseñadora · Venezuela', result:'+19% en 2024', color:'#0eab7a' },
+      { initials:'DM', name:'Diego M.', role:'Médico · Chile', result:'+37% en 2024', color:'#e0637a' },
+    ];
+    function supRenderDiscover() {
+      const el = document.getElementById('sup-discover-row');
+      if (!el) return;
+      el.innerHTML = SUP_STUDENTS.map(s => `<a class="sup-profile-card" href="testimonios.html">
+        <div class="sup-profile-avatar" style="background:linear-gradient(135deg,${s.color},${ovShadeColor(s.color,-35)})">${s.initials}</div>
+        <div class="sup-profile-name">${s.name}</div>
+        <div class="sup-profile-role">${s.role}</div>
+        <div class="sup-profile-stat">${s.result}</div>
+        <span class="sup-profile-btn">Ver historia</span>
+      </a>`).join('');
+    }
+    supRenderDiscover();
     const OV_DOW = ['DOM','LUN','MAR','MIÉ','JUE','VIE','SÁB'];
     const OV_DOW_LONG = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
     const OV_MONTHS_SHORT = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
