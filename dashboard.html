@@ -461,19 +461,42 @@
     .acc-objectives { margin-top:1.3rem; padding-top:1.1rem; border-top:1px solid var(--border); display:flex; flex-direction:column; gap:.6rem; }
     .acc-obj-row { display:flex; align-items:center; gap:.6rem; font-size:.78rem; color:rgba(255,255,255,.6); }
     .acc-obj-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-    .acc-cal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
-    .acc-cal-nav { display:flex; align-items:center; gap:.7rem; }
-    .acc-cal-btn { background:rgba(255,255,255,.04); border:1px solid var(--border); color:#fff; width:30px; height:30px; border-radius:7px; cursor:pointer; font-size:.95rem; }
-    .acc-cal-title { font-size:1rem; font-weight:800; min-width:150px; text-align:center; }
-    .acc-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:.5rem; }
-    .acc-cal-weekday { text-align:center; font-size:.58rem; font-weight:700; letter-spacing:1px; color:rgba(255,255,255,.35); padding-bottom:.4rem; }
-    .acc-cal-cell { min-height:64px; border-radius:9px; padding:.4rem; cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:transform .15s; }
-    .acc-cal-cell.has-trade:hover { transform:scale(1.04); }
-    .acc-cal-cell.empty-day { cursor:pointer; }
-    .acc-cal-daynum { font-size:.7rem; color:rgba(255,255,255,.35); }
-    .acc-cal-cell.has-trade .acc-cal-daynum { color:rgba(0,0,0,.55); font-weight:700; }
-    .acc-cal-amount { font-size:.7rem; font-weight:800; color:#05070f; margin-top:.15rem; }
-    .acc-cal-count { font-size:.58rem; color:rgba(0,0,0,.5); margin-top:.1rem; }
+    .acc-cal-toolbar { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; padding:1.1rem 1.4rem; border-bottom:1px solid #eef0f6; }
+    .acc-cal-nav { display:flex; align-items:center; gap:.6rem; }
+    .acc-cal-btn { background:#fff; border:1px solid #e2e5ec; color:#151a2d; width:30px; height:30px; border-radius:8px; cursor:pointer; font-size:.95rem; transition:all .2s; }
+    .acc-cal-btn:hover { border-color:#151a2d; }
+    .acc-cal-title { font-size:.95rem; font-weight:800; min-width:140px; text-align:center; color:#151a2d; }
+    .acc-cal-today-btn { background:#fff; border:1px solid #e2e5ec; color:#151a2d; font-size:.72rem; font-weight:700; padding:.4rem .85rem; border-radius:8px; cursor:pointer; font-family:Inter,sans-serif; transition:all .2s; margin-left:.2rem; }
+    .acc-cal-today-btn:hover { border-color:#151a2d; }
+    .acc-cal-summary { font-size:.76rem; font-weight:600; color:#94a3b8; }
+    .acc-cal-summary b { font-weight:800; }
+    .acc-cal-grid-wrap { padding:1.3rem 1.4rem 1.4rem; overflow-x:auto; }
+    .acc-cal-grid { display:grid; grid-template-columns:repeat(7,minmax(56px,1fr)) minmax(84px,1.15fr); gap:.5rem; min-width:640px; }
+    .acc-cal-weekday { text-align:center; font-size:.6rem; font-weight:700; letter-spacing:1px; color:#94a3b8; padding-bottom:.5rem; text-transform:uppercase; }
+    .acc-cal-weekday.week-col { color:#a3792e; }
+    .acc-cal-cell { min-height:72px; border-radius:12px; padding:.5rem; cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; transition:all .15s; border:1px solid transparent; }
+    .acc-cal-cell.blank { visibility:hidden; }
+    .acc-cal-cell.empty-day { background:#fafbfd; border:1px dashed #eef0f6; }
+    .acc-cal-cell.empty-day:hover { background:#f5f6fa; border-color:#e2e5ec; }
+    .acc-cal-cell.has-trade.win { background:linear-gradient(160deg,#eafaf3,#f5fcf9); border-color:rgba(14,171,122,.16); }
+    .acc-cal-cell.has-trade.loss { background:linear-gradient(160deg,#fdecec,#fdf5f5); border-color:rgba(220,38,38,.14); }
+    .acc-cal-cell.has-trade:hover { transform:translateY(-2px); box-shadow:0 10px 20px -8px rgba(20,25,45,.16); }
+    .acc-cal-cell.today { box-shadow:inset 0 0 0 1.5px var(--gold); }
+    .acc-cal-daynum { font-size:.68rem; font-weight:700; color:#c2c9d6; }
+    .acc-cal-daynum.win { color:#0eab7a; opacity:.85; }
+    .acc-cal-daynum.loss { color:#dc2626; opacity:.85; }
+    .acc-cal-amount { font-size:.72rem; font-weight:800; margin-top:.2rem; }
+    .acc-cal-amount.win { color:#0eab7a; }
+    .acc-cal-amount.loss { color:#dc2626; }
+    .acc-cal-count { font-size:.56rem; color:#94a3b8; margin-top:.1rem; }
+    .acc-cal-week-cell { min-height:72px; border-radius:12px; background:linear-gradient(160deg,#1a2036,#0e1120); display:flex; flex-direction:column; justify-content:center; align-items:center; gap:.15rem; }
+    .acc-cal-week-label { font-size:.55rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(255,255,255,.35); }
+    .acc-cal-week-total { font-size:.82rem; font-weight:800; }
+    .acc-cal-week-total.win { color:#4ade80; }
+    .acc-cal-week-total.loss { color:#f87171; }
+    .acc-cal-week-total.none { color:rgba(255,255,255,.3); }
+    .acc-cal-week-days { font-size:.56rem; color:rgba(255,255,255,.4); }
+    @media (max-width:768px) { .acc-cal-toolbar { padding:1rem; } .acc-cal-grid-wrap { padding:1rem; } }
     .acc-stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:1.5rem; }
     .acc-stat-cell { background:rgba(255,255,255,.025); padding:1.2rem; }
     .acc-stat-cell .acc-info-val { font-size:1.1rem; }
@@ -690,12 +713,6 @@
     #view-account-detail .trade-row { border-bottom-color:#eef0f6; }
     #view-account-detail .trade-title { color:#4b5775; }
     #view-account-detail .trade-date { color:#94a3b8; }
-
-    #view-account-detail .acc-cal-btn { background:#fff; border-color:#e2e5ec; color:#151a2d; }
-    #view-account-detail .acc-cal-title { color:#151a2d; }
-    #view-account-detail .acc-cal-weekday { color:#94a3b8; }
-    #view-account-detail .acc-cal-cell.empty-day:hover { background:#f5f6fa; }
-    #view-account-detail .acc-cal-daynum { color:#c2c9d6; }
 
     #view-account-detail .acc-stats-grid { background:#eef0f6; border-color:#eef0f6; }
     #view-account-detail .acc-stat-cell { background:#fff; }
@@ -1167,16 +1184,20 @@
 
         <!-- Calendar -->
         <div class="acc-tab-panel" id="acc-panel-calendar" style="display:none">
-          <div class="acc-cal-head">
-            <div class="acc-cal-nav">
-              <button class="acc-cal-btn" onclick="accCalPrev()">‹</button>
-              <span class="acc-cal-title" id="acc-cal-title">—</span>
-              <button class="acc-cal-btn" onclick="accCalNext()">›</button>
+          <div class="card" style="padding:0">
+            <div class="acc-cal-toolbar">
+              <div class="acc-cal-nav">
+                <button class="acc-cal-btn" onclick="accCalPrev()">‹</button>
+                <span class="acc-cal-title" id="acc-cal-title">—</span>
+                <button class="acc-cal-btn" onclick="accCalNext()">›</button>
+                <button class="acc-cal-today-btn" onclick="accCalToday()">Hoy</button>
+              </div>
+              <div class="acc-cal-summary" id="acc-cal-summary"></div>
             </div>
-          </div>
-          <div class="card" style="padding:1.2rem">
-            <div class="acc-cal-grid" id="acc-cal-weekdays"></div>
-            <div class="acc-cal-grid" id="acc-cal-body" style="margin-top:.5rem"></div>
+            <div class="acc-cal-grid-wrap">
+              <div class="acc-cal-grid" id="acc-cal-weekdays"></div>
+              <div class="acc-cal-grid" id="acc-cal-body" style="margin-top:.5rem"></div>
+            </div>
           </div>
         </div>
 
@@ -3663,35 +3684,64 @@
     // ── CALENDAR TAB ──
     function accCalPrev() { accCalMonth--; if (accCalMonth<0){accCalMonth=11;accCalYear--;} accRenderCalendar(); }
     function accCalNext() { accCalMonth++; if (accCalMonth>11){accCalMonth=0;accCalYear++;} accRenderCalendar(); }
+    function accCalToday() { const now = new Date(); accCalYear = now.getFullYear(); accCalMonth = now.getMonth(); accRenderCalendar(); }
 
     function accRenderCalendar() {
       document.getElementById('acc-cal-title').textContent = ACC_MONTH_NAMES[accCalMonth] + ' ' + accCalYear;
-      document.getElementById('acc-cal-weekdays').innerHTML = ACC_WEEKDAYS.map(w => `<div class="acc-cal-weekday">${w}</div>`).join('');
+      document.getElementById('acc-cal-weekdays').innerHTML = ACC_WEEKDAYS.map(w => `<div class="acc-cal-weekday">${w}</div>`).join('') + `<div class="acc-cal-weekday week-col">Semana</div>`;
+
       const trades = accGetTrades(accCurrentAccountId);
       const map = {};
       trades.forEach(t => { (map[t.date] = map[t.date] || []).push(t); });
+
       const firstDay = new Date(accCalYear, accCalMonth, 1).getDay();
-      const days = new Date(accCalYear, accCalMonth+1, 0).getDate();
-      let html = '';
-      for (let i=0; i<firstDay; i++) html += '<div class="acc-cal-cell empty-day"></div>';
-      for (let d=1; d<=days; d++) {
-        const ds = `${accCalYear}-${String(accCalMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-        const dayTrades = map[ds];
-        if (dayTrades) {
-          const total = dayTrades.reduce((s,t) => s + Number(t.pnl), 0);
-          const isWin = total >= 0;
-          const cellBg = isWin ? '#eafaf1' : '#fdecec';
-          const cellFg = isWin ? '#16a34a' : '#dc2626';
-          html += `<div class="acc-cal-cell has-trade" style="background:${cellBg}" onclick="accOpenTradeModal('${dayTrades[0].id}')">
-            <div class="acc-cal-daynum" style="color:${cellFg};opacity:.75">${d}</div>
-            <div class="acc-cal-amount" style="color:${cellFg}">${accFmtMoney(total)}</div>
-            <div class="acc-cal-count" style="color:${cellFg};opacity:.75">${dayTrades.length} ${dayTrades.length===1?'trade':'trades'}</div>
-          </div>`;
-        } else {
-          html += `<div class="acc-cal-cell empty-day" onclick="accOpenTradeModal(null,'${ds}')"><div class="acc-cal-daynum">${d}</div></div>`;
+      const daysInMonth = new Date(accCalYear, accCalMonth+1, 0).getDate();
+      const totalRows = Math.ceil((firstDay + daysInMonth) / 7);
+      const todayStr = ovTodayStr();
+
+      let monthTotal = 0, monthTradeDays = 0, html = '', dayCounter = 1;
+      for (let row = 0; row < totalRows; row++) {
+        let weekTotal = 0, weekTradeCount = 0, weekDayCount = 0, rowHtml = '';
+        for (let col = 0; col < 7; col++) {
+          const cellIndex = row*7 + col;
+          if (cellIndex < firstDay || dayCounter > daysInMonth) {
+            rowHtml += '<div class="acc-cal-cell blank"></div>';
+            continue;
+          }
+          const d = dayCounter++;
+          const ds = `${accCalYear}-${String(accCalMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+          const dayTrades = map[ds];
+          const isToday = ds === todayStr;
+          if (dayTrades) {
+            const total = dayTrades.reduce((s,t) => s + Number(t.pnl), 0);
+            const cls = total >= 0 ? 'win' : 'loss';
+            weekTotal += total; weekTradeCount += dayTrades.length; weekDayCount++;
+            monthTotal += total; monthTradeDays++;
+            rowHtml += `<div class="acc-cal-cell has-trade ${cls}${isToday?' today':''}" onclick="accOpenTradeModal('${dayTrades[0].id}')">
+              <div class="acc-cal-daynum ${cls}">${d}</div>
+              <div class="acc-cal-amount ${cls}">${accFmtMoney(total)}</div>
+              <div class="acc-cal-count">${dayTrades.length} ${dayTrades.length===1?'trade':'trades'}</div>
+            </div>`;
+          } else {
+            rowHtml += `<div class="acc-cal-cell empty-day${isToday?' today':''}" onclick="accOpenTradeModal(null,'${ds}')"><div class="acc-cal-daynum">${d}</div></div>`;
+          }
         }
+        const weekCls = weekDayCount === 0 ? 'none' : (weekTotal >= 0 ? 'win' : 'loss');
+        rowHtml += `<div class="acc-cal-week-cell">
+          <div class="acc-cal-week-label">Semana ${row+1}</div>
+          <div class="acc-cal-week-total ${weekCls}">${weekDayCount === 0 ? '—' : accFmtMoney(weekTotal)}</div>
+          <div class="acc-cal-week-days">${weekTradeCount} ${weekTradeCount===1?'trade':'trades'}</div>
+        </div>`;
+        html += rowHtml;
       }
       document.getElementById('acc-cal-body').innerHTML = html;
+
+      const summaryEl = document.getElementById('acc-cal-summary');
+      if (summaryEl) {
+        summaryEl.innerHTML = monthTradeDays
+          ? `<b style="color:${monthTotal>=0?'#0eab7a':'#dc2626'}">${accFmtMoney(monthTotal)}</b> este mes · <b style="color:#151a2d">${monthTradeDays}</b> días con trades`
+          : `Sin trades registrados este mes`;
+      }
     }
 
     // ── STATISTICS TAB ──
