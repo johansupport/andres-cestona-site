@@ -242,8 +242,22 @@
     #view-overview .ov-acc-select-wrap::after { content:''; position:absolute; right:.9rem; top:50%; width:8px; height:8px; border-right:1.5px solid #94a3b8; border-bottom:1.5px solid #94a3b8; transform:translateY(-65%) rotate(45deg); pointer-events:none; }
 
     /* premium accounts summary card */
-    #view-overview .ov-acc-head { display:flex; align-items:center; justify-content:space-between; gap:.8rem; margin-bottom:1.1rem; }
-    #view-overview .ov-acc-id { display:flex; align-items:center; gap:.7rem; min-width:0; }
+    #view-overview .ov-acc-head { display:flex; align-items:center; justify-content:space-between; gap:.8rem; margin-bottom:1.1rem; position:relative; }
+    #view-overview .ov-acc-id { display:flex; align-items:center; gap:.7rem; min-width:0; background:none; border:none; padding:0; font-family:inherit; text-align:left; }
+    #view-overview .ov-acc-id-clickable { cursor:pointer; border-radius:10px; transition:background .15s; }
+    #view-overview .ov-acc-id-clickable:hover { background:#f7f8fb; }
+    #view-overview .ov-acc-chevron { color:#94a3b8; font-size:.65rem; margin-left:.1rem; }
+    #view-overview .ov-acc-menu { display:none; position:absolute; top:calc(100% + 6px); left:0; min-width:250px; max-width:300px; background:#fff; border:1px solid #eef0f6; border-radius:14px; box-shadow:0 20px 45px rgba(20,25,45,.14); z-index:30; overflow:hidden; }
+    #view-overview .ov-acc-menu.open { display:block; }
+    #view-overview .ov-acc-menu-item { display:flex; align-items:center; gap:.6rem; width:100%; background:none; border:none; padding:.7rem .9rem; cursor:pointer; text-align:left; font-family:inherit; border-bottom:1px solid #f5f6fa; transition:background .15s; }
+    #view-overview .ov-acc-menu-item:last-child { border-bottom:none; }
+    #view-overview .ov-acc-menu-item:hover { background:#f9fafc; }
+    #view-overview .ov-acc-menu-item.active { background:#fdf6e5; }
+    #view-overview .ov-acc-menu-icon { width:26px; height:26px; border-radius:8px; background:#151a2d; color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:.58rem; font-weight:800; flex-shrink:0; }
+    #view-overview .ov-acc-menu-info { flex:1; min-width:0; }
+    #view-overview .ov-acc-menu-name { display:block; font-size:.78rem; font-weight:700; color:#151a2d; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    #view-overview .ov-acc-menu-sub { display:block; font-size:.62rem; color:#94a3b8; }
+    #view-overview .ov-acc-menu-bal { font-size:.72rem; font-weight:700; color:#151a2d; flex-shrink:0; }
     #view-overview .ov-acc-icon { width:38px; height:38px; border-radius:11px; background:linear-gradient(150deg,#1a2036,#0c0f1a); color:var(--gold); display:flex; align-items:center; justify-content:center; font-size:.68rem; font-weight:800; flex-shrink:0; box-shadow:0 4px 10px rgba(21,26,45,.18); }
     #view-overview .ov-acc-name { font-weight:800; color:#151a2d; font-size:.9rem; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     #view-overview .ov-acc-tag { font-size:.66rem; font-weight:600; color:#94a3b8; margin-top:.1rem; }
@@ -1089,7 +1103,7 @@
             <div class="page-title" style="font-size:1.3rem">Tus estadísticas</div>
           </div>
           <div class="acc-stats-your">
-            <div class="card" id="ad-gauge-card"></div>
+            <div class="card acc-gauge-card" id="ad-gauge-card"></div>
             <div class="card" style="padding:.4rem 0">
               <table class="acc-objectives-table" id="ad-objectives-table"></table>
             </div>
@@ -2051,7 +2065,9 @@
 
     // ── tarjetas Tus cuentas / Este mes ──
     function ovAccInitials(name) { return String(name||'').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase() || 'CT'; }
-    function ovAccProgressItem(a) {
+    function ovAccProgressItem(a, activeList) {
+      const list = activeList && activeList.length ? activeList : [a];
+      const canSwitch = list.length > 1;
       const trades = accGetTrades(a.id);
       const m = accComputeMetrics(a.balance, trades);
       const pnl = m.balance - a.balance;
@@ -2060,12 +2076,24 @@
       const sparkColor = isUp ? '#0eab7a' : '#dc2626';
       const tradingDays = new Set(trades.map(t => t.date)).size;
 
+      const menuHtml = canSwitch ? `<div class="ov-acc-menu" id="ov-acc-menu">
+        ${list.map(acc => {
+          const accM = accComputeMetrics(acc.balance, accGetTrades(acc.id));
+          return `<button type="button" class="ov-acc-menu-item ${acc.id===a.id?'active':''}" onclick="ovSelectAccount('${acc.id}')">
+            <span class="ov-acc-menu-icon">${ovAccInitials(acc.name)}</span>
+            <span class="ov-acc-menu-info"><span class="ov-acc-menu-name">${acc.name}</span><span class="ov-acc-menu-sub">${accKindLabel(acc.kind)} · #${acc.number}</span></span>
+            <span class="ov-acc-menu-bal">${accFmtMoney(accM.balance)}</span>
+          </button>`;
+        }).join('')}
+      </div>` : '';
+
       const head = `<div class="ov-acc-head">
-        <div class="ov-acc-id">
+        <button type="button" class="ov-acc-id${canSwitch ? ' ov-acc-id-clickable' : ''}"${canSwitch ? ' onclick="ovToggleAccMenu(event)"' : ''}>
           <div class="ov-acc-icon">${ovAccInitials(a.name)}</div>
-          <div style="min-width:0"><div class="ov-acc-name">${a.name}</div><div class="ov-acc-tag">${accKindLabel(a.kind)} · #${a.number}</div></div>
-        </div>
+          <div style="min-width:0"><div class="ov-acc-name">${a.name}${canSwitch ? ' <span class="ov-acc-chevron">⌄</span>' : ''}</div><div class="ov-acc-tag">${accKindLabel(a.kind)} · #${a.number}</div></div>
+        </button>
         <div class="ov-acc-spark">${accSparklineSVG(m.curve, 84, 32, sparkColor)}</div>
+        ${menuHtml}
       </div>`;
 
       const hero = `<div class="ov-acc-hero-row">
@@ -2101,6 +2129,17 @@
 
     let ovSelectedAccountId = null;
     function ovSelectAccount(id) { ovSelectedAccountId = id; ovRenderAccountsCard(); }
+    function ovToggleAccMenu(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('ov-acc-menu');
+      if (!menu) return;
+      const opening = !menu.classList.contains('open');
+      menu.classList.toggle('open', opening);
+      if (opening) {
+        const closeOnce = () => { menu.classList.remove('open'); document.removeEventListener('click', closeOnce); };
+        setTimeout(() => document.addEventListener('click', closeOnce), 0);
+      }
+    }
     function ovRenderAccountsCard() {
       const accEl = document.getElementById('home-accounts-summary');
       if (!accEl) return;
@@ -2110,14 +2149,8 @@
         return;
       }
       if (!ovSelectedAccountId || !active.some(a => a.id === ovSelectedAccountId)) ovSelectedAccountId = active[0].id;
-      const selectHtml = active.length > 1 ? `
-        <div class="ov-acc-select-wrap">
-          <select class="ov-acc-select" onchange="ovSelectAccount(this.value)">
-            ${active.map(a => `<option value="${a.id}"${a.id===ovSelectedAccountId?' selected':''}>${a.name} · #${a.number}</option>`).join('')}
-          </select>
-        </div>` : '';
       const chosen = active.find(a => a.id === ovSelectedAccountId);
-      accEl.innerHTML = selectHtml + ovAccProgressItem(chosen);
+      accEl.innerHTML = ovAccProgressItem(chosen, active);
     }
 
     async function ovRenderMonthCard() {
