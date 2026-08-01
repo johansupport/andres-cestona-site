@@ -171,22 +171,22 @@
     #view-overview .ov-cal-stat-pill { display:inline-flex; align-items:center; gap:.35rem; background:#f5f6fa; border-radius:100px; padding:.42rem .85rem; font-size:.68rem; color:#64748b; font-weight:600; white-space:nowrap; }
     #view-overview .ov-cal-stat-pill b { font-weight:800; color:#151a2d; }
     #view-overview .ov-cal-stat-pill.pos b { color:#16a34a; } #view-overview .ov-cal-stat-pill.neg b { color:#dc2626; }
-    #view-overview .ov-cal-grid, #view-fondeo .ov-cal-grid { display:grid; grid-template-columns:28px repeat(7,1fr); gap:.35rem; }
-    #view-overview .ov-cal-dow, #view-fondeo .ov-cal-dow { font-size:.6rem; color:#94a3b8; text-align:center; font-weight:700; padding-bottom:.4rem; text-transform:uppercase; letter-spacing:.4px; }
-    #view-overview .ov-cal-weeklabel, #view-fondeo .ov-cal-weeklabel { display:flex; align-items:center; justify-content:center; font-size:.56rem; font-weight:800; color:#c2c9d6; }
-    #view-overview .ov-cal-cell, #view-fondeo .ov-cal-cell { border-radius:8px; min-height:50px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.15rem; }
-    #view-overview .ov-cal-cell.clickable, #view-fondeo .ov-cal-cell.clickable { cursor:pointer; transition:transform .15s; }
-    #view-overview .ov-cal-cell.clickable:hover, #view-fondeo .ov-cal-cell.clickable:hover { transform:scale(1.06); }
-    #view-overview .ov-cal-cell.today, #view-fondeo .ov-cal-cell.today { box-shadow:inset 0 0 0 1.5px var(--gold); }
-    #view-overview .ov-cal-daynum, #view-fondeo .ov-cal-daynum { font-size:.72rem; font-weight:700; color:#c2c9d6; }
-    #view-overview .ov-cal-cell.win .ov-cal-daynum, #view-fondeo .ov-cal-cell.win .ov-cal-daynum { color:#16a34a; }
+    #view-overview .ov-cal-grid, #view-fondeo .ov-cal-grid { display:grid; grid-template-columns:30px repeat(7,1fr); gap:.5rem; }
+    #view-overview .ov-cal-dow, #view-fondeo .ov-cal-dow { font-size:.62rem; color:#9aa1b5; text-align:center; font-weight:800; padding-bottom:.5rem; text-transform:uppercase; letter-spacing:.6px; }
+    #view-overview .ov-cal-weeklabel, #view-fondeo .ov-cal-weeklabel { display:flex; align-items:center; justify-content:center; font-size:.56rem; font-weight:800; color:#a3aabb; background:#f9fafc; border-radius:6px; }
+    #view-overview .ov-cal-cell, #view-fondeo .ov-cal-cell { border-radius:10px; min-height:52px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; border:1px solid transparent; transition:transform .15s ease, box-shadow .15s ease; }
+    #view-overview .ov-cal-cell.clickable, #view-fondeo .ov-cal-cell.clickable { cursor:pointer; }
+    #view-overview .ov-cal-cell.clickable:hover, #view-fondeo .ov-cal-cell.clickable:hover { transform:translateY(-2px); box-shadow:0 8px 16px rgba(16,24,40,.1); }
+    #view-overview .ov-cal-cell.today, #view-fondeo .ov-cal-cell.today { box-shadow:0 0 0 1.5px var(--gold), 0 4px 10px rgba(201,168,76,.22); }
+    #view-overview .ov-cal-daynum, #view-fondeo .ov-cal-daynum { font-size:.74rem; font-weight:800; color:#c2c9d6; }
+    #view-overview .ov-cal-cell.win .ov-cal-daynum, #view-fondeo .ov-cal-cell.win .ov-cal-daynum { color:#0eab7a; }
     #view-overview .ov-cal-cell.loss .ov-cal-daynum, #view-fondeo .ov-cal-cell.loss .ov-cal-daynum { color:#dc2626; }
-    #view-overview .ov-cal-pct, #view-fondeo .ov-cal-pct { font-size:.58rem; font-weight:700; }
-    #view-overview .ov-cal-cell.win, #view-fondeo .ov-cal-cell.win { background:#eafaf1; } #view-overview .ov-cal-cell.win .ov-cal-pct, #view-fondeo .ov-cal-cell.win .ov-cal-pct { color:#16a34a; }
-    #view-overview .ov-cal-cell.loss, #view-fondeo .ov-cal-cell.loss { background:#fdecec; } #view-overview .ov-cal-cell.loss .ov-cal-pct, #view-fondeo .ov-cal-cell.loss .ov-cal-pct { color:#dc2626; }
-    #view-overview .ov-cal-cell.none, #view-fondeo .ov-cal-cell.none { background:#f9fafc; }
+    #view-overview .ov-cal-pct, #view-fondeo .ov-cal-pct { font-size:.58rem; font-weight:800; }
+    #view-overview .ov-cal-cell.win, #view-fondeo .ov-cal-cell.win { background:linear-gradient(160deg,#eafaf1,#f5fdf9); border-color:#cdeedd; } #view-overview .ov-cal-cell.win .ov-cal-pct, #view-fondeo .ov-cal-cell.win .ov-cal-pct { color:#0eab7a; }
+    #view-overview .ov-cal-cell.loss, #view-fondeo .ov-cal-cell.loss { background:linear-gradient(160deg,#fdecec,#fff6f6); border-color:#f6d4d4; } #view-overview .ov-cal-cell.loss .ov-cal-pct, #view-fondeo .ov-cal-cell.loss .ov-cal-pct { color:#dc2626; }
+    #view-overview .ov-cal-cell.none, #view-fondeo .ov-cal-cell.none { background:#f9fafc; border-color:#eef0f6; }
     #view-overview .ov-cal-cell.empty, #view-fondeo .ov-cal-cell.empty { background:transparent; }
-    @media (max-width:768px) { #view-overview .ov-cal-grid, #view-fondeo .ov-cal-grid { grid-template-columns:20px repeat(7,1fr); gap:.25rem; } #view-overview .ov-cal-cell, #view-fondeo .ov-cal-cell { min-height:38px; } #view-overview .ov-cal-daynum, #view-fondeo .ov-cal-daynum { font-size:.62rem; } #view-overview .ov-cal-pct, #view-fondeo .ov-cal-pct { font-size:.5rem; } }
+    @media (max-width:768px) { #view-overview .ov-cal-grid, #view-fondeo .ov-cal-grid { grid-template-columns:20px repeat(7,1fr); gap:.3rem; } #view-overview .ov-cal-cell, #view-fondeo .ov-cal-cell { min-height:40px; border-radius:8px; } #view-overview .ov-cal-daynum, #view-fondeo .ov-cal-daynum { font-size:.62rem; } #view-overview .ov-cal-pct, #view-fondeo .ov-cal-pct { font-size:.5rem; } }
     #view-overview .ov-banner { display:none; align-items:center; justify-content:space-between; gap:1.5rem; background:linear-gradient(90deg,rgba(201,168,76,.14),rgba(201,168,76,.03)); border:1px solid rgba(201,168,76,.35); border-radius:14px; padding:1.2rem 1.6rem; margin-bottom:1.5rem; flex-wrap:wrap; }
     #view-overview .ov-banner-title { font-weight:800; font-size:.95rem; color:#151a2d; margin-bottom:.25rem; }
     #view-overview .ov-banner-sub { font-size:.76rem; color:#8a7548; }
@@ -1491,8 +1491,12 @@
               <input type="number" id="fd-capital" class="ov-acc-select" style="width:100%" value="10000" min="1"/>
             </div>
             <div>
-              <label class="profile-label">Riesgo por operación (%)</label>
+              <label class="profile-label">Riesgo por operación en evaluación (%)</label>
               <input type="number" id="fd-risk" class="ov-acc-select" style="width:100%" value="1" min="0.1" step="0.1"/>
+            </div>
+            <div>
+              <label class="profile-label">Riesgo por operación ya fondeada (%)</label>
+              <input type="number" id="fd-risk-funded" class="ov-acc-select" style="width:100%" value="0.5" min="0.1" step="0.1"/>
             </div>
             <div>
               <label class="profile-label">Objetivo de ganancia (%)</label>
@@ -2666,6 +2670,7 @@
       const stratKey = document.getElementById('fd-strategy').value;
       const capital = parseFloat(document.getElementById('fd-capital').value) || 0;
       const riskPct = parseFloat(document.getElementById('fd-risk').value) || 0;
+      const fundedRiskPct = parseFloat(document.getElementById('fd-risk-funded').value) || riskPct;
       const target = parseFloat(document.getElementById('fd-target').value) || 0;
       const maxLoss = parseFloat(document.getElementById('fd-maxloss').value) || 0;
       const startStr = document.getElementById('fd-start').value;
@@ -2695,7 +2700,9 @@
       for (const r of rows) {
         const win = r.resultado === 'win';
         const prevPhase = phase;
-        balance *= win ? (1 + riskPct/100) : (1 - riskPct/100);
+        // El riesgo siempre se calcula sobre el capital base de la cuenta (no interés compuesto por trade).
+        const activeRiskPct = prevPhase === 'withdrawable' ? fundedRiskPct : riskPct;
+        balance += capital * (activeRiskPct/100) * (win ? 1 : -1);
         if (balance > peak) peak = balance;
         const dd = peak > 0 ? ((peak - balance)/peak)*100 : 0;
         if (dd > maxDD) maxDD = dd;
@@ -2705,13 +2712,13 @@
           if (balance <= floorBalance) { phase = 'blown'; outcomeDate = r.fecha; dayPhase = 'blown'; }
           else if (balance >= targetBalance) { phase = 'withdrawable'; outcomeDate = r.fecha; withdrawableStartBalance = balance; dayPhase = 'milestone'; }
         }
-        daily.push({ fecha: r.fecha, balance, win, phase: dayPhase, pct: win ? riskPct : -riskPct });
+        daily.push({ fecha: r.fecha, balance, win, phase: dayPhase, pct: win ? activeRiskPct : -activeRiskPct });
         if (phase === 'blown') break;
       }
 
       const withdrawableDays = daily.filter(d => d.phase === 'withdrawable').length;
       const withdrawableProfit = phase === 'withdrawable' ? (balance - targetBalance) : 0;
-      fdRenderResults({ stratKey, capital, riskPct, target, maxLoss, startStr, daily, phase, outcomeDate, maxDD, finalBalance: balance, withdrawableDays, withdrawableProfit });
+      fdRenderResults({ stratKey, capital, riskPct, fundedRiskPct, target, maxLoss, startStr, daily, phase, outcomeDate, maxDD, finalBalance: balance, withdrawableDays, withdrawableProfit });
     }
 
     function fdMonthCalendarHTML(year, month, dayMap, outcomeDate, outcomeType) {
@@ -2810,7 +2817,7 @@
         </div>
         ${withdrawableCard}
         <div class="card" style="padding:1.6rem;margin-bottom:1.5rem">
-          <div class="card-title" style="margin-bottom:1rem">${stratLabel} · riesgo ${sim.riskPct}%/operación · ${sim.daily.length} días operados desde ${sim.startStr}</div>
+          <div class="card-title" style="margin-bottom:1rem">${stratLabel} · riesgo ${sim.riskPct}% en evaluación${sim.fundedRiskPct !== sim.riskPct ? ` · ${sim.fundedRiskPct}% ya fondeada` : ''} · ${sim.daily.length} días operados desde ${sim.startStr}</div>
           <div class="acc-objectives" style="margin-top:0;padding-top:0;border-top:none">${notes.join('')}</div>
         </div>
         ${cappedNote}
