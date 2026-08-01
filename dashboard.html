@@ -482,6 +482,8 @@
     .acc-cal-cell.has-trade.loss { background:linear-gradient(160deg,#fdecec,#fdf5f5); border-color:rgba(220,38,38,.14); }
     .acc-cal-cell.has-trade:hover { transform:translateY(-2px); box-shadow:0 10px 20px -8px rgba(20,25,45,.16); }
     .acc-cal-cell.today { box-shadow:inset 0 0 0 1.5px var(--gold); }
+    .acc-cal-cell.has-trade.withdrawable { background:linear-gradient(160deg,rgba(201,168,76,.22),rgba(201,168,76,.08)); border-color:rgba(201,168,76,.3); }
+    .acc-cal-cell.withdrawable .acc-cal-daynum, .acc-cal-cell.withdrawable .acc-cal-amount { color:#a3792e; }
     .acc-cal-daynum { font-size:.68rem; font-weight:700; color:#c2c9d6; }
     .acc-cal-daynum.win { color:#0eab7a; opacity:.85; }
     .acc-cal-daynum.loss { color:#dc2626; opacity:.85; }
@@ -496,7 +498,16 @@
     .acc-cal-week-total.loss { color:#dc2626; }
     .acc-cal-week-total.none { color:#c2c9d6; }
     .acc-cal-week-days { font-size:.56rem; color:#94a3b8; }
+    .acc-cal-cell.fd-cell { min-height:78px; }
+    .fd-cal-tag { display:inline-block; font-size:.52rem; font-weight:800; letter-spacing:.4px; text-transform:uppercase; padding:.12rem .45rem; border-radius:999px; margin-top:.3rem; }
+    .fd-cal-tag.milestone { background:rgba(201,168,76,.18); color:#a3792e; }
+    .fd-cal-tag.blown { background:rgba(220,38,38,.12); color:#dc2626; }
     @media (max-width:768px) { .acc-cal-toolbar { padding:1rem; } .acc-cal-grid-wrap { padding:1rem; } }
+
+    #view-fondeo .fd-config-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.3rem 1.4rem; }
+    #view-fondeo .fd-field { display:flex; flex-direction:column; justify-content:flex-end; }
+    @media (max-width:960px) { #view-fondeo .fd-config-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:520px) { #view-fondeo .fd-config-grid { grid-template-columns:1fr; } }
     .acc-stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:1.5rem; }
     .acc-stat-cell { background:rgba(255,255,255,.025); padding:1.2rem; }
     .acc-stat-cell .acc-info-val { font-size:1.1rem; }
@@ -1475,8 +1486,8 @@
 
         <div class="card" style="margin-bottom:1.5rem">
           <div class="card-head"><span class="card-title">Configura el reto</span></div>
-          <div style="padding:1.4rem 1.6rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem">
-            <div>
+          <div style="padding:1.4rem 1.6rem" class="fd-config-grid">
+            <div class="fd-field">
               <label class="profile-label">Estrategia</label>
               <select class="ov-acc-select" id="fd-strategy" style="width:100%">
                 <option value="xauaud">XAUAUD</option>
@@ -1486,31 +1497,31 @@
                 <option value="combined">Combinado (promedio)</option>
               </select>
             </div>
-            <div>
+            <div class="fd-field">
               <label class="profile-label">Capital de la cuenta ($)</label>
               <input type="number" id="fd-capital" class="ov-acc-select" style="width:100%" value="10000" min="1"/>
             </div>
-            <div>
-              <label class="profile-label">Riesgo por operación en evaluación (%)</label>
+            <div class="fd-field">
+              <label class="profile-label">Riesgo en evaluación (%)</label>
               <input type="number" id="fd-risk" class="ov-acc-select" style="width:100%" value="1" min="0.1" step="0.1"/>
             </div>
-            <div>
-              <label class="profile-label">Riesgo por operación ya fondeada (%)</label>
+            <div class="fd-field">
+              <label class="profile-label">Riesgo ya fondeada (%)</label>
               <input type="number" id="fd-risk-funded" class="ov-acc-select" style="width:100%" value="0.5" min="0.1" step="0.1"/>
             </div>
-            <div>
+            <div class="fd-field">
               <label class="profile-label">Objetivo de ganancia (%)</label>
               <input type="number" id="fd-target" class="ov-acc-select" style="width:100%" value="10" min="1"/>
             </div>
-            <div>
+            <div class="fd-field">
               <label class="profile-label">Pérdida máxima permitida (%)</label>
               <input type="number" id="fd-maxloss" class="ov-acc-select" style="width:100%" value="10" min="1"/>
             </div>
-            <div>
+            <div class="fd-field">
               <label class="profile-label">Fecha de inicio</label>
               <input type="date" id="fd-start" class="ov-acc-select" style="width:100%"/>
             </div>
-            <div>
+            <div class="fd-field">
               <label class="profile-label">Plazo</label>
               <select class="ov-acc-select" id="fd-months" style="width:100%">
                 <option value="1">1 mes</option>
@@ -2723,37 +2734,44 @@
 
     function fdMonthCalendarHTML(year, month, dayMap, outcomeDate, outcomeType) {
       const todayStr = ovTodayStr();
-      let html = `<div class="ov-cal-weeklabel"></div>` + ['L','M','X','J','V','S','D'].map(d => `<div class="ov-cal-dow">${d}</div>`).join('');
+      const header = ['L','M','X','J','V','S','D'].map(d => `<div class="acc-cal-weekday">${d}</div>`).join('') + `<div class="acc-cal-weekday week-col">Semana</div>`;
       const firstDow = (new Date(year, month, 1).getDay() + 6) % 7;
       const daysInMonth = new Date(year, month+1, 0).getDate();
-      const cells = [];
-      for (let i = 0; i < firstDow; i++) cells.push({ empty:true });
-      for (let d = 1; d <= daysInMonth; d++) {
-        const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-        cells.push({ day:d, ds, info: dayMap[ds], today: ds === todayStr, milestone: ds === outcomeDate });
-      }
-      while (cells.length % 7 !== 0) cells.push({ empty:true });
-      for (let row = 0; row < cells.length/7; row++) {
-        html += `<div class="ov-cal-weeklabel">S${row+1}</div>`;
+      const totalRows = Math.ceil((firstDow + daysInMonth) / 7);
+      let body = '', dayCounter = 1;
+      for (let row = 0; row < totalRows; row++) {
+        let weekPct = 0, weekDayCount = 0, rowHtml = '';
         for (let col = 0; col < 7; col++) {
-          const c = cells[row*7 + col];
-          if (c.empty) { html += `<div class="ov-cal-cell empty"></div>`; continue; }
-          const info = c.info;
-          const withdrawable = info && (info.phase === 'withdrawable' || info.phase === 'milestone');
-          const cls = !info ? 'none' : (info.win ? 'win' : 'loss');
-          const arrow = info ? (info.win ? '▲' : '▼') : '';
-          const bg = withdrawable ? `background:${info.win?'rgba(201,168,76,.22)':'rgba(201,168,76,.14)'} !important;` : '';
-          const ring = c.milestone ? `box-shadow:0 0 0 2px ${outcomeType==='blown' && c.milestone ?'#dc2626':'#c9a84c'};` : (info && info.phase === 'blown' ? 'box-shadow:0 0 0 2px #dc2626;' : '');
-          const badge = c.milestone ? ' 🏁' : (info && info.phase === 'blown' ? ' 🚫' : '');
-          const pctColor = withdrawable ? 'color:#a3822c;' : '';
-          const pctHtml = info ? `<span class="ov-cal-pct" style="${pctColor}">${arrow} ${info.pct>=0?'+':''}${info.pct.toFixed(1)}%</span>` : '';
-          const title = info ? `${info.win?'Ganada':'Perdida'} · balance ${accFmtMoney(info.balance)}${withdrawable?' · fase retirable':''}` : 'Sin datos';
-          html += `<div class="ov-cal-cell ${cls}${c.today?' today':''}" style="${bg}${ring}" title="${title}">
-            <span class="ov-cal-daynum">${c.day}${badge}</span>${pctHtml}
+          const cellIndex = row*7 + col;
+          if (cellIndex < firstDow || dayCounter > daysInMonth) { rowHtml += `<div class="acc-cal-cell blank"></div>`; continue; }
+          const d = dayCounter++;
+          const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+          const info = dayMap[ds];
+          const isToday = ds === todayStr;
+          if (!info) { rowHtml += `<div class="acc-cal-cell empty-day fd-cell${isToday?' today':''}"><div class="acc-cal-daynum">${d}</div></div>`; continue; }
+          const withdrawable = info.phase === 'withdrawable' || info.phase === 'milestone';
+          const cls = info.win ? 'win' : 'loss';
+          const isMilestoneDay = ds === outcomeDate && outcomeType !== 'blown';
+          const isBlownDay = ds === outcomeDate && outcomeType === 'blown';
+          weekPct += info.pct; weekDayCount++;
+          const ring = isMilestoneDay ? 'box-shadow:0 0 0 1.5px var(--gold),0 4px 10px rgba(201,168,76,.25);' : (isBlownDay ? 'box-shadow:0 0 0 1.5px #dc2626,0 4px 10px rgba(220,38,38,.2);' : '');
+          const tag = isMilestoneDay ? `<span class="fd-cal-tag milestone">Meta</span>` : (isBlownDay ? `<span class="fd-cal-tag blown">Cierre</span>` : '');
+          const title = `${info.win?'Ganada':'Perdida'} · balance ${accFmtMoney(info.balance)}${withdrawable?' · fase retirable':''}`;
+          rowHtml += `<div class="acc-cal-cell has-trade fd-cell ${cls}${isToday?' today':''}${withdrawable?' withdrawable':''}" style="${ring}" title="${title}">
+            <div class="acc-cal-daynum ${cls}">${d}</div>
+            <div class="acc-cal-amount ${cls}">${info.pct>=0?'+':''}${info.pct.toFixed(1)}%</div>
+            ${tag}
           </div>`;
         }
+        const weekCls = weekDayCount === 0 ? 'none' : (weekPct >= 0 ? 'win' : 'loss');
+        rowHtml += `<div class="acc-cal-week-cell">
+          <div class="acc-cal-week-label">Semana ${row+1}</div>
+          <div class="acc-cal-week-total ${weekCls}">${weekDayCount === 0 ? '—' : (weekPct>=0?'+':'') + weekPct.toFixed(1) + '%'}</div>
+          <div class="acc-cal-week-days">${weekDayCount} ${weekDayCount===1?'día':'días'}</div>
+        </div>`;
+        body += rowHtml;
       }
-      return html;
+      return `<div class="acc-cal-grid-wrap"><div class="acc-cal-grid">${header}</div><div class="acc-cal-grid" style="margin-top:.5rem">${body}</div></div>`;
     }
 
     function fdRenderResults(sim) {
@@ -2761,10 +2779,10 @@
       const stratLabel = sim.stratKey === 'combined' ? 'Combinado' : (OV_STRATS.find(s => s.key === sim.stratKey)?.label || sim.stratKey);
       const gainPct = ((sim.finalBalance - sim.capital)/sim.capital)*100;
       const outcomeMeta = sim.phase === 'withdrawable'
-        ? { label:'✅ Objetivo alcanzado', color:'#16a34a' }
+        ? { label:'Objetivo alcanzado', color:'#16a34a' }
         : sim.phase === 'blown'
-        ? { label:'❌ Cuenta reventada', color:'#dc2626' }
-        : { label:'⏳ En evaluación', color:'#94a3b8' };
+        ? { label:'Cuenta reventada', color:'#dc2626' }
+        : { label:'En evaluación', color:'#94a3b8' };
 
       const dayMap = {};
       sim.daily.forEach(d => { dayMap[d.fecha] = d; });
@@ -2772,18 +2790,19 @@
       let cappedNote = '';
       if (months.length > 6) { cappedNote = `<div class="stat-desc" style="margin-bottom:1rem">Mostrando los últimos 6 meses de una simulación más larga.</div>`; months = months.slice(-6); }
 
-      const legend = `<div style="display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.2rem;font-size:.72rem;color:#94a3b8">
+      const legend = `<div style="display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem;font-size:.72rem;color:#94a3b8">
         <span><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#eafaf1;border:1px solid #16a34a;margin-right:.35rem"></span>Ganada (evaluación)</span>
         <span><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#fdecec;border:1px solid #dc2626;margin-right:.35rem"></span>Perdida (evaluación)</span>
         <span><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:rgba(201,168,76,.3);border:1px solid var(--gold);margin-right:.35rem"></span>Fase retirable</span>
-        <span>🏁 Meta alcanzada · 🚫 Cuenta reventada</span>
+        <span><span class="fd-cal-tag milestone" style="margin-top:0;vertical-align:middle;margin-right:.35rem">Meta</span>Objetivo alcanzado</span>
+        <span><span class="fd-cal-tag blown" style="margin-top:0;vertical-align:middle;margin-right:.35rem">Cierre</span>Cuenta reventada</span>
       </div>`;
 
       const calendarsHTML = months.map(ym => {
         const [y,m] = ym.split('-').map(Number);
-        return `<div class="card" style="padding:1.3rem 1.5rem;margin-bottom:1rem">
-          <div class="card-title" style="margin-bottom:1rem">${OV_MONTHS_LONG[m-1]} ${y}</div>
-          <div class="ov-cal-grid">${fdMonthCalendarHTML(y, m-1, dayMap, sim.outcomeDate, sim.phase)}</div>
+        return `<div class="card" style="padding:0;margin-bottom:1rem">
+          <div style="padding:1.3rem 1.4rem 0"><div class="card-title">${OV_MONTHS_LONG[m-1]} ${y}</div></div>
+          ${fdMonthCalendarHTML(y, m-1, dayMap, sim.outcomeDate, sim.phase)}
         </div>`;
       }).join('');
 
