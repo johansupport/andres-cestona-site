@@ -2713,7 +2713,7 @@
         return;
       }
 
-      let balance = capital, peak = capital, maxDD = 0;
+      let balance = capital, maxDD = 0;
       const targetBalance = capital * (1 + target/100);
       const floorBalance = capital * (1 - maxLoss/100);
       let phase = 'eval', outcomeDate = null, withdrawableStartBalance = null;
@@ -2724,8 +2724,9 @@
         // El riesgo siempre se calcula sobre el capital base de la cuenta (no interés compuesto por trade).
         const activeRiskPct = prevPhase === 'withdrawable' ? fundedRiskPct : riskPct;
         balance += capital * (activeRiskPct/100) * (win ? 1 : -1);
-        if (balance > peak) peak = balance;
-        const dd = peak > 0 ? ((peak - balance)/peak)*100 : 0;
+        // El drawdown se mide siempre contra el capital inicial (el mismo colchón fijo que define floorBalance),
+        // no contra el balance pico. Así la cuenta puede acumular más ganancia sin que el % de drawdown se "resetee".
+        const dd = ((capital - balance) / capital) * 100;
         if (dd > maxDD) maxDD = dd;
 
         let dayPhase = prevPhase;
@@ -2856,7 +2857,7 @@
           <div class="stat-card" style="border-top:3px solid ${outcomeMeta.color}"><div class="stat-tag">Estado</div><div class="stat-num" style="font-size:1.25rem;color:${outcomeMeta.color}">${outcomeMeta.label}</div></div>
           <div class="stat-card"><div class="stat-tag">Balance final</div><div class="stat-num white" style="font-size:1.4rem">${accFmtMoney(sim.finalBalance)}</div></div>
           <div class="stat-card"><div class="stat-tag">Ganancia / pérdida total</div><div class="stat-num" style="font-size:1.4rem;color:${gainPct>=0?'#16a34a':'#dc2626'}">${gainPct>=0?'+':''}${gainPct.toFixed(1)}%</div></div>
-          <div class="stat-card"><div class="stat-tag">Drawdown máximo</div><div class="stat-num" style="font-size:1.4rem;color:${sim.maxDD>sim.maxLoss?'#dc2626':'#151a2d'}">${sim.maxDD.toFixed(1)}%</div></div>
+          <div class="stat-card"><div class="stat-tag">Drawdown máximo <svg class="ov-info" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" title="Caída máxima del balance respecto al capital inicial de la cuenta (no respecto al balance más alto alcanzado). Es la misma base con la que se calcula el límite de pérdida."><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div><div class="stat-num" style="font-size:1.4rem;color:${sim.maxDD>sim.maxLoss?'#dc2626':'#151a2d'}">${sim.maxDD.toFixed(1)}%</div></div>
         </div>
         ${withdrawableCard}
         <div class="card" style="padding:1.6rem;margin-bottom:1.5rem">
