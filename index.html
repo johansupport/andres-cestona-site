@@ -1415,33 +1415,43 @@
         const swing = buildStrategyTotals(swingRows);
         const tesla = buildStrategyTotals(teslaRows);
         const wrFmt = w => { const s = w.toFixed(1); const [whole, dec] = s.split('.'); return whole + '<sup>.' + dec + '%</sup>'; };
+        const swingStartYear = swing.resumenAnual[0]?.año ?? new Date(swingRows[0].fecha).getFullYear();
+        const teslaStartYear = tesla.resumenAnual[0]?.año ?? new Date(teslaRows[0].fecha).getFullYear();
+        const currentYear = new Date().getFullYear();
 
         // Hero panel (XAUUSD / TESLA tabs)
         PANEL_DATA.xau.value = '+' + swing.totalReturn.toFixed(0) + '%';
+        PANEL_DATA.xau.sub = 'Desde ' + swingStartYear;
         PANEL_DATA.xau.chart = swing.resumenAnual.map(a => ({ year: String(a.año), value: a.rendimiento }));
         PANEL_DATA.xau.stats = [
-          { val: swing.totalReturn.toFixed(0) + '<sup>%</sup>', label: 'Desde inicio · 2021' },
+          { val: swing.totalReturn.toFixed(0) + '<sup>%</sup>', label: 'Desde inicio · ' + swingStartYear },
           { val: swing.totalTrades.toLocaleString('es-ES'), label: 'Trades verificados' },
           { val: wrFmt(swing.winrate), label: 'Winrate histórico' },
         ];
         PANEL_DATA.tsla.value = '+' + tesla.totalReturn.toFixed(0) + '%';
+        PANEL_DATA.tsla.sub = 'Desde ' + teslaStartYear;
         PANEL_DATA.tsla.chart = tesla.resumenAnual.map(a => ({ year: String(a.año), value: a.rendimiento }));
         PANEL_DATA.tsla.stats = [
-          { val: tesla.totalReturn.toFixed(0) + '<sup>%</sup>', label: 'Desde inicio · 2025' },
+          { val: tesla.totalReturn.toFixed(0) + '<sup>%</sup>', label: 'Desde inicio · ' + teslaStartYear },
           { val: String(tesla.totalTrades), label: 'Trades verificados' },
           { val: wrFmt(tesla.winrate), label: 'Winrate histórico' },
         ];
 
         // Markets section (strategy pills)
+        const swingEndYear = swing.resumenAnual[swing.resumenAnual.length - 1]?.año ?? currentYear;
+        const teslaEndYear = tesla.resumenAnual[tesla.resumenAnual.length - 1]?.año ?? currentYear;
+        const swingYears = Math.max(1, Math.round(swing.mesesCount / 12));
         HOME_STRATEGY_DATA.swing.grid = HOME_STRATEGY_DATA.swing.grid
           .replace(/~\d+\/mes/, '~' + Math.round(swing.totalTrades / swing.mesesCount) + '/mes')
+          .replace(/Historial verificado \d{4}–\d{4}/, `Historial verificado ${swingStartYear}–${swingEndYear}`)
           .replace(/\d+\.\d+% histórico/, swing.winrate.toFixed(1) + '% histórico')
           .replace(/<div class="mkt-stat">\d+\.\d+%<\/div>/, `<div class="mkt-stat">${swing.winrate.toFixed(1)}%</div>`)
           .replace(/\+\d+% desde inicio/, `+${swing.totalReturn.toFixed(0)}% desde inicio`)
-          .replace(/convertido en \$[\d,]+ en 5 años/, `convertido en $${Math.round(swing.finalBalance).toLocaleString('en-US')} en 5 años`)
+          .replace(/convertido en \$[\d,]+ en \d+ años/, `convertido en $${Math.round(swing.finalBalance).toLocaleString('en-US')} en ${swingYears} años`)
           .replace(/<div class="mkt-stat">\$[\d,]+<\/div>/, `<div class="mkt-stat">$${Math.round(swing.finalBalance).toLocaleString('en-US')}</div>`);
         HOME_STRATEGY_DATA.tesla.grid = HOME_STRATEGY_DATA.tesla.grid
           .replace(/~\d+\/mes/, '~' + Math.round(tesla.totalTrades / tesla.mesesCount) + '/mes')
+          .replace(/Historial verificado \d{4}–\d{4}/, `Historial verificado ${teslaStartYear}–${teslaEndYear}`)
           .replace(/\d+ trades documentados/, `${tesla.totalTrades} trades documentados`)
           .replace(/Winrate del [\d.]+% histórico/, `Winrate del ${tesla.winrate.toFixed(1)}% histórico`)
           .replace(/<div class="mkt-stat">[\d.]+%<\/div>/, `<div class="mkt-stat">${tesla.winrate.toFixed(1)}%</div>`)
