@@ -14,10 +14,10 @@ create table if not exists strategy_results (
 
 alter table strategy_results enable row level security;
 
--- Lectura pública: las páginas de estadísticas/calculadora/home la necesitan sin login.
+-- Lectura pública: las páginas de estadísticas/calculadora/home la necesitan con o sin login.
 drop policy if exists "public read strategy_results" on strategy_results;
 create policy "public read strategy_results" on strategy_results
-  for select to anon using (true);
+  for select to anon, authenticated using (true);
 
 -- Escritura solo para el admin (mismo email que ya usa admin.html).
 drop policy if exists "admin write strategy_results" on strategy_results;
