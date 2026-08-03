@@ -2805,9 +2805,7 @@
 
       const dayMap = {};
       sim.daily.forEach(d => { dayMap[d.fecha] = d; });
-      let months = [...new Set(sim.daily.map(d => d.fecha.slice(0,7)))].sort();
-      let cappedNote = '';
-      if (months.length > 6) { cappedNote = `<div class="stat-desc" style="margin-bottom:1rem">Mostrando los últimos 6 meses de una simulación más larga.</div>`; months = months.slice(-6); }
+      const months = [...new Set(sim.daily.map(d => d.fecha.slice(0,7)))].sort();
 
       const legend = `<div style="display:flex;gap:1.4rem;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem;font-size:.72rem;color:#94a3b8">
         <span><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:#eafaf1;border:1px solid #16a34a;margin-right:.35rem"></span>Ganada (evaluación)</span>
@@ -2864,7 +2862,6 @@
           <div class="card-title" style="margin-bottom:1rem">${stratLabel} · riesgo ${sim.riskPct}% en evaluación${sim.fundedRiskPct !== sim.riskPct ? ` · ${sim.fundedRiskPct}% ya fondeada` : ''} · ${sim.daily.length} días operados desde ${sim.startStr}</div>
           <div class="acc-objectives" style="margin-top:0;padding-top:0;border-top:none">${notes.join('')}</div>
         </div>
-        ${cappedNote}
         ${legend}
         ${calendarsHTML}
       `;
