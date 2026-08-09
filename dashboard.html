@@ -1616,6 +1616,10 @@
                 <input type="number" id="fdf-resetcost" class="ov-acc-select" style="width:100%" value="150" min="0"/>
               </div>
               <div class="fd-field">
+                <label class="profile-label">Reparto de ganancias para ti (%)</label>
+                <input type="number" id="fdf-payout" class="ov-acc-select" style="width:100%" value="80" min="1" max="100"/>
+              </div>
+              <div class="fd-field">
                 <label class="profile-label">Fecha de inicio</label>
                 <input type="date" id="fdf-start" class="ov-acc-select" style="width:100%"/>
               </div>
@@ -1631,7 +1635,7 @@
               </div>
             </div>
             <div style="padding:0 1.6rem .6rem">
-              <div class="stat-desc">Drawdown trailing estilo EOD (Topstep/Apex): el colchón sube con el balance de cierre de cada día hasta llegar al capital inicial, y ahí se congela.</div>
+              <div class="stat-desc">Drawdown trailing estilo EOD (Topstep/Apex): el colchón sube con el balance de cierre de cada día hasta llegar al capital inicial, y ahí se congela. Al fondearte, la cuenta se resetea al capital base (mismo trailing) y se simula qué tan lejos hubiera llegado esa fase, con tu reparto de ganancias.</div>
             </div>
             <div style="padding:.8rem 1.6rem 1.5rem">
               <button class="btn-gold" onclick="fdFutSimulate()">Simular reto de futuros →</button>
@@ -3016,6 +3020,7 @@
       const trailingDD = parseFloat(document.getElementById('fdf-trailing').value) || 0;
       const target = parseFloat(document.getElementById('fdf-target').value) || 0;
       const resetCost = parseFloat(document.getElementById('fdf-resetcost').value) || 0;
+      const payoutPct = parseFloat(document.getElementById('fdf-payout').value) || 0;
       const startStr = document.getElementById('fdf-start').value;
       const monthsSel = document.getElementById('fdf-months').value;
       const el = document.getElementById('fd-results-fut');
@@ -3071,7 +3076,27 @@
 
       const totalCost = resetCost * attempts.length;
       const fundedAttempt = attempts.find(a => a.outcome === 'funded') || null;
-      fdFutRenderResults({ assetKey, capital, winAmt, lossAmt, trailingDD, target, resetCost, startStr, attempts, totalCost, fundedAttempt });
+      const fundedPhase = fundedAttempt ? fdFutSimulateFundedPhase(assetKey, fundedAttempt.endDate, capital, winAmt, lossAmt, trailingDD) : null;
+      fdFutRenderResults({ assetKey, capital, winAmt, lossAmt, trailingDD, target, resetCost, payoutPct, startStr, attempts, totalCost, fundedAttempt, fundedPhase });
+    }
+
+    // Fase fondeada: al pasar el reto, la cuenta se resetea al capital base con el mismo trailing drawdown,
+    // y se sigue simulando con el historial real (sin límite de plazo) para ver cuánto se hubiera ganado o si se hubiera reventado.
+    function fdFutSimulateFundedPhase(assetKey, fromDateExclusive, capital, winAmt, lossAmt, trailingDD) {
+      const rows = fdWindowRows(assetKey, fromDateExclusive, null).filter(r => r.fecha > fromDateExclusive);
+      let balance = capital, peak = capital, peakProfit = 0;
+      const daily = [];
+      let blownDate = null;
+      for (const r of rows) {
+        const win = r.resultado === 'win';
+        balance += win ? winAmt : -lossAmt;
+        if (balance > peak) peak = balance;
+        if (balance - capital > peakProfit) peakProfit = balance - capital;
+        const floor = Math.min(peak - trailingDD, capital);
+        daily.push({ fecha: r.fecha, balance, win, floor, amt: win ? winAmt : -lossAmt });
+        if (balance <= floor) { blownDate = r.fecha; break; }
+      }
+      return { daily, blownDate, finalBalance: daily.length ? daily[daily.length - 1].balance : capital, peakProfit };
     }
 
     function fdFutRenderResults(sim) {
@@ -3161,6 +3186,67 @@
         <div class="stat-desc" style="margin-bottom:1rem">Calendario del ${sim.fundedAttempt ? 'intento que logró fondearse' : 'último intento'} (Intento #${finalAttempt.n}):</div>
         ${legend}
         ${calendarsHTML}
+        ${fdFutFundedPhaseHTML(sim)}
+      `;
+    }
+
+    function fdFutFundedPhaseHTML(sim) {
+      if (!sim.fundedPhase) return '';
+      const fp = sim.fundedPhase;
+      if (!fp.daily.length) {
+        return `<div class="card" style="padding:1.6rem;margin-top:1.5rem"><div class="card-title" style="margin-bottom:.4rem">Después de fondearte</div><div class="stat-desc">No hay más historial registrado después del ${sim.fundedAttempt.endDate} para simular la fase fondeada.</div></div>`;
+      }
+      const grossProfit = fp.finalBalance - sim.capital;
+      const payout = fp.peakProfit * (sim.payoutPct / 100);
+      const recovered = payout >= sim.totalCost && sim.totalCost > 0;
+      let breakevenDate = null;
+      if (sim.totalCost > 0) {
+        const hit = fp.daily.find(d => (d.balance - sim.capital) * (sim.payoutPct / 100) >= sim.totalCost);
+        breakevenDate = hit ? hit.fecha : null;
+      }
+      const statusMeta = fp.blownDate
+        ? { label: 'Cuenta fondeada reventada', color: '#dc2626' }
+        : { label: 'Sigue activa (fin del historial)', color: '#0eab7a' };
+
+      const dayMap = {};
+      fp.daily.forEach(d => { dayMap[d.fecha] = d; });
+      const months = [...new Set(fp.daily.map(d => d.fecha.slice(0,7)))].sort();
+      const calHTML = months.map(ym => {
+        const [y, m] = ym.split('-').map(Number);
+        const monthDays = fp.daily.filter(d => d.fecha.slice(0,7) === ym);
+        const monthAmt = monthDays.reduce((s,d) => s + d.amt, 0);
+        const monthCls = monthAmt >= 0 ? 'win' : 'loss';
+        return `<div class="card" style="padding:0;margin-bottom:1rem">
+          <div style="padding:1.3rem 1.4rem 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.6rem">
+            <div class="card-title">${OV_MONTHS_LONG[m-1]} ${y}</div>
+            <span class="fd-cal-month-total ${monthCls}">${monthAmt>=0?'+':''}${accFmtMoney(monthAmt)} en el mes · ${monthDays.length} ${monthDays.length===1?'día':'días'}</span>
+          </div>
+          ${fdFutMonthCalendarHTML(y, m-1, dayMap, fp.blownDate, fp.blownDate ? 'blown' : null)}
+        </div>`;
+      }).join('');
+
+      const recoveryNote = sim.totalCost <= 0
+        ? ''
+        : recovered
+        ? `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#0eab7a"></span>Recuperaste lo invertido en cuentas/recompras (${accFmtMoney(sim.totalCost)}) el <b>${breakevenDate}</b>.</div>`
+        : `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#dc2626"></span>Con esta ganancia todavía no habrías recuperado los ${accFmtMoney(sim.totalCost)} invertidos en cuentas/recompras.</div>`;
+
+      return `
+        <div class="stat-desc" style="margin:2rem 0 1rem">Después de fondearte: la cuenta se resetea a ${accFmtMoney(sim.capital)} con el mismo trailing drawdown de ${accFmtMoney(sim.trailingDD)}, y se sigue el historial real desde ahí.</div>
+        <div class="stats-grid" style="margin-bottom:1.5rem">
+          <div class="stat-card" style="border-top:3px solid ${statusMeta.color}"><div class="stat-tag">Estado fase fondeada</div><div class="stat-num" style="font-size:1.15rem;color:${statusMeta.color}">${statusMeta.label}</div></div>
+          <div class="stat-card"><div class="stat-tag">Ganancia máxima alcanzada</div><div class="stat-num white" style="font-size:1.4rem">${accFmtMoney(fp.peakProfit)}</div></div>
+          <div class="stat-card"><div class="stat-tag">Tu parte estimada (${sim.payoutPct}%)</div><div class="stat-num" style="font-size:1.4rem;color:#0eab7a">${accFmtMoney(payout)}</div></div>
+          <div class="stat-card"><div class="stat-tag">Días operados como fondeada</div><div class="stat-num white" style="font-size:1.4rem">${fp.daily.length}</div></div>
+        </div>
+        <div class="card" style="padding:1.6rem;margin-bottom:1.5rem">
+          <div class="card-title" style="margin-bottom:1rem">Recuperación de la inversión</div>
+          <div class="acc-objectives" style="margin-top:0;padding-top:0;border-top:none">
+            ${recoveryNote}
+            ${fp.blownDate ? `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#dc2626"></span>La cuenta fondeada tocó su trailing drawdown el ${fp.blownDate}, después de alcanzar una ganancia máxima de ${accFmtMoney(fp.peakProfit)}. Para volver a intentarlo tocaría comprar otra evaluación.</div>` : ''}
+          </div>
+        </div>
+        ${calHTML}
       `;
     }
 
