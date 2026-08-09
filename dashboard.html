@@ -1588,7 +1588,7 @@
                 <label class="profile-label">Activo</label>
                 <select class="ov-acc-select" id="fdf-asset" style="width:100%">
                   <option value="swing">XAUUSD (oro)</option>
-                  <option value="sp500" disabled>SP500 (próximamente)</option>
+                  <option value="sp500">SP500 (futuros)</option>
                 </select>
               </div>
               <div class="fd-field">
@@ -1596,20 +1596,20 @@
                 <input type="number" id="fdf-capital" class="ov-acc-select" style="width:100%" value="50000" min="1"/>
               </div>
               <div class="fd-field">
-                <label class="profile-label">Ganancia por día ganador ($)</label>
-                <input type="number" id="fdf-win" class="ov-acc-select" style="width:100%" value="500" min="1"/>
+                <label class="profile-label">Riesgo en evaluación (%)</label>
+                <input type="number" id="fdf-risk" class="ov-acc-select" style="width:100%" value="1" min="0.1" step="0.1"/>
               </div>
               <div class="fd-field">
-                <label class="profile-label">Pérdida por día perdedor ($)</label>
-                <input type="number" id="fdf-loss" class="ov-acc-select" style="width:100%" value="500" min="1"/>
+                <label class="profile-label">Riesgo ya fondeada (%)</label>
+                <input type="number" id="fdf-risk-funded" class="ov-acc-select" style="width:100%" value="0.5" min="0.1" step="0.1"/>
               </div>
               <div class="fd-field">
-                <label class="profile-label">Drawdown máximo trailing ($)</label>
-                <input type="number" id="fdf-trailing" class="ov-acc-select" style="width:100%" value="2000" min="1"/>
+                <label class="profile-label">Drawdown máximo trailing (%)</label>
+                <input type="number" id="fdf-trailing" class="ov-acc-select" style="width:100%" value="4" min="0.1" step="0.1"/>
               </div>
               <div class="fd-field">
-                <label class="profile-label">Objetivo de ganancia ($)</label>
-                <input type="number" id="fdf-target" class="ov-acc-select" style="width:100%" value="3000" min="1"/>
+                <label class="profile-label">Objetivo de ganancia (%)</label>
+                <input type="number" id="fdf-target" class="ov-acc-select" style="width:100%" value="6" min="0.1" step="0.1"/>
               </div>
               <div class="fd-field">
                 <label class="profile-label">Costo por cuenta / recompra ($)</label>
@@ -1635,7 +1635,7 @@
               </div>
             </div>
             <div style="padding:0 1.6rem .6rem">
-              <div class="stat-desc">Drawdown trailing estilo EOD (Topstep/Apex): el colchón sube con el balance de cierre de cada día hasta llegar al capital inicial, y ahí se congela. Al fondearte, la cuenta se resetea al capital base (mismo trailing) y se simula qué tan lejos hubiera llegado esa fase, con tu reparto de ganancias.</div>
+              <div class="stat-desc">Riesgo por operación en % del capital (gana o pierde ese % según el resultado real de cada día). Drawdown trailing estilo EOD (Topstep/Apex): el colchón sube con el balance de cierre de cada día hasta llegar al capital inicial, y ahí se congela. Al fondearte, la cuenta se resetea al capital base (mismo trailing %) y se simula con tu riesgo "ya fondeada" qué tan lejos hubiera llegado esa fase, con tu reparto de ganancias.</div>
             </div>
             <div style="padding:.8rem 1.6rem 1.5rem">
               <button class="btn-gold" onclick="fdFutSimulate()">Simular reto de futuros →</button>
@@ -3012,19 +3012,36 @@
       return `<div class="acc-cal-grid-wrap"><div class="acc-cal-grid">${header}</div><div class="acc-cal-grid" style="margin-top:.5rem">${body}</div></div>`;
     }
 
-    function fdFutSimulate() {
+    // Trae directo de Supabase (no depende de OV_STRATS/ovResults) para poder usar activos de futuros
+    // como SP500 que no forman parte de la rutina diaria del Home.
+    async function fdFutFetchRows(estrategia, startStr, endStr) {
+      let all = [], from = 0; const pageSize = 1000;
+      while (true) {
+        let q = sb.from('strategy_results').select('fecha,resultado').eq('estrategia', estrategia).order('fecha').range(from, from + pageSize - 1);
+        if (startStr) q = q.gte('fecha', startStr);
+        if (endStr) q = q.lte('fecha', endStr);
+        const { data: page, error } = await q;
+        if (error || !page) break;
+        all = all.concat(page);
+        if (page.length < pageSize) break;
+        from += pageSize;
+      }
+      return all;
+    }
+
+    async function fdFutSimulate() {
       const assetKey = document.getElementById('fdf-asset').value;
       const capital = parseFloat(document.getElementById('fdf-capital').value) || 0;
-      const winAmt = parseFloat(document.getElementById('fdf-win').value) || 0;
-      const lossAmt = parseFloat(document.getElementById('fdf-loss').value) || 0;
-      const trailingDD = parseFloat(document.getElementById('fdf-trailing').value) || 0;
-      const target = parseFloat(document.getElementById('fdf-target').value) || 0;
+      const riskPct = parseFloat(document.getElementById('fdf-risk').value) || 0;
+      const riskFundedPct = parseFloat(document.getElementById('fdf-risk-funded').value) || riskPct;
+      const trailingPct = parseFloat(document.getElementById('fdf-trailing').value) || 0;
+      const targetPct = parseFloat(document.getElementById('fdf-target').value) || 0;
       const resetCost = parseFloat(document.getElementById('fdf-resetcost').value) || 0;
       const payoutPct = parseFloat(document.getElementById('fdf-payout').value) || 0;
       const startStr = document.getElementById('fdf-start').value;
       const monthsSel = document.getElementById('fdf-months').value;
       const el = document.getElementById('fd-results-fut');
-      if (capital <= 0 || winAmt <= 0 || lossAmt <= 0 || trailingDD <= 0 || target <= 0) { alert('Completa capital, ganancia/pérdida por día, drawdown y objetivo con valores válidos.'); return; }
+      if (capital <= 0 || riskPct <= 0 || trailingPct <= 0 || targetPct <= 0) { alert('Completa capital, riesgo por operación, drawdown y objetivo con valores válidos.'); return; }
       if (!startStr) { alert('Elige una fecha de inicio.'); return; }
 
       let endStr = null;
@@ -3034,12 +3051,17 @@
         endStr = ovDateStr(end);
       }
 
-      const rows = fdWindowRows(assetKey, startStr, endStr);
+      el.innerHTML = `<div class="card" style="padding:1.6rem"><div class="stat-desc">Cargando historial…</div></div>`;
+      const rows = await fdFutFetchRows(assetKey, startStr, endStr);
       if (!rows.length) {
         el.innerHTML = `<div class="card" style="padding:1.6rem"><div class="stat-desc">No hay historial registrado para este activo en el periodo elegido.</div></div>`;
         return;
       }
 
+      const winAmt = capital * (riskPct / 100);
+      const lossAmt = winAmt;
+      const trailingDD = capital * (trailingPct / 100);
+      const target = capital * (targetPct / 100);
       const targetBalance = capital + target;
       const attempts = [];
       let attempt = { n: 1, startDate: null, endDate: null, daily: [], balance: capital, peak: capital, outcome: null };
@@ -3076,14 +3098,16 @@
 
       const totalCost = resetCost * attempts.length;
       const fundedAttempt = attempts.find(a => a.outcome === 'funded') || null;
-      const fundedPhase = fundedAttempt ? fdFutSimulateFundedPhase(assetKey, fundedAttempt.endDate, capital, winAmt, lossAmt, trailingDD) : null;
-      fdFutRenderResults({ assetKey, capital, winAmt, lossAmt, trailingDD, target, resetCost, payoutPct, startStr, attempts, totalCost, fundedAttempt, fundedPhase });
+      const fundedPhase = fundedAttempt ? await fdFutSimulateFundedPhase(assetKey, fundedAttempt.endDate, capital, riskFundedPct, trailingDD) : null;
+      fdFutRenderResults({ assetKey, capital, riskPct, riskFundedPct, winAmt, lossAmt, trailingDD, trailingPct, target, targetPct, resetCost, payoutPct, startStr, attempts, totalCost, fundedAttempt, fundedPhase });
     }
 
     // Fase fondeada: al pasar el reto, la cuenta se resetea al capital base con el mismo trailing drawdown,
     // y se sigue simulando con el historial real (sin límite de plazo) para ver cuánto se hubiera ganado o si se hubiera reventado.
-    function fdFutSimulateFundedPhase(assetKey, fromDateExclusive, capital, winAmt, lossAmt, trailingDD) {
-      const rows = fdWindowRows(assetKey, fromDateExclusive, null).filter(r => r.fecha > fromDateExclusive);
+    async function fdFutSimulateFundedPhase(assetKey, fromDateExclusive, capital, riskFundedPct, trailingDD) {
+      const winAmt = capital * (riskFundedPct / 100);
+      const lossAmt = winAmt;
+      const rows = (await fdFutFetchRows(assetKey, fromDateExclusive, null)).filter(r => r.fecha > fromDateExclusive);
       let balance = capital, peak = capital, peakProfit = 0;
       const daily = [];
       let blownDate = null;
@@ -3180,7 +3204,7 @@
           <div class="stat-card"><div class="stat-tag">Días operados en total</div><div class="stat-num white" style="font-size:1.4rem">${totalDays}</div></div>
         </div>
         <div class="card" style="padding:1.6rem;margin-bottom:1.5rem">
-          <div class="card-title" style="margin-bottom:1rem">Historial de intentos · +${accFmtMoney(sim.winAmt)}/día ganador · -${accFmtMoney(sim.lossAmt)}/día perdedor · drawdown trailing ${accFmtMoney(sim.trailingDD)} · objetivo ${accFmtMoney(sim.target)}</div>
+          <div class="card-title" style="margin-bottom:1rem">Historial de intentos · riesgo ${sim.riskPct}% por operación en evaluación (${accFmtMoney(sim.winAmt)}/día) · drawdown trailing ${sim.trailingPct}% (${accFmtMoney(sim.trailingDD)}) · objetivo ${sim.targetPct}% (${accFmtMoney(sim.target)})</div>
           <div class="fdf-attempts-grid">${attemptsListHTML}</div>
         </div>
         <div class="stat-desc" style="margin-bottom:1rem">Calendario del ${sim.fundedAttempt ? 'intento que logró fondearse' : 'último intento'} (Intento #${finalAttempt.n}):</div>
@@ -3232,7 +3256,7 @@
         : `<div class="acc-obj-row"><span class="acc-obj-dot" style="background:#dc2626"></span>Con esta ganancia todavía no habrías recuperado los ${accFmtMoney(sim.totalCost)} invertidos en cuentas/recompras.</div>`;
 
       return `
-        <div class="stat-desc" style="margin:2rem 0 1rem">Después de fondearte: la cuenta se resetea a ${accFmtMoney(sim.capital)} con el mismo trailing drawdown de ${accFmtMoney(sim.trailingDD)}, y se sigue el historial real desde ahí.</div>
+        <div class="stat-desc" style="margin:2rem 0 1rem">Después de fondearte: la cuenta se resetea a ${accFmtMoney(sim.capital)} con el mismo trailing drawdown de ${sim.trailingPct}% (${accFmtMoney(sim.trailingDD)}), operando con tu riesgo "ya fondeada" de ${sim.riskFundedPct}% (${accFmtMoney(sim.capital * sim.riskFundedPct / 100)}/día), y se sigue el historial real desde ahí.</div>
         <div class="stats-grid" style="margin-bottom:1.5rem">
           <div class="stat-card" style="border-top:3px solid ${statusMeta.color}"><div class="stat-tag">Estado fase fondeada</div><div class="stat-num" style="font-size:1.15rem;color:${statusMeta.color}">${statusMeta.label}</div></div>
           <div class="stat-card"><div class="stat-tag">Ganancia máxima alcanzada</div><div class="stat-num white" style="font-size:1.4rem">${accFmtMoney(fp.peakProfit)}</div></div>
