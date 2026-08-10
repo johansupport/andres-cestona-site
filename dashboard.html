@@ -1703,7 +1703,7 @@
       document.getElementById('prof-name-input').value = name;
       document.getElementById('prof-email').textContent = currentUser.email;
       document.getElementById('prof-since').textContent = new Date(currentUser.created_at).toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'});
-      if (currentUser.email === 'johantrading2021@gmail.com') {
+      if (['johantrading2021@gmail.com', 'andrescestona8@gmail.com'].includes(currentUser.email)) {
         document.getElementById('admin-panel-link').style.display = 'flex';
       }
       await loadSimulations();

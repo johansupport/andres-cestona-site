@@ -19,12 +19,12 @@ drop policy if exists "public read strategy_status" on strategy_status;
 create policy "public read strategy_status" on strategy_status
   for select to anon, authenticated using (true);
 
--- Escritura solo para el admin (mismo email que ya usa admin.html).
+-- Escritura solo para los admins (mismos emails que ya usa admin.html).
 drop policy if exists "admin write strategy_status" on strategy_status;
 create policy "admin write strategy_status" on strategy_status
   for all to authenticated
-  using (auth.jwt() ->> 'email' = 'johantrading2021@gmail.com')
-  with check (auth.jwt() ->> 'email' = 'johantrading2021@gmail.com');
+  using (auth.jwt() ->> 'email' in ('johantrading2021@gmail.com', 'andrescestona8@gmail.com'))
+  with check (auth.jwt() ->> 'email' in ('johantrading2021@gmail.com', 'andrescestona8@gmail.com'));
 
 insert into strategy_status (estrategia, status) values
   ('swing', 'running'),

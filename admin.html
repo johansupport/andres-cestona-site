@@ -431,7 +431,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
-    const ADMIN_EMAIL = 'johantrading2021@gmail.com';
+    const ADMIN_EMAILS = ['johantrading2021@gmail.com', 'andrescestona8@gmail.com'];
     const sb = supabase.createClient(
       'https://uhjxybyzpqksyysifatn.supabase.co',
       'sb_publishable_PWj-sZtE5epSdFbvcZmI2g_pYIxUXaP'
@@ -440,7 +440,7 @@
     async function init() {
       const { data } = await sb.auth.getSession();
       if (!data.session) { location.href = 'auth.html'; return; }
-      if (data.session.user.email !== ADMIN_EMAIL) { location.href = 'dashboard.html'; return; }
+      if (!ADMIN_EMAILS.includes(data.session.user.email)) { location.href = 'dashboard.html'; return; }
       // Set today's date
       document.getElementById('f-fecha').value = new Date().toISOString().split('T')[0];
       await loadTrades();

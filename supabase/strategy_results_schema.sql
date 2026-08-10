@@ -19,11 +19,11 @@ drop policy if exists "public read strategy_results" on strategy_results;
 create policy "public read strategy_results" on strategy_results
   for select to anon, authenticated using (true);
 
--- Escritura solo para el admin (mismo email que ya usa admin.html).
+-- Escritura solo para los admins (mismos emails que ya usa admin.html).
 drop policy if exists "admin write strategy_results" on strategy_results;
 create policy "admin write strategy_results" on strategy_results
   for all to authenticated
-  using (auth.jwt() ->> 'email' = 'johantrading2021@gmail.com')
-  with check (auth.jwt() ->> 'email' = 'johantrading2021@gmail.com');
+  using (auth.jwt() ->> 'email' in ('johantrading2021@gmail.com', 'andrescestona8@gmail.com'))
+  with check (auth.jwt() ->> 'email' in ('johantrading2021@gmail.com', 'andrescestona8@gmail.com'));
 
 create index if not exists strategy_results_estrategia_fecha_idx on strategy_results(estrategia, fecha);
