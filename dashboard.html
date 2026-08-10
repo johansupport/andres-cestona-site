@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard — Andrés Cestona</title>
+  <title>Dashboard — Noryon Capital</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
@@ -812,7 +812,7 @@
 
   <nav>
     <div class="nav-logo-area">
-      <a href="index.html" class="nav-logo">Andrés <span>Cestona</span></a>
+      <a href="index.html" class="nav-logo">Noryon <span>Capital</span></a>
     </div>
     <div class="nav-right">
       <div class="nav-profile-wrap" id="navProfileWrap">
@@ -1530,7 +1530,6 @@
               <div class="fd-field">
                 <label class="profile-label">Estrategia</label>
                 <select class="ov-acc-select" id="fd-strategy" style="width:100%">
-                  <option value="xauaud">XAUAUD</option>
                   <option value="swing">XAUUSD</option>
                   <option value="btc">BTC</option>
                   <option value="tesla">TESLA</option>
@@ -1718,7 +1717,6 @@
 
     // ── RESUMEN PREMIUM: rutina diaria / semanal / calendario mensual ──
     const OV_STRATS = [
-      { key: 'xauaud', label: 'XAUAUD', short: 'AU', time: '7:00 AM', color: '#8A6DFF' },
       { key: 'swing', label: 'XAUUSD', short: 'US', time: '11:00 AM', color: '#c9a84c' },
       { key: 'btc', label: 'BTC', short: 'BT', time: '1:00 PM', color: '#F2A93B' },
       { key: 'tesla', label: 'TESLA', short: 'TS', time: '3:30 PM', color: '#5B6CF9' },
@@ -1754,13 +1752,13 @@
     function ovMondayOf(d) { const x = new Date(d); const day = (x.getDay()+6)%7; x.setDate(x.getDate()-day); x.setHours(0,0,0,0); return x; }
     function ovWeekOfMonth(d) { const firstDow = (new Date(d.getFullYear(), d.getMonth(), 1).getDay() + 6) % 7; return Math.ceil((d.getDate() + firstDow) / 7); }
 
-    let ovResults = { xauaud: [], swing: [], btc: [], tesla: [] };
+    let ovResults = { swing: [], btc: [], tesla: [] };
     let ovZoom = 'day';
     let ovSelectedDate = ovTodayStr();
     let ovDayStripEnd = new Date();
     let ovSelectedWeekStart = ovDateStr(ovMondayOf(new Date()));
     let ovWeekStripEnd = ovMondayOf(new Date());
-    let ovCalStrat = 'xauaud';
+    let ovCalStrat = 'swing';
     let ovCalYear = new Date().getFullYear();
     let ovCalMonth = new Date().getMonth();
 
