@@ -313,45 +313,58 @@
     .trade-r.pos { color:var(--green); }
     .trade-r.neg { color:var(--red); }
 
-    /* TL2 — Trades recientes, módulo estilo Notion (fondo negro, siempre oscuro) */
-    .tl2-shell { background:#000; border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:1.3rem 1.4rem 1.6rem; margin-bottom:1.6rem; }
-    .tl2-tabs { display:flex; align-items:center; gap:.3rem; flex-wrap:wrap; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:.9rem; margin-bottom:1.3rem; }
+    /* TL2 — Trades recientes, página completa estilo Notion (fondo negro) */
+    #view-trades.view { background:#000; border-radius:22px; padding:1.9rem 1.9rem 2.3rem; }
+    #view-trades .page-title { color:#fff !important; }
+    #view-trades .page-sub { color:rgba(255,255,255,.4) !important; }
+    #view-trades .ov-tabs { background:#111 !important; border-color:rgba(255,255,255,.1) !important; }
+    #view-trades .ov-tab { color:rgba(255,255,255,.5) !important; }
+    #view-trades .ov-tab.active { background:var(--gold) !important; color:#0c0a04 !important; }
+
+    .tl2-topbar { display:flex; align-items:center; gap:.6rem; flex-wrap:wrap; margin:1.3rem 0 1.2rem; }
+    .tl2-tabs { display:flex; align-items:center; gap:.3rem; flex-wrap:wrap; }
     .tl2-tab { background:none; border:none; color:rgba(255,255,255,.45); font-size:.78rem; font-weight:700; padding:.5rem .85rem; border-radius:8px; cursor:pointer; font-family:'Space Mono',monospace; transition:background .15s,color .15s; }
-    .tl2-tab:hover { background:rgba(255,255,255,.05); color:#fff; }
-    .tl2-tab.active { background:var(--gold); color:#0c0a04; }
-    .tl2-tabs-right { margin-left:auto; display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
-    .tl2-period { background:#111; border:1px solid rgba(255,255,255,.12); color:#fff; border-radius:8px; padding:.4rem .7rem; font-size:.72rem; font-family:'Space Mono',monospace; }
+    .tl2-tab:hover { background:rgba(255,255,255,.06); color:#fff; }
+    .tl2-tab.active { background:rgba(255,255,255,.1); color:#fff; }
+    .tl2-topbar-right { margin-left:auto; display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
+    .tl2-monthnav { display:flex; align-items:center; gap:.6rem; background:#111; border:1px solid rgba(255,255,255,.1); border-radius:8px; padding:.3rem .5rem; }
+    .tl2-monthnav button { border:none; background:none; color:rgba(255,255,255,.6); width:22px; height:22px; border-radius:5px; cursor:pointer; font-size:.85rem; }
+    .tl2-monthnav button:hover { background:rgba(255,255,255,.08); color:#fff; }
+    .tl2-monthnav span { font-family:'Space Mono',monospace; font-size:.72rem; font-weight:700; color:#fff; min-width:110px; text-align:center; }
+    .tl2-divider { border:none; border-top:1px solid rgba(255,255,255,.08); margin:0 0 1.3rem; }
     .tl2-panel { display:none; }
     .tl2-panel.active { display:block; }
 
-    .tl2-chart-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; }
+    /* paleta compartida: resultado (win/loss) + 3 estrategias (azul / morado / naranja, como en la referencia) */
+    .tl2-pill, .tl2-tag, .tl2-dir, .tl2-cal-pill { font-family:'Space Mono',monospace; font-weight:800; letter-spacing:.3px; }
+    .tl2-pill.win, .tl2-dir.long, .tl2-cal-pill.win { background:#1f9d55; color:#fff; }
+    .tl2-pill.loss, .tl2-dir.short, .tl2-cal-pill.loss { background:#e5484d; color:#fff; }
+    .tl2-tag.swing { background:#3b82f6; color:#fff; }
+    .tl2-tag.btc { background:#8b5cf6; color:#fff; }
+    .tl2-tag.tesla { background:#f59e0b; color:#1a1204; }
+    .tl2-tag.sp500 { background:#14b8a6; color:#04201c; }
+
+    .tl2-chart-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:1rem; }
     .tl2-card { background:#0c0c0c; border:1px solid rgba(255,255,255,.08); border-radius:12px; overflow:hidden; }
     .tl2-card img.tl2-thumb { display:block; width:100%; height:112px; object-fit:cover; background:#f4f4f2; }
     .tl2-card-empty { height:112px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.22); font-size:.62rem; font-family:'Space Mono',monospace; background:#0c0c0c; text-align:center; padding:0 1rem; }
     .tl2-card-body { padding:.75rem .85rem .9rem; }
     .tl2-card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; }
     .tl2-pair { font-family:'Space Mono',monospace; font-size:.8rem; font-weight:700; color:#fff; }
-    .tl2-pill { font-family:'Space Mono',monospace; font-size:.58rem; font-weight:800; letter-spacing:.4px; padding:.22rem .5rem; border-radius:999px; text-transform:uppercase; flex-shrink:0; }
-    .tl2-pill.win { background:rgba(31,156,88,.16); color:#3ecb7e; }
-    .tl2-pill.loss { background:rgba(217,74,60,.18); color:#f0776a; }
+    .tl2-pill { font-size:.58rem; padding:.24rem .55rem; border-radius:999px; text-transform:uppercase; flex-shrink:0; }
     .tl2-card-mid { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:.65rem; font-family:'Space Mono',monospace; }
     .tl2-pct { font-size:.95rem; font-weight:700; }
     .tl2-pct.win { color:#3ecb7e; } .tl2-pct.loss { color:#f0776a; }
     .tl2-date { font-size:.64rem; color:rgba(255,255,255,.4); }
-    .tl2-tag { display:inline-flex; font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700; padding:.24rem .55rem; border-radius:6px; }
-    .tl2-tag.swing { background:rgba(201,168,76,.16); color:#e8c97a; }
-    .tl2-tag.btc { background:rgba(240,138,66,.16); color:#f0a06c; }
-    .tl2-tag.tesla { background:rgba(91,108,249,.18); color:#a8b2ff; }
-    .tl2-tag.sp500 { background:rgba(45,170,180,.18); color:#7fd6dd; }
+    .tl2-tag { display:inline-flex; font-size:.6rem; padding:.26rem .6rem; border-radius:6px; }
 
-    .tl2-table-wrap { overflow-x:auto; }
+    .tl2-table-wrap { overflow-x:auto; border:1px solid rgba(255,255,255,.08); border-radius:12px; }
     .tl2-table { width:100%; border-collapse:collapse; font-family:'Space Mono',monospace; font-size:.76rem; min-width:580px; }
-    .tl2-table th { text-align:left; font-size:.6rem; text-transform:uppercase; letter-spacing:.6px; color:rgba(255,255,255,.4); font-weight:700; padding:.7rem .8rem; border-bottom:1px solid rgba(255,255,255,.08); }
-    .tl2-table td { padding:.65rem .8rem; border-bottom:1px solid rgba(255,255,255,.06); color:#fff; }
-    .tl2-table tr:hover td { background:rgba(255,255,255,.02); }
-    .tl2-dir { font-size:.62rem; font-weight:700; padding:.18rem .5rem; border-radius:5px; }
-    .tl2-dir.long { background:rgba(31,156,88,.16); color:#3ecb7e; }
-    .tl2-dir.short { background:rgba(217,74,60,.18); color:#f0776a; }
+    .tl2-table th { text-align:left; font-size:.6rem; text-transform:uppercase; letter-spacing:.6px; color:rgba(255,255,255,.4); font-weight:700; padding:.8rem .9rem; border-bottom:1px solid rgba(255,255,255,.08); background:#0c0c0c; }
+    .tl2-table td { padding:.7rem .9rem; border-bottom:1px solid rgba(255,255,255,.06); color:#fff; background:#0c0c0c; }
+    .tl2-table tr:last-child td { border-bottom:none; }
+    .tl2-table tr:hover td { background:#131313; }
+    .tl2-dir { font-size:.62rem; padding:.2rem .55rem; border-radius:5px; }
 
     .tl2-wl-grid { display:grid; grid-template-columns:190px 1fr; gap:1.2rem; }
     .tl2-wl-ring-card { background:#0c0c0c; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; align-items:center; gap:.6rem; }
@@ -366,8 +379,8 @@
     .tl2-wl-row:last-child { margin-bottom:0; }
     .tl2-wl-row-head { display:flex; justify-content:space-between; font-family:'Space Mono',monospace; font-size:.72rem; font-weight:700; color:#fff; margin-bottom:.35rem; }
     .tl2-wl-row-head span.cnt { color:rgba(255,255,255,.4); font-weight:600; }
-    .tl2-wl-track { height:8px; border-radius:4px; background:rgba(217,74,60,.25); overflow:hidden; }
-    .tl2-wl-fill { background:#3ecb7e; height:100%; }
+    .tl2-wl-track { height:8px; border-radius:4px; background:rgba(229,72,77,.35); overflow:hidden; }
+    .tl2-wl-fill { background:#1f9d55; height:100%; }
 
     .tl2-strat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; }
     .tl2-strat-card { background:#0c0c0c; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:1rem 1.1rem; }
@@ -381,20 +394,20 @@
     .tl2-cal-card { background:#000; border:1px solid rgba(255,255,255,.08); border-radius:16px; overflow:hidden; }
     .tl2-cal-head { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.3rem; border-bottom:1px solid rgba(255,255,255,.08); }
     .tl2-cal-title { font-family:'Space Mono',monospace; font-size:.84rem; font-weight:700; color:#fff; }
-    .tl2-cal-nav { display:flex; gap:.5rem; }
-    .tl2-cal-nav button { border:1px solid rgba(255,255,255,.12); background:#111; color:#fff; width:26px; height:26px; border-radius:6px; cursor:pointer; font-size:.85rem; }
     .tl2-cal-head-row { display:grid; grid-template-columns:repeat(7,1fr); border-bottom:1px solid rgba(255,255,255,.08); }
     .tl2-cal-head-row div { padding:.5rem 0; text-align:center; font-family:'Space Mono',monospace; font-size:.58rem; font-weight:700; letter-spacing:.5px; color:rgba(255,255,255,.35); text-transform:uppercase; }
     .tl2-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); }
-    .tl2-cal-cell { min-height:76px; border-right:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); padding:.35rem; }
+    .tl2-cal-cell { min-height:96px; border-right:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); padding:.4rem; }
     .tl2-cal-cell:nth-child(7n) { border-right:none; }
-    .tl2-cal-daynum { font-family:'Space Mono',monospace; font-size:.62rem; color:rgba(255,255,255,.35); font-weight:600; margin-bottom:.25rem; }
-    .tl2-cal-cell.today { background:rgba(201,168,76,.06); }
+    .tl2-cal-daynum { font-family:'Space Mono',monospace; font-size:.64rem; color:rgba(255,255,255,.35); font-weight:600; margin-bottom:.35rem; }
+    .tl2-cal-cell.today { background:rgba(201,168,76,.07); }
     .tl2-cal-cell.today .tl2-cal-daynum { color:var(--gold); font-weight:800; }
-    .tl2-cal-cell.out .tl2-cal-daynum { opacity:.25; }
-    .tl2-cal-trade { font-family:'Space Mono',monospace; font-size:.56rem; font-weight:700; padding:.15rem .3rem; border-radius:4px; margin-bottom:.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .tl2-cal-trade.win { background:rgba(31,156,88,.16); color:#3ecb7e; }
-    .tl2-cal-trade.loss { background:rgba(217,74,60,.18); color:#f0776a; }
+    .tl2-cal-cell.out .tl2-cal-daynum { opacity:.2; }
+    .tl2-cal-chip { background:#111; border:1px solid rgba(255,255,255,.07); border-radius:6px; padding:.32rem .4rem; margin-bottom:.3rem; }
+    .tl2-cal-pair { font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700; color:#fff; margin-bottom:.22rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .tl2-cal-pill { display:inline-block; font-size:.5rem; padding:.12rem .38rem; border-radius:4px; margin-bottom:.2rem; }
+    .tl2-cal-pct { font-family:'Space Mono',monospace; font-size:.58rem; font-weight:700; }
+    .tl2-cal-pct.win { color:#3ecb7e; } .tl2-cal-pct.loss { color:#f0776a; }
     @media (max-width:720px) { .tl2-wl-grid { grid-template-columns:1fr; } }
 
     /* PERFORMANCE — mini cards */
@@ -1366,60 +1379,59 @@
 
         <!-- SEÑALES: publicadas por Noryon Capital -->
         <div id="tl-signals-panel">
-          <div class="tl2-shell">
+          <div class="tl2-topbar">
             <div class="tl2-tabs">
               <button class="tl2-tab active" data-view="chart" onclick="tl2SetView('chart')">Chart overview</button>
               <button class="tl2-tab" data-view="list" onclick="tl2SetView('list')">List overview</button>
               <button class="tl2-tab" data-view="wl" onclick="tl2SetView('wl')">Wins vs Losses</button>
               <button class="tl2-tab" data-view="strat" onclick="tl2SetView('strat')">Strategy overview</button>
-              <div class="tl2-tabs-right">
-                <div class="ov-cal-strat-tabs" id="tl2-strat-filter" style="margin:0"></div>
-                <select class="tl2-period" id="tl2-period-filter" onchange="tl2Render()">
-                  <option value="7">Últimos 7 días</option>
-                  <option value="30" selected>Últimos 30 días</option>
-                  <option value="90">Últimos 3 meses</option>
-                  <option value="all">Todo el historial</option>
-                </select>
+            </div>
+            <div class="tl2-topbar-right">
+              <div class="ov-cal-strat-tabs" id="tl2-strat-filter" style="margin:0"></div>
+              <div class="tl2-monthnav">
+                <button onclick="tl2CalPrev()">‹</button>
+                <span id="tl2-month-label">—</span>
+                <button onclick="tl2CalNext()">›</button>
               </div>
             </div>
+          </div>
+          <hr class="tl2-divider"/>
 
-            <div class="tl2-panel active" id="tl2-panel-chart">
-              <div class="tl2-chart-grid" id="tl2-chart-grid"></div>
-            </div>
+          <div class="tl2-panel active" id="tl2-panel-chart">
+            <div class="tl2-chart-grid" id="tl2-chart-grid"></div>
+          </div>
 
-            <div class="tl2-panel" id="tl2-panel-list">
-              <div class="tl2-table-wrap">
-                <table class="tl2-table">
-                  <thead><tr><th>Par</th><th>Resultado</th><th>Fecha</th><th>Posición</th><th>Estrategia</th></tr></thead>
-                  <tbody id="tl2-list-body"></tbody>
-                </table>
-              </div>
-            </div>
-
-            <div class="tl2-panel" id="tl2-panel-wl">
-              <div class="tl2-wl-grid">
-                <div class="tl2-wl-ring-card">
-                  <div class="tl2-wl-ring"><canvas id="tl2-wl-ring-canvas" width="120" height="120"></canvas>
-                    <div class="tl2-wl-ring-num"><b id="tl2-wl-ring-pct">—</b><span>Win rate</span></div>
-                  </div>
-                  <div class="tl2-wl-legend">
-                    <span><i style="background:#3ecb7e"></i>Wins</span>
-                    <span><i style="background:#f0776a"></i>Losses</span>
-                  </div>
-                </div>
-                <div class="tl2-wl-bars" id="tl2-wl-bars"></div>
-              </div>
-            </div>
-
-            <div class="tl2-panel" id="tl2-panel-strat">
-              <div class="tl2-strat-grid" id="tl2-strat-grid"></div>
+          <div class="tl2-panel" id="tl2-panel-list">
+            <div class="tl2-table-wrap">
+              <table class="tl2-table">
+                <thead><tr><th>Par</th><th>Resultado</th><th>Fecha</th><th>Posición</th><th>Estrategia</th></tr></thead>
+                <tbody id="tl2-list-body"></tbody>
+              </table>
             </div>
           </div>
 
-          <div class="tl2-cal-card">
+          <div class="tl2-panel" id="tl2-panel-wl">
+            <div class="tl2-wl-grid">
+              <div class="tl2-wl-ring-card">
+                <div class="tl2-wl-ring"><canvas id="tl2-wl-ring-canvas" width="120" height="120"></canvas>
+                  <div class="tl2-wl-ring-num"><b id="tl2-wl-ring-pct">—</b><span>Win rate</span></div>
+                </div>
+                <div class="tl2-wl-legend">
+                  <span><i style="background:#1f9d55"></i>Wins</span>
+                  <span><i style="background:#e5484d"></i>Losses</span>
+                </div>
+              </div>
+              <div class="tl2-wl-bars" id="tl2-wl-bars"></div>
+            </div>
+          </div>
+
+          <div class="tl2-panel" id="tl2-panel-strat">
+            <div class="tl2-strat-grid" id="tl2-strat-grid"></div>
+          </div>
+
+          <div class="tl2-cal-card" style="margin-top:1.6rem">
             <div class="tl2-cal-head">
               <span class="tl2-cal-title" id="tl2-cal-title">—</span>
-              <div class="tl2-cal-nav"><button onclick="tl2CalPrev()">‹</button><button onclick="tl2CalNext()">›</button></div>
             </div>
             <div class="tl2-cal-head-row"><div>DOM</div><div>LUN</div><div>MAR</div><div>MIÉ</div><div>JUE</div><div>VIE</div><div>SÁB</div></div>
             <div class="tl2-cal-grid" id="tl2-cal-grid"></div>
@@ -2411,8 +2423,11 @@
     }
     function tl2SetStratFilter(key) { tl2StratFilter = key; tl2Render(); }
 
+    function tl2TagClass(key) { return key === 'swing' ? 'swing' : key === 'btc' ? 'btc' : key === 'tesla' ? 'tesla' : 'sp500'; }
+    const TL2_COLORS = { swing:'#3b82f6', btc:'#8b5cf6', tesla:'#f59e0b', sp500:'#14b8a6' };
+
     function tl2FilterTabsHTML() {
-      const opts = [{ key:'all', label:'Todas', color:'#333' }, ...OV_STRATS];
+      const opts = [{ key:'all', label:'Todas', color:'#333' }, ...OV_STRATS.map(s => ({ ...s, color: TL2_COLORS[s.key] }))];
       return opts.map(o => {
         const sel = o.key === tl2StratFilter;
         return `<button class="ov-cal-strat-tab${sel?' selected':''}" style="${sel?`background:${o.color};border-color:${o.color}`:'background:#111;border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.6)'}" onclick="tl2SetStratFilter('${o.key}')">
@@ -2421,14 +2436,15 @@
       }).join('');
     }
 
-    function tl2TagClass(key) { return key === 'swing' ? 'swing' : key === 'btc' ? 'btc' : key === 'tesla' ? 'tesla' : 'sp500'; }
-
     function tl2GetRows() {
-      const cutoff = tlPeriodCutoff('tl2-period-filter');
       let rows = [];
       OV_STRATS.forEach(s => {
         if (tl2StratFilter !== 'all' && tl2StratFilter !== s.key) return;
-        (ovResults[s.key]||[]).forEach(r => { if (!cutoff || r.fecha >= cutoff) rows.push({ ...r, stratMeta: s }); });
+        (ovResults[s.key]||[]).forEach(r => {
+          const d = new Date(r.fecha + 'T00:00:00');
+          if (d.getFullYear() !== tl2CalYear || d.getMonth() !== tl2CalMonth) return;
+          rows.push({ ...r, stratMeta: s });
+        });
       });
       return rows.sort((a,b) => b.fecha.localeCompare(a.fecha));
     }
@@ -2454,7 +2470,7 @@
             <span class="tl2-tag ${tag}">${r.stratMeta.label}</span>
           </div>
         </div>`;
-      }).join('') || '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem;padding:1rem 0">No hay señales en este periodo.</div>';
+      }).join('') || '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem;padding:1rem 0">No hay señales este mes.</div>';
     }
 
     function tl2RenderList(rows) {
@@ -2470,7 +2486,7 @@
           <td><span class="tl2-dir ${w?'long':'short'}">${w?'Long':'Short'}</span></td>
           <td><span class="tl2-tag ${tag}">${r.stratMeta.label}</span></td>
         </tr>`;
-      }).join('') || `<tr><td colspan="5" style="color:rgba(255,255,255,.3);padding:1rem .8rem">No hay señales en este periodo.</td></tr>`;
+      }).join('') || `<tr><td colspan="5" style="color:rgba(255,255,255,.3);padding:1rem .8rem">No hay señales este mes.</td></tr>`;
     }
 
     function tl2DrawRing(canvas, winPct) {
@@ -2478,9 +2494,9 @@
       const cx = 60, cy = 60, r = 50, lw = 12;
       ctx.clearRect(0,0,120,120);
       ctx.lineWidth = lw; ctx.lineCap = 'round';
-      ctx.strokeStyle = 'rgba(217,74,60,.55)';
+      ctx.strokeStyle = '#e5484d';
       ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,Math.PI*1.5); ctx.stroke();
-      ctx.strokeStyle = '#3ecb7e';
+      ctx.strokeStyle = '#1f9d55';
       ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2 + (winPct/100)*Math.PI*2); ctx.stroke();
     }
 
@@ -2509,7 +2525,7 @@
           <div class="tl2-wl-row-head"><span>${v.label}</span><span class="cnt">${v.win}W · ${v.loss}L</span></div>
           <div class="tl2-wl-track"><div class="tl2-wl-fill" style="width:${wp}%"></div></div>
         </div>`;
-      }).join('') : '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem">No hay señales en este periodo.</div>';
+      }).join('') : '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem">No hay señales este mes.</div>';
     }
 
     function tl2DrawSpark(canvas, list) {
@@ -2542,7 +2558,7 @@
       const byStrat = {};
       rows.forEach(r => { (byStrat[r.stratMeta.key] = byStrat[r.stratMeta.key] || []).push(r); });
       const entries = Object.entries(byStrat);
-      if (!entries.length) { grid.innerHTML = '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem">No hay señales en este periodo.</div>'; return; }
+      if (!entries.length) { grid.innerHTML = '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem">No hay señales este mes.</div>'; return; }
       grid.innerHTML = '';
       entries.forEach(([key, list]) => {
         const meta = list[0].stratMeta;
@@ -2566,8 +2582,11 @@
     function tl2RenderCalendar() {
       const grid = document.getElementById('tl2-cal-grid');
       const titleEl = document.getElementById('tl2-cal-title');
+      const labelEl = document.getElementById('tl2-month-label');
       if (!grid || !titleEl) return;
-      titleEl.textContent = `${OV_MONTHS_LONG[tl2CalMonth]} ${tl2CalYear}`;
+      const monthLabel = `${OV_MONTHS_LONG[tl2CalMonth]} ${tl2CalYear}`;
+      titleEl.textContent = monthLabel;
+      if (labelEl) labelEl.textContent = monthLabel;
       const first = new Date(tl2CalYear, tl2CalMonth, 1);
       const startDay = first.getDay();
       const daysInMonth = new Date(tl2CalYear, tl2CalMonth+1, 0).getDate();
@@ -2595,15 +2614,19 @@
         if (!c.out && byDay[c.day]) {
           byDay[c.day].forEach(r => {
             const w = r.resultado === 'win';
-            inner += `<div class="tl2-cal-trade ${w?'win':'loss'}">${r.stratMeta.label} ${w?'+':''}${Number(r.porcentaje).toFixed(1)}%</div>`;
+            inner += `<div class="tl2-cal-chip">
+              <div class="tl2-cal-pair">${r.stratMeta.label}</div>
+              <span class="tl2-cal-pill ${w?'win':'loss'}">${w?'WIN':'LOSS'}</span>
+              <div class="tl2-cal-pct ${w?'win':'loss'}">${w?'+':''}${Number(r.porcentaje).toFixed(1)}%</div>
+            </div>`;
           });
         }
         return `<div class="tl2-cal-cell${c.out?' out':''}${isToday?' today':''}">${inner}</div>`;
       }).join('');
     }
 
-    function tl2CalPrev() { tl2CalMonth--; if (tl2CalMonth < 0) { tl2CalMonth = 11; tl2CalYear--; } tl2RenderCalendar(); }
-    function tl2CalNext() { tl2CalMonth++; if (tl2CalMonth > 11) { tl2CalMonth = 0; tl2CalYear++; } tl2RenderCalendar(); }
+    function tl2CalPrev() { tl2CalMonth--; if (tl2CalMonth < 0) { tl2CalMonth = 11; tl2CalYear--; } tl2Render(); }
+    function tl2CalNext() { tl2CalMonth++; if (tl2CalMonth > 11) { tl2CalMonth = 0; tl2CalYear++; } tl2Render(); }
 
     function tl2Render() {
       const filterEl = document.getElementById('tl2-strat-filter');
