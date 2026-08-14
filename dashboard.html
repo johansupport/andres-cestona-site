@@ -395,18 +395,19 @@
     .tl2-cal-head { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.3rem; border-bottom:1px solid rgba(255,255,255,.08); }
     .tl2-cal-title { font-family:'Space Mono',monospace; font-size:.84rem; font-weight:700; color:#fff; }
     .tl2-cal-head-row { display:grid; grid-template-columns:repeat(7,1fr); border-bottom:1px solid rgba(255,255,255,.08); }
-    .tl2-cal-head-row div { padding:.5rem 0; text-align:center; font-family:'Space Mono',monospace; font-size:.58rem; font-weight:700; letter-spacing:.5px; color:rgba(255,255,255,.35); text-transform:uppercase; }
+    .tl2-cal-head-row div { padding:.55rem 0 .55rem .6rem; text-align:left; font-family:'Space Mono',monospace; font-size:.6rem; font-weight:600; letter-spacing:.4px; color:rgba(255,255,255,.4); text-transform:uppercase; }
     .tl2-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); }
-    .tl2-cal-cell { min-height:96px; border-right:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); padding:.4rem; }
+    .tl2-cal-cell { min-height:108px; border-right:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); padding:.45rem; }
     .tl2-cal-cell:nth-child(7n) { border-right:none; }
-    .tl2-cal-daynum { font-family:'Space Mono',monospace; font-size:.64rem; color:rgba(255,255,255,.35); font-weight:600; margin-bottom:.35rem; }
+    .tl2-cal-daynum { font-family:'Space Mono',monospace; font-size:.66rem; text-align:right; color:rgba(255,255,255,.35); font-weight:600; margin-bottom:.4rem; }
+    .tl2-cal-daynum.has { color:#fff; font-weight:800; }
     .tl2-cal-cell.today { background:rgba(201,168,76,.07); }
     .tl2-cal-cell.today .tl2-cal-daynum { color:var(--gold); font-weight:800; }
     .tl2-cal-cell.out .tl2-cal-daynum { opacity:.2; }
-    .tl2-cal-chip { background:#111; border:1px solid rgba(255,255,255,.07); border-radius:6px; padding:.32rem .4rem; margin-bottom:.3rem; }
-    .tl2-cal-pair { font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700; color:#fff; margin-bottom:.22rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .tl2-cal-pill { display:inline-block; font-size:.5rem; padding:.12rem .38rem; border-radius:4px; margin-bottom:.2rem; }
-    .tl2-cal-pct { font-family:'Space Mono',monospace; font-size:.58rem; font-weight:700; }
+    .tl2-cal-chip { background:#161616; border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:.4rem .5rem; margin-bottom:.32rem; }
+    .tl2-cal-pair { font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700; color:#fff; margin-bottom:.28rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .tl2-cal-pill { display:inline-block; font-size:.5rem; padding:.16rem .42rem; border-radius:5px; margin-bottom:.26rem; }
+    .tl2-cal-pct { font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700; }
     .tl2-cal-pct.win { color:#3ecb7e; } .tl2-cal-pct.loss { color:#f0776a; }
     @media (max-width:720px) { .tl2-wl-grid { grid-template-columns:1fr; } }
 
@@ -2606,11 +2607,15 @@
       const cells = [];
       for (let i=startDay-1; i>=0; i--) cells.push({ day: daysInPrev-i, out:true });
       for (let d=1; d<=daysInMonth; d++) cells.push({ day:d, out:false, ds: ovDateStr(new Date(tl2CalYear, tl2CalMonth, d)) });
-      while (cells.length % 7 !== 0) cells.push({ day: cells.length, out:true });
+      let nextDay = 1;
+      while (cells.length % 7 !== 0) cells.push({ day: nextDay++, out:true });
 
       grid.innerHTML = cells.map(c => {
         const isToday = !c.out && c.ds === todayStr;
-        let inner = `<div class="tl2-cal-daynum">${c.day}</div>`;
+        const hasTrades = !c.out && byDay[c.day];
+        const mAbbr = OV_MONTHS_SHORT[tl2CalMonth];
+        const dayLabel = (!c.out && c.day === 1) ? `${mAbbr.charAt(0).toUpperCase()}${mAbbr.slice(1)} 1` : c.day;
+        let inner = `<div class="tl2-cal-daynum${hasTrades?' has':''}">${dayLabel}</div>`;
         if (!c.out && byDay[c.day]) {
           byDay[c.day].forEach(r => {
             const w = r.resultado === 'win';
