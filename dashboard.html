@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard — Noryon Capital</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
@@ -312,6 +312,90 @@
     .trade-r { font-size:.78rem; font-weight:800; flex-shrink:0; }
     .trade-r.pos { color:var(--green); }
     .trade-r.neg { color:var(--red); }
+
+    /* TL2 — Trades recientes, módulo estilo Notion (fondo negro, siempre oscuro) */
+    .tl2-shell { background:#000; border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:1.3rem 1.4rem 1.6rem; margin-bottom:1.6rem; }
+    .tl2-tabs { display:flex; align-items:center; gap:.3rem; flex-wrap:wrap; border-bottom:1px solid rgba(255,255,255,.08); padding-bottom:.9rem; margin-bottom:1.3rem; }
+    .tl2-tab { background:none; border:none; color:rgba(255,255,255,.45); font-size:.78rem; font-weight:700; padding:.5rem .85rem; border-radius:8px; cursor:pointer; font-family:'Space Mono',monospace; transition:background .15s,color .15s; }
+    .tl2-tab:hover { background:rgba(255,255,255,.05); color:#fff; }
+    .tl2-tab.active { background:var(--gold); color:#0c0a04; }
+    .tl2-tabs-right { margin-left:auto; display:flex; gap:.6rem; align-items:center; flex-wrap:wrap; }
+    .tl2-period { background:#111; border:1px solid rgba(255,255,255,.12); color:#fff; border-radius:8px; padding:.4rem .7rem; font-size:.72rem; font-family:'Space Mono',monospace; }
+    .tl2-panel { display:none; }
+    .tl2-panel.active { display:block; }
+
+    .tl2-chart-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; }
+    .tl2-card { background:#0c0c0c; border:1px solid rgba(255,255,255,.08); border-radius:12px; overflow:hidden; }
+    .tl2-card img.tl2-thumb { display:block; width:100%; height:112px; object-fit:cover; background:#f4f4f2; }
+    .tl2-card-empty { height:112px; display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.22); font-size:.62rem; font-family:'Space Mono',monospace; background:#0c0c0c; text-align:center; padding:0 1rem; }
+    .tl2-card-body { padding:.75rem .85rem .9rem; }
+    .tl2-card-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; }
+    .tl2-pair { font-family:'Space Mono',monospace; font-size:.8rem; font-weight:700; color:#fff; }
+    .tl2-pill { font-family:'Space Mono',monospace; font-size:.58rem; font-weight:800; letter-spacing:.4px; padding:.22rem .5rem; border-radius:999px; text-transform:uppercase; flex-shrink:0; }
+    .tl2-pill.win { background:rgba(31,156,88,.16); color:#3ecb7e; }
+    .tl2-pill.loss { background:rgba(217,74,60,.18); color:#f0776a; }
+    .tl2-card-mid { display:flex; align-items:baseline; justify-content:space-between; margin-bottom:.65rem; font-family:'Space Mono',monospace; }
+    .tl2-pct { font-size:.95rem; font-weight:700; }
+    .tl2-pct.win { color:#3ecb7e; } .tl2-pct.loss { color:#f0776a; }
+    .tl2-date { font-size:.64rem; color:rgba(255,255,255,.4); }
+    .tl2-tag { display:inline-flex; font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700; padding:.24rem .55rem; border-radius:6px; }
+    .tl2-tag.swing { background:rgba(201,168,76,.16); color:#e8c97a; }
+    .tl2-tag.btc { background:rgba(240,138,66,.16); color:#f0a06c; }
+    .tl2-tag.tesla { background:rgba(91,108,249,.18); color:#a8b2ff; }
+    .tl2-tag.sp500 { background:rgba(45,170,180,.18); color:#7fd6dd; }
+
+    .tl2-table-wrap { overflow-x:auto; }
+    .tl2-table { width:100%; border-collapse:collapse; font-family:'Space Mono',monospace; font-size:.76rem; min-width:580px; }
+    .tl2-table th { text-align:left; font-size:.6rem; text-transform:uppercase; letter-spacing:.6px; color:rgba(255,255,255,.4); font-weight:700; padding:.7rem .8rem; border-bottom:1px solid rgba(255,255,255,.08); }
+    .tl2-table td { padding:.65rem .8rem; border-bottom:1px solid rgba(255,255,255,.06); color:#fff; }
+    .tl2-table tr:hover td { background:rgba(255,255,255,.02); }
+    .tl2-dir { font-size:.62rem; font-weight:700; padding:.18rem .5rem; border-radius:5px; }
+    .tl2-dir.long { background:rgba(31,156,88,.16); color:#3ecb7e; }
+    .tl2-dir.short { background:rgba(217,74,60,.18); color:#f0776a; }
+
+    .tl2-wl-grid { display:grid; grid-template-columns:190px 1fr; gap:1.2rem; }
+    .tl2-wl-ring-card { background:#0c0c0c; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; align-items:center; gap:.6rem; }
+    .tl2-wl-ring { position:relative; width:120px; height:120px; }
+    .tl2-wl-ring-num { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:'Space Mono',monospace; }
+    .tl2-wl-ring-num b { font-size:1.2rem; color:#fff; }
+    .tl2-wl-ring-num span { font-size:.58rem; color:rgba(255,255,255,.4); text-transform:uppercase; }
+    .tl2-wl-legend { display:flex; gap:1rem; font-size:.66rem; color:rgba(255,255,255,.55); font-family:'Space Mono',monospace; }
+    .tl2-wl-legend i { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:.3rem; }
+    .tl2-wl-bars { background:#0c0c0c; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:1.1rem 1.2rem; }
+    .tl2-wl-row { margin-bottom:1rem; }
+    .tl2-wl-row:last-child { margin-bottom:0; }
+    .tl2-wl-row-head { display:flex; justify-content:space-between; font-family:'Space Mono',monospace; font-size:.72rem; font-weight:700; color:#fff; margin-bottom:.35rem; }
+    .tl2-wl-row-head span.cnt { color:rgba(255,255,255,.4); font-weight:600; }
+    .tl2-wl-track { height:8px; border-radius:4px; background:rgba(217,74,60,.25); overflow:hidden; }
+    .tl2-wl-fill { background:#3ecb7e; height:100%; }
+
+    .tl2-strat-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1rem; }
+    .tl2-strat-card { background:#0c0c0c; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:1rem 1.1rem; }
+    .tl2-strat-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:.8rem; }
+    .tl2-strat-name { font-family:'Space Mono',monospace; font-size:.78rem; font-weight:700; color:#fff; }
+    .tl2-strat-stats { display:grid; grid-template-columns:1fr 1fr; gap:.5rem; margin-bottom:.8rem; font-family:'Space Mono',monospace; }
+    .tl2-strat-stat b { display:block; font-size:.92rem; font-weight:700; color:#fff; }
+    .tl2-strat-stat span { font-size:.58rem; color:rgba(255,255,255,.4); text-transform:uppercase; }
+    .tl2-strat-spark { width:100%; height:34px; display:block; }
+
+    .tl2-cal-card { background:#000; border:1px solid rgba(255,255,255,.08); border-radius:16px; overflow:hidden; }
+    .tl2-cal-head { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.3rem; border-bottom:1px solid rgba(255,255,255,.08); }
+    .tl2-cal-title { font-family:'Space Mono',monospace; font-size:.84rem; font-weight:700; color:#fff; }
+    .tl2-cal-nav { display:flex; gap:.5rem; }
+    .tl2-cal-nav button { border:1px solid rgba(255,255,255,.12); background:#111; color:#fff; width:26px; height:26px; border-radius:6px; cursor:pointer; font-size:.85rem; }
+    .tl2-cal-head-row { display:grid; grid-template-columns:repeat(7,1fr); border-bottom:1px solid rgba(255,255,255,.08); }
+    .tl2-cal-head-row div { padding:.5rem 0; text-align:center; font-family:'Space Mono',monospace; font-size:.58rem; font-weight:700; letter-spacing:.5px; color:rgba(255,255,255,.35); text-transform:uppercase; }
+    .tl2-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); }
+    .tl2-cal-cell { min-height:76px; border-right:1px solid rgba(255,255,255,.06); border-bottom:1px solid rgba(255,255,255,.06); padding:.35rem; }
+    .tl2-cal-cell:nth-child(7n) { border-right:none; }
+    .tl2-cal-daynum { font-family:'Space Mono',monospace; font-size:.62rem; color:rgba(255,255,255,.35); font-weight:600; margin-bottom:.25rem; }
+    .tl2-cal-cell.today { background:rgba(201,168,76,.06); }
+    .tl2-cal-cell.today .tl2-cal-daynum { color:var(--gold); font-weight:800; }
+    .tl2-cal-cell.out .tl2-cal-daynum { opacity:.25; }
+    .tl2-cal-trade { font-family:'Space Mono',monospace; font-size:.56rem; font-weight:700; padding:.15rem .3rem; border-radius:4px; margin-bottom:.2rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .tl2-cal-trade.win { background:rgba(31,156,88,.16); color:#3ecb7e; }
+    .tl2-cal-trade.loss { background:rgba(217,74,60,.18); color:#f0776a; }
+    @media (max-width:720px) { .tl2-wl-grid { grid-template-columns:1fr; } }
 
     /* PERFORMANCE — mini cards */
     .perf-grid { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:12px; overflow:hidden; margin:1.2rem 1.6rem; }
@@ -1280,27 +1364,92 @@
           <button class="ov-tab" id="tl-tab-accounts" onclick="tlSetSource('accounts')">Mis cuentas</button>
         </div>
 
-        <div class="card" style="margin-bottom:1.5rem">
-          <div class="card-head"><span class="card-title">Filtros</span></div>
-          <div style="padding:1.2rem 1.6rem;display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:space-between">
-            <div class="ov-cal-strat-tabs" id="tl-strat-filter"></div>
-            <select class="ov-acc-select" id="tl-period-filter" style="width:auto" onchange="tlRender()">
-              <option value="7">Últimos 7 días</option>
-              <option value="30" selected>Últimos 30 días</option>
-              <option value="90">Últimos 3 meses</option>
-              <option value="all">Todo el historial</option>
-            </select>
+        <!-- SEÑALES: publicadas por Noryon Capital -->
+        <div id="tl-signals-panel">
+          <div class="tl2-shell">
+            <div class="tl2-tabs">
+              <button class="tl2-tab active" data-view="chart" onclick="tl2SetView('chart')">Chart overview</button>
+              <button class="tl2-tab" data-view="list" onclick="tl2SetView('list')">List overview</button>
+              <button class="tl2-tab" data-view="wl" onclick="tl2SetView('wl')">Wins vs Losses</button>
+              <button class="tl2-tab" data-view="strat" onclick="tl2SetView('strat')">Strategy overview</button>
+              <div class="tl2-tabs-right">
+                <div class="ov-cal-strat-tabs" id="tl2-strat-filter" style="margin:0"></div>
+                <select class="tl2-period" id="tl2-period-filter" onchange="tl2Render()">
+                  <option value="7">Últimos 7 días</option>
+                  <option value="30" selected>Últimos 30 días</option>
+                  <option value="90">Últimos 3 meses</option>
+                  <option value="all">Todo el historial</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="tl2-panel active" id="tl2-panel-chart">
+              <div class="tl2-chart-grid" id="tl2-chart-grid"></div>
+            </div>
+
+            <div class="tl2-panel" id="tl2-panel-list">
+              <div class="tl2-table-wrap">
+                <table class="tl2-table">
+                  <thead><tr><th>Par</th><th>Resultado</th><th>Fecha</th><th>Posición</th><th>Estrategia</th></tr></thead>
+                  <tbody id="tl2-list-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="tl2-panel" id="tl2-panel-wl">
+              <div class="tl2-wl-grid">
+                <div class="tl2-wl-ring-card">
+                  <div class="tl2-wl-ring"><canvas id="tl2-wl-ring-canvas" width="120" height="120"></canvas>
+                    <div class="tl2-wl-ring-num"><b id="tl2-wl-ring-pct">—</b><span>Win rate</span></div>
+                  </div>
+                  <div class="tl2-wl-legend">
+                    <span><i style="background:#3ecb7e"></i>Wins</span>
+                    <span><i style="background:#f0776a"></i>Losses</span>
+                  </div>
+                </div>
+                <div class="tl2-wl-bars" id="tl2-wl-bars"></div>
+              </div>
+            </div>
+
+            <div class="tl2-panel" id="tl2-panel-strat">
+              <div class="tl2-strat-grid" id="tl2-strat-grid"></div>
+            </div>
+          </div>
+
+          <div class="tl2-cal-card">
+            <div class="tl2-cal-head">
+              <span class="tl2-cal-title" id="tl2-cal-title">—</span>
+              <div class="tl2-cal-nav"><button onclick="tl2CalPrev()">‹</button><button onclick="tl2CalNext()">›</button></div>
+            </div>
+            <div class="tl2-cal-head-row"><div>DOM</div><div>LUN</div><div>MAR</div><div>MIÉ</div><div>JUE</div><div>VIE</div><div>SÁB</div></div>
+            <div class="tl2-cal-grid" id="tl2-cal-grid"></div>
           </div>
         </div>
 
-        <div class="stats-grid" id="tl-summary" style="margin-bottom:1.5rem"></div>
-
-        <div class="card">
-          <div class="card-head">
-            <span class="card-title" id="tl-list-title">Operaciones</span>
-            <a href="trades.html" class="card-link">Ver diario público →</a>
+        <!-- MIS CUENTAS -->
+        <div id="tl-accounts-panel" style="display:none">
+          <div class="card" style="margin-bottom:1.5rem">
+            <div class="card-head"><span class="card-title">Filtros</span></div>
+            <div style="padding:1.2rem 1.6rem;display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;justify-content:space-between">
+              <div class="ov-cal-strat-tabs" id="tl-strat-filter"></div>
+              <select class="ov-acc-select" id="tl-period-filter" style="width:auto" onchange="tlRender()">
+                <option value="7">Últimos 7 días</option>
+                <option value="30" selected>Últimos 30 días</option>
+                <option value="90">Últimos 3 meses</option>
+                <option value="all">Todo el historial</option>
+              </select>
+            </div>
           </div>
-          <div class="card-body" id="tl-list" style="padding:0 1.6rem"></div>
+
+          <div class="stats-grid" id="tl-summary" style="margin-bottom:1.5rem"></div>
+
+          <div class="card">
+            <div class="card-head">
+              <span class="card-title" id="tl-list-title">Operaciones</span>
+              <a href="trades.html" class="card-link">Ver diario público →</a>
+            </div>
+            <div class="card-body" id="tl-list" style="padding:0 1.6rem"></div>
+          </div>
         </div>
       </div>
 
@@ -1709,8 +1858,9 @@
       await loadSimulations();
       await accLoadAll();
       await ovLoadResults();
+      await ovLoadChartImages();
       ovRefreshAll();
-      tlRender();
+      tl2Render();
       await loadHomeSummary();
       document.getElementById('loading-screen').style.display = 'none';
     }
@@ -1766,7 +1916,7 @@
       let all = [], from = 0; const pageSize = 1000;
       while (true) {
         const { data: page, error } = await sb.from('strategy_results')
-          .select('fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha')
+          .select('id,fecha,resultado,porcentaje').eq('estrategia', strategy).order('fecha')
           .range(from, from + pageSize - 1);
         if (error || !page) break;
         all = all.concat(page);
@@ -1781,6 +1931,24 @@
       const arrs = await Promise.all(keys.map(ovFetchStrategyRows));
       ovResults = {};
       keys.forEach((k, i) => { ovResults[k] = arrs[i]; });
+    }
+
+    // Capturas de gráfico por trade (columna/bucket opcional — si aún no existe, se ignora sin romper el resto).
+    async function ovLoadChartImages() {
+      try {
+        const { data, error } = await sb.from('strategy_results')
+          .select('estrategia,fecha,chart_image_url')
+          .not('chart_image_url', 'is', null);
+        if (error || !data) return;
+        const map = {};
+        data.forEach(r => { map[r.estrategia + '|' + r.fecha] = r.chart_image_url; });
+        Object.keys(ovResults).forEach(k => {
+          (ovResults[k] || []).forEach(r => {
+            const url = map[k + '|' + r.fecha];
+            if (url) r.chart_image_url = url;
+          });
+        });
+      } catch (e) { /* migración de imagen todavía no aplicada */ }
     }
 
     function ovGetResult(stratKey, dateStr) {
@@ -2157,30 +2325,20 @@
 
     // ── TRADES RECIENTES: historial completo filtrable (señales / cuentas) ──
     let tlSource = 'signals';
-    let tlStratFilter = 'all';
     let tlAccountFilter = 'all';
 
     function tlSetSource(src) {
       tlSource = src;
-      tlStratFilter = 'all';
-      tlAccountFilter = 'all';
       document.getElementById('tl-tab-signals').classList.toggle('active', src === 'signals');
       document.getElementById('tl-tab-accounts').classList.toggle('active', src === 'accounts');
-      tlRender();
+      document.getElementById('tl-signals-panel').style.display = src === 'signals' ? '' : 'none';
+      document.getElementById('tl-accounts-panel').style.display = src === 'accounts' ? '' : 'none';
+      if (src === 'accounts') { tlAccountFilter = 'all'; tlRender(); }
+      else { tl2Render(); }
     }
-    function tlSetStratFilter(key) { tlStratFilter = key; tlRender(); }
     function tlSetAccountFilter(id) { tlAccountFilter = id; tlRender(); }
 
     function tlFilterTabsHTML() {
-      if (tlSource === 'signals') {
-        const opts = [{ key:'all', label:'Todas', color:'#151a2d' }, ...OV_STRATS];
-        return opts.map(o => {
-          const sel = o.key === tlStratFilter;
-          return `<button class="ov-cal-strat-tab${sel?' selected':''}" style="${sel?`background:${o.color};border-color:${o.color}`:''}" onclick="tlSetStratFilter('${o.key}')">
-            ${o.key!=='all'?`<span class="ov-cal-strat-dot" style="background:${sel?'#fff':o.color}"></span>`:''}${o.label}
-          </button>`;
-        }).join('');
-      }
       const active = accAccounts.filter(a => a.status === 'active');
       const opts = [{ id:'all', name:'Todas' }, ...active];
       return opts.map(a => {
@@ -2189,22 +2347,12 @@
       }).join('');
     }
 
-    function tlPeriodCutoff() {
-      const sel = document.getElementById('tl-period-filter');
+    function tlPeriodCutoff(selId) {
+      const sel = document.getElementById(selId || 'tl-period-filter');
       const val = sel ? sel.value : '30';
       if (val === 'all') return null;
       const d = new Date(); d.setDate(d.getDate() - parseInt(val, 10));
       return ovDateStr(d);
-    }
-
-    function tlGetSignalRows() {
-      const cutoff = tlPeriodCutoff();
-      let rows = [];
-      OV_STRATS.forEach(s => {
-        if (tlStratFilter !== 'all' && tlStratFilter !== s.key) return;
-        (ovResults[s.key]||[]).forEach(r => { if (!cutoff || r.fecha >= cutoff) rows.push({ ...r, stratMeta: s }); });
-      });
-      return rows.sort((a,b) => b.fecha.localeCompare(a.fecha));
     }
 
     function tlGetAccountRows() {
@@ -2225,50 +2373,248 @@
       const titleEl = document.getElementById('tl-list-title');
       if (!filterEl || !summaryEl || !listEl) return;
       filterEl.innerHTML = tlFilterTabsHTML();
-      if (tlSource === 'signals') {
-        const rows = tlGetSignalRows();
-        const total = rows.length, wins = rows.filter(r => r.resultado === 'win').length;
-        const winrate = total ? (wins/total*100) : 0;
-        const net = rows.reduce((s,r) => s + Number(r.porcentaje), 0);
-        titleEl.textContent = 'Operaciones de señales';
-        summaryEl.innerHTML = `
-          <div class="stat-card"><div class="stat-tag">Trades</div><div class="stat-num white" style="font-size:1.6rem">${total}</div></div>
-          <div class="stat-card"><div class="stat-tag">Winrate</div><div class="stat-num" style="font-size:1.6rem;color:${winrate>=50?'#16a34a':'#dc2626'}">${total?winrate.toFixed(0)+'%':'—'}</div></div>
-          <div class="stat-card"><div class="stat-tag">Resultado neto</div><div class="stat-num" style="font-size:1.6rem;color:${net>=0?'#16a34a':'#dc2626'}">${total?(net>=0?'+':'')+net.toFixed(1)+'%':'—'}</div></div>
-          <div class="stat-card"><div class="stat-tag">TP / SL</div><div class="stat-num white" style="font-size:1.6rem">${wins}/${total-wins}</div></div>
-        `;
-        listEl.innerHTML = rows.length ? rows.map(r => {
-          const w = r.resultado === 'win';
-          return `<div class="trade-row">
-            <span class="badge ${w?'b-win':'b-loss'}">${w?'TP':'SL'}</span>
-            <span class="trade-date">${r.fecha}</span>
-            <span class="trade-title">${r.stratMeta.label}</span>
-            <span class="trade-r ${w?'pos':'neg'}">${w?'+':''}${Number(r.porcentaje).toFixed(1)}%</span>
-          </div>`;
-        }).join('') : '<div class="acc-empty">No hay operaciones de señales en este periodo.</div>';
-      } else {
-        const rows = tlGetAccountRows();
-        const total = rows.length;
-        const netAmt = rows.reduce((s,t) => s + Number(t.pnl), 0);
-        const wins = rows.filter(t => Number(t.pnl) > 0).length;
-        const winrate = total ? (wins/total*100) : 0;
-        titleEl.textContent = 'Operaciones de mis cuentas';
-        summaryEl.innerHTML = `
-          <div class="stat-card"><div class="stat-tag">Trades</div><div class="stat-num white" style="font-size:1.6rem">${total}</div></div>
-          <div class="stat-card"><div class="stat-tag">Winrate</div><div class="stat-num" style="font-size:1.6rem;color:${winrate>=50?'#16a34a':'#dc2626'}">${total?winrate.toFixed(0)+'%':'—'}</div></div>
-          <div class="stat-card"><div class="stat-tag">P&amp;L neto</div><div class="stat-num" style="font-size:1.6rem;color:${netAmt>=0?'#16a34a':'#dc2626'}">${total?accFmtMoney(netAmt):'—'}</div></div>
-          <div class="stat-card"><div class="stat-tag">Ganados / Perdidos</div><div class="stat-num white" style="font-size:1.6rem">${wins}/${total-wins}</div></div>
-        `;
-        listEl.innerHTML = rows.length ? rows.map(t => {
-          const w = Number(t.pnl) > 0;
-          return `<div class="trade-row">
-            <span class="badge ${w?'b-win':'b-loss'}">${w?'WIN':'LOSS'}</span>
-            <span class="trade-date">${t.date}</span>
-            <span class="trade-title">${t.accMeta.name}</span>
-            <span class="trade-r ${w?'pos':'neg'}">${w?'+':''}${accFmtMoney(t.pnl)}</span>
-          </div>`;
-        }).join('') : '<div class="acc-empty">No hay operaciones de cuentas en este periodo.</div>';
-      }
+      const rows = tlGetAccountRows();
+      const total = rows.length;
+      const netAmt = rows.reduce((s,t) => s + Number(t.pnl), 0);
+      const wins = rows.filter(t => Number(t.pnl) > 0).length;
+      const winrate = total ? (wins/total*100) : 0;
+      titleEl.textContent = 'Operaciones de mis cuentas';
+      summaryEl.innerHTML = `
+        <div class="stat-card"><div class="stat-tag">Trades</div><div class="stat-num white" style="font-size:1.6rem">${total}</div></div>
+        <div class="stat-card"><div class="stat-tag">Winrate</div><div class="stat-num" style="font-size:1.6rem;color:${winrate>=50?'#16a34a':'#dc2626'}">${total?winrate.toFixed(0)+'%':'—'}</div></div>
+        <div class="stat-card"><div class="stat-tag">P&amp;L neto</div><div class="stat-num" style="font-size:1.6rem;color:${netAmt>=0?'#16a34a':'#dc2626'}">${total?accFmtMoney(netAmt):'—'}</div></div>
+        <div class="stat-card"><div class="stat-tag">Ganados / Perdidos</div><div class="stat-num white" style="font-size:1.6rem">${wins}/${total-wins}</div></div>
+      `;
+      listEl.innerHTML = rows.length ? rows.map(t => {
+        const w = Number(t.pnl) > 0;
+        return `<div class="trade-row">
+          <span class="badge ${w?'b-win':'b-loss'}">${w?'WIN':'LOSS'}</span>
+          <span class="trade-date">${t.date}</span>
+          <span class="trade-title">${t.accMeta.name}</span>
+          <span class="trade-r ${w?'pos':'neg'}">${w?'+':''}${accFmtMoney(t.pnl)}</span>
+        </div>`;
+      }).join('') : '<div class="acc-empty">No hay operaciones de cuentas en este periodo.</div>';
+    }
+
+    // ── TL2: "Trades recientes" estilo Notion (Chart/List/Wins-Losses/Strategy overview + calendario) ──
+    let tl2View = 'chart';
+    let tl2StratFilter = 'all';
+    let tl2CalYear = new Date().getFullYear();
+    let tl2CalMonth = new Date().getMonth();
+
+    function tl2SetView(v) {
+      tl2View = v;
+      document.querySelectorAll('.tl2-tab').forEach(t => t.classList.toggle('active', t.dataset.view === v));
+      document.querySelectorAll('.tl2-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('tl2-panel-' + v).classList.add('active');
+      tl2Render();
+    }
+    function tl2SetStratFilter(key) { tl2StratFilter = key; tl2Render(); }
+
+    function tl2FilterTabsHTML() {
+      const opts = [{ key:'all', label:'Todas', color:'#333' }, ...OV_STRATS];
+      return opts.map(o => {
+        const sel = o.key === tl2StratFilter;
+        return `<button class="ov-cal-strat-tab${sel?' selected':''}" style="${sel?`background:${o.color};border-color:${o.color}`:'background:#111;border-color:rgba(255,255,255,.12);color:rgba(255,255,255,.6)'}" onclick="tl2SetStratFilter('${o.key}')">
+          ${o.key!=='all'?`<span class="ov-cal-strat-dot" style="background:${sel?'#fff':o.color}"></span>`:''}${o.label}
+        </button>`;
+      }).join('');
+    }
+
+    function tl2TagClass(key) { return key === 'swing' ? 'swing' : key === 'btc' ? 'btc' : key === 'tesla' ? 'tesla' : 'sp500'; }
+
+    function tl2GetRows() {
+      const cutoff = tlPeriodCutoff('tl2-period-filter');
+      let rows = [];
+      OV_STRATS.forEach(s => {
+        if (tl2StratFilter !== 'all' && tl2StratFilter !== s.key) return;
+        (ovResults[s.key]||[]).forEach(r => { if (!cutoff || r.fecha >= cutoff) rows.push({ ...r, stratMeta: s }); });
+      });
+      return rows.sort((a,b) => b.fecha.localeCompare(a.fecha));
+    }
+
+    function tl2FmtDate(iso) {
+      return new Date(iso + 'T00:00:00').toLocaleDateString('es-ES', { day:'numeric', month:'short', year:'numeric' });
+    }
+
+    function tl2RenderChart(rows) {
+      const grid = document.getElementById('tl2-chart-grid');
+      if (!grid) return;
+      grid.innerHTML = rows.map(r => {
+        const w = r.resultado === 'win';
+        const tag = tl2TagClass(r.stratMeta.key);
+        const thumb = r.chart_image_url
+          ? `<img class="tl2-thumb" src="${r.chart_image_url}" alt="${r.stratMeta.label}"/>`
+          : `<div class="tl2-card-empty">Sin captura todavía</div>`;
+        return `<div class="tl2-card">
+          ${thumb}
+          <div class="tl2-card-body">
+            <div class="tl2-card-top"><span class="tl2-pair">${r.stratMeta.label}</span><span class="tl2-pill ${w?'win':'loss'}">${w?'Win':'Loss'}</span></div>
+            <div class="tl2-card-mid"><span class="tl2-pct ${w?'win':'loss'}">${Number(r.porcentaje)>0?'+':''}${Number(r.porcentaje).toFixed(1)}%</span><span class="tl2-date">${tl2FmtDate(r.fecha)}</span></div>
+            <span class="tl2-tag ${tag}">${r.stratMeta.label}</span>
+          </div>
+        </div>`;
+      }).join('') || '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem;padding:1rem 0">No hay señales en este periodo.</div>';
+    }
+
+    function tl2RenderList(rows) {
+      const body = document.getElementById('tl2-list-body');
+      if (!body) return;
+      body.innerHTML = rows.map(r => {
+        const w = r.resultado === 'win';
+        const tag = tl2TagClass(r.stratMeta.key);
+        return `<tr>
+          <td><strong>${r.stratMeta.label}</strong></td>
+          <td><span class="tl2-pill ${w?'win':'loss'}">${w?'Win':'Loss'}</span></td>
+          <td>${tl2FmtDate(r.fecha)}</td>
+          <td><span class="tl2-dir ${w?'long':'short'}">${w?'Long':'Short'}</span></td>
+          <td><span class="tl2-tag ${tag}">${r.stratMeta.label}</span></td>
+        </tr>`;
+      }).join('') || `<tr><td colspan="5" style="color:rgba(255,255,255,.3);padding:1rem .8rem">No hay señales en este periodo.</td></tr>`;
+    }
+
+    function tl2DrawRing(canvas, winPct) {
+      const ctx = canvas.getContext('2d');
+      const cx = 60, cy = 60, r = 50, lw = 12;
+      ctx.clearRect(0,0,120,120);
+      ctx.lineWidth = lw; ctx.lineCap = 'round';
+      ctx.strokeStyle = 'rgba(217,74,60,.55)';
+      ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,Math.PI*1.5); ctx.stroke();
+      ctx.strokeStyle = '#3ecb7e';
+      ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2 + (winPct/100)*Math.PI*2); ctx.stroke();
+    }
+
+    function tl2RenderWL(rows) {
+      const wins = rows.filter(r => r.resultado === 'win').length;
+      const total = rows.length;
+      const pct = total ? Math.round((wins/total)*100) : 0;
+      const pctEl = document.getElementById('tl2-wl-ring-pct');
+      if (pctEl) pctEl.textContent = total ? pct + '%' : '—';
+      const canvas = document.getElementById('tl2-wl-ring-canvas');
+      if (canvas) tl2DrawRing(canvas, pct);
+
+      const byStrat = {};
+      rows.forEach(r => {
+        const k = r.stratMeta.key;
+        byStrat[k] = byStrat[k] || { label: r.stratMeta.label, win:0, loss:0 };
+        byStrat[k][r.resultado === 'win' ? 'win' : 'loss']++;
+      });
+      const bars = document.getElementById('tl2-wl-bars');
+      if (!bars) return;
+      const entries = Object.values(byStrat);
+      bars.innerHTML = entries.length ? entries.map(v => {
+        const t = v.win + v.loss;
+        const wp = t ? Math.round((v.win/t)*100) : 0;
+        return `<div class="tl2-wl-row">
+          <div class="tl2-wl-row-head"><span>${v.label}</span><span class="cnt">${v.win}W · ${v.loss}L</span></div>
+          <div class="tl2-wl-track"><div class="tl2-wl-fill" style="width:${wp}%"></div></div>
+        </div>`;
+      }).join('') : '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem">No hay señales en este periodo.</div>';
+    }
+
+    function tl2DrawSpark(canvas, list) {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      const w = rect.width || 180, h = 34;
+      canvas.width = w*dpr; canvas.height = h*dpr;
+      const ctx = canvas.getContext('2d');
+      ctx.scale(dpr,dpr);
+      let cum = 0;
+      const pts = list.map(r => { cum += Number(r.porcentaje); return cum; });
+      const min = Math.min(0,...pts), max = Math.max(0,...pts);
+      const range = (max-min) || 1;
+      const stepX = w/(pts.length-1 || 1);
+      const scaleY = v => h - 4 - ((v-min)/range)*(h-8);
+      const up = pts[pts.length-1] >= 0;
+      ctx.strokeStyle = up ? '#3ecb7e' : '#f0776a';
+      ctx.lineWidth = 2; ctx.lineJoin='round'; ctx.lineCap='round';
+      ctx.beginPath();
+      pts.forEach((v,i)=> i===0 ? ctx.moveTo(i*stepX, scaleY(v)) : ctx.lineTo(i*stepX, scaleY(v)));
+      ctx.stroke();
+      const lx = (pts.length-1)*stepX, ly = scaleY(pts[pts.length-1]);
+      ctx.fillStyle = ctx.strokeStyle;
+      ctx.beginPath(); ctx.arc(lx,ly,2.4,0,Math.PI*2); ctx.fill();
+    }
+
+    function tl2RenderStrat(rows) {
+      const grid = document.getElementById('tl2-strat-grid');
+      if (!grid) return;
+      const byStrat = {};
+      rows.forEach(r => { (byStrat[r.stratMeta.key] = byStrat[r.stratMeta.key] || []).push(r); });
+      const entries = Object.entries(byStrat);
+      if (!entries.length) { grid.innerHTML = '<div style="color:rgba(255,255,255,.3);font-family:\'Space Mono\',monospace;font-size:.78rem">No hay señales en este periodo.</div>'; return; }
+      grid.innerHTML = '';
+      entries.forEach(([key, list]) => {
+        const meta = list[0].stratMeta;
+        const wins = list.filter(r => r.resultado === 'win').length;
+        const winRate = Math.round((wins/list.length)*100);
+        const avgPct = (list.reduce((s,r) => s + Number(r.porcentaje), 0)/list.length).toFixed(1);
+        const card = document.createElement('div');
+        card.className = 'tl2-strat-card';
+        card.innerHTML = `
+          <div class="tl2-strat-head"><span class="tl2-strat-name">${meta.label}</span><span class="tl2-tag ${tl2TagClass(key)}">${list.length} trades</span></div>
+          <div class="tl2-strat-stats">
+            <div class="tl2-strat-stat"><b>${winRate}%</b><span>Win rate</span></div>
+            <div class="tl2-strat-stat"><b style="color:${avgPct >= 0 ? '#3ecb7e' : '#f0776a'}">${avgPct > 0 ? '+' : ''}${avgPct}%</b><span>Prom.</span></div>
+          </div>
+          <canvas class="tl2-strat-spark"></canvas>`;
+        grid.appendChild(card);
+        requestAnimationFrame(() => tl2DrawSpark(card.querySelector('.tl2-strat-spark'), list.slice().reverse()));
+      });
+    }
+
+    function tl2RenderCalendar() {
+      const grid = document.getElementById('tl2-cal-grid');
+      const titleEl = document.getElementById('tl2-cal-title');
+      if (!grid || !titleEl) return;
+      titleEl.textContent = `${OV_MONTHS_LONG[tl2CalMonth]} ${tl2CalYear}`;
+      const first = new Date(tl2CalYear, tl2CalMonth, 1);
+      const startDay = first.getDay();
+      const daysInMonth = new Date(tl2CalYear, tl2CalMonth+1, 0).getDate();
+      const daysInPrev = new Date(tl2CalYear, tl2CalMonth, 0).getDate();
+      const todayStr = ovTodayStr();
+
+      const byDay = {};
+      OV_STRATS.forEach(s => {
+        if (tl2StratFilter !== 'all' && tl2StratFilter !== s.key) return;
+        (ovResults[s.key]||[]).forEach(r => {
+          const d = new Date(r.fecha + 'T00:00:00');
+          if (d.getFullYear() !== tl2CalYear || d.getMonth() !== tl2CalMonth) return;
+          (byDay[d.getDate()] = byDay[d.getDate()] || []).push({ ...r, stratMeta: s });
+        });
+      });
+
+      const cells = [];
+      for (let i=startDay-1; i>=0; i--) cells.push({ day: daysInPrev-i, out:true });
+      for (let d=1; d<=daysInMonth; d++) cells.push({ day:d, out:false, ds: ovDateStr(new Date(tl2CalYear, tl2CalMonth, d)) });
+      while (cells.length % 7 !== 0) cells.push({ day: cells.length, out:true });
+
+      grid.innerHTML = cells.map(c => {
+        const isToday = !c.out && c.ds === todayStr;
+        let inner = `<div class="tl2-cal-daynum">${c.day}</div>`;
+        if (!c.out && byDay[c.day]) {
+          byDay[c.day].forEach(r => {
+            const w = r.resultado === 'win';
+            inner += `<div class="tl2-cal-trade ${w?'win':'loss'}">${r.stratMeta.label} ${w?'+':''}${Number(r.porcentaje).toFixed(1)}%</div>`;
+          });
+        }
+        return `<div class="tl2-cal-cell${c.out?' out':''}${isToday?' today':''}">${inner}</div>`;
+      }).join('');
+    }
+
+    function tl2CalPrev() { tl2CalMonth--; if (tl2CalMonth < 0) { tl2CalMonth = 11; tl2CalYear--; } tl2RenderCalendar(); }
+    function tl2CalNext() { tl2CalMonth++; if (tl2CalMonth > 11) { tl2CalMonth = 0; tl2CalYear++; } tl2RenderCalendar(); }
+
+    function tl2Render() {
+      const filterEl = document.getElementById('tl2-strat-filter');
+      if (!filterEl) return;
+      filterEl.innerHTML = tl2FilterTabsHTML();
+      const rows = tl2GetRows();
+      tl2RenderChart(rows);
+      tl2RenderList(rows);
+      tl2RenderWL(rows);
+      tl2RenderStrat(rows);
+      tl2RenderCalendar();
     }
 
     // ── editar un resultado (upsert / delete en strategy_results) ──
@@ -3276,7 +3622,7 @@
       if (name === 'mytrades' && currentUser) { if(!mtActivePlantilla) mtLoadPlantillas(); else mtLoadMonth(); }
       if (name === 'accounts' && currentUser) { accLoadAll(); }
       if (name === 'performance' && currentUser) { perfRenderYearGrid(); perfRenderList(); }
-      if (name === 'trades' && currentUser) { tlRender(); }
+      if (name === 'trades' && currentUser) { tlSource === 'accounts' ? tlRender() : tl2Render(); }
       if (name === 'fondeo' && currentUser) { fdInitDefaults(); }
       document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));

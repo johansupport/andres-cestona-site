@@ -359,6 +359,11 @@
                 <label>Riesgo del trade (%)</label>
                 <input type="number" id="s-porcentaje" step="0.1" value="1"/>
               </div>
+              <div class="field form-full">
+                <label>Captura del gráfico (opcional, aparece en "Chart overview")</label>
+                <input type="file" id="s-imagen" accept="image/*"/>
+                <div id="s-imagen-preview" style="display:none;margin-top:.6rem"><img style="max-width:220px;border-radius:8px;border:1px solid var(--border)"/></div>
+              </div>
             </div>
             <div class="form-actions">
               <button type="button" class="btn-publish" id="s-btn-submit" onclick="submitStatsDay()">Guardar día →</button>
@@ -629,6 +634,23 @@
       document.getElementById('s-btn-loss').classList.toggle('active', val==='loss');
     }
 
+    document.getElementById('s-imagen').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      const box = document.getElementById('s-imagen-preview');
+      if (!file) { box.style.display = 'none'; return; }
+      box.querySelector('img').src = URL.createObjectURL(file);
+      box.style.display = 'block';
+    });
+
+    async function uploadChartImage(file, estrategia, fecha) {
+      const ext = file.name.split('.').pop() || 'png';
+      const path = `${estrategia}/${fecha}-${Date.now()}.${ext}`;
+      const { error: upErr } = await sb.storage.from('trade-charts').upload(path, file, { upsert: true });
+      if (upErr) throw upErr;
+      const { data } = sb.storage.from('trade-charts').getPublicUrl(path);
+      return data.publicUrl;
+    }
+
     async function submitStatsDay() {
       const btn = document.getElementById('s-btn-submit');
       const msg = document.getElementById('s-msg');
@@ -636,12 +658,25 @@
       const fecha = document.getElementById('s-fecha').value;
       const resultado = document.getElementById('s-resultado').value;
       const riesgo = parseFloat(document.getElementById('s-porcentaje').value) || 1;
+      const imgFile = document.getElementById('s-imagen').files[0];
       if (!fecha) { alert('Elegí una fecha.'); return; }
 
       btn.disabled = true; btn.textContent = 'Guardando...';
       const porcentaje = resultado === 'win' ? Math.abs(riesgo) : -Math.abs(riesgo);
+      const payload = { estrategia, fecha, resultado, porcentaje };
+
+      try {
+        if (imgFile) payload.chart_image_url = await uploadChartImage(imgFile, estrategia, fecha);
+      } catch (e) {
+        msg.style.display = 'inline';
+        msg.textContent = 'Error subiendo la imagen: ' + e.message;
+        msg.className = 'publish-msg err';
+        btn.disabled = false; btn.textContent = 'Guardar día →';
+        return;
+      }
+
       const { error } = await sb.from('strategy_results')
-        .upsert({ estrategia, fecha, resultado, porcentaje }, { onConflict: 'estrategia,fecha' });
+        .upsert(payload, { onConflict: 'estrategia,fecha' });
 
       msg.style.display = 'inline';
       if (error) {
@@ -651,6 +686,8 @@
         msg.textContent = '¡Guardado! Ya se refleja en estadísticas y calculadora.';
         msg.className = 'publish-msg ok';
         setTimeout(() => msg.style.display = 'none', 4000);
+        document.getElementById('s-imagen').value = '';
+        document.getElementById('s-imagen-preview').style.display = 'none';
         if (document.getElementById('sl-estrategia').value === estrategia) loadStatsRecent();
       }
       btn.disabled = false; btn.textContent = 'Guardar día →';
@@ -731,7 +768,8 @@
         return;
       }
       list.innerHTML = data.map(r => `
-        <div class="trade-row" style="grid-template-columns:120px 100px 1fr 90px">
+        <div class="trade-row" style="grid-template-columns:36px 120px 100px 1fr 90px">
+          ${r.chart_image_url ? `<img src="${r.chart_image_url}" style="width:32px;height:32px;object-fit:cover;border-radius:5px;border:1px solid var(--border)"/>` : `<span style="width:32px;height:32px;border-radius:5px;border:1px dashed var(--border);display:inline-block"></span>`}
           <span class="trade-date">${new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'2-digit'})}</span>
           <span><span class="badge ${r.resultado==='win'?'b-win':'b-loss'}">${r.resultado.toUpperCase()}</span></span>
           <span class="trade-title-cell">${r.porcentaje > 0 ? '+' : ''}${r.porcentaje}%</span>
