@@ -331,6 +331,10 @@
     .tl2-monthnav button { border:none; background:none; color:rgba(255,255,255,.6); width:22px; height:22px; border-radius:5px; cursor:pointer; font-size:.85rem; }
     .tl2-monthnav button:hover { background:rgba(255,255,255,.08); color:#fff; }
     .tl2-monthnav span { font-family:'Space Mono',monospace; font-size:.72rem; font-weight:700; color:#fff; min-width:110px; text-align:center; }
+    .tl2-scope-toggle { display:inline-flex; background:#111; border:1px solid rgba(255,255,255,.1); border-radius:8px; padding:3px; gap:2px; }
+    .tl2-scope-btn { border:none; background:none; color:rgba(255,255,255,.5); font-family:'Space Mono',monospace; font-size:.66rem; font-weight:700; padding:.4rem .75rem; border-radius:6px; cursor:pointer; transition:background .15s,color .15s; }
+    .tl2-scope-btn:hover { color:#fff; }
+    .tl2-scope-btn.active { background:var(--gold); color:#0c0a04; }
     .tl2-divider { border:none; border-top:1px solid rgba(255,255,255,.08); margin:0 0 1.3rem; }
     .tl2-panel { display:none; }
     .tl2-panel.active { display:block; }
@@ -409,6 +413,7 @@
     .tl2-cal-pill { display:inline-block; font-size:.5rem; padding:.16rem .42rem; border-radius:5px; margin-bottom:.26rem; }
     .tl2-cal-pct { font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700; }
     .tl2-cal-pct.win { color:#3ecb7e; } .tl2-cal-pct.loss { color:#f0776a; }
+    .tl2-cal-empty { font-family:'Space Mono',monospace; font-size:.58rem; color:rgba(255,255,255,.25); }
     @media (max-width:720px) { .tl2-wl-grid { grid-template-columns:1fr; } }
 
     /* PERFORMANCE — mini cards */
@@ -1388,6 +1393,11 @@
               <button class="tl2-tab" data-view="strat" onclick="tl2SetView('strat')">Strategy overview</button>
             </div>
             <div class="tl2-topbar-right">
+              <div class="tl2-scope-toggle" id="tl2-scope-toggle">
+                <button class="tl2-scope-btn" data-scope="day" onclick="tl2SetScope('day')">Día</button>
+                <button class="tl2-scope-btn" data-scope="week" onclick="tl2SetScope('week')">Semana</button>
+                <button class="tl2-scope-btn active" data-scope="month" onclick="tl2SetScope('month')">Mes</button>
+              </div>
               <div class="ov-cal-strat-tabs" id="tl2-strat-filter" style="margin:0"></div>
               <div class="tl2-monthnav">
                 <button onclick="tl2CalPrev()">‹</button>
@@ -2412,8 +2422,36 @@
     // ── TL2: "Trades recientes" estilo Notion (Chart/List/Wins-Losses/Strategy overview + calendario) ──
     let tl2View = 'chart';
     let tl2StratFilter = 'all';
-    let tl2CalYear = new Date().getFullYear();
-    let tl2CalMonth = new Date().getMonth();
+    let tl2Scope = 'month';
+    function tl2Midnight(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+    let tl2CalDate = tl2Midnight(new Date());
+    let tl2CalYear = tl2CalDate.getFullYear();
+    let tl2CalMonth = tl2CalDate.getMonth();
+
+    function tl2WeekBounds(date) {
+      const start = new Date(date); start.setDate(date.getDate() - date.getDay());
+      const end = new Date(start); end.setDate(start.getDate() + 6);
+      return { start, end };
+    }
+
+    function tl2MonthLabel() {
+      if (tl2Scope === 'day') {
+        return `${OV_DOW_LONG[tl2CalDate.getDay()]} ${tl2CalDate.getDate()} ${OV_MONTHS_SHORT[tl2CalDate.getMonth()]} ${tl2CalDate.getFullYear()}`;
+      }
+      if (tl2Scope === 'week') {
+        const { start, end } = tl2WeekBounds(tl2CalDate);
+        return start.getMonth() === end.getMonth()
+          ? `${start.getDate()} – ${end.getDate()} ${OV_MONTHS_SHORT[start.getMonth()]} ${end.getFullYear()}`
+          : `${start.getDate()} ${OV_MONTHS_SHORT[start.getMonth()]} – ${end.getDate()} ${OV_MONTHS_SHORT[end.getMonth()]} ${end.getFullYear()}`;
+      }
+      return `${OV_MONTHS_LONG[tl2CalMonth]} ${tl2CalYear}`;
+    }
+
+    function tl2SetScope(scope) {
+      tl2Scope = scope;
+      document.querySelectorAll('.tl2-scope-btn').forEach(b => b.classList.toggle('active', b.dataset.scope === scope));
+      tl2Render();
+    }
 
     function tl2SetView(v) {
       tl2View = v;
@@ -2439,11 +2477,21 @@
 
     function tl2GetRows() {
       let rows = [];
+      let inRange;
+      if (tl2Scope === 'day') {
+        const ds = ovDateStr(tl2CalDate);
+        inRange = d => d.getTime() === new Date(ds + 'T00:00:00').getTime();
+      } else if (tl2Scope === 'week') {
+        const { start, end } = tl2WeekBounds(tl2CalDate);
+        inRange = d => d >= start && d <= end;
+      } else {
+        inRange = d => d.getFullYear() === tl2CalYear && d.getMonth() === tl2CalMonth;
+      }
       OV_STRATS.forEach(s => {
         if (tl2StratFilter !== 'all' && tl2StratFilter !== s.key) return;
         (ovResults[s.key]||[]).forEach(r => {
           const d = new Date(r.fecha + 'T00:00:00');
-          if (d.getFullYear() !== tl2CalYear || d.getMonth() !== tl2CalMonth) return;
+          if (!inRange(d)) return;
           rows.push({ ...r, stratMeta: s });
         });
       });
@@ -2584,40 +2632,59 @@
       const grid = document.getElementById('tl2-cal-grid');
       const titleEl = document.getElementById('tl2-cal-title');
       const labelEl = document.getElementById('tl2-month-label');
+      const headRow = document.querySelector('.tl2-cal-head-row');
       if (!grid || !titleEl) return;
-      const monthLabel = `${OV_MONTHS_LONG[tl2CalMonth]} ${tl2CalYear}`;
-      titleEl.textContent = monthLabel;
-      if (labelEl) labelEl.textContent = monthLabel;
-      const first = new Date(tl2CalYear, tl2CalMonth, 1);
-      const startDay = first.getDay();
-      const daysInMonth = new Date(tl2CalYear, tl2CalMonth+1, 0).getDate();
-      const daysInPrev = new Date(tl2CalYear, tl2CalMonth, 0).getDate();
+      const label = tl2MonthLabel();
+      titleEl.textContent = label;
+      if (labelEl) labelEl.textContent = label;
       const todayStr = ovTodayStr();
 
       const byDay = {};
       OV_STRATS.forEach(s => {
         if (tl2StratFilter !== 'all' && tl2StratFilter !== s.key) return;
         (ovResults[s.key]||[]).forEach(r => {
-          const d = new Date(r.fecha + 'T00:00:00');
-          if (d.getFullYear() !== tl2CalYear || d.getMonth() !== tl2CalMonth) return;
-          (byDay[d.getDate()] = byDay[d.getDate()] || []).push({ ...r, stratMeta: s });
+          (byDay[r.fecha] = byDay[r.fecha] || []).push({ ...r, stratMeta: s });
         });
       });
 
-      const cells = [];
-      for (let i=startDay-1; i>=0; i--) cells.push({ day: daysInPrev-i, out:true });
-      for (let d=1; d<=daysInMonth; d++) cells.push({ day:d, out:false, ds: ovDateStr(new Date(tl2CalYear, tl2CalMonth, d)) });
-      let nextDay = 1;
-      while (cells.length % 7 !== 0) cells.push({ day: nextDay++, out:true });
+      let cells = [];
+      if (tl2Scope === 'day') {
+        cells = [{ day: tl2CalDate.getDate(), out:false, ds: ovDateStr(tl2CalDate), month: tl2CalDate.getMonth() }];
+      } else if (tl2Scope === 'week') {
+        const { start } = tl2WeekBounds(tl2CalDate);
+        for (let i=0; i<7; i++) {
+          const d = new Date(start); d.setDate(start.getDate()+i);
+          cells.push({ day: d.getDate(), out:false, ds: ovDateStr(d), month: d.getMonth() });
+        }
+      } else {
+        const first = new Date(tl2CalYear, tl2CalMonth, 1);
+        const startDay = first.getDay();
+        const daysInMonth = new Date(tl2CalYear, tl2CalMonth+1, 0).getDate();
+        const daysInPrev = new Date(tl2CalYear, tl2CalMonth, 0).getDate();
+        for (let i=startDay-1; i>=0; i--) {
+          const d = new Date(tl2CalYear, tl2CalMonth-1, daysInPrev-i);
+          cells.push({ day: daysInPrev-i, out:true, ds: ovDateStr(d), month: d.getMonth() });
+        }
+        for (let d=1; d<=daysInMonth; d++) cells.push({ day:d, out:false, ds: ovDateStr(new Date(tl2CalYear, tl2CalMonth, d)), month: tl2CalMonth });
+        let nextDay = 1;
+        while (cells.length % 7 !== 0) {
+          const d = new Date(tl2CalYear, tl2CalMonth+1, nextDay);
+          cells.push({ day: nextDay++, out:true, ds: ovDateStr(d), month: d.getMonth() });
+        }
+      }
+
+      grid.style.gridTemplateColumns = tl2Scope === 'day' ? '1fr' : 'repeat(7,1fr)';
+      if (headRow) headRow.style.display = tl2Scope === 'day' ? 'none' : 'grid';
 
       grid.innerHTML = cells.map(c => {
-        const isToday = !c.out && c.ds === todayStr;
-        const hasTrades = !c.out && byDay[c.day];
-        const mAbbr = OV_MONTHS_SHORT[tl2CalMonth];
+        const isToday = c.ds === todayStr;
+        const dayTrades = byDay[c.ds];
+        const hasTrades = !c.out && dayTrades;
+        const mAbbr = OV_MONTHS_SHORT[c.month];
         const dayLabel = (!c.out && c.day === 1) ? `${mAbbr.charAt(0).toUpperCase()}${mAbbr.slice(1)} 1` : c.day;
         let inner = `<div class="tl2-cal-daynum${hasTrades?' has':''}">${dayLabel}</div>`;
-        if (!c.out && byDay[c.day]) {
-          byDay[c.day].forEach(r => {
+        if (!c.out && dayTrades) {
+          dayTrades.forEach(r => {
             const w = r.resultado === 'win';
             inner += `<div class="tl2-cal-chip">
               <div class="tl2-cal-pair">${r.stratMeta.label}</div>
@@ -2625,13 +2692,30 @@
               <div class="tl2-cal-pct ${w?'win':'loss'}">${w?'+':''}${Number(r.porcentaje).toFixed(1)}%</div>
             </div>`;
           });
+        } else if (!c.out && tl2Scope !== 'month') {
+          inner += `<div class="tl2-cal-empty">Sin operaciones</div>`;
         }
         return `<div class="tl2-cal-cell${c.out?' out':''}${isToday?' today':''}">${inner}</div>`;
       }).join('');
     }
 
-    function tl2CalPrev() { tl2CalMonth--; if (tl2CalMonth < 0) { tl2CalMonth = 11; tl2CalYear--; } tl2Render(); }
-    function tl2CalNext() { tl2CalMonth++; if (tl2CalMonth > 11) { tl2CalMonth = 0; tl2CalYear++; } tl2Render(); }
+    function tl2CalStep(dir) {
+      if (tl2Scope === 'day') { tl2CalDate.setDate(tl2CalDate.getDate() + dir); }
+      else if (tl2Scope === 'week') { tl2CalDate.setDate(tl2CalDate.getDate() + dir*7); }
+      else {
+        tl2CalMonth += dir;
+        if (tl2CalMonth < 0) { tl2CalMonth = 11; tl2CalYear--; }
+        else if (tl2CalMonth > 11) { tl2CalMonth = 0; tl2CalYear++; }
+        tl2CalDate = new Date(tl2CalYear, tl2CalMonth, Math.min(tl2CalDate.getDate(), new Date(tl2CalYear, tl2CalMonth+1, 0).getDate()));
+        tl2Render();
+        return;
+      }
+      tl2CalYear = tl2CalDate.getFullYear();
+      tl2CalMonth = tl2CalDate.getMonth();
+      tl2Render();
+    }
+    function tl2CalPrev() { tl2CalStep(-1); }
+    function tl2CalNext() { tl2CalStep(1); }
 
     function tl2Render() {
       const filterEl = document.getElementById('tl2-strat-filter');
