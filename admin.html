@@ -778,7 +778,10 @@
       }
       list.innerHTML = data.map(r => `
         <div class="trade-row" style="grid-template-columns:36px 120px 100px 1fr 90px">
-          ${r.chart_image_url ? `<img src="${r.chart_image_url}" style="width:32px;height:32px;object-fit:cover;border-radius:5px;border:1px solid var(--border)"/>` : `<span style="width:32px;height:32px;border-radius:5px;border:1px dashed var(--border);display:inline-block"></span>`}
+          ${r.chart_image_url ? `<div style="position:relative;width:32px;height:32px">
+            <img src="${r.chart_image_url}" style="width:32px;height:32px;object-fit:cover;border-radius:5px;border:1px solid var(--border)"/>
+            <button onclick="removeStatsImage('${r.id}')" title="Quitar imagen" style="position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:.55rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0">✕</button>
+          </div>` : `<span style="width:32px;height:32px;border-radius:5px;border:1px dashed var(--border);display:inline-block"></span>`}
           <span class="trade-date">${new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'2-digit'})}</span>
           <span><span class="badge ${r.resultado==='win'?'b-win':'b-loss'}">${r.resultado.toUpperCase()}</span></span>
           <span class="trade-title-cell">${r.porcentaje > 0 ? '+' : ''}${r.porcentaje}%</span>
@@ -791,6 +794,12 @@
     async function deleteStatsRow(id) {
       if (!confirm('¿Eliminar este resultado?')) return;
       await sb.from('strategy_results').delete().eq('id', id);
+      loadStatsRecent();
+    }
+
+    async function removeStatsImage(id) {
+      if (!confirm('¿Quitar la captura de este trade? El resultado (WIN/LOSS, fecha, %) no se borra.')) return;
+      await sb.from('strategy_results').update({ chart_image_url: null }).eq('id', id);
       loadStatsRecent();
     }
 
