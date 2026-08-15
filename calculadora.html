@@ -1197,6 +1197,7 @@ function hideError()     { document.getElementById('errorMsg').style.display='no
     const payload = {
       user_id: session.user.id,
       nombre,
+      tipo: 'capital_propio',
       capital_inicial: lastResult.capital || 1000,
       riesgo_pct: lastResult.risk || 1,
       reinversion: lastResult.reinversion || 0,

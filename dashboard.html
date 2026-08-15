@@ -296,7 +296,7 @@
     .card-head { display:flex; justify-content:space-between; align-items:center; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
     .card-title { font-size:.82rem; font-weight:700; color:#fff; display:inline-flex; align-items:center; gap:.55rem; }
     .card-title-icon { width:24px; height:24px; border-radius:7px; background:rgba(201,168,76,.12); color:var(--gold); display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
-    #view-overview .card-title-icon, #view-accounts .card-title-icon, #view-account-detail .card-title-icon, #view-trades .card-title-icon, #view-performance .card-title-icon, #view-simulations .card-title-icon, #view-mytrades .card-title-icon, #view-profile .card-title-icon, #view-plan .card-title-icon, #view-fondeo .card-title-icon { background:#fdf6e5; }
+    #view-overview .card-title-icon, #view-accounts .card-title-icon, #view-account-detail .card-title-icon, #view-trades .card-title-icon, #view-performance .card-title-icon, #view-simulations .card-title-icon, #view-mytrades .card-title-icon, #view-profile .card-title-icon, #view-fondeo .card-title-icon { background:#fdf6e5; }
     .card-link { font-size:.7rem; color:rgba(255,255,255,.25); text-decoration:none; transition:color .2s; }
     .card-link:hover { color:var(--gold); }
     .card-body { padding:0 1.6rem; }
@@ -444,6 +444,32 @@
     .sims-empty { padding:3rem 1.6rem; text-align:center; }
     .sims-empty p { font-size:.85rem; color:rgba(255,255,255,.25); }
     .sims-empty a { color:var(--gold); text-decoration:none; }
+    .sim-metric-val.loss, .sim-return.loss { color:#dc2626; }
+
+    /* SIM TOOLBAR — tipo / carpetas / búsqueda (paleta clara, como el resto de la vista) */
+    .sim-toolbar { display:flex; flex-direction:column; gap:1rem; margin-bottom:1.5rem; }
+    .sim-type-tabs { display:inline-flex; background:#fff; border:1px solid #e2e5ec; border-radius:10px; padding:3px; align-self:flex-start; }
+    .sim-type-tab { padding:.5rem 1.1rem; font-size:.78rem; font-weight:700; color:#94a3b8; border-radius:7px; cursor:pointer; background:none; border:none; font-family:Inter,sans-serif; transition:all .2s; }
+    .sim-type-tab:hover { color:#151a2d; }
+    .sim-type-tab.active { background:var(--gold); color:#05070f; }
+    .sim-filter-row { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; justify-content:space-between; }
+    .sim-search-input { background:#fff; border:1px solid #e2e5ec; border-radius:10px; padding:.6rem .9rem; font-size:.82rem; color:#151a2d; font-family:Inter,sans-serif; outline:none; min-width:220px; transition:border-color .2s; }
+    .sim-search-input:focus { border-color:var(--gold); }
+    .sim-search-input::placeholder { color:#94a3b8; }
+    .sim-folder-pills { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
+    .sim-folder-pill { display:flex; align-items:center; gap:.4rem; padding:.42rem .9rem; border-radius:100px; border:1.5px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:700; color:#64748b; cursor:pointer; transition:all .2s; font-family:Inter,sans-serif; }
+    .sim-folder-pill:hover { border-color:#c2c9d6; }
+    .sim-folder-pill.selected { background:var(--gold); border-color:var(--gold); color:#05070f; }
+    .sim-folder-pill.add { border-style:dashed; color:#94a3b8; }
+
+    /* Color dot en la card + badge de resultado de reto (fondeo) */
+    .sim-tag-row { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+    .sim-name-row { display:flex; align-items:center; gap:.5rem; }
+    .sim-color-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+    .sim-status-badge { font-size:.56rem; font-weight:700; padding:.15rem .55rem; border-radius:100px; letter-spacing:.5px; }
+    .sim-status-badge.fondeada { background:#eafaf1; color:#16a34a; }
+    .sim-status-badge.reventada { background:#fdecec; color:#dc2626; }
+    .sim-status-badge.en_curso { background:#eef0f6; color:#64748b; }
 
     /* SIM MODAL */
     .sim-modal-overlay { display:none; position:fixed; inset:0; z-index:500; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:2rem; }
@@ -460,6 +486,7 @@
     .sim-modal-stat-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,.2); margin-bottom:.5rem; }
     .sim-modal-stat-val { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; line-height:1; }
     .sim-modal-stat-val.green { color:var(--green); }
+    .sim-modal-stat-val.loss { color:#f87171; }
     .sim-modal-stat-val.gold { color:var(--gold); }
     .sim-modal-stat-val.white { color:#fff; }
     .sim-modal-body { padding:1.8rem 2.2rem; }
@@ -467,6 +494,16 @@
     .sim-modal-row:last-child { border-bottom:none; }
     .sim-modal-row-label { font-size:.75rem; color:rgba(255,255,255,.35); }
     .sim-modal-row-val { font-size:.8rem; font-weight:600; color:rgba(255,255,255,.8); }
+    .sim-modal-row-val.green { color:var(--green); }
+    .sim-modal-row-val.loss { color:#f87171; }
+    .sim-modal-organize { padding:0 2.2rem 1.6rem; display:flex; flex-direction:column; gap:.9rem; border-top:1px solid var(--border); padding-top:1.4rem; }
+    .sim-modal-organize-row { display:flex; align-items:center; justify-content:space-between; }
+    .sim-color-swatches { display:flex; gap:.5rem; }
+    .sim-color-swatch { width:20px; height:20px; border-radius:50%; cursor:pointer; border:2px solid transparent; padding:0; }
+    .sim-color-swatch.selected { border-color:#fff; box-shadow:0 0 0 2px var(--gold); }
+    .sim-color-swatch.none { background:transparent; border:1.5px dashed rgba(255,255,255,.3); }
+    .sim-folder-select { background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:7px; padding:.4rem .6rem; font-size:.76rem; color:#fff; font-family:Inter,sans-serif; cursor:pointer; }
+    .sim-folder-select option { background:#0d0f1a; }
     .sim-modal-foot { padding:1.2rem 2.2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
     .btn-gold { background:var(--gold); color:#05070f; border:none; border-radius:8px; padding:.6rem 1.3rem; font-size:.8rem; font-weight:700; cursor:pointer; font-family:Inter,sans-serif; transition:background .2s; text-decoration:none; display:inline-block; }
     .btn-gold:hover { background:var(--gold2); }
@@ -636,6 +673,7 @@
 
     #view-fondeo .fd-config-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.3rem 1.4rem; }
     #view-fondeo .fd-field { display:flex; flex-direction:column; justify-content:flex-end; }
+    .fd-save-bar { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; padding:1rem 1.3rem; margin-bottom:1.5rem; background:#fff; border:1px solid #e7e9f1; border-radius:12px; box-shadow:0 1px 3px rgba(16,24,40,.05); }
     @media (max-width:960px) { #view-fondeo .fd-config-grid { grid-template-columns:repeat(2,1fr); } }
     @media (max-width:520px) { #view-fondeo .fd-config-grid { grid-template-columns:1fr; } }
     .acc-stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden; margin-bottom:1.5rem; }
@@ -735,17 +773,17 @@
     .mt-cal-weekday-week { border-left:1px solid var(--border); }
 
     /* ══════ DASHBOARD — blanco estilo FTMO (todas las vistas) ══════ */
-    #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-plan, #view-fondeo, #view-support { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
-    #view-overview .page-eyebrow, #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow, #view-trades .page-eyebrow, #view-performance .page-eyebrow, #view-simulations .page-eyebrow, #view-mytrades .page-eyebrow, #view-profile .page-eyebrow, #view-plan .page-eyebrow, #view-fondeo .page-eyebrow { color:var(--gold); }
-    #view-overview .page-eyebrow::before, #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before, #view-trades .page-eyebrow::before, #view-performance .page-eyebrow::before, #view-simulations .page-eyebrow::before, #view-mytrades .page-eyebrow::before, #view-profile .page-eyebrow::before, #view-plan .page-eyebrow::before, #view-fondeo .page-eyebrow::before { background:var(--gold); }
-    #view-overview .page-title, #view-accounts .page-title, #view-account-detail .page-title, #view-trades .page-title, #view-performance .page-title, #view-simulations .page-title, #view-mytrades .page-title, #view-profile .page-title, #view-plan .page-title, #view-fondeo .page-title, #view-support .page-title { color:#151a2d; }
-    #view-overview .page-sub, #view-accounts .page-sub, #view-account-detail .page-sub, #view-trades .page-sub, #view-performance .page-sub, #view-simulations .page-sub, #view-mytrades .page-sub, #view-profile .page-sub, #view-plan .page-sub, #view-fondeo .page-sub, #view-support .page-sub { color:#6b7280; }
+    #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-fondeo, #view-support { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
+    #view-overview .page-eyebrow, #view-accounts .page-eyebrow, #view-account-detail .page-eyebrow, #view-trades .page-eyebrow, #view-performance .page-eyebrow, #view-simulations .page-eyebrow, #view-mytrades .page-eyebrow, #view-profile .page-eyebrow, #view-fondeo .page-eyebrow { color:var(--gold); }
+    #view-overview .page-eyebrow::before, #view-accounts .page-eyebrow::before, #view-account-detail .page-eyebrow::before, #view-trades .page-eyebrow::before, #view-performance .page-eyebrow::before, #view-simulations .page-eyebrow::before, #view-mytrades .page-eyebrow::before, #view-profile .page-eyebrow::before, #view-fondeo .page-eyebrow::before { background:var(--gold); }
+    #view-overview .page-title, #view-accounts .page-title, #view-account-detail .page-title, #view-trades .page-title, #view-performance .page-title, #view-simulations .page-title, #view-mytrades .page-title, #view-profile .page-title, #view-fondeo .page-title, #view-support .page-title { color:#151a2d; }
+    #view-overview .page-sub, #view-accounts .page-sub, #view-account-detail .page-sub, #view-trades .page-sub, #view-performance .page-sub, #view-simulations .page-sub, #view-mytrades .page-sub, #view-profile .page-sub, #view-fondeo .page-sub, #view-support .page-sub { color:#6b7280; }
 
-    #view-overview .card, #view-accounts .card, #view-account-detail .card, #view-trades .card, #view-performance .card, #view-simulations .card, #view-mytrades .card, #view-profile .card, #view-plan .card, #view-fondeo .card { background:#fff; border:1px solid #e7e9f1; box-shadow:0 1px 3px rgba(16,24,40,.05); }
-    #view-overview .card-head, #view-accounts .card-head, #view-account-detail .card-head, #view-trades .card-head, #view-performance .card-head, #view-simulations .card-head, #view-mytrades .card-head, #view-profile .card-head, #view-plan .card-head, #view-fondeo .card-head { border-bottom-color:#eef0f6; }
-    #view-overview .card-title, #view-accounts .card-title, #view-account-detail .card-title, #view-trades .card-title, #view-performance .card-title, #view-simulations .card-title, #view-mytrades .card-title, #view-profile .card-title, #view-plan .card-title, #view-fondeo .card-title { color:#151a2d; }
-    #view-overview .card-link, #view-accounts .card-link, #view-account-detail .card-link, #view-trades .card-link, #view-performance .card-link, #view-simulations .card-link, #view-mytrades .card-link, #view-profile .card-link, #view-plan .card-link, #view-fondeo .card-link { color:#94a3b8; }
-    #view-overview .card-link:hover, #view-accounts .card-link:hover, #view-account-detail .card-link:hover, #view-trades .card-link:hover, #view-performance .card-link:hover, #view-simulations .card-link:hover, #view-mytrades .card-link:hover, #view-profile .card-link:hover, #view-plan .card-link:hover, #view-fondeo .card-link:hover { color:var(--gold); }
+    #view-overview .card, #view-accounts .card, #view-account-detail .card, #view-trades .card, #view-performance .card, #view-simulations .card, #view-mytrades .card, #view-profile .card, #view-fondeo .card { background:#fff; border:1px solid #e7e9f1; box-shadow:0 1px 3px rgba(16,24,40,.05); }
+    #view-overview .card-head, #view-accounts .card-head, #view-account-detail .card-head, #view-trades .card-head, #view-performance .card-head, #view-simulations .card-head, #view-mytrades .card-head, #view-profile .card-head, #view-fondeo .card-head { border-bottom-color:#eef0f6; }
+    #view-overview .card-title, #view-accounts .card-title, #view-account-detail .card-title, #view-trades .card-title, #view-performance .card-title, #view-simulations .card-title, #view-mytrades .card-title, #view-profile .card-title, #view-fondeo .card-title { color:#151a2d; }
+    #view-overview .card-link, #view-accounts .card-link, #view-account-detail .card-link, #view-trades .card-link, #view-performance .card-link, #view-simulations .card-link, #view-mytrades .card-link, #view-profile .card-link, #view-fondeo .card-link { color:#94a3b8; }
+    #view-overview .card-link:hover, #view-accounts .card-link:hover, #view-account-detail .card-link:hover, #view-trades .card-link:hover, #view-performance .card-link:hover, #view-simulations .card-link:hover, #view-mytrades .card-link:hover, #view-profile .card-link:hover, #view-fondeo .card-link:hover { color:var(--gold); }
 
     /* Stats grid (Rendimiento) */
     #view-performance .stats-grid, #view-overview .stats-grid, #view-trades .stats-grid, #view-fondeo .stats-grid { background:#eef0f6; border-color:#eef0f6; }
@@ -781,12 +819,13 @@
     #view-simulations .sim-btn-del { border-color:#e2e5ec; color:#94a3b8; }
     #view-simulations .sims-empty p { color:#94a3b8; }
     #view-simulations .sim-metric-val.green, #view-simulations .sim-return { color:#16a34a; }
+    #view-simulations .sim-metric-val.loss, #view-simulations .sim-return.loss { color:#dc2626; }
 
     /* Mi perfil */
-    #view-profile .profile-cards, #view-plan .profile-cards, #view-fondeo .profile-cards { background:#eef0f6; }
-    #view-profile .profile-cell, #view-plan .profile-cell, #view-fondeo .profile-cell { background:#fff; }
-    #view-profile .profile-label, #view-plan .profile-label, #view-fondeo .profile-label { color:#94a3b8; }
-    #view-profile .profile-val, #view-plan .profile-val, #view-fondeo .profile-val { color:#151a2d; }
+    #view-profile .profile-cards, #view-fondeo .profile-cards { background:#eef0f6; }
+    #view-profile .profile-cell, #view-fondeo .profile-cell { background:#fff; }
+    #view-profile .profile-label, #view-fondeo .profile-label { color:#94a3b8; }
+    #view-profile .profile-val, #view-fondeo .profile-val { color:#151a2d; }
     #view-profile .profile-input { background:#fff; border-color:#e2e5ec; color:#151a2d; }
 
     /* Mis Trades */
@@ -885,7 +924,7 @@
       .acc-stats-grid, .acc-permitted-grid { grid-template-columns: repeat(2, 1fr); }
       .acc-metrics-3col { grid-template-columns: 1fr; gap:.8rem; }
       .content-grid { grid-template-columns: 1fr; }
-      #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-plan, #view-fondeo, #view-support { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
+      #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-fondeo, #view-support { margin: -1.5rem -1rem; padding: 1.5rem 1rem; }
       .acc-card { padding: 1.4rem 1.2rem; }
       .acc-row-info { gap: .4rem 1.2rem; }
       .acc-row-chart { flex-direction: column; align-items: flex-start; }
@@ -963,10 +1002,6 @@
         <button class="sidebar-link active" onclick="showView('overview',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           Resumen
-        </button>
-        <button class="sidebar-link" onclick="showView('plan',this)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M12 3l-3 6 3 12 3-12z"/></svg>
-          Premium
         </button>
         <button class="sidebar-link" data-view="accounts" onclick="showView('accounts',this)">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
@@ -1497,8 +1532,20 @@
         <div class="page-head">
           <div class="page-eyebrow">Mis simulaciones</div>
           <div class="page-title">Simulaciones guardadas</div>
-          <div class="page-sub">Tus simulaciones guardadas desde la calculadora</div>
+          <div class="page-sub">Tus simulaciones guardadas desde la calculadora y el simulador de fondeo</div>
         </div>
+
+        <div class="sim-toolbar">
+          <div class="sim-type-tabs">
+            <button class="sim-type-tab active" data-tipo="capital_propio" onclick="simSetTipo('capital_propio')">Capital propio</button>
+            <button class="sim-type-tab" data-tipo="fondeo" onclick="simSetTipo('fondeo')">Fondeo</button>
+          </div>
+          <div class="sim-filter-row">
+            <div class="sim-folder-pills" id="sim-folder-pills"></div>
+            <input type="text" class="sim-search-input" id="sim-search" placeholder="Buscar por nombre…" oninput="simRender()"/>
+          </div>
+        </div>
+
         <div class="card">
           <div class="card-head">
             <span class="card-title">Historial</span>
@@ -1590,17 +1637,9 @@
             <span id="prof-msg" class="save-msg" style="display:none"></span>
           </div>
         </div>
-      </div>
 
-      <!-- MI PLAN (Premium) -->
-      <div class="view" id="view-plan">
-        <div class="page-head">
-          <div class="page-eyebrow">Cuenta</div>
-          <div class="page-title">Mi plan</div>
-          <div class="page-sub">Detalle de tu suscripción con Noryon Capital</div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Suscripción actual</span></div>
+        <div class="card" style="margin-top:1.5rem">
+          <div class="card-head"><span class="card-title">Suscripción</span></div>
           <div class="profile-cards">
             <div class="profile-cell">
               <label class="profile-label">Plan</label>
@@ -1823,16 +1862,28 @@
         <div class="sim-modal-date" id="sm-date">—</div>
       </div>
       <div class="sim-modal-stats">
-        <div class="sim-modal-stat"><div class="sim-modal-stat-label">Rendimiento</div><div class="sim-modal-stat-val green" id="sm-pct">—</div></div>
+        <div class="sim-modal-stat"><div class="sim-modal-stat-label">Rendimiento</div><div class="sim-modal-stat-val" id="sm-pct">—</div></div>
         <div class="sim-modal-stat"><div class="sim-modal-stat-label">Balance final</div><div class="sim-modal-stat-val white" id="sm-final">—</div></div>
         <div class="sim-modal-stat"><div class="sim-modal-stat-label">Capital inicial</div><div class="sim-modal-stat-val gold" id="sm-capital">—</div></div>
       </div>
       <div class="sim-modal-body">
+        <div class="sim-modal-row" id="sm-estrategia-row" style="display:none"><span class="sim-modal-row-label">Estrategia / activo</span><span class="sim-modal-row-val" id="sm-estrategia">—</span></div>
         <div class="sim-modal-row"><span class="sim-modal-row-label">Riesgo por operación</span><span class="sim-modal-row-val" id="sm-riesgo">—</span></div>
         <div class="sim-modal-row"><span class="sim-modal-row-label">Reinversión de ganancias</span><span class="sim-modal-row-val" id="sm-reinversion">—</span></div>
         <div class="sim-modal-row"><span class="sim-modal-row-label">Periodo simulado</span><span class="sim-modal-row-val" id="sm-periodo">—</span></div>
         <div class="sim-modal-row"><span class="sim-modal-row-label">Total de trades</span><span class="sim-modal-row-val" id="sm-trades">—</span></div>
-        <div class="sim-modal-row"><span class="sim-modal-row-label">Ganancia neta</span><span class="sim-modal-row-val green" id="sm-ganancia">—</span></div>
+        <div class="sim-modal-row" id="sm-resultado-reto-row" style="display:none"><span class="sim-modal-row-label">Resultado del reto</span><span class="sim-modal-row-val" id="sm-resultado-reto">—</span></div>
+        <div class="sim-modal-row"><span class="sim-modal-row-label">Ganancia neta</span><span class="sim-modal-row-val" id="sm-ganancia">—</span></div>
+      </div>
+      <div class="sim-modal-organize">
+        <div class="sim-modal-organize-row">
+          <span class="sim-modal-row-label">Color</span>
+          <div class="sim-color-swatches" id="sm-color-swatches"></div>
+        </div>
+        <div class="sim-modal-organize-row">
+          <span class="sim-modal-row-label">Carpeta</span>
+          <select class="sim-folder-select" id="sm-folder-select" onchange="simSetFolder(this.value)"></select>
+        </div>
       </div>
       <div class="sim-modal-foot">
         <a href="calculadora.html" class="btn-gold">Repetir en calculadora →</a>
@@ -2924,35 +2975,105 @@
     }
 
     let simsData = [];
+    let foldersData = [];
+    let simTipo = 'capital_propio';
+    let simFolderFilter = 'all';
+    let simModalId = null;
+    const SIM_COLORS = ['#c9a84c','#16a34a','#dc2626','#3b82f6','#8b5cf6','#f59e0b','#14b8a6','#64748b'];
+    const SIM_RETO_LABELS = { fondeada:'Fondeada', reventada:'Reventada', en_curso:'En curso' };
 
     async function loadSimulations() {
       const { data: sims } = await sb.from('simulations').select('*').eq('user_id', currentUser.id).order('created_at',{ascending:false});
       simsData = sims || [];
+      const { data: folders } = await sb.from('simulation_folders').select('*').eq('user_id', currentUser.id).order('created_at');
+      foldersData = folders || [];
+      simRenderFolderPills();
+      simRender();
+    }
+
+    function simSetTipo(tipo) {
+      simTipo = tipo;
+      document.querySelectorAll('.sim-type-tab').forEach(t => t.classList.toggle('active', t.dataset.tipo === tipo));
+      simFolderFilter = 'all';
+      simRenderFolderPills();
+      simRender();
+    }
+
+    function simRenderFolderPills() {
+      const el = document.getElementById('sim-folder-pills');
+      if (!el) return;
+      const opts = [{ id:'all', nombre:'Todas' }, ...foldersData];
+      el.innerHTML = opts.map(f => `<button class="sim-folder-pill${simFolderFilter===f.id?' selected':''}" onclick="simSetFolderFilter('${f.id}')">${f.nombre}</button>`).join('')
+        + `<button class="sim-folder-pill add" onclick="simCreateFolder()">＋ Carpeta</button>`;
+    }
+
+    function simSetFolderFilter(id) {
+      simFolderFilter = id;
+      simRenderFolderPills();
+      simRender();
+    }
+
+    async function simCreateFolder() {
+      const nombre = prompt('Nombre de la nueva carpeta:');
+      if (!nombre || !nombre.trim()) return;
+      const { data, error } = await sb.from('simulation_folders').insert({ user_id: currentUser.id, nombre: nombre.trim() }).select().single();
+      if (!error && data) {
+        foldersData.push(data);
+        simRenderFolderPills();
+      }
+    }
+
+    function simFilteredData() {
+      const q = (document.getElementById('sim-search')?.value || '').trim().toLowerCase();
+      return simsData.filter(s => {
+        if ((s.tipo || 'capital_propio') !== simTipo) return false;
+        if (simFolderFilter !== 'all' && s.folder_id !== simFolderFilter) return false;
+        if (q && !s.nombre.toLowerCase().includes(q)) return false;
+        return true;
+      });
+    }
+
+    function simRender() {
       const el = document.getElementById('sims-container');
-      if (!simsData.length) {
-        el.innerHTML = `<div class="sims-empty"><p>No tienes simulaciones guardadas aún.<br/><a href="calculadora.html">Ir a la calculadora para crear una →</a></p></div>`;
+      if (!el) return;
+      const list = simFilteredData();
+      if (!list.length) {
+        const emptyMsg = simTipo === 'fondeo'
+          ? `No tienes simulaciones de fondeo guardadas aún.<br/><a href="javascript:void(0)" onclick="showView('fondeo', document.querySelector('.sidebar-link[onclick*=fondeo]'))">Ir al simulador de fondeo para crear una →</a>`
+          : `No tienes simulaciones guardadas aún.<br/><a href="calculadora.html">Ir a la calculadora para crear una →</a>`;
+        el.innerHTML = `<div class="sims-empty"><p>${emptyMsg}</p></div>`;
         return;
       }
-      el.innerHTML = `<div class="sims-list">${simsData.map(s => {
-        const pct = Number(s.rendimiento_pct).toFixed(1);
-        const final = Number(s.resultado_final).toLocaleString('es-ES',{maximumFractionDigits:0});
-        const ganancia = (Number(s.resultado_final) - Number(s.capital_inicial)).toLocaleString('es-ES',{maximumFractionDigits:0});
-        return `
+      el.innerHTML = `<div class="sims-list">${list.map(simCardHTML).join('')}</div>`;
+    }
+
+    function simCardHTML(s) {
+      const pct = Number(s.rendimiento_pct);
+      const final = Number(s.resultado_final).toLocaleString('es-ES',{maximumFractionDigits:0});
+      const gananciaNum = Number(s.resultado_final) - Number(s.capital_inicial);
+      const ganancia = Math.abs(gananciaNum).toLocaleString('es-ES',{maximumFractionDigits:0});
+      const folder = foldersData.find(f => f.id === s.folder_id);
+      const badge = s.tipo === 'fondeo' && s.resultado_reto
+        ? `<span class="sim-status-badge ${s.resultado_reto}">${SIM_RETO_LABELS[s.resultado_reto] || s.resultado_reto}</span>` : '';
+      return `
         <div class="sim-card" onclick="openSimModal('${s.id}')">
           <div class="sim-card-top">
             <div class="sim-left">
-              <div class="sim-tag">Simulación · ${new Date(s.created_at).toLocaleDateString('es-ES')}</div>
-              <div class="sim-name">${s.nombre}</div>
+              <div class="sim-tag-row">
+                <span class="sim-tag">${s.tipo === 'fondeo' ? 'Fondeo' : 'Capital propio'} · ${new Date(s.created_at).toLocaleDateString('es-ES')}${folder ? ' · 📁 ' + folder.nombre : ''}</span>
+                ${badge}
+              </div>
+              <div class="sim-name-row">${s.color ? `<span class="sim-color-dot" style="background:${s.color}"></span>` : ''}<span class="sim-name">${s.nombre}</span></div>
             </div>
             <div class="sim-return-box">
-              <div class="sim-return">+${pct}%</div>
+              <div class="sim-return${pct<0?' loss':''}">${pct>=0?'+':''}${pct.toFixed(1)}%</div>
               <div class="sim-final-val">rendimiento total</div>
             </div>
           </div>
           <div class="sim-metrics-grid">
             <div class="sim-metric-box"><span class="sim-metric-label">Capital inicial</span><span class="sim-metric-val">$${Number(s.capital_inicial).toLocaleString()}</span></div>
             <div class="sim-metric-box"><span class="sim-metric-label">Riesgo/op</span><span class="sim-metric-val">${s.riesgo_pct}%</span></div>
-            <div class="sim-metric-box"><span class="sim-metric-label">Ganancia neta</span><span class="sim-metric-val green">+$${ganancia}</span></div>
+            <div class="sim-metric-box"><span class="sim-metric-label">Ganancia neta</span><span class="sim-metric-val${gananciaNum<0?' loss':' green'}">${gananciaNum>=0?'+':'-'}$${ganancia}</span></div>
             <div class="sim-metric-box"><span class="sim-metric-label">Balance final</span><span class="sim-metric-val">$${final}</span></div>
           </div>
           <div class="sim-actions" onclick="event.stopPropagation()">
@@ -2960,28 +3081,62 @@
             <button class="sim-btn sim-btn-del" onclick="deleteSim('${s.id}')">✕</button>
           </div>
         </div>`;
-      }).join('')}</div>`;
     }
 
     function openSimModal(id) {
       const s = simsData.find(x => x.id === id);
       if (!s) return;
-      const pct = Number(s.rendimiento_pct).toFixed(1);
+      simModalId = id;
+      const pct = Number(s.rendimiento_pct);
       const final = Number(s.resultado_final).toLocaleString('es-ES',{maximumFractionDigits:0});
-      const ganancia = (Number(s.resultado_final) - Number(s.capital_inicial)).toLocaleString('es-ES',{maximumFractionDigits:0});
+      const gananciaNum = Number(s.resultado_final) - Number(s.capital_inicial);
+      const ganancia = Math.abs(gananciaNum).toLocaleString('es-ES',{maximumFractionDigits:0});
       document.getElementById('sm-name').textContent = s.nombre;
       document.getElementById('sm-date').textContent = 'Guardada el ' + new Date(s.created_at).toLocaleDateString('es-ES',{year:'numeric',month:'long',day:'numeric'});
-      document.getElementById('sm-pct').textContent = '+' + pct + '%';
+      const pctEl = document.getElementById('sm-pct');
+      pctEl.textContent = (pct>=0?'+':'') + pct.toFixed(1) + '%';
+      pctEl.className = 'sim-modal-stat-val' + (pct<0?' loss':' green');
       document.getElementById('sm-final').textContent = '$' + final;
       document.getElementById('sm-capital').textContent = '$' + Number(s.capital_inicial).toLocaleString();
       document.getElementById('sm-riesgo').textContent = s.riesgo_pct + '% del capital por operación';
       document.getElementById('sm-reinversion').textContent = s.reinversion > 0 ? s.reinversion + '% de reinversión' : 'Sin reinversión';
       document.getElementById('sm-periodo').textContent = s.fecha_inicio && s.fecha_fin ? `${s.fecha_inicio} → ${s.fecha_fin}` : 'Historial completo 2022–2026';
       document.getElementById('sm-trades').textContent = s.trades_totales ? s.trades_totales + ' operaciones' : '857 operaciones';
-      document.getElementById('sm-ganancia').textContent = '+$' + ganancia;
+      const gananciaEl = document.getElementById('sm-ganancia');
+      gananciaEl.textContent = (gananciaNum>=0?'+':'-') + '$' + ganancia;
+      gananciaEl.className = 'sim-modal-row-val' + (gananciaNum<0?' loss':' green');
+      const estRow = document.getElementById('sm-estrategia-row');
+      if (s.estrategia) { estRow.style.display = 'flex'; document.getElementById('sm-estrategia').textContent = s.estrategia; }
+      else { estRow.style.display = 'none'; }
+      const retoRow = document.getElementById('sm-resultado-reto-row');
+      if (s.resultado_reto) { retoRow.style.display = 'flex'; document.getElementById('sm-resultado-reto').textContent = SIM_RETO_LABELS[s.resultado_reto] || s.resultado_reto; }
+      else { retoRow.style.display = 'none'; }
+      document.getElementById('sm-color-swatches').innerHTML = SIM_COLORS.map(c =>
+        `<button class="sim-color-swatch${s.color===c?' selected':''}" style="background:${c}" onclick="simSetColor('${c}')" title="Color"></button>`
+      ).join('') + `<button class="sim-color-swatch none${!s.color?' selected':''}" onclick="simSetColor(null)" title="Sin color"></button>`;
+      const folderSel = document.getElementById('sm-folder-select');
+      folderSel.innerHTML = `<option value="">Sin carpeta</option>` + foldersData.map(f => `<option value="${f.id}"${s.folder_id===f.id?' selected':''}>${f.nombre}</option>`).join('');
       document.getElementById('sm-del-btn').onclick = () => { deleteSim(s.id); closeSimModal(); };
       document.getElementById('sim-modal').classList.add('open');
       document.body.style.overflow = 'hidden';
+    }
+
+    async function simSetColor(color) {
+      if (!simModalId) return;
+      await sb.from('simulations').update({ color }).eq('id', simModalId);
+      const s = simsData.find(x => x.id === simModalId);
+      if (s) s.color = color;
+      openSimModal(simModalId);
+      simRender();
+    }
+
+    async function simSetFolder(folderId) {
+      if (!simModalId) return;
+      const val = folderId || null;
+      await sb.from('simulations').update({ folder_id: val }).eq('id', simModalId);
+      const s = simsData.find(x => x.id === simModalId);
+      if (s) s.folder_id = val;
+      simRender();
     }
 
     function closeSimModal(e) {
@@ -3209,6 +3364,82 @@
     }
 
     // ── SIMULADOR DE FONDEO ──
+    let fdLastSim = null;
+    let fdFutLastSim = null;
+
+    function fdSaveBarHTML(defaultName, kind) {
+      return `<div class="fd-save-bar">
+        <input type="text" id="fd-sim-name" class="ov-acc-select" style="flex:1;min-width:220px" value="${defaultName.replace(/"/g,'&quot;')}"/>
+        <button class="btn-gold" onclick="fdSaveSimulation('${kind}')">💾 Guardar simulación</button>
+        <span id="fd-save-msg" class="save-msg" style="display:none"></span>
+      </div>`;
+    }
+
+    async function fdSaveSimulation(kind) {
+      if (!currentUser) return;
+      const sim = kind === 'forex' ? fdLastSim : fdFutLastSim;
+      if (!sim) return;
+      const nameInput = document.getElementById('fd-sim-name');
+      const msg = document.getElementById('fd-save-msg');
+      const nombre = (nameInput?.value || '').trim() || 'Simulación de fondeo';
+
+      let payload;
+      if (kind === 'forex') {
+        const capital = sim.capital;
+        const final = sim.finalBalance;
+        payload = {
+          user_id: currentUser.id,
+          nombre,
+          tipo: 'fondeo',
+          capital_inicial: capital,
+          riesgo_pct: sim.riskPct,
+          reinversion: 0,
+          fecha_inicio: sim.startStr || null,
+          fecha_fin: sim.outcomeDate || (sim.daily[sim.daily.length - 1]?.fecha) || null,
+          resultado_final: final,
+          rendimiento_pct: ((final - capital) / capital) * 100,
+          trades_totales: sim.daily.length,
+          estrategia: sim.stratKey === 'combined' ? 'Combinado' : (OV_STRATS.find(s => s.key === sim.stratKey)?.label || sim.stratKey),
+          resultado_reto: sim.phase === 'withdrawable' ? 'fondeada' : sim.phase === 'blown' ? 'reventada' : 'en_curso',
+        };
+      } else {
+        const finalAttempt = sim.fundedAttempt || sim.attempts[sim.attempts.length - 1];
+        const final = sim.fundedPhase?.daily.length ? sim.fundedPhase.finalBalance : finalAttempt.balance;
+        const totalDays = sim.attempts.reduce((s, a) => s + a.daily.length, 0) + (sim.fundedPhase?.daily.length || 0);
+        const fechaFin = sim.fundedPhase?.daily.length ? sim.fundedPhase.daily[sim.fundedPhase.daily.length - 1].fecha : finalAttempt.endDate;
+        const assetLabel = document.getElementById('fdf-asset')?.selectedOptions?.[0]?.text || sim.assetKey;
+        payload = {
+          user_id: currentUser.id,
+          nombre,
+          tipo: 'fondeo',
+          capital_inicial: sim.capital,
+          riesgo_pct: sim.riskPct,
+          reinversion: 0,
+          fecha_inicio: sim.startStr || null,
+          fecha_fin: fechaFin || null,
+          resultado_final: final,
+          rendimiento_pct: ((final - sim.capital) / sim.capital) * 100,
+          trades_totales: totalDays,
+          estrategia: assetLabel,
+          resultado_reto: sim.fundedAttempt ? 'fondeada' : (finalAttempt.outcome === 'blown' ? 'reventada' : 'en_curso'),
+        };
+      }
+
+      const { error } = await sb.from('simulations').insert(payload);
+      if (!msg) return;
+      msg.style.display = 'inline';
+      if (error) {
+        msg.textContent = 'Error al guardar.';
+        msg.className = 'save-msg err';
+      } else {
+        msg.textContent = '¡Guardada! Ver en Mis simulaciones →';
+        msg.className = 'save-msg ok';
+        msg.style.cursor = 'pointer';
+        msg.onclick = () => showView('simulations', document.querySelector('.sidebar-link[onclick*=simulations]'));
+        await loadSimulations();
+      }
+    }
+
     function fdInitDefaults() {
       const el = document.getElementById('fd-start');
       if (el && !el.value) { const d = new Date(); d.setMonth(d.getMonth() - 3); el.value = ovDateStr(d); }
@@ -3346,6 +3577,7 @@
     }
 
     function fdRenderResults(sim) {
+      fdLastSim = sim;
       const el = document.getElementById('fd-results');
       const stratLabel = sim.stratKey === 'combined' ? 'Combinado' : (OV_STRATS.find(s => s.key === sim.stratKey)?.label || sim.stratKey);
       const gainPct = ((sim.finalBalance - sim.capital)/sim.capital)*100;
@@ -3403,6 +3635,7 @@
         </div>` : '';
 
       el.innerHTML = `
+        ${fdSaveBarHTML('Fondeo ' + stratLabel + ' · ' + new Date().toLocaleDateString('es-ES'), 'forex')}
         <div class="stats-grid" style="margin-bottom:1.5rem">
           <div class="stat-card" style="border-top:3px solid ${outcomeMeta.color}"><div class="stat-tag">Estado</div><div class="stat-num" style="font-size:1.25rem;color:${outcomeMeta.color}">${outcomeMeta.label}</div></div>
           <div class="stat-card"><div class="stat-tag">Balance final</div><div class="stat-num white" style="font-size:1.4rem">${accFmtMoney(sim.finalBalance)}</div></div>
@@ -3573,6 +3806,7 @@
     }
 
     function fdFutRenderResults(sim) {
+      fdFutLastSim = sim;
       const el = document.getElementById('fd-results-fut');
       const last = sim.attempts[sim.attempts.length - 1];
       const outcomeMeta = sim.fundedAttempt
@@ -3644,7 +3878,9 @@
         <span><span class="fd-cal-tag blown" style="margin-top:0;vertical-align:middle;margin-right:.35rem">Reventada</span>Trailing drawdown tocado</span>
       </div>`;
 
+      const fdfAssetLabel = document.getElementById('fdf-asset')?.selectedOptions?.[0]?.text || sim.assetKey;
       el.innerHTML = `
+        ${fdSaveBarHTML('Fondeo futuros ' + fdfAssetLabel + ' · ' + new Date().toLocaleDateString('es-ES'), 'futures')}
         ${foundedCard}
         <div class="stats-grid" style="margin-bottom:1.5rem">
           <div class="stat-card" style="border-top:3px solid ${outcomeMeta.color}"><div class="stat-tag">Estado</div><div class="stat-num" style="font-size:1.25rem;color:${outcomeMeta.color}">${outcomeMeta.label}</div></div>
