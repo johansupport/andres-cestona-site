@@ -429,7 +429,7 @@
     .sim-tag { font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--gold); }
     .sim-name { font-size:.95rem; font-weight:700; color:#fff; }
     .sim-return-box { text-align:right; flex-shrink:0; }
-    .sim-return { font-family:'Playfair Display',serif; font-size:1.7rem; font-weight:900; color:var(--green); line-height:1; letter-spacing:-.5px; }
+    .sim-return { font-family:'Space Mono',monospace; font-size:1.6rem; font-weight:700; color:var(--green); line-height:1; letter-spacing:-.5px; font-variant-numeric:tabular-nums; }
     .sim-final-val { font-size:.65rem; color:rgba(255,255,255,.3); margin-top:.3rem; }
     .sim-metrics-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:.6rem; }
     .sim-metric-box { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:9px; padding:.55rem .75rem; }
@@ -464,16 +464,15 @@
     .sim-search-input::placeholder { color:#94a3b8; }
     .sim-filter-row { display:flex; flex-direction:column; gap:.7rem; }
     .sim-folder-pills { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
-    .sim-folder-pill { display:flex; align-items:center; gap:.45rem; padding:.4rem .55rem .4rem .9rem; border-radius:100px; border:1.5px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:700; color:#64748b; cursor:pointer; transition:all .2s; font-family:Inter,sans-serif; }
+    .sim-folder-pill { display:flex; align-items:center; gap:.4rem; padding:.4rem .8rem; border-radius:8px; border:1.5px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:800; color:#64748b; cursor:pointer; transition:all .2s; font-family:Inter,sans-serif; }
+    .sim-folder-pill.all { border-radius:100px; }
     .sim-folder-pill:hover { border-color:#c2c9d6; }
-    .sim-folder-pill.selected { color:#fff; border-color:transparent; }
-    .sim-folder-pill.all.selected { background:var(--gold); color:#05070f; }
-    .sim-folder-pill.add { border-style:dashed; color:#94a3b8; padding:.4rem .9rem; }
-    .sim-folder-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-    .sim-folder-count { font-size:.62rem; font-weight:700; opacity:.65; background:rgba(0,0,0,.06); border-radius:100px; padding:.1rem .4rem; }
-    .sim-folder-pill.selected .sim-folder-count { background:rgba(255,255,255,.25); }
+    .sim-folder-pill.all.selected { background:var(--gold); border-color:var(--gold); color:#05070f; }
+    .sim-folder-pill.colored { border-color:transparent; box-shadow:0 1px 2px rgba(16,24,40,.08); }
+    .sim-folder-pill.colored.selected { box-shadow:0 0 0 2px #151a2d33, 0 1px 2px rgba(16,24,40,.08); }
+    .sim-folder-pill.add { border-style:dashed; color:#94a3b8; }
     .sim-folder-edit { font-size:.7rem; opacity:0; transition:opacity .15s; padding:.1rem .2rem; border-radius:5px; }
-    .sim-folder-pill:hover .sim-folder-edit { opacity:.6; }
+    .sim-folder-pill:hover .sim-folder-edit { opacity:.7; }
     .sim-folder-edit:hover { opacity:1 !important; }
     .sim-folder-editor { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; background:#f9fafc; border:1px solid #eef0f6; border-radius:12px; padding:.8rem 1rem; }
     .sim-folder-name-input { flex:1; min-width:160px; background:#fff; border:1px solid #e2e5ec; border-radius:8px; padding:.5rem .8rem; font-size:.8rem; color:#151a2d; font-family:Inter,sans-serif; outline:none; }
@@ -481,10 +480,10 @@
     .sim-folder-editor-actions { display:flex; gap:.5rem; }
     .sim-folder-editor-actions .sim-btn { flex:0 0 auto; padding:.5rem .9rem; }
 
-    /* Color dot + nombre en la card, badge de resultado de reto (fondeo) */
+    /* Insignia de carpeta (color sólido) + badge de resultado de reto (fondeo) */
     .sim-tag-row { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
     .sim-name-row { display:flex; align-items:center; gap:.5rem; }
-    .sim-color-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+    .sim-folder-badge { display:inline-flex; align-items:center; font-size:.62rem; font-weight:800; padding:.22rem .65rem; border-radius:7px; letter-spacing:.2px; line-height:1.4; }
     .sim-status-badge { font-size:.56rem; font-weight:700; padding:.15rem .55rem; border-radius:100px; letter-spacing:.5px; }
     .sim-status-badge.fondeada { background:#eafaf1; color:#16a34a; }
     .sim-status-badge.reventada { background:#fdecec; color:#dc2626; }
@@ -503,7 +502,7 @@
     .sim-modal-stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#eef0f6; }
     .sim-modal-stat { background:#fff; padding:1.4rem 1.6rem; }
     .sim-modal-stat-label { font-size:.6rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:#9aa1b5; margin-bottom:.5rem; }
-    .sim-modal-stat-val { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; line-height:1; }
+    .sim-modal-stat-val { font-family:'Space Mono',monospace; font-size:1.55rem; font-weight:700; line-height:1; font-variant-numeric:tabular-nums; }
     .sim-modal-stat-val.green { color:#16a34a; }
     .sim-modal-stat-val.loss { color:#dc2626; }
     .sim-modal-stat-val.gold { color:var(--gold); }
@@ -527,6 +526,7 @@
     .sim-modal-organize { padding:0 2.2rem 1.6rem; display:flex; flex-direction:column; gap:.9rem; border-top:1px solid #eef0f6; padding-top:1.4rem; }
     .sim-modal-organize-row { display:flex; align-items:center; justify-content:space-between; }
     .sim-modal-folder-picker { display:flex; align-items:center; gap:.6rem; }
+    .sim-folder-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
     .sim-color-swatches { display:flex; gap:.5rem; }
     .sim-color-swatch { width:20px; height:20px; border-radius:50%; cursor:pointer; border:2px solid transparent; padding:0; }
     .sim-color-swatch.selected { border-color:#fff; box-shadow:0 0 0 2px var(--gold); }
@@ -1925,6 +1925,8 @@
         <div class="sim-modal-row"><span class="sim-modal-row-label">Total de trades</span><span class="sim-modal-row-val" id="sm-trades">—</span></div>
         <div class="sim-modal-row" id="sm-resultado-reto-row" style="display:none"><span class="sim-modal-row-label">Resultado del reto</span><span class="sim-modal-row-val" id="sm-resultado-reto">—</span></div>
         <div class="sim-modal-row"><span class="sim-modal-row-label">Ganancia neta</span><span class="sim-modal-row-val" id="sm-ganancia">—</span></div>
+        <div class="sim-modal-row"><span class="sim-modal-row-label">Promedio por operación</span><span class="sim-modal-row-val" id="sm-avg-trade">—</span></div>
+        <div class="sim-modal-row"><span class="sim-modal-row-label">Múltiplo de capital</span><span class="sim-modal-row-val" id="sm-multiplo">—</span></div>
       </div>
       <div class="sim-modal-organize">
         <div class="sim-modal-organize-row">
@@ -3033,6 +3035,13 @@
     const SIM_COLORS = ['#c9a84c','#16a34a','#dc2626','#3b82f6','#8b5cf6','#f59e0b','#14b8a6','#64748b'];
     const SIM_RETO_LABELS = { fondeada:'Fondeada', reventada:'Reventada', en_curso:'En curso' };
 
+    function simTextOn(bgHex) {
+      const c = (bgHex || '#94a3b8').replace('#','');
+      const r = parseInt(c.substr(0,2),16), g = parseInt(c.substr(2,2),16), b = parseInt(c.substr(4,2),16);
+      const lum = (0.299*r + 0.587*g + 0.114*b) / 255;
+      return lum > 0.6 ? '#151a2d' : '#fff';
+    }
+
     async function loadSimulations() {
       const { data: sims } = await sb.from('simulations').select('*').eq('user_id', currentUser.id).order('created_at',{ascending:false});
       simsData = sims || [];
@@ -3054,16 +3063,13 @@
     function simRenderFolderPills() {
       const el = document.getElementById('sim-folder-pills');
       if (!el) return;
-      const inTipo = simsData.filter(s => (s.tipo || 'capital_propio') === simTipo);
-      const counts = {};
-      inTipo.forEach(s => { if (s.folder_id) counts[s.folder_id] = (counts[s.folder_id] || 0) + 1; });
-      let html = `<button class="sim-folder-pill all${simFolderFilter==='all'?' selected':''}" onclick="simSetFolderFilter('all')">Todas<span class="sim-folder-count">${inTipo.length}</span></button>`;
+      let html = `<button class="sim-folder-pill all${simFolderFilter==='all'?' selected':''}" onclick="simSetFolderFilter('all')">Todas</button>`;
       html += foldersData.map(f => {
         const sel = simFolderFilter === f.id;
         const c = f.color || '#94a3b8';
-        const style = sel ? `background:${c};border-color:${c}` : `border-color:${c}66`;
-        return `<button class="sim-folder-pill${sel?' selected':''}" style="${style}" onclick="simSetFolderFilter('${f.id}')">
-          <span class="sim-folder-dot" style="background:${sel?'#fff':c}"></span>${f.nombre}<span class="sim-folder-count">${counts[f.id]||0}</span>
+        const style = `background:${c};color:${simTextOn(c)}`;
+        return `<button class="sim-folder-pill colored${sel?' selected':''}" style="${style}" onclick="simSetFolderFilter('${f.id}')">
+          ${f.nombre}
           <span class="sim-folder-edit" onclick="event.stopPropagation();simToggleFolderEditor('${f.id}')" title="Editar carpeta">✎</span>
         </button>`;
       }).join('');
@@ -3193,17 +3199,18 @@
       const accent = folder ? (folder.color || '#94a3b8') : null;
       const badge = s.tipo === 'fondeo' && s.resultado_reto
         ? `<span class="sim-status-badge ${s.resultado_reto}">${SIM_RETO_LABELS[s.resultado_reto] || s.resultado_reto}</span>` : '';
-      const folderLabel = folder ? ` · <span style="color:${accent}">📁 ${folder.nombre}</span>` : '';
+      const folderBadge = folder ? `<span class="sim-folder-badge" style="background:${accent};color:${simTextOn(accent)}">${folder.nombre}</span>` : '';
       return `
         <div class="sim-card" onclick="openSimModal('${s.id}')">
           <div class="sim-card-accent" style="background:${accent || 'transparent'}"></div>
           <div class="sim-card-top">
             <div class="sim-left">
               <div class="sim-tag-row">
-                <span class="sim-tag">${s.tipo === 'fondeo' ? 'Fondeo' : 'Capital propio'} · ${new Date(s.created_at).toLocaleDateString('es-ES')}${folderLabel}</span>
+                <span class="sim-tag">${s.tipo === 'fondeo' ? 'Fondeo' : 'Capital propio'} · ${new Date(s.created_at).toLocaleDateString('es-ES')}</span>
+                ${folderBadge}
                 ${badge}
               </div>
-              <div class="sim-name-row">${accent ? `<span class="sim-color-dot" style="background:${accent}" title="${folder.nombre}"></span>` : ''}<span class="sim-name">${s.nombre}</span></div>
+              <div class="sim-name-row"><span class="sim-name">${s.nombre}</span></div>
             </div>
             <div class="sim-return-box">
               <div class="sim-return${pct<0?' loss':''}">${pct>=0?'+':''}${pct.toFixed(1)}%</div>
@@ -3247,6 +3254,14 @@
       const gananciaEl = document.getElementById('sm-ganancia');
       gananciaEl.textContent = (gananciaNum>=0?'+':'-') + '$' + ganancia;
       gananciaEl.className = 'sim-modal-row-val' + (gananciaNum<0?' loss':' green');
+      const avgTrade = s.trades_totales ? gananciaNum / s.trades_totales : null;
+      const avgTradeEl = document.getElementById('sm-avg-trade');
+      avgTradeEl.textContent = avgTrade === null ? '—' : (avgTrade>=0?'+':'-') + '$' + Math.abs(avgTrade).toLocaleString('es-ES',{maximumFractionDigits:2});
+      avgTradeEl.className = 'sim-modal-row-val' + (avgTrade < 0 ? ' loss' : ' green');
+      const multiplo = capital > 0 ? resultado / capital : 0;
+      const multiploEl = document.getElementById('sm-multiplo');
+      multiploEl.textContent = multiplo.toFixed(2) + 'x';
+      multiploEl.className = 'sim-modal-row-val' + (multiplo < 1 ? ' loss' : ' green');
       const estRow = document.getElementById('sm-estrategia-row');
       if (s.estrategia) { estRow.style.display = 'flex'; document.getElementById('sm-estrategia').textContent = s.estrategia; }
       else { estRow.style.display = 'none'; }
