@@ -41,8 +41,8 @@
     .nav-bell:hover { color:#fff; border-color:rgba(255,255,255,.25); }
     .nav-bell-dot { position:absolute; top:7px; right:8px; width:8px; height:8px; border-radius:50%; background:var(--red); border:2px solid var(--black); display:none; }
     .nav-bell-dot.show { display:block; }
-    .nav-profile-menu, .nav-notif-menu { display:none; position:absolute; top:calc(100% + 14px); right:0; background:#0d0f1a; border:1px solid var(--border); border-radius:16px; width:290px; box-shadow:0 30px 70px rgba(0,0,0,.45); z-index:210; overflow:hidden; }
-    .nav-profile-menu.open, .nav-notif-menu.open { display:block; }
+    .nav-profile-menu { display:none; position:absolute; top:calc(100% + 14px); right:0; background:#0d0f1a; border:1px solid var(--border); border-radius:16px; width:290px; box-shadow:0 30px 70px rgba(0,0,0,.45); z-index:210; overflow:hidden; }
+    .nav-profile-menu.open { display:block; }
     .nav-profile-head { display:flex; align-items:center; gap:.8rem; padding:1.1rem; border-bottom:1px solid var(--border); }
     .nav-profile-name { font-size:.88rem; font-weight:700; color:#fff; }
     .nav-profile-email { font-size:.72rem; color:rgba(255,255,255,.4); margin-top:.15rem; word-break:break-all; }
@@ -54,8 +54,27 @@
     .nav-profile-item-sub { display:block; font-size:.7rem; color:rgba(255,255,255,.35); margin-top:.1rem; }
     .nav-profile-logout { display:block; width:calc(100% - 1.6rem); margin:.8rem; background:var(--gold); color:#05070f; border:none; border-radius:9px; padding:.7rem; font-size:.8rem; font-weight:800; cursor:pointer; font-family:'Inter',sans-serif; transition:background .2s; }
     .nav-profile-logout:hover { background:var(--gold2); }
-    .nav-notif-head { padding:.9rem 1.1rem; font-size:.78rem; font-weight:700; color:#fff; border-bottom:1px solid var(--border); }
-    .nav-notif-empty { padding:1.6rem 1.1rem; font-size:.78rem; color:rgba(255,255,255,.3); text-align:center; }
+
+    /* Notificaciones — panel claro con tarjetas, estilo referencia */
+    .nav-notif-menu { display:none; position:absolute; top:calc(100% + 14px); right:0; background:#fff; border:1px solid #e2e5ec; border-radius:16px; width:380px; max-width:calc(100vw - 2.5rem); box-shadow:0 30px 70px rgba(20,25,45,.28); z-index:210; overflow:hidden; }
+    .nav-notif-menu.open { display:block; }
+    .nav-notif-head { display:flex; align-items:center; justify-content:space-between; gap:.8rem; padding:1rem 1.2rem; border-bottom:1px solid #eef0f6; }
+    .nav-notif-head-title { font-size:.9rem; font-weight:800; color:#151a2d; font-family:'Inter',sans-serif; }
+    .nav-notif-mark-read { background:none; border:none; cursor:pointer; font-size:.68rem; font-weight:600; color:#4b5775; text-decoration:underline; text-underline-offset:2px; font-family:'Inter',sans-serif; padding:0; white-space:nowrap; }
+    .nav-notif-mark-read:hover { color:var(--gold); }
+    .nav-notif-list { max-height:420px; overflow-y:auto; padding:.7rem; display:flex; flex-direction:column; gap:.55rem; }
+    .nav-notif-item { position:relative; display:flex; gap:.75rem; padding:.9rem 2rem .9rem .95rem; border:1px solid #eef0f6; border-radius:12px; transition:border-color .2s; }
+    .nav-notif-item:hover { border-color:#dfe3ee; }
+    .nav-notif-icon { width:34px; height:34px; border-radius:9px; background:#fdf6e3; color:var(--gold); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .nav-notif-body { flex:1; min-width:0; }
+    .nav-notif-title { font-size:.8rem; line-height:1.45; color:#374157; font-family:'Inter',sans-serif; }
+    .nav-notif-title b { color:#151a2d; font-weight:700; }
+    .nav-notif-time { font-size:.66rem; color:#9aa3b8; margin-top:.4rem; font-family:'Space Mono',monospace; }
+    .nav-notif-btn { display:inline-block; margin-top:.65rem; background:var(--gold); color:#151a2d; border:none; font-size:.68rem; font-weight:800; padding:.42rem .85rem; border-radius:7px; text-decoration:none; font-family:'Inter',sans-serif; cursor:pointer; }
+    .nav-notif-btn:hover { background:var(--gold2); }
+    .nav-notif-unread { position:absolute; top:1rem; right:.9rem; width:8px; height:8px; border-radius:50%; background:#3b82f6; }
+    .nav-notif-empty { padding:2.6rem 1.2rem 2.8rem; font-size:.8rem; color:#9aa3b8; text-align:center; font-family:'Inter',sans-serif; }
+    .nav-notif-empty svg { display:block; margin:0 auto .8rem; opacity:.3; }
     @media (max-width:768px) { .nav-user { display:none; } }
 
     /* LAYOUT */
@@ -83,16 +102,6 @@
     .sidebar-collapse-inner { overflow:hidden; }
     .sidebar-collapse-btn.open + .sidebar-collapse-body { grid-template-rows:1fr; }
     .sidebar-note { padding:.5rem .6rem .3rem; font-size:.72rem; color:#94a3b8; }
-    .sidebar-toggle-row { display:flex; align-items:center; justify-content:space-between; padding:.55rem .6rem; margin-bottom:.2rem; }
-    .sidebar-toggle-label { display:flex; align-items:center; gap:.65rem; font-size:.78rem; font-weight:600; color:#4b5775; }
-    .sidebar-switch { position:relative; display:inline-block; width:34px; height:19px; flex-shrink:0; }
-    .sidebar-switch input { opacity:0; width:0; height:0; }
-    .sidebar-switch-slider { position:absolute; inset:0; background:#e2e5ec; border-radius:100px; transition:.2s; cursor:pointer; }
-    .sidebar-switch-slider::before { content:''; position:absolute; width:14px; height:14px; left:2.5px; top:2.5px; background:#fff; border-radius:50%; transition:.2s; box-shadow:0 1px 2px rgba(0,0,0,.15); }
-    .sidebar-switch input:checked + .sidebar-switch-slider { background:var(--gold); }
-    .sidebar-switch input:checked + .sidebar-switch-slider::before { transform:translateX(15px); }
-    .sidebar-lang-btn { display:flex; align-items:center; gap:.65rem; width:100%; background:none; border:none; cursor:pointer; font-family:'Inter',sans-serif; font-size:.78rem; font-weight:600; color:#4b5775; padding:.55rem .6rem; text-align:left; border-radius:8px; transition:background .2s; }
-    .sidebar-lang-btn:hover { background:#f5f6fa; }
     .sidebar-lang-btn.open .sidebar-chevron { transform:rotate(180deg); }
     .sidebar-lang-btn.open + .sidebar-collapse-body { grid-template-rows:1fr; }
     .sidebar-lang-flag { font-size:1rem; line-height:1; }
@@ -342,7 +351,8 @@
     .tl2-tag.sp500 { background:#14b8a6; color:#04201c; }
 
     .tl2-chart-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:1rem; }
-    .tl2-card { background:#fff; border:1px solid #e7e9f1; border-radius:12px; overflow:hidden; box-shadow:0 1px 3px rgba(16,24,40,.05); }
+    .tl2-card { background:#fff; border:1px solid #e7e9f1; border-radius:12px; overflow:hidden; box-shadow:0 1px 3px rgba(16,24,40,.05); cursor:pointer; transition:box-shadow .2s,transform .2s; }
+    .tl2-card:hover { box-shadow:0 8px 24px rgba(16,24,40,.12); transform:translateY(-2px); }
     .tl2-card img.tl2-thumb { display:block; width:100%; height:112px; object-fit:cover; background:#f4f4f2; }
     .tl2-card-empty { height:112px; display:flex; align-items:center; justify-content:center; color:#9aa1b5; font-size:.62rem; font-family:'Space Mono',monospace; background:#f9fafc; text-align:center; padding:0 1rem; }
     .tl2-card-body { padding:.75rem .85rem .9rem; }
@@ -391,11 +401,17 @@
     .tl2-cal-card { background:#fff; border:1px solid #e7e9f1; border-radius:16px; overflow:hidden; box-shadow:0 1px 3px rgba(16,24,40,.05); }
     .tl2-cal-head { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.3rem; border-bottom:1px solid #eef0f6; }
     .tl2-cal-title { font-family:'Space Mono',monospace; font-size:.84rem; font-weight:700; color:#151a2d; }
-    .tl2-cal-head-row { display:grid; grid-template-columns:repeat(7,1fr); border-bottom:1px solid #eef0f6; background:#f9fafc; }
+    .tl2-cal-head-row { display:grid; grid-template-columns:repeat(7,1fr) 92px; border-bottom:1px solid #eef0f6; background:#f9fafc; }
     .tl2-cal-head-row div { padding:.55rem 0 .55rem .6rem; text-align:left; font-family:'Space Mono',monospace; font-size:.6rem; font-weight:600; letter-spacing:.4px; color:#94a3b8; text-transform:uppercase; }
-    .tl2-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); }
+    .tl2-cal-head-row .tl2-cal-head-total { text-align:center; padding-left:0; }
+    .tl2-cal-grid { display:grid; grid-template-columns:repeat(7,1fr) 92px; }
     .tl2-cal-cell { min-height:108px; border-right:1px solid #eef0f6; border-bottom:1px solid #eef0f6; padding:.45rem; }
-    .tl2-cal-cell:nth-child(7n) { border-right:none; }
+    .tl2-cal-total-cell { min-height:108px; border-bottom:1px solid #eef0f6; border-left:1px solid #eef0f6; padding:.45rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.35rem; background:#f9fafc; }
+    .tl2-cal-total-label { font-family:'Space Mono',monospace; font-size:.55rem; letter-spacing:.4px; text-transform:uppercase; color:#94a3b8; }
+    .tl2-cal-total-val { font-family:'Space Mono',monospace; font-size:.84rem; font-weight:800; }
+    .tl2-cal-total-cell.win .tl2-cal-total-val { color:#16a34a; }
+    .tl2-cal-total-cell.loss .tl2-cal-total-val { color:#dc2626; }
+    .tl2-cal-total-cell.flat .tl2-cal-total-val { color:#9aa3b8; }
     .tl2-cal-daynum { font-family:'Space Mono',monospace; font-size:.66rem; text-align:right; color:#c2c9d6; font-weight:600; margin-bottom:.4rem; }
     .tl2-cal-daynum.has { color:#151a2d; font-weight:800; }
     .tl2-cal-cell.today { background:rgba(201,168,76,.08); }
@@ -407,6 +423,23 @@
     .tl2-cal-pct { font-family:'Space Mono',monospace; font-size:.6rem; font-weight:700; }
     .tl2-cal-pct.win { color:#16a34a; } .tl2-cal-pct.loss { color:#dc2626; }
     .tl2-cal-empty { font-family:'Space Mono',monospace; font-size:.58rem; color:#c2c9d6; }
+
+    /* Modal de detalle de trade — al hacer click en una card de Chart overview */
+    .tl2-trade-modal-overlay { display:none; position:fixed; inset:0; z-index:520; background:rgba(15,20,35,.6); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:2rem; }
+    .tl2-trade-modal-overlay.open { display:flex; }
+    .tl2-trade-modal { background:#fff; border-radius:20px; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 40px 90px rgba(10,14,25,.35); }
+    .tl2-trade-modal-close { position:absolute; top:1rem; right:1rem; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.85rem; color:#151a2d; z-index:2; box-shadow:0 2px 10px rgba(0,0,0,.18); }
+    .tl2-trade-modal-media { width:100%; height:240px; background:#f4f4f2; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .tl2-trade-modal-media img { width:100%; height:100%; object-fit:cover; }
+    .tl2-trade-modal-media-empty { color:#9aa1b5; font-size:.72rem; font-family:'Space Mono',monospace; text-align:center; padding:0 1rem; }
+    .tl2-trade-modal-body { padding:1.5rem 1.6rem 1.8rem; }
+    .tl2-trade-modal-top { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:.4rem; }
+    .tl2-trade-modal-pair { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:900; color:#151a2d; }
+    .tl2-trade-modal-date { font-size:.72rem; color:#94a3b8; margin-top:.25rem; font-family:'Space Mono',monospace; }
+    .tl2-trade-modal-pct { font-family:'Space Mono',monospace; font-size:2.1rem; font-weight:700; line-height:1; margin:1rem 0 1.4rem; font-variant-numeric:tabular-nums; }
+    .tl2-trade-modal-pct.win { color:#16a34a; } .tl2-trade-modal-pct.loss { color:#dc2626; }
+    .tl2-trade-modal-notes-label { font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:#94a3b8; margin-bottom:.5rem; }
+    .tl2-trade-modal-notes { font-size:.85rem; line-height:1.6; color:#374157; background:#f9fafc; border:1px solid #eef0f6; border-radius:12px; padding:1rem 1.1rem; white-space:pre-wrap; }
     @media (max-width:720px) { .tl2-wl-grid { grid-template-columns:1fr; } }
 
     /* PERFORMANCE — mini cards */
@@ -1012,8 +1045,11 @@
           <span class="nav-bell-dot" id="navBellDot"></span>
         </button>
         <div class="nav-notif-menu" id="navNotifMenu">
-          <div class="nav-notif-head">Notificaciones</div>
-          <div class="nav-notif-empty">No tienes notificaciones nuevas.</div>
+          <div class="nav-notif-head">
+            <span class="nav-notif-head-title">Notificaciones</span>
+            <button class="nav-notif-mark-read" onclick="notifMarkAllRead()">Marcar todas como leídas</button>
+          </div>
+          <div class="nav-notif-list" id="navNotifList"></div>
         </div>
       </div>
     </div>
@@ -1144,18 +1180,15 @@
 
       <div class="sidebar-divider"></div>
       <div class="sidebar-section">
-        <div class="sidebar-toggle-row">
-          <span class="sidebar-toggle-label">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-            Modo oscuro
-          </span>
-          <label class="sidebar-switch"><input type="checkbox" disabled/><span class="sidebar-switch-slider"></span></label>
-        </div>
+        <button class="sidebar-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          Modo oscuro
+        </button>
         <a href="index.html" class="sidebar-link">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
           Volver al sitio
         </a>
-        <button class="sidebar-lang-btn" onclick="this.classList.toggle('open')" id="sidebarLangBtn">
+        <button class="sidebar-link sidebar-lang-btn" onclick="this.classList.toggle('open')" id="sidebarLangBtn">
           <span class="sidebar-lang-flag" id="sidebarLangFlag">🇪🇸</span>
           <span id="sidebarLangLabel">Español</span>
           <svg class="sidebar-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -1501,7 +1534,7 @@
             <div class="tl2-cal-head">
               <span class="tl2-cal-title" id="tl2-cal-title">—</span>
             </div>
-            <div class="tl2-cal-head-row"><div>DOM</div><div>LUN</div><div>MAR</div><div>MIÉ</div><div>JUE</div><div>VIE</div><div>SÁB</div></div>
+            <div class="tl2-cal-head-row"><div>DOM</div><div>LUN</div><div>MAR</div><div>MIÉ</div><div>JUE</div><div>VIE</div><div>SÁB</div><div class="tl2-cal-head-total">TOTAL</div></div>
             <div class="tl2-cal-grid" id="tl2-cal-grid"></div>
           </div>
         </div>
@@ -1944,6 +1977,25 @@
     </div>
   </div>
 
+  <div class="tl2-trade-modal-overlay" id="tl2-trade-modal" onclick="tl2CloseTradeModal(event)">
+    <div class="tl2-trade-modal">
+      <div class="tl2-trade-modal-close" onclick="tl2CloseTradeModal()">✕</div>
+      <div class="tl2-trade-modal-media" id="tl2tm-media"></div>
+      <div class="tl2-trade-modal-body">
+        <div class="tl2-trade-modal-top">
+          <div>
+            <div class="tl2-trade-modal-pair" id="tl2tm-pair">—</div>
+            <div class="tl2-trade-modal-date" id="tl2tm-date">—</div>
+          </div>
+          <span class="tl2-pill" id="tl2tm-pill">—</span>
+        </div>
+        <div class="tl2-trade-modal-pct" id="tl2tm-pct">—</div>
+        <div class="tl2-trade-modal-notes-label">Notas del trade</div>
+        <div class="tl2-trade-modal-notes" id="tl2tm-notes">Sin notas para este trade.</div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
     const sb = supabase.createClient(
@@ -1954,6 +2006,7 @@
     let currentProfile = null;
 
     async function init() {
+      renderNotifPanel();
       const { data } = await sb.auth.getSession();
       if (!data.session) { location.href = 'auth.html'; return; }
       currentUser = data.session.user;
@@ -1978,6 +2031,7 @@
       await accLoadAll();
       await ovLoadResults();
       await ovLoadChartImages();
+      await ovLoadNotes();
       ovRefreshAll();
       tl2Render();
       await loadHomeSummary();
@@ -2068,6 +2122,24 @@
           });
         });
       } catch (e) { /* migración de imagen todavía no aplicada */ }
+    }
+
+    // Notas por trade (columna opcional — si aún no existe, se ignora sin romper el resto).
+    async function ovLoadNotes() {
+      try {
+        const { data, error } = await sb.from('strategy_results')
+          .select('estrategia,fecha,notas')
+          .not('notas', 'is', null);
+        if (error || !data) return;
+        const map = {};
+        data.forEach(r => { map[r.estrategia + '|' + r.fecha] = r.notas; });
+        Object.keys(ovResults).forEach(k => {
+          (ovResults[k] || []).forEach(r => {
+            const n = map[k + '|' + r.fecha];
+            if (n) r.notas = n;
+          });
+        });
+      } catch (e) { /* migración de notas todavía no aplicada */ }
     }
 
     function ovGetResult(stratKey, dateStr) {
@@ -2598,6 +2670,31 @@
       return new Date(iso + 'T00:00:00').toLocaleDateString('es-ES', { day:'numeric', month:'short', year:'numeric' });
     }
 
+    function tl2OpenTradeModal(stratKey, fecha) {
+      const meta = OV_STRATS.find(s => s.key === stratKey);
+      const r = (ovResults[stratKey] || []).find(x => x.fecha === fecha);
+      if (!meta || !r) return;
+      const w = r.resultado === 'win';
+      document.getElementById('tl2tm-pair').textContent = meta.label;
+      document.getElementById('tl2tm-date').textContent = tl2FmtDate(r.fecha);
+      const pill = document.getElementById('tl2tm-pill');
+      pill.textContent = w ? 'Win' : 'Loss';
+      pill.className = 'tl2-pill ' + (w ? 'win' : 'loss');
+      const pct = document.getElementById('tl2tm-pct');
+      pct.textContent = (Number(r.porcentaje) > 0 ? '+' : '') + Number(r.porcentaje).toFixed(1) + '%';
+      pct.className = 'tl2-trade-modal-pct ' + (w ? 'win' : 'loss');
+      document.getElementById('tl2tm-media').innerHTML = r.chart_image_url
+        ? `<img src="${r.chart_image_url}" alt="${meta.label}"/>`
+        : `<div class="tl2-trade-modal-media-empty">Sin captura todavía para este trade.</div>`;
+      document.getElementById('tl2tm-notes').textContent = (r.notas && r.notas.trim()) ? r.notas : 'Sin notas para este trade.';
+      document.getElementById('tl2-trade-modal').classList.add('open');
+    }
+
+    function tl2CloseTradeModal(e) {
+      if (e && e.target.id !== 'tl2-trade-modal') return;
+      document.getElementById('tl2-trade-modal').classList.remove('open');
+    }
+
     function tl2RenderChart(rows) {
       const grid = document.getElementById('tl2-chart-grid');
       if (!grid) return;
@@ -2607,7 +2704,7 @@
         const thumb = r.chart_image_url
           ? `<img class="tl2-thumb" src="${r.chart_image_url}" alt="${r.stratMeta.label}"/>`
           : `<div class="tl2-card-empty">Sin captura todavía</div>`;
-        return `<div class="tl2-card">
+        return `<div class="tl2-card" onclick="tl2OpenTradeModal('${r.stratMeta.key}','${r.fecha}')">
           ${thumb}
           <div class="tl2-card-body">
             <div class="tl2-card-top"><span class="tl2-pair">${r.stratMeta.label}</span><span class="tl2-pill ${w?'win':'loss'}">${w?'Win':'Loss'}</span></div>
@@ -2769,10 +2866,10 @@
         }
       }
 
-      grid.style.gridTemplateColumns = tl2Scope === 'day' ? '1fr' : 'repeat(7,1fr)';
+      grid.style.gridTemplateColumns = tl2Scope === 'day' ? '1fr' : 'repeat(7,1fr) 92px';
       if (headRow) headRow.style.display = tl2Scope === 'day' ? 'none' : 'grid';
 
-      grid.innerHTML = cells.map(c => {
+      const cellHTML = c => {
         const isToday = c.ds === todayStr;
         const dayTrades = byDay[c.ds];
         const hasTrades = !c.out && dayTrades;
@@ -2792,7 +2889,26 @@
           inner += `<div class="tl2-cal-empty">Sin operaciones</div>`;
         }
         return `<div class="tl2-cal-cell${c.out?' out':''}${isToday?' today':''}">${inner}</div>`;
-      }).join('');
+      };
+
+      const weekTotalHTML = weekCells => {
+        let sum = 0, count = 0;
+        weekCells.forEach(c => { (byDay[c.ds]||[]).forEach(r => { sum += Number(r.porcentaje); count++; }); });
+        const cls = !count ? 'flat' : sum > 0 ? 'win' : sum < 0 ? 'loss' : 'flat';
+        const val = count ? (sum>0?'+':'') + sum.toFixed(1) + '%' : '—';
+        return `<div class="tl2-cal-total-cell ${cls}"><span class="tl2-cal-total-label">Semana</span><span class="tl2-cal-total-val">${val}</span></div>`;
+      };
+
+      if (tl2Scope === 'day') {
+        grid.innerHTML = cells.map(cellHTML).join('');
+      } else {
+        let html = '';
+        for (let i = 0; i < cells.length; i += 7) {
+          const week = cells.slice(i, i+7);
+          html += week.map(cellHTML).join('') + weekTotalHTML(week);
+        }
+        grid.innerHTML = html;
+      }
     }
 
     function tl2CalStep(dir) {
@@ -5162,6 +5278,48 @@
 
 
     async function logout() { await sb.auth.signOut(); location.href = 'index.html'; }
+
+    let notifData = [
+      { id:'welcome', unread:true, text:'<b>Bienvenido a tu panel.</b> Aquí puedes seguir tus señales, guardar simulaciones y revisar tu rendimiento en un solo lugar.', time:'Nuevo', cta:'Entendido' }
+    ];
+
+    function renderNotifPanel() {
+      const list = document.getElementById('navNotifList');
+      const dot = document.getElementById('navBellDot');
+      if (!list) return;
+      const hasUnread = notifData.some(n => n.unread);
+      if (dot) dot.classList.toggle('show', hasUnread);
+      if (!notifData.length) {
+        list.innerHTML = `<div class="nav-notif-empty">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          No tienes notificaciones nuevas.
+        </div>`;
+        return;
+      }
+      list.innerHTML = notifData.map(n => `
+        <div class="nav-notif-item">
+          ${n.unread ? '<span class="nav-notif-unread"></span>' : ''}
+          <div class="nav-notif-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg>
+          </div>
+          <div class="nav-notif-body">
+            <div class="nav-notif-title">${n.text}</div>
+            ${n.time ? `<div class="nav-notif-time">${n.time}</div>` : ''}
+            ${n.cta ? `<button class="nav-notif-btn" onclick="notifDismiss('${n.id}')">${n.cta}</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function notifMarkAllRead() {
+      notifData.forEach(n => n.unread = false);
+      renderNotifPanel();
+    }
+
+    function notifDismiss(id) {
+      notifData = notifData.filter(n => n.id !== id);
+      renderNotifPanel();
+    }
 
     function toggleNotifMenu(e) {
       e.stopPropagation();

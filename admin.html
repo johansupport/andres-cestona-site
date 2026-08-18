@@ -370,6 +370,10 @@
                 <input type="file" id="s-imagen" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"/>
                 <div id="s-imagen-preview" style="display:none;margin-top:.6rem"><img style="max-width:220px;border-radius:8px;border:1px solid var(--border)"/></div>
               </div>
+              <div class="field form-full">
+                <label>Notas / descripción (opcional, aparece al abrir el detalle del trade)</label>
+                <textarea id="s-notas" rows="3" placeholder="Contexto de la operación: setup, entrada, gestión, lección aprendida..."></textarea>
+              </div>
             </div>
             <div class="form-actions">
               <button type="button" class="btn-publish" id="s-btn-submit" onclick="submitStatsDay()">Guardar día →</button>
@@ -667,11 +671,12 @@
       const resultado = document.getElementById('s-resultado').value;
       const riesgo = parseFloat(document.getElementById('s-porcentaje').value) || 1;
       const imgFile = document.getElementById('s-imagen').files[0];
+      const notas = document.getElementById('s-notas').value.trim();
       if (!fecha) { alert('Elegí una fecha.'); return; }
 
       btn.disabled = true; btn.textContent = 'Guardando...';
       const porcentaje = resultado === 'win' ? Math.abs(riesgo) : -Math.abs(riesgo);
-      const payload = { estrategia, fecha, resultado, porcentaje };
+      const payload = { estrategia, fecha, resultado, porcentaje, notas: notas || null };
 
       try {
         if (imgFile) payload.chart_image_url = await uploadChartImage(imgFile, estrategia, fecha);
@@ -697,6 +702,7 @@
         document.getElementById('s-imagen').value = '';
         document.getElementById('s-imagen-preview').style.display = 'none';
         document.getElementById('s-imagen-name').textContent = 'Ningún archivo seleccionado';
+        document.getElementById('s-notas').value = '';
         if (document.getElementById('sl-estrategia').value === estrategia) loadStatsRecent();
       }
       btn.disabled = false; btn.textContent = 'Guardar día →';
