@@ -451,6 +451,8 @@
     .tl2-trade-modal-info-item { background:#f9fafc; border:1px solid #eef0f6; border-radius:10px; padding:.65rem .8rem; }
     .tl2-trade-modal-info-label { display:block; font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#94a3b8; margin-bottom:.3rem; font-family:'Inter',sans-serif; }
     .tl2-trade-modal-info-val { font-size:.8rem; font-weight:700; color:#151a2d; font-family:'Inter',sans-serif; }
+    .tl2-trade-modal-info-val.green { color:#16a34a; }
+    .tl2-trade-modal-info-val.loss { color:#dc2626; }
     .tl2-trade-modal-notes-label { font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:#94a3b8; margin-bottom:.5rem; }
     .tl2-trade-modal-notes { font-size:.85rem; line-height:1.6; color:#374157; background:#f9fafc; border:1px solid #eef0f6; border-radius:12px; padding:1rem 1.1rem; white-space:pre-wrap; }
     .tl2-trade-modal-foot { margin-top:1.4rem; padding-top:1.2rem; border-top:1px solid #eef0f6; }
@@ -2049,6 +2051,14 @@
             <span class="tl2-trade-modal-info-label">Resultado</span>
             <span class="tl2-trade-modal-info-val" id="tl2tm-result-desc">—</span>
           </div>
+          <div class="tl2-trade-modal-info-item">
+            <span class="tl2-trade-modal-info-label">Racha</span>
+            <span class="tl2-trade-modal-info-val" id="tl2tm-streak">—</span>
+          </div>
+          <div class="tl2-trade-modal-info-item">
+            <span class="tl2-trade-modal-info-label">Acumulado del mes</span>
+            <span class="tl2-trade-modal-info-val" id="tl2tm-month-acc">—</span>
+          </div>
         </div>
         <div class="tl2-trade-modal-notes-label">Notas del trade</div>
         <div class="tl2-trade-modal-notes" id="tl2tm-notes">Sin notas para este trade.</div>
@@ -2757,6 +2767,22 @@
       const weekday = new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-ES', { weekday:'long' });
       document.getElementById('tl2tm-weekday').textContent = weekday.charAt(0).toUpperCase() + weekday.slice(1);
       document.getElementById('tl2tm-result-desc').textContent = w ? 'Operación ganadora' : 'Operación perdedora';
+
+      const rows = ovResults[stratKey] || [];
+      const idx = rows.findIndex(x => x.fecha === fecha);
+      let streak = 1;
+      for (let i = idx - 1; i >= 0 && rows[i].resultado === r.resultado; i--) streak++;
+      const streakEl = document.getElementById('tl2tm-streak');
+      streakEl.textContent = streak === 1 ? 'Rompe la racha anterior' : `${streak}ª ${w ? 'victoria' : 'pérdida'} seguida`;
+      streakEl.className = 'tl2-trade-modal-info-val' + (streak > 1 ? (w ? ' green' : ' loss') : '');
+
+      const monthPrefix = r.fecha.slice(0,7);
+      let monthAcc = 0;
+      for (let i = 0; i <= idx; i++) { if (rows[i].fecha.slice(0,7) === monthPrefix) monthAcc += Number(rows[i].porcentaje); }
+      const monthAccEl = document.getElementById('tl2tm-month-acc');
+      monthAccEl.textContent = (monthAcc >= 0 ? '+' : '') + monthAcc.toFixed(1) + '%';
+      monthAccEl.className = 'tl2-trade-modal-info-val' + (monthAcc > 0 ? ' green' : (monthAcc < 0 ? ' loss' : ''));
+
       document.getElementById('tl2tm-notes').textContent = (r.notas && r.notas.trim()) ? r.notas : 'Sin notas para este trade.';
       document.getElementById('tl2-trade-modal').classList.add('open');
     }
@@ -3331,7 +3357,7 @@
       const name = (document.getElementById('sfe-name')?.value || '').trim();
       if (!name) return;
       if (e.mode === 'new') {
-        const { data, error } = await sb.from('simulation_folders').insert({ user_id: currentUser.id, nombre: name, color: e.color }).select().single();
+        const { data, error } = await sb.from('simulation_folders').insert({ user_id: currentUser.id, nombre: name, color: e.color, tipo: simTipo }).select().single();
         if (!error && data) foldersData.push(data);
       } else {
         await sb.from('simulation_folders').update({ nombre: name, color: e.color }).eq('id', e.id);
@@ -3374,10 +3400,14 @@
       </div>`;
     }
 
+    function simFoldersForTipo(tipo) {
+      return foldersData.filter(f => (f.tipo || 'capital_propio') === tipo);
+    }
+
     function simFolderGridHTML(byTipo) {
       const uncatCount = byTipo.filter(s => !s.folder_id).length;
       let html = `<div class="sim-folder-grid">`;
-      html += foldersData.map(f => {
+      html += simFoldersForTipo(simTipo).map(f => {
         const count = byTipo.filter(s => s.folder_id === f.id).length;
         const c = f.color || '#94a3b8';
         const menuOpen = simTileMenuOpenId === f.id;
@@ -3537,7 +3567,7 @@
       finalFill.className = 'sim-modal-growth-fill' + (gananciaNum < 0 ? ' loss' : ' green');
       document.getElementById('sm-growth-final-val').textContent = '$' + final;
       const folderSel = document.getElementById('sm-folder-select');
-      folderSel.innerHTML = `<option value="" data-color="">Sin carpeta</option>` + foldersData.map(f => `<option value="${f.id}" data-color="${f.color||''}"${s.folder_id===f.id?' selected':''}>${f.nombre}</option>`).join('');
+      folderSel.innerHTML = `<option value="" data-color="">Sin carpeta</option>` + simFoldersForTipo(s.tipo || 'capital_propio').map(f => `<option value="${f.id}" data-color="${f.color||''}"${s.folder_id===f.id?' selected':''}>${f.nombre}</option>`).join('');
       simUpdateFolderDot();
       document.getElementById('sm-del-btn').onclick = () => { deleteSim(s.id); closeSimModal(); };
       document.getElementById('sim-modal').classList.add('open');
