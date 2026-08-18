@@ -516,20 +516,40 @@
     .sim-search-input { min-width:220px; }
     .sim-sort-select:focus, .sim-search-input:focus { border-color:var(--gold); }
     .sim-search-input::placeholder { color:#94a3b8; }
-    .sim-filter-row { display:flex; flex-direction:column; gap:.7rem; }
-    .sim-folder-pills { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; }
-    .sim-folder-pill { display:flex; align-items:center; gap:.4rem; padding:.4rem .8rem; border-radius:8px; border:1.5px solid #e2e5ec; background:#fff; font-size:.72rem; font-weight:800; color:#64748b; cursor:pointer; transition:all .2s; font-family:Inter,sans-serif; }
-    .sim-folder-pill.all { border-radius:100px; }
-    .sim-folder-pill:hover { border-color:#c2c9d6; }
-    .sim-folder-pill.all.selected { background:var(--gold); border-color:var(--gold); color:#05070f; }
-    .sim-folder-pill.colored { border-color:transparent; box-shadow:0 1px 2px rgba(16,24,40,.08); }
-    .sim-folder-pill.colored.selected { box-shadow:0 0 0 2px #151a2d33, 0 1px 2px rgba(16,24,40,.08); }
-    .sim-folder-pill.add { border-style:dashed; color:#94a3b8; }
-    .sim-folder-edit { font-size:.7rem; opacity:0; transition:opacity .15s; padding:.1rem .2rem; border-radius:5px; }
-    .sim-folder-pill:hover .sim-folder-edit { opacity:.7; }
-    .sim-folder-edit:hover { opacity:1 !important; }
-    .sim-folder-editor { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; background:#f9fafc; border:1px solid #eef0f6; border-radius:12px; padding:.8rem 1rem; }
-    .sim-folder-name-input { flex:1; min-width:160px; background:#fff; border:1px solid #e2e5ec; border-radius:8px; padding:.5rem .8rem; font-size:.8rem; color:#151a2d; font-family:Inter,sans-serif; outline:none; }
+    /* SIM FOLDER GRID — estilo Drive: tiles de carpeta en la raíz de Simulaciones */
+    .sim-folder-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:1rem; padding:1.4rem 1.6rem; }
+    .sim-folder-tile { position:relative; display:flex; flex-direction:column; align-items:center; gap:.5rem; padding:1.3rem 1rem 1.1rem; border-radius:14px; border:1px solid #eef0f6; background:#fff; cursor:pointer; transition:all .2s; text-align:center; }
+    .sim-folder-tile:hover { border-color:#dde1ec; box-shadow:0 10px 22px rgba(16,24,40,.07); transform:translateY(-2px); }
+    .sim-folder-tile-icon { display:flex; }
+    .sim-folder-tile-name { font-size:.82rem; font-weight:700; color:#151a2d; word-break:break-word; }
+    .sim-folder-tile-count { font-size:.66rem; color:#9aa1b5; font-family:'Space Mono',monospace; }
+    .sim-folder-tile-menu-btn { position:absolute; top:.5rem; right:.5rem; width:22px; height:22px; border-radius:6px; border:none; background:transparent; color:#c2c9d6; font-size:.9rem; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0; transition:all .15s; }
+    .sim-folder-tile:hover .sim-folder-tile-menu-btn { opacity:1; }
+    .sim-folder-tile-menu-btn:hover { background:#f2f3f7; color:#151a2d; }
+    .sim-folder-tile-menu-pop { position:absolute; top:2rem; right:.5rem; z-index:20; background:#fff; border:1px solid #e7e9f1; border-radius:10px; box-shadow:0 12px 28px rgba(16,24,40,.16); overflow:hidden; display:flex; flex-direction:column; min-width:120px; }
+    .sim-folder-tile-menu-pop button { text-align:left; padding:.55rem .9rem; font-size:.74rem; font-weight:600; color:#151a2d; background:none; border:none; cursor:pointer; font-family:Inter,sans-serif; }
+    .sim-folder-tile-menu-pop button:hover { background:#f9fafc; }
+    .sim-folder-tile-menu-pop button.danger { color:#dc2626; }
+    .sim-folder-tile.uncat .sim-folder-tile-name, .sim-folder-tile.uncat .sim-folder-tile-count { color:#94a3b8; }
+    .sim-folder-tile.add { border-style:dashed; border-color:#dde1ec; background:transparent; }
+    .sim-folder-tile.add:hover { border-color:var(--gold); background:rgba(201,168,76,.04); }
+    .sim-folder-tile-add-icon { width:30px; height:26px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; font-weight:300; color:#c2c9d6; }
+    .sim-folder-tile.add:hover .sim-folder-tile-add-icon { color:var(--gold); }
+    .sim-folder-tile.add .sim-folder-tile-name { color:#94a3b8; }
+
+    /* BREADCRUMB al entrar a una carpeta o a resultados de búsqueda */
+    .sim-breadcrumb { display:flex; align-items:center; gap:.5rem; padding:1.2rem 1.6rem 0; font-size:.8rem; }
+    .sim-breadcrumb-back { background:none; border:none; color:#64748b; font-weight:700; font-size:.8rem; cursor:pointer; font-family:Inter,sans-serif; padding:.2rem 0; }
+    .sim-breadcrumb-back:hover { color:var(--gold); }
+    .sim-breadcrumb-sep { color:#c2c9d6; }
+    .sim-breadcrumb-current { font-weight:800; color:#151a2d; display:flex; align-items:center; gap:.4rem; }
+
+    /* MODAL de crear/editar carpeta */
+    .sim-folder-modal-overlay { display:none; position:fixed; inset:0; z-index:520; background:rgba(15,20,35,.55); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:2rem; }
+    .sim-folder-modal-overlay.open { display:flex; }
+    .sim-folder-modal { background:#fff; border-radius:16px; padding:1.6rem; width:100%; max-width:360px; box-shadow:0 30px 60px rgba(16,24,40,.25); display:flex; flex-direction:column; gap:1rem; }
+    .sim-folder-modal-title { font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:900; color:#151a2d; }
+    .sim-folder-name-input { background:#fff; border:1px solid #e2e5ec; border-radius:8px; padding:.6rem .8rem; font-size:.85rem; color:#151a2d; font-family:Inter,sans-serif; outline:none; width:100%; }
     .sim-folder-name-input:focus { border-color:var(--gold); }
     .sim-folder-editor-actions { display:flex; gap:.5rem; }
     .sim-folder-editor-actions .sim-btn { flex:0 0 auto; padding:.5rem .9rem; }
@@ -1630,21 +1650,30 @@
                 <option value="rend_desc">Mayor rendimiento</option>
                 <option value="rend_asc">Menor rendimiento</option>
               </select>
-              <input type="text" class="sim-search-input" id="sim-search" placeholder="Buscar por nombre…" oninput="simRender()"/>
+              <input type="text" class="sim-search-input" id="sim-search" placeholder="Buscar en todas las carpetas…" oninput="simRender()"/>
             </div>
-          </div>
-          <div class="sim-filter-row">
-            <div class="sim-folder-pills" id="sim-folder-pills"></div>
-            <div class="sim-folder-editor" id="sim-folder-editor" style="display:none"></div>
           </div>
         </div>
 
         <div class="card">
           <div class="card-head">
-            <span class="card-title">Historial</span>
+            <span class="card-title" id="sims-card-title">Mis carpetas</span>
             <a href="calculadora.html" class="card-link">Nueva simulación →</a>
           </div>
           <div id="sims-container"></div>
+        </div>
+      </div>
+
+      <div class="sim-folder-modal-overlay" id="sim-folder-modal" onclick="simCloseFolderEditor(event)">
+        <div class="sim-folder-modal">
+          <div class="sim-folder-modal-title" id="sfm-title">Nueva carpeta</div>
+          <input type="text" class="sim-folder-name-input" id="sfe-name" placeholder="Nombre de la carpeta"/>
+          <div class="sim-color-swatches" id="sfe-swatches"></div>
+          <div class="sim-folder-editor-actions">
+            <button class="sim-btn sim-btn-detail" id="sfe-save-btn" onclick="simSaveFolderEditor()">Crear</button>
+            <button class="sim-btn sim-btn-del" id="sfe-del-btn" style="display:none" onclick="simDeleteFolder(simFolderEditor && simFolderEditor.id)">Eliminar</button>
+            <button class="sim-btn sim-btn-cancel" onclick="simCloseFolderEditor()">Cancelar</button>
+          </div>
         </div>
       </div>
 
@@ -3202,11 +3231,13 @@
     let simsData = [];
     let foldersData = [];
     let simTipo = 'capital_propio';
-    let simFolderFilter = 'all';
+    let simFolderFilter = 'all'; // 'all' = raíz (grid de carpetas) · 'none' = sin carpeta · id = dentro de una carpeta
     let simModalId = null;
     let simFolderEditor = null;
+    let simTileMenuOpenId = null;
     const SIM_COLORS = ['#c9a84c','#16a34a','#dc2626','#3b82f6','#8b5cf6','#f59e0b','#14b8a6','#64748b'];
     const SIM_RETO_LABELS = { fondeada:'Fondeada', reventada:'Reventada', en_curso:'En curso' };
+    const SIM_FOLDER_ICON = `<svg viewBox="0 0 24 20" width="30" height="26" fill="currentColor"><path d="M2 4a2 2 0 0 1 2-2h5.2a2 2 0 0 1 1.41.59L12.4 4.4A1 1 0 0 0 13.1 4.7H20a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4z"/></svg>`;
 
     function simTextOn(bgHex) {
       const c = (bgHex || '#94a3b8').replace('#','');
@@ -3215,12 +3246,15 @@
       return lum > 0.6 ? '#151a2d' : '#fff';
     }
 
+    document.addEventListener('click', () => {
+      if (simTileMenuOpenId) { simTileMenuOpenId = null; simRender(); }
+    });
+
     async function loadSimulations() {
       const { data: sims } = await sb.from('simulations').select('*').eq('user_id', currentUser.id).order('created_at',{ascending:false});
       simsData = sims || [];
       const { data: folders } = await sb.from('simulation_folders').select('*').eq('user_id', currentUser.id).order('created_at');
       foldersData = folders || [];
-      simRenderFolderPills();
       simRender();
     }
 
@@ -3228,65 +3262,61 @@
       simTipo = tipo;
       document.querySelectorAll('.sim-type-tab').forEach(t => t.classList.toggle('active', t.dataset.tipo === tipo));
       simFolderFilter = 'all';
-      simFolderEditor = null;
-      simRenderFolderPills();
+      simTileMenuOpenId = null;
+      const search = document.getElementById('sim-search');
+      if (search) search.value = '';
       simRender();
     }
 
-    function simRenderFolderPills() {
-      const el = document.getElementById('sim-folder-pills');
-      if (!el) return;
-      let html = `<button class="sim-folder-pill all${simFolderFilter==='all'?' selected':''}" onclick="simSetFolderFilter('all')">Todas</button>`;
-      html += foldersData.map(f => {
-        const sel = simFolderFilter === f.id;
-        const c = f.color || '#94a3b8';
-        const style = `background:${c};color:${simTextOn(c)}`;
-        return `<button class="sim-folder-pill colored${sel?' selected':''}" style="${style}" onclick="simSetFolderFilter('${f.id}')">
-          ${f.nombre}
-          <span class="sim-folder-edit" onclick="event.stopPropagation();simToggleFolderEditor('${f.id}')" title="Editar carpeta">✎</span>
-        </button>`;
-      }).join('');
-      html += `<button class="sim-folder-pill add" onclick="event.stopPropagation();simToggleFolderEditor('new')">＋ Carpeta</button>`;
-      el.innerHTML = html;
-      simRenderFolderEditor();
-    }
-
-    function simSetFolderFilter(id) {
+    function simOpenFolder(id) {
       simFolderFilter = id;
-      simFolderEditor = null;
-      simRenderFolderPills();
+      simTileMenuOpenId = null;
+      simRender();
+    }
+    function simOpenUncat() { simOpenFolder('none'); }
+    function simBackToRoot() {
+      simFolderFilter = 'all';
+      const search = document.getElementById('sim-search');
+      if (search) search.value = '';
       simRender();
     }
 
-    function simToggleFolderEditor(target) {
-      if (target === 'new') {
-        simFolderEditor = (simFolderEditor && simFolderEditor.mode === 'new') ? null : { mode:'new', name:'', color: SIM_COLORS[0] };
+    function simToggleTileMenu(id, ev) {
+      ev.stopPropagation();
+      simTileMenuOpenId = simTileMenuOpenId === id ? null : id;
+      simRender();
+    }
+
+    function simOpenFolderEditor(mode, id) {
+      if (mode === 'new') {
+        simFolderEditor = { mode:'new', name:'', color: SIM_COLORS[0] };
       } else {
-        const f = foldersData.find(x => x.id === target);
+        const f = foldersData.find(x => x.id === id);
         if (!f) return;
-        simFolderEditor = (simFolderEditor && simFolderEditor.mode === 'edit' && simFolderEditor.id === target)
-          ? null : { mode:'edit', id: target, name: f.nombre, color: f.color || SIM_COLORS[0] };
+        simFolderEditor = { mode:'edit', id, name: f.nombre, color: f.color || SIM_COLORS[0] };
       }
+      simTileMenuOpenId = null;
       simRenderFolderEditor();
+      document.getElementById('sim-folder-modal').classList.add('open');
+    }
+
+    function simCloseFolderEditor(e) {
+      if (e && e.target.id !== 'sim-folder-modal') return;
+      simFolderEditor = null;
+      document.getElementById('sim-folder-modal').classList.remove('open');
     }
 
     function simRenderFolderEditor() {
-      const el = document.getElementById('sim-folder-editor');
-      if (!el) return;
       const e = simFolderEditor;
-      if (!e) { el.style.display = 'none'; el.innerHTML = ''; return; }
-      el.style.display = 'flex';
-      el.innerHTML = `
-        <input type="text" class="sim-folder-name-input" id="sfe-name" placeholder="Nombre de la carpeta" value="${(e.name||'').replace(/"/g,'&quot;')}"/>
-        <div class="sim-color-swatches">${SIM_COLORS.map(c => `<button type="button" class="sim-color-swatch${e.color===c?' selected':''}" style="background:${c}" onclick="simFolderEditorSetColor('${c}')"></button>`).join('')}</div>
-        <div class="sim-folder-editor-actions">
-          <button class="sim-btn sim-btn-detail" onclick="simSaveFolderEditor()">${e.mode==='new'?'Crear':'Guardar'}</button>
-          ${e.mode==='edit' ? `<button class="sim-btn sim-btn-del" onclick="simDeleteFolder('${e.id}')">Eliminar</button>` : ''}
-          <button class="sim-btn sim-btn-cancel" onclick="simFolderEditor=null;simRenderFolderEditor()">Cancelar</button>
-        </div>`;
+      if (!e) return;
+      document.getElementById('sfm-title').textContent = e.mode === 'new' ? 'Nueva carpeta' : 'Editar carpeta';
       const nameInput = document.getElementById('sfe-name');
+      nameInput.value = e.name || '';
       nameInput.oninput = ev => { simFolderEditor.name = ev.target.value; };
-      nameInput.focus();
+      document.getElementById('sfe-swatches').innerHTML = SIM_COLORS.map(c => `<button type="button" class="sim-color-swatch${e.color===c?' selected':''}" style="background:${c}" onclick="simFolderEditorSetColor('${c}')"></button>`).join('');
+      document.getElementById('sfe-save-btn').textContent = e.mode === 'new' ? 'Crear' : 'Guardar';
+      document.getElementById('sfe-del-btn').style.display = e.mode === 'edit' ? 'block' : 'none';
+      setTimeout(() => nameInput.focus(), 30);
     }
 
     function simFolderEditorSetColor(c) {
@@ -3308,48 +3338,106 @@
         const f = foldersData.find(x => x.id === e.id);
         if (f) { f.nombre = name; f.color = e.color; }
       }
-      simFolderEditor = null;
-      simRenderFolderPills();
+      simCloseFolderEditor();
       simRender();
     }
 
     async function simDeleteFolder(id) {
+      if (!id) return;
       if (!confirm('¿Eliminar esta carpeta? Las simulaciones dentro no se eliminan, solo quedan sin carpeta.')) return;
       await sb.from('simulation_folders').delete().eq('id', id);
       foldersData = foldersData.filter(f => f.id !== id);
       simsData.forEach(s => { if (s.folder_id === id) s.folder_id = null; });
+      simCloseFolderEditor();
       if (simFolderFilter === id) simFolderFilter = 'all';
-      simFolderEditor = null;
-      simRenderFolderPills();
       simRender();
     }
 
-    function simFilteredData() {
-      const q = (document.getElementById('sim-search')?.value || '').trim().toLowerCase();
+    function simFilteredByTipo() {
+      return simsData.filter(s => (s.tipo || 'capital_propio') === simTipo);
+    }
+
+    function simSortList(list) {
       const sort = document.getElementById('sim-sort')?.value || 'recent';
-      let list = simsData.filter(s => {
-        if ((s.tipo || 'capital_propio') !== simTipo) return false;
-        if (simFolderFilter !== 'all' && s.folder_id !== simFolderFilter) return false;
-        if (q && !s.nombre.toLowerCase().includes(q)) return false;
-        return true;
-      });
-      if (sort === 'rend_desc') list = list.slice().sort((a,b) => Number(b.rendimiento_pct) - Number(a.rendimiento_pct));
-      else if (sort === 'rend_asc') list = list.slice().sort((a,b) => Number(a.rendimiento_pct) - Number(b.rendimiento_pct));
+      if (sort === 'rend_desc') return list.slice().sort((a,b) => Number(b.rendimiento_pct) - Number(a.rendimiento_pct));
+      if (sort === 'rend_asc') return list.slice().sort((a,b) => Number(a.rendimiento_pct) - Number(b.rendimiento_pct));
       return list;
+    }
+
+    function simBreadcrumbHTML(label, folder) {
+      if (!label) return `<div class="sim-breadcrumb"><button class="sim-breadcrumb-back" onclick="simBackToRoot()">← Mis carpetas</button></div>`;
+      const dotColor = folder ? (folder.color || '#94a3b8') : '#c2c9d6';
+      return `<div class="sim-breadcrumb">
+        <button class="sim-breadcrumb-back" onclick="simBackToRoot()">← Mis carpetas</button>
+        <span class="sim-breadcrumb-sep">/</span>
+        <span class="sim-breadcrumb-current"><span class="sim-folder-dot" style="width:9px;height:9px;background:${dotColor}"></span>${label}</span>
+      </div>`;
+    }
+
+    function simFolderGridHTML(byTipo) {
+      const uncatCount = byTipo.filter(s => !s.folder_id).length;
+      let html = `<div class="sim-folder-grid">`;
+      html += foldersData.map(f => {
+        const count = byTipo.filter(s => s.folder_id === f.id).length;
+        const c = f.color || '#94a3b8';
+        const menuOpen = simTileMenuOpenId === f.id;
+        return `<div class="sim-folder-tile" onclick="simOpenFolder('${f.id}')">
+          <button class="sim-folder-tile-menu-btn" onclick="simToggleTileMenu('${f.id}',event)">⋮</button>
+          ${menuOpen ? `<div class="sim-folder-tile-menu-pop" onclick="event.stopPropagation()">
+            <button onclick="simOpenFolderEditor('edit','${f.id}')">✎ Editar</button>
+            <button class="danger" onclick="simDeleteFolder('${f.id}')">✕ Eliminar</button>
+          </div>` : ''}
+          <div class="sim-folder-tile-icon" style="color:${c}">${SIM_FOLDER_ICON}</div>
+          <div class="sim-folder-tile-name">${f.nombre}</div>
+          <div class="sim-folder-tile-count">${count} simulaci${count===1?'ón':'ones'}</div>
+        </div>`;
+      }).join('');
+      html += `<div class="sim-folder-tile uncat" onclick="simOpenUncat()">
+        <div class="sim-folder-tile-icon" style="color:#c2c9d6">${SIM_FOLDER_ICON}</div>
+        <div class="sim-folder-tile-name">Sin carpeta</div>
+        <div class="sim-folder-tile-count">${uncatCount} simulaci${uncatCount===1?'ón':'ones'}</div>
+      </div>`;
+      html += `<div class="sim-folder-tile add" onclick="simOpenFolderEditor('new')">
+        <div class="sim-folder-tile-add-icon">＋</div>
+        <div class="sim-folder-tile-name">Nueva carpeta</div>
+      </div>`;
+      html += `</div>`;
+      return html;
     }
 
     function simRender() {
       const el = document.getElementById('sims-container');
+      const titleEl = document.getElementById('sims-card-title');
       if (!el) return;
-      const list = simFilteredData();
-      if (!list.length) {
-        const emptyMsg = simTipo === 'fondeo'
-          ? `No tienes simulaciones de fondeo guardadas aún.<br/><a href="javascript:void(0)" onclick="showView('fondeo', document.querySelector('.sidebar-link[onclick*=fondeo]'))">Ir al simulador de fondeo para crear una →</a>`
-          : `No tienes simulaciones guardadas aún.<br/><a href="calculadora.html">Ir a la calculadora para crear una →</a>`;
-        el.innerHTML = `<div class="sims-empty"><p>${emptyMsg}</p></div>`;
+      const q = (document.getElementById('sim-search')?.value || '').trim().toLowerCase();
+      const byTipo = simFilteredByTipo();
+
+      if (q) {
+        titleEl.textContent = `Resultados para "${q}"`;
+        const list = simSortList(byTipo.filter(s => s.nombre.toLowerCase().includes(q)));
+        el.innerHTML = simBreadcrumbHTML(null) + (list.length
+          ? `<div class="sims-list">${list.map(s => simCardHTML(s, true)).join('')}</div>`
+          : `<div class="sims-empty"><p>No encontré simulaciones que coincidan con "${q}".</p></div>`);
         return;
       }
-      el.innerHTML = `<div class="sims-list">${list.map(simCardHTML).join('')}</div>`;
+
+      if (simFolderFilter === 'all') {
+        titleEl.textContent = 'Mis carpetas';
+        el.innerHTML = simFolderGridHTML(byTipo);
+        return;
+      }
+
+      const inUncat = simFolderFilter === 'none';
+      const folder = inUncat ? null : foldersData.find(f => f.id === simFolderFilter);
+      if (!inUncat && !folder) { simFolderFilter = 'all'; simRender(); return; }
+      titleEl.textContent = inUncat ? 'Sin carpeta' : folder.nombre;
+      const list = simSortList(byTipo.filter(s => inUncat ? !s.folder_id : s.folder_id === folder.id));
+      const emptyMsg = simTipo === 'fondeo'
+        ? `No tienes simulaciones de fondeo aquí todavía.<br/><a href="javascript:void(0)" onclick="showView('fondeo', document.querySelector('.sidebar-link[onclick*=fondeo]'))">Ir al simulador de fondeo →</a>`
+        : `No tienes simulaciones aquí todavía.<br/><a href="calculadora.html">Ir a la calculadora →</a>`;
+      el.innerHTML = simBreadcrumbHTML(inUncat ? 'Sin carpeta' : folder.nombre, folder) + (list.length
+        ? `<div class="sims-list">${list.map(s => simCardHTML(s, false)).join('')}</div>`
+        : `<div class="sims-empty"><p>${emptyMsg}</p></div>`);
     }
 
     function simRelativeTime(dateStr) {
@@ -3363,7 +3451,7 @@
       return `hace ${years} año${years>1?'s':''}`;
     }
 
-    function simCardHTML(s) {
+    function simCardHTML(s, showFolderBadge) {
       const pct = Number(s.rendimiento_pct);
       const final = Number(s.resultado_final).toLocaleString('es-ES',{maximumFractionDigits:0});
       const gananciaNum = Number(s.resultado_final) - Number(s.capital_inicial);
@@ -3372,7 +3460,7 @@
       const accent = folder ? (folder.color || '#94a3b8') : null;
       const badge = s.tipo === 'fondeo' && s.resultado_reto
         ? `<span class="sim-status-badge ${s.resultado_reto}">${SIM_RETO_LABELS[s.resultado_reto] || s.resultado_reto}</span>` : '';
-      const folderBadge = folder ? `<span class="sim-folder-badge" style="background:${accent};color:${simTextOn(accent)}">${folder.nombre}</span>` : '';
+      const folderBadge = (showFolderBadge && folder) ? `<span class="sim-folder-badge" style="background:${accent};color:${simTextOn(accent)}">${folder.nombre}</span>` : '';
       return `
         <div class="sim-card" onclick="openSimModal('${s.id}')">
           <div class="sim-card-accent" style="background:${accent || 'transparent'}"></div>
@@ -3471,7 +3559,6 @@
       const s = simsData.find(x => x.id === simModalId);
       if (s) s.folder_id = val;
       simUpdateFolderDot();
-      simRenderFolderPills();
       simRender();
     }
 
