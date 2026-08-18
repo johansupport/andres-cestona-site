@@ -200,6 +200,10 @@
       flex-direction: column;
     }
     .mobile-nav.open { display: flex; }
+    .mobile-nav-auth { display:flex; gap:.6rem; padding:0 1.5rem 1rem; }
+    .mobile-nav-auth a { flex:1; text-align:center; padding:.7rem; border-radius:8px; font-size:.85rem; font-weight:700; border-bottom:none; text-decoration:none; }
+    .mobile-nav-login { border:1px solid rgba(255,255,255,.18); color:#fff; }
+    .mobile-nav-register { background:#c9a84c; color:#05070f; }
     .mobile-nav a {
       color: rgba(255,255,255,.75);
       text-decoration: none;
@@ -358,6 +362,10 @@
     </div>
   </nav>
   <div class="mobile-nav" id="mobile-nav">
+    <div class="mobile-nav-auth">
+      <a href="auth.html?tab=login" class="mobile-nav-login">Ingresar</a>
+      <a href="auth.html" class="mobile-nav-register">Registrarse</a>
+    </div>
     <span class="mobile-sub">Trading</span>
     <a href="index.html#markets">Markets</a>
     <a href="trades.html">Diario de Trades</a>
