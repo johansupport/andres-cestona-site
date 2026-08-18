@@ -406,12 +406,19 @@
     .tl2-cal-head-row .tl2-cal-head-total { text-align:center; padding-left:0; }
     .tl2-cal-grid { display:grid; grid-template-columns:repeat(7,1fr) 92px; }
     .tl2-cal-cell { min-height:108px; border-right:1px solid #eef0f6; border-bottom:1px solid #eef0f6; padding:.45rem; }
-    .tl2-cal-total-cell { min-height:108px; border-bottom:1px solid #eef0f6; border-left:1px solid #eef0f6; padding:.45rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.35rem; background:#f9fafc; }
-    .tl2-cal-total-label { font-family:'Space Mono',monospace; font-size:.55rem; letter-spacing:.4px; text-transform:uppercase; color:#94a3b8; }
-    .tl2-cal-total-val { font-family:'Space Mono',monospace; font-size:.84rem; font-weight:800; }
+    .tl2-cal-total-cell { position:relative; min-height:108px; border-bottom:1px solid #eef0f6; border-left:1px solid #eef0f6; padding:.5rem .35rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.3rem; text-align:center; overflow:hidden; background:#f9fafc; }
+    .tl2-cal-total-cell::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:#dbe0ec; }
+    .tl2-cal-total-cell.win { background:linear-gradient(180deg,#f2fbf6,#f9fafc 65%); }
+    .tl2-cal-total-cell.win::before { background:#16a34a; }
+    .tl2-cal-total-cell.loss { background:linear-gradient(180deg,#fdf3f3,#f9fafc 65%); }
+    .tl2-cal-total-cell.loss::before { background:#dc2626; }
+    .tl2-cal-total-label { font-family:'Space Mono',monospace; font-size:.52rem; letter-spacing:.5px; text-transform:uppercase; color:#94a3b8; font-weight:700; }
+    .tl2-cal-total-val { font-family:'Space Mono',monospace; font-size:.9rem; font-weight:800; display:flex; align-items:center; gap:.2rem; font-variant-numeric:tabular-nums; }
+    .tl2-cal-total-val i { font-style:normal; font-size:.62rem; }
     .tl2-cal-total-cell.win .tl2-cal-total-val { color:#16a34a; }
     .tl2-cal-total-cell.loss .tl2-cal-total-val { color:#dc2626; }
     .tl2-cal-total-cell.flat .tl2-cal-total-val { color:#9aa3b8; }
+    .tl2-cal-total-sub { font-size:.52rem; color:#b0b6c3; font-family:'Inter',sans-serif; }
     .tl2-cal-daynum { font-family:'Space Mono',monospace; font-size:.66rem; text-align:right; color:#c2c9d6; font-weight:600; margin-bottom:.4rem; }
     .tl2-cal-daynum.has { color:#151a2d; font-weight:800; }
     .tl2-cal-cell.today { background:rgba(201,168,76,.08); }
@@ -429,17 +436,31 @@
     .tl2-trade-modal-overlay.open { display:flex; }
     .tl2-trade-modal { background:#fff; border-radius:20px; width:100%; max-width:520px; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 40px 90px rgba(10,14,25,.35); }
     .tl2-trade-modal-close { position:absolute; top:1rem; right:1rem; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:.85rem; color:#151a2d; z-index:2; box-shadow:0 2px 10px rgba(0,0,0,.18); }
-    .tl2-trade-modal-media { width:100%; height:240px; background:#f4f4f2; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-    .tl2-trade-modal-media img { width:100%; height:100%; object-fit:cover; }
+    .tl2-trade-modal-media { position:relative; width:100%; height:240px; background:#f4f4f2; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .tl2-trade-modal-media img { width:100%; height:100%; object-fit:cover; cursor:zoom-in; transition:transform .3s; }
+    .tl2-trade-modal-media img:hover { transform:scale(1.03); }
     .tl2-trade-modal-media-empty { color:#9aa1b5; font-size:.72rem; font-family:'Space Mono',monospace; text-align:center; padding:0 1rem; }
+    .tl2-trade-modal-zoom-hint { position:absolute; bottom:.7rem; right:.7rem; display:flex; align-items:center; gap:.35rem; background:rgba(5,7,15,.65); color:#fff; font-size:.62rem; font-weight:600; padding:.3rem .65rem; border-radius:100px; pointer-events:none; backdrop-filter:blur(3px); font-family:'Inter',sans-serif; }
     .tl2-trade-modal-body { padding:1.5rem 1.6rem 1.8rem; }
     .tl2-trade-modal-top { display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin-bottom:.4rem; }
     .tl2-trade-modal-pair { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:900; color:#151a2d; }
     .tl2-trade-modal-date { font-size:.72rem; color:#94a3b8; margin-top:.25rem; font-family:'Space Mono',monospace; }
-    .tl2-trade-modal-pct { font-family:'Space Mono',monospace; font-size:2.1rem; font-weight:700; line-height:1; margin:1rem 0 1.4rem; font-variant-numeric:tabular-nums; }
+    .tl2-trade-modal-pct { font-family:'Space Mono',monospace; font-size:2.1rem; font-weight:700; line-height:1; margin:1rem 0 1.2rem; font-variant-numeric:tabular-nums; }
     .tl2-trade-modal-pct.win { color:#16a34a; } .tl2-trade-modal-pct.loss { color:#dc2626; }
+    .tl2-trade-modal-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; margin-bottom:1.3rem; }
+    .tl2-trade-modal-info-item { background:#f9fafc; border:1px solid #eef0f6; border-radius:10px; padding:.65rem .8rem; }
+    .tl2-trade-modal-info-label { display:block; font-size:.58rem; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:#94a3b8; margin-bottom:.3rem; font-family:'Inter',sans-serif; }
+    .tl2-trade-modal-info-val { font-size:.8rem; font-weight:700; color:#151a2d; font-family:'Inter',sans-serif; }
     .tl2-trade-modal-notes-label { font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:#94a3b8; margin-bottom:.5rem; }
     .tl2-trade-modal-notes { font-size:.85rem; line-height:1.6; color:#374157; background:#f9fafc; border:1px solid #eef0f6; border-radius:12px; padding:1rem 1.1rem; white-space:pre-wrap; }
+    .tl2-trade-modal-foot { margin-top:1.4rem; padding-top:1.2rem; border-top:1px solid #eef0f6; }
+    .tl2-trade-modal-foot .btn-gold { display:block; width:100%; text-align:center; }
+
+    /* Lightbox — zoom de la captura del trade */
+    .tl2-img-lightbox { display:none; position:fixed; inset:0; z-index:600; background:rgba(5,7,15,.92); align-items:center; justify-content:center; padding:3rem; cursor:zoom-out; }
+    .tl2-img-lightbox.open { display:flex; }
+    .tl2-img-lightbox img { max-width:100%; max-height:100%; border-radius:8px; box-shadow:0 30px 80px rgba(0,0,0,.5); cursor:default; }
+    .tl2-img-lightbox-close { position:absolute; top:1.5rem; right:1.5rem; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:1rem; }
     @media (max-width:720px) { .tl2-wl-grid { grid-template-columns:1fr; } }
 
     /* PERFORMANCE — mini cards */
@@ -1990,10 +2011,28 @@
           <span class="tl2-pill" id="tl2tm-pill">—</span>
         </div>
         <div class="tl2-trade-modal-pct" id="tl2tm-pct">—</div>
+        <div class="tl2-trade-modal-info-grid">
+          <div class="tl2-trade-modal-info-item">
+            <span class="tl2-trade-modal-info-label">Día</span>
+            <span class="tl2-trade-modal-info-val" id="tl2tm-weekday">—</span>
+          </div>
+          <div class="tl2-trade-modal-info-item">
+            <span class="tl2-trade-modal-info-label">Resultado</span>
+            <span class="tl2-trade-modal-info-val" id="tl2tm-result-desc">—</span>
+          </div>
+        </div>
         <div class="tl2-trade-modal-notes-label">Notas del trade</div>
         <div class="tl2-trade-modal-notes" id="tl2tm-notes">Sin notas para este trade.</div>
+        <div class="tl2-trade-modal-foot">
+          <button class="btn-gold">Ver en diario de trades →</button>
+        </div>
       </div>
     </div>
+  </div>
+
+  <div class="tl2-img-lightbox" id="tl2-img-lightbox" onclick="tl2CloseLightbox(event)">
+    <img id="tl2-img-lightbox-img" src="" alt="Captura del trade"/>
+    <div class="tl2-img-lightbox-close" onclick="tl2CloseLightbox()">✕</div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -2684,8 +2723,11 @@
       pct.textContent = (Number(r.porcentaje) > 0 ? '+' : '') + Number(r.porcentaje).toFixed(1) + '%';
       pct.className = 'tl2-trade-modal-pct ' + (w ? 'win' : 'loss');
       document.getElementById('tl2tm-media').innerHTML = r.chart_image_url
-        ? `<img src="${r.chart_image_url}" alt="${meta.label}"/>`
+        ? `<img src="${r.chart_image_url}" alt="${meta.label}" onclick="tl2OpenLightbox('${r.chart_image_url}')"/><div class="tl2-trade-modal-zoom-hint">🔍 Ampliar</div>`
         : `<div class="tl2-trade-modal-media-empty">Sin captura todavía para este trade.</div>`;
+      const weekday = new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-ES', { weekday:'long' });
+      document.getElementById('tl2tm-weekday').textContent = weekday.charAt(0).toUpperCase() + weekday.slice(1);
+      document.getElementById('tl2tm-result-desc').textContent = w ? 'Operación ganadora' : 'Operación perdedora';
       document.getElementById('tl2tm-notes').textContent = (r.notas && r.notas.trim()) ? r.notas : 'Sin notas para este trade.';
       document.getElementById('tl2-trade-modal').classList.add('open');
     }
@@ -2693,6 +2735,16 @@
     function tl2CloseTradeModal(e) {
       if (e && e.target.id !== 'tl2-trade-modal') return;
       document.getElementById('tl2-trade-modal').classList.remove('open');
+    }
+
+    function tl2OpenLightbox(url) {
+      document.getElementById('tl2-img-lightbox-img').src = url;
+      document.getElementById('tl2-img-lightbox').classList.add('open');
+    }
+
+    function tl2CloseLightbox(e) {
+      if (e && e.target.id !== 'tl2-img-lightbox') return;
+      document.getElementById('tl2-img-lightbox').classList.remove('open');
     }
 
     function tl2RenderChart(rows) {
@@ -2891,21 +2943,26 @@
         return `<div class="tl2-cal-cell${c.out?' out':''}${isToday?' today':''}">${inner}</div>`;
       };
 
-      const weekTotalHTML = weekCells => {
+      const weekTotalHTML = (weekCells, weekIndex) => {
         let sum = 0, count = 0;
         weekCells.forEach(c => { (byDay[c.ds]||[]).forEach(r => { sum += Number(r.porcentaje); count++; }); });
         const cls = !count ? 'flat' : sum > 0 ? 'win' : sum < 0 ? 'loss' : 'flat';
         const val = count ? (sum>0?'+':'') + sum.toFixed(1) + '%' : '—';
-        return `<div class="tl2-cal-total-cell ${cls}"><span class="tl2-cal-total-label">Semana</span><span class="tl2-cal-total-val">${val}</span></div>`;
+        const arrow = !count ? '' : sum > 0 ? '<i>▲</i>' : sum < 0 ? '<i>▼</i>' : '';
+        const label = tl2Scope === 'week' ? 'Esta semana' : `Semana ${weekIndex}`;
+        const sub = count ? `${count} operaci${count===1?'ón':'ones'}` : 'Sin operaciones';
+        return `<div class="tl2-cal-total-cell ${cls}"><span class="tl2-cal-total-label">${label}</span><span class="tl2-cal-total-val">${arrow}${val}</span><span class="tl2-cal-total-sub">${sub}</span></div>`;
       };
 
       if (tl2Scope === 'day') {
         grid.innerHTML = cells.map(cellHTML).join('');
       } else {
         let html = '';
+        let weekIndex = 1;
         for (let i = 0; i < cells.length; i += 7) {
           const week = cells.slice(i, i+7);
-          html += week.map(cellHTML).join('') + weekTotalHTML(week);
+          html += week.map(cellHTML).join('') + weekTotalHTML(week, weekIndex);
+          weekIndex++;
         }
         grid.innerHTML = html;
       }
