@@ -401,10 +401,11 @@
     .tl2-cal-card { background:#fff; border:1px solid #e7e9f1; border-radius:16px; overflow:hidden; box-shadow:0 1px 3px rgba(16,24,40,.05); }
     .tl2-cal-head { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.3rem; border-bottom:1px solid #eef0f6; }
     .tl2-cal-title { font-family:'Space Mono',monospace; font-size:.84rem; font-weight:700; color:#151a2d; }
-    .tl2-cal-head-row { display:grid; grid-template-columns:repeat(7,1fr) 92px; border-bottom:1px solid #eef0f6; background:#f9fafc; }
+    .tl2-cal-scroll { overflow-x:auto; }
+    .tl2-cal-head-row { display:grid; grid-template-columns:repeat(7,1fr) 92px; border-bottom:1px solid #eef0f6; background:#f9fafc; min-width:640px; }
     .tl2-cal-head-row div { padding:.55rem 0 .55rem .6rem; text-align:left; font-family:'Space Mono',monospace; font-size:.6rem; font-weight:600; letter-spacing:.4px; color:#94a3b8; text-transform:uppercase; }
     .tl2-cal-head-row .tl2-cal-head-total { text-align:center; padding-left:0; }
-    .tl2-cal-grid { display:grid; grid-template-columns:repeat(7,1fr) 92px; }
+    .tl2-cal-grid { display:grid; grid-template-columns:repeat(7,1fr) 92px; min-width:640px; }
     .tl2-cal-cell { min-height:108px; border-right:1px solid #eef0f6; border-bottom:1px solid #eef0f6; padding:.45rem; }
     .tl2-cal-total-cell { position:relative; min-height:108px; border-bottom:1px solid #eef0f6; border-left:1px solid #eef0f6; padding:.5rem .35rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.3rem; text-align:center; overflow:hidden; background:#f9fafc; }
     .tl2-cal-total-cell::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:#dbe0ec; }
@@ -873,9 +874,11 @@
     .mt-tpl-add { background:transparent; border:1px dashed rgba(255,255,255,.15); color:rgba(255,255,255,.4); padding:.35rem .8rem; border-radius:7px; font-size:.75rem; font-weight:600; cursor:pointer; font-family:'Inter',sans-serif; transition:all .2s; }
     .mt-tpl-add:hover { border-color:var(--gold); color:var(--gold); }
     .mt-nav-btn { background:rgba(255,255,255,.05); border:1px solid var(--border); color:#fff; width:30px; height:30px; border-radius:7px; cursor:pointer; font-size:.95rem; }
-    .mt-cal-head-row { background:rgba(255,255,255,.03); border-bottom:1px solid var(--border); }
+    .mt-cal-scroll { overflow-x:auto; }
+    .mt-cal-head-row { background:rgba(255,255,255,.03); border-bottom:1px solid var(--border); min-width:640px; }
     .mt-cal-weekday { padding:.6rem .4rem; text-align:center; font-size:.58rem; font-weight:700; letter-spacing:1px; color:rgba(255,255,255,.25); }
     .mt-cal-weekday-week { border-left:1px solid var(--border); }
+    #mt-cal-body { min-width:640px; }
 
     /* ══════ DASHBOARD — blanco estilo FTMO (todas las vistas) ══════ */
     #view-overview, #view-accounts, #view-account-detail, #view-trades, #view-performance, #view-simulations, #view-mytrades, #view-profile, #view-fondeo, #view-support { background:#f5f6fa; color:#151a2d; margin:-2.5rem; padding:2.5rem; min-height:calc(100vh - 72px); }
@@ -1037,6 +1040,47 @@
       .acc-detail-btn { width: 100%; text-align: center; }
       .acc-metrics-row { grid-template-columns: 1fr; gap: .9rem; }
       #mt-stats-bar { grid-template-columns: repeat(2, 1fr); }
+
+      /* Profile / detail / modal grids that stayed 2+ columns */
+      .profile-cards { grid-template-columns: 1fr; margin: 1rem; }
+      .acc-detail-grid { grid-template-columns: 1fr; }
+      .sim-modal-stats { grid-template-columns: 1fr; }
+      .sim-modal-growth-row { grid-template-columns: 62px 1fr 62px; gap: .5rem; }
+      .sim-search-input { min-width: 0; flex: 1 1 160px; }
+      .sim-folder-grid { grid-template-columns: repeat(auto-fill,minmax(120px,1fr)); gap: .7rem; padding: 1.1rem 1rem; }
+      .sims-list { padding: 1.1rem 1rem; gap: .9rem; }
+      .sim-breadcrumb { padding: 1.1rem 1rem 0; }
+
+      /* Overlays: less side padding so the modal itself has more room */
+      .tl2-trade-modal-overlay, .sim-folder-modal-overlay, .sim-modal-overlay, .tl2-img-lightbox { padding: 1rem; }
+      #acc-modal, #mt-modal { padding: 1rem !important; }
+      .sim-modal-header, .sim-modal-body { padding: 1.4rem 1.2rem; }
+      .sim-modal-organize { padding: 1.2rem 1.2rem 1.4rem; }
+      .sim-modal-foot { padding: 1rem 1.2rem; flex-wrap: wrap; gap: .7rem; }
+      .tl2-trade-modal-body { padding: 1.2rem 1.2rem 1.4rem; }
+      .tl2-trade-modal-media { height: 190px; }
+      .sim-folder-modal { padding: 1.3rem; }
+
+      /* Overview trade rows: fixed-width columns crowd out the name on narrow screens */
+      .card-body { padding: 0 1.1rem; }
+      .card-head { padding: 1.1rem 1.1rem; }
+      #view-overview .ov-trade-header, #view-overview .ov-trade-row { padding-left: 1.1rem; padding-right: 1.1rem; gap: .6rem; }
+      #view-overview .ov-trade-header span:first-child { padding-left: 32px; }
+      #view-overview .ov-strat-icon { width: 26px; height: 26px; }
+      #view-overview .ov-strategies, .sim-folder-grid { gap: .6rem; }
+
+      /* Sidebar CTA / headings tighten a touch on very small screens */
+      .sidebar { width: calc(100vw - 2.5rem); max-width: 300px; }
+    }
+
+    @media (max-width: 480px) {
+      .sim-modal-name { font-size: 1.4rem; }
+      .sim-modal-header { padding: 1.2rem 1rem; }
+      .tl2-trade-modal-pct { font-size: 1.7rem; }
+      .tl2-trade-modal-info-grid { grid-template-columns: 1fr 1fr; gap: .5rem; }
+      .sim-folder-grid { grid-template-columns: repeat(auto-fill,minmax(100px,1fr)); }
+      #view-overview .ov-week-pill { width: 92px; }
+      .page-title { font-size: 1.7rem; }
     }
   </style>
 </head>
@@ -1577,8 +1621,10 @@
             <div class="tl2-cal-head">
               <span class="tl2-cal-title" id="tl2-cal-title">—</span>
             </div>
-            <div class="tl2-cal-head-row"><div>DOM</div><div>LUN</div><div>MAR</div><div>MIÉ</div><div>JUE</div><div>VIE</div><div>SÁB</div><div class="tl2-cal-head-total">TOTAL</div></div>
-            <div class="tl2-cal-grid" id="tl2-cal-grid"></div>
+            <div class="tl2-cal-scroll">
+              <div class="tl2-cal-head-row"><div>DOM</div><div>LUN</div><div>MAR</div><div>MIÉ</div><div>JUE</div><div>VIE</div><div>SÁB</div><div class="tl2-cal-head-total">TOTAL</div></div>
+              <div class="tl2-cal-grid" id="tl2-cal-grid"></div>
+            </div>
           </div>
         </div>
 
@@ -1715,17 +1761,19 @@
 
         <!-- Calendario -->
         <div class="card" style="padding:0;overflow:hidden">
-          <div class="mt-cal-head-row" style="display:grid;grid-template-columns:repeat(7,1fr) 110px">
-            <div class="mt-cal-weekday">DOM</div>
-            <div class="mt-cal-weekday">LUN</div>
-            <div class="mt-cal-weekday">MAR</div>
-            <div class="mt-cal-weekday">MIÉ</div>
-            <div class="mt-cal-weekday">JUE</div>
-            <div class="mt-cal-weekday">VIE</div>
-            <div class="mt-cal-weekday">SÁB</div>
-            <div class="mt-cal-weekday mt-cal-weekday-week">SEMANA</div>
+          <div class="mt-cal-scroll">
+            <div class="mt-cal-head-row" style="display:grid;grid-template-columns:repeat(7,1fr) 110px">
+              <div class="mt-cal-weekday">DOM</div>
+              <div class="mt-cal-weekday">LUN</div>
+              <div class="mt-cal-weekday">MAR</div>
+              <div class="mt-cal-weekday">MIÉ</div>
+              <div class="mt-cal-weekday">JUE</div>
+              <div class="mt-cal-weekday">VIE</div>
+              <div class="mt-cal-weekday">SÁB</div>
+              <div class="mt-cal-weekday mt-cal-weekday-week">SEMANA</div>
+            </div>
+            <div id="mt-cal-body" style="padding:1rem;font-size:.85rem">Cargando...</div>
           </div>
-          <div id="mt-cal-body" style="padding:1rem;font-size:.85rem">Cargando...</div>
         </div>
       </div>
 
@@ -3911,14 +3959,14 @@
       let rows;
       if (stratKey === 'combined') {
         const dateMap = {};
-        OV_STRATS.forEach(s => (ovResults[s.key]||[]).forEach(r => { (dateMap[r.fecha] = dateMap[r.fecha]||[]).push(r.resultado); }));
+        OV_STRATS.forEach(s => (ovResults[s.key]||[]).forEach(r => { (dateMap[r.fecha] = dateMap[r.fecha]||[]).push(Number(r.porcentaje)); }));
         rows = Object.keys(dateMap).sort().map(fecha => {
           const arr = dateMap[fecha];
-          const wins = arr.filter(x => x === 'win').length;
-          return { fecha, resultado: wins >= arr.length/2 ? 'win' : 'loss' };
+          const avgPct = arr.reduce((a,b) => a+b, 0) / arr.length;
+          return { fecha, resultado: avgPct >= 0 ? 'win' : 'loss', porcentaje: avgPct };
         });
       } else {
-        rows = [...(ovResults[stratKey]||[])].map(r => ({ fecha:r.fecha, resultado:r.resultado })).sort((a,b) => a.fecha.localeCompare(b.fecha));
+        rows = [...(ovResults[stratKey]||[])].map(r => ({ fecha:r.fecha, resultado:r.resultado, porcentaje:Number(r.porcentaje) })).sort((a,b) => a.fecha.localeCompare(b.fecha));
       }
       return rows.filter(r => r.fecha >= startStr && (!endStr || r.fecha <= endStr));
     }
@@ -3959,7 +4007,10 @@
         const prevPhase = phase;
         // El riesgo siempre se calcula sobre el capital base de la cuenta (no interés compuesto por trade).
         const activeRiskPct = prevPhase === 'withdrawable' ? fundedRiskPct : riskPct;
-        balance += capital * (activeRiskPct/100) * (win ? 1 : -1);
+        // El resultado real del día (ej. 0.8%) escala el riesgo configurado — un día de 0.8% con 5% de riesgo
+        // mueve la cuenta 4%, no un 5% plano. La base de porcentaje es 1% (igual que en la calculadora).
+        const dayPct = activeRiskPct * Number(r.porcentaje);
+        balance += capital * (dayPct/100);
         // El drawdown se mide siempre contra el capital inicial (el mismo colchón fijo que define floorBalance),
         // no contra el balance pico. Así la cuenta puede acumular más ganancia sin que el % de drawdown se "resetee".
         const dd = ((capital - balance) / capital) * 100;
@@ -3970,7 +4021,7 @@
           if (balance <= floorBalance) { phase = 'blown'; outcomeDate = r.fecha; dayPhase = 'blown'; }
           else if (balance >= targetBalance) { phase = 'withdrawable'; outcomeDate = r.fecha; withdrawableStartBalance = balance; dayPhase = 'milestone'; }
         }
-        daily.push({ fecha: r.fecha, balance, win, phase: dayPhase, pct: win ? activeRiskPct : -activeRiskPct });
+        daily.push({ fecha: r.fecha, balance, win, phase: dayPhase, pct: dayPct });
         if (phase === 'blown') break;
       }
 
@@ -4152,7 +4203,7 @@
     async function fdFutFetchRows(estrategia, startStr, endStr) {
       let all = [], from = 0; const pageSize = 1000;
       while (true) {
-        let q = sb.from('strategy_results').select('fecha,resultado').eq('estrategia', estrategia).order('fecha').range(from, from + pageSize - 1);
+        let q = sb.from('strategy_results').select('fecha,resultado,porcentaje').eq('estrategia', estrategia).order('fecha').range(from, from + pageSize - 1);
         if (startStr) q = q.gte('fecha', startStr);
         if (endStr) q = q.lte('fecha', endStr);
         const { data: page, error } = await q;
@@ -4204,11 +4255,13 @@
       for (const r of rows) {
         if (attempt.startDate === null) attempt.startDate = r.fecha;
         const win = r.resultado === 'win';
-        attempt.balance += win ? winAmt : -lossAmt;
+        // Escala el riesgo configurado por el resultado real del día (base 1%), en vez de aplicar siempre el monto pleno.
+        const amt = capital * (riskPct / 100) * Number(r.porcentaje);
+        attempt.balance += amt;
         if (attempt.balance > attempt.peak) attempt.peak = attempt.balance;
         // Trailing drawdown EOD: el colchón sube con el balance de cierre, pero nunca supera el capital inicial (se congela ahí, estilo Topstep/Apex).
         const floor = Math.min(attempt.peak - trailingDD, capital);
-        attempt.daily.push({ fecha: r.fecha, balance: attempt.balance, win, floor, amt: win ? winAmt : -lossAmt });
+        attempt.daily.push({ fecha: r.fecha, balance: attempt.balance, win, floor, amt });
 
         if (attempt.balance <= floor) {
           attempt.outcome = 'blown';
@@ -4240,19 +4293,18 @@
     // Fase fondeada: al pasar el reto, la cuenta se resetea al capital base con el mismo trailing drawdown,
     // y se sigue simulando con el historial real (sin límite de plazo) para ver cuánto se hubiera ganado o si se hubiera reventado.
     async function fdFutSimulateFundedPhase(assetKey, fromDateExclusive, capital, riskFundedPct, trailingDD) {
-      const winAmt = capital * (riskFundedPct / 100);
-      const lossAmt = winAmt;
       const rows = (await fdFutFetchRows(assetKey, fromDateExclusive, null)).filter(r => r.fecha > fromDateExclusive);
       let balance = capital, peak = capital, peakProfit = 0;
       const daily = [];
       let blownDate = null;
       for (const r of rows) {
         const win = r.resultado === 'win';
-        balance += win ? winAmt : -lossAmt;
+        const amt = capital * (riskFundedPct / 100) * Number(r.porcentaje);
+        balance += amt;
         if (balance > peak) peak = balance;
         if (balance - capital > peakProfit) peakProfit = balance - capital;
         const floor = Math.min(peak - trailingDD, capital);
-        daily.push({ fecha: r.fecha, balance, win, floor, amt: win ? winAmt : -lossAmt });
+        daily.push({ fecha: r.fecha, balance, win, floor, amt });
         if (balance <= floor) { blownDate = r.fecha; break; }
       }
       return { daily, blownDate, finalBalance: daily.length ? daily[daily.length - 1].balance : capital, peakProfit };
@@ -4342,7 +4394,7 @@
           <div class="stat-card"><div class="stat-tag">Días operados en total</div><div class="stat-num white" style="font-size:1.4rem">${totalDays}</div></div>
         </div>
         <div class="card" style="padding:1.6rem;margin-bottom:1.5rem">
-          <div class="card-title" style="margin-bottom:1rem">Historial de intentos · riesgo ${sim.riskPct}% por operación en evaluación (${accFmtMoney(sim.winAmt)}/día) · drawdown trailing ${sim.trailingPct}% (${accFmtMoney(sim.trailingDD)}) · objetivo ${sim.targetPct}% (${accFmtMoney(sim.target)})</div>
+          <div class="card-title" style="margin-bottom:1rem">Historial de intentos · riesgo ${sim.riskPct}% por operación en evaluación (${accFmtMoney(sim.winAmt)} en un día de 1%) · drawdown trailing ${sim.trailingPct}% (${accFmtMoney(sim.trailingDD)}) · objetivo ${sim.targetPct}% (${accFmtMoney(sim.target)})</div>
           <div class="fdf-attempts-grid">${attemptsListHTML}</div>
         </div>
         <div class="stat-desc" style="margin-bottom:1rem">Calendario del ${sim.fundedAttempt ? 'intento que logró fondearse' : 'último intento'} (Intento #${finalAttempt.n}):</div>
