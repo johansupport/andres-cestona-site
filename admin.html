@@ -123,6 +123,49 @@
     .admin-stat-val { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; line-height:1; }
     .admin-stat-val.gold { color:var(--gold); }
     .admin-stat-val.green { color:var(--green); }
+
+    /* ESTRATEGIAS — grid de carpetas estilo Drive (raíz de "Cargar resultados") */
+    .adm-folder-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:1rem; }
+    .adm-folder-tile { display:flex; flex-direction:column; align-items:center; gap:.55rem; padding:1.4rem 1rem 1.2rem; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.02); cursor:pointer; transition:all .2s; text-align:center; }
+    .adm-folder-tile:hover { border-color:rgba(201,168,76,.3); background:rgba(255,255,255,.04); transform:translateY(-2px); }
+    .adm-folder-tile-name { font-size:.84rem; font-weight:700; color:#fff; }
+    .adm-folder-tile-count { font-size:.65rem; color:rgba(255,255,255,.3); font-family:'Inter',sans-serif; }
+
+    /* Breadcrumb al entrar a una estrategia */
+    .adm-breadcrumb { display:flex; align-items:center; gap:.5rem; margin-bottom:1.5rem; font-size:.82rem; }
+    .adm-breadcrumb-back { background:none; border:none; color:rgba(255,255,255,.4); font-weight:700; font-size:.82rem; cursor:pointer; font-family:'Inter',sans-serif; padding:0; }
+    .adm-breadcrumb-back:hover { color:var(--gold); }
+    .adm-breadcrumb-sep { color:rgba(255,255,255,.15); }
+    .adm-breadcrumb-current { font-weight:800; color:#fff; display:flex; align-items:center; gap:.5rem; }
+    .adm-breadcrumb-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+
+    /* Calendario de resultados por estrategia */
+    .adm-cal-nav { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.4rem; border-bottom:1px solid var(--border); }
+    .adm-cal-nav-btn { background:rgba(255,255,255,.05); border:1px solid var(--border); color:#fff; width:30px; height:30px; border-radius:7px; cursor:pointer; font-size:.9rem; }
+    .adm-cal-nav-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .adm-cal-nav-title { font-family:'Playfair Display',serif; font-size:1rem; font-weight:900; color:#fff; text-transform:capitalize; }
+    .adm-cal-head-row, .adm-cal-grid { display:grid; grid-template-columns:repeat(7,1fr); }
+    .adm-cal-weekday { padding:.6rem .3rem; text-align:center; font-size:.58rem; font-weight:700; letter-spacing:1px; color:rgba(255,255,255,.2); }
+    .adm-cal-cell { min-height:76px; border-top:1px solid var(--border); border-right:1px solid var(--border); padding:.5rem; display:flex; flex-direction:column; gap:.3rem; cursor:pointer; transition:background .15s; position:relative; }
+    .adm-cal-cell:nth-child(7n) { border-right:none; }
+    .adm-cal-cell:hover { background:rgba(255,255,255,.03); }
+    .adm-cal-cell.pad { cursor:default; opacity:.25; }
+    .adm-cal-cell.pad:hover { background:none; }
+    .adm-cal-daynum { font-size:.68rem; color:rgba(255,255,255,.35); font-weight:600; }
+    .adm-cal-cell.win .adm-cal-daynum, .adm-cal-cell.loss .adm-cal-daynum { color:#fff; }
+    .adm-cal-cell.win { background:rgba(74,222,128,.07); }
+    .adm-cal-cell.loss { background:rgba(248,113,113,.07); }
+    .adm-cal-cell.win:hover { background:rgba(74,222,128,.13); }
+    .adm-cal-cell.loss:hover { background:rgba(248,113,113,.13); }
+    .adm-cal-pct { font-family:'Inter',sans-serif; font-size:.68rem; font-weight:800; }
+    .adm-cal-cell.win .adm-cal-pct { color:var(--green); }
+    .adm-cal-cell.loss .adm-cal-pct { color:var(--red); }
+    .adm-cal-img-dot { position:absolute; top:.5rem; right:.5rem; width:6px; height:6px; border-radius:50%; background:var(--gold); }
+
+    /* Banner de edición dentro del formulario "Cargar un día" */
+    .adm-edit-banner { display:flex; align-items:center; justify-content:space-between; gap:1rem; background:rgba(201,168,76,.08); border:1px solid rgba(201,168,76,.25); border-radius:10px; padding:.7rem 1rem; margin-bottom:1.2rem; font-size:.78rem; color:var(--gold); }
+    .adm-edit-banner button { background:none; border:none; color:rgba(255,255,255,.4); font-size:.72rem; cursor:pointer; font-family:'Inter',sans-serif; text-decoration:underline; }
+    .adm-edit-banner button:hover { color:#fff; }
   </style>
 </head>
 <body>
@@ -329,104 +372,99 @@
           <div class="page-sub">Estos datos alimentan estadísticas.html, la calculadora y el home — no hace falta tocar código ni desplegar nada</div>
         </div>
 
-        <!-- CARGA DE UN DÍA -->
-        <div class="form-card">
-          <div class="form-card-head"><span class="form-card-title">Cargar un día</span></div>
+        <!-- RAÍZ: una carpeta por estrategia -->
+        <div class="form-card" id="stats-root-card">
+          <div class="form-card-head"><span class="form-card-title">Estrategias</span></div>
           <div class="form-card-body">
-            <div class="form-grid">
-              <div class="field">
-                <label>Estrategia</label>
-                <select id="s-estrategia">
-                  <option value="swing">XAUUSD Swing</option>
-                  <option value="daily">XAUUSD Daily</option>
-                  <option value="tesla">TESLA</option>
-                  <option value="btc">BTC</option>
-                  <option value="xauaud">XAUAUD</option>
-                  <option value="sp500">SP500 (futuros)</option>
-                </select>
-              </div>
-              <div class="field">
-                <label>Fecha</label>
-                <input type="date" id="s-fecha"/>
-              </div>
-              <div class="field">
-                <label>Resultado</label>
-                <div class="result-toggle">
-                  <button type="button" class="result-btn win active" id="s-btn-win" onclick="setStatsResult('win')">✓ WIN</button>
-                  <button type="button" class="result-btn loss" id="s-btn-loss" onclick="setStatsResult('loss')">✗ LOSS</button>
-                </div>
-                <input type="hidden" id="s-resultado" value="win"/>
-              </div>
-              <div class="field">
-                <label>Riesgo del trade (%)</label>
-                <input type="number" id="s-porcentaje" step="0.1" value="1"/>
-              </div>
-              <div class="field form-full">
-                <label>Captura del gráfico (opcional, aparece en "Chart overview")</label>
-                <div style="display:flex;align-items:center;gap:.8rem">
-                  <label for="s-imagen" class="file-btn">📎 Elegir imagen</label>
-                  <span id="s-imagen-name" style="font-size:.78rem;color:rgba(255,255,255,.35)">Ningún archivo seleccionado</span>
-                </div>
-                <input type="file" id="s-imagen" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"/>
-                <div id="s-imagen-preview" style="display:none;margin-top:.6rem"><img style="max-width:220px;border-radius:8px;border:1px solid var(--border)"/></div>
-              </div>
-              <div class="field form-full">
-                <label>Notas / descripción (opcional, aparece al abrir el detalle del trade)</label>
-                <textarea id="s-notas" rows="3" placeholder="Contexto de la operación: setup, entrada, gestión, lección aprendida..."></textarea>
-              </div>
-            </div>
-            <div class="form-actions">
-              <button type="button" class="btn-publish" id="s-btn-submit" onclick="submitStatsDay()">Guardar día →</button>
-              <span class="publish-msg" id="s-msg" style="display:none"></span>
-            </div>
+            <div class="adm-folder-grid" id="adm-strategy-grid"></div>
           </div>
         </div>
 
-        <!-- CARGA MASIVA JSON -->
-        <div class="form-card">
-          <div class="form-card-head"><span class="form-card-title">Carga masiva por JSON</span></div>
-          <div class="form-card-body">
-            <div class="form-grid">
-              <div class="field">
-                <label>Estrategia</label>
-                <select id="sb-estrategia">
-                  <option value="swing">XAUUSD Swing</option>
-                  <option value="daily">XAUUSD Daily</option>
-                  <option value="tesla">TESLA</option>
-                  <option value="btc">BTC</option>
-                  <option value="xauaud">XAUAUD</option>
-                  <option value="sp500">SP500 (futuros)</option>
-                </select>
-              </div>
-              <div class="field form-full">
-                <label>Pegá el JSON acá (acepta [{"fecha":"2026-01-01","resultado":"win"}] o {"days":[{"date":"2026-01-01","result":10}]})</label>
-                <textarea id="sb-json" placeholder='[{"fecha":"2026-07-01","resultado":"win"}, {"fecha":"2026-07-02","resultado":"loss"}]' rows="6"></textarea>
-              </div>
-            </div>
-            <div class="form-actions">
-              <button type="button" class="btn-publish" id="sb-btn-submit" onclick="submitStatsBulk()">Importar →</button>
-              <span class="publish-msg" id="sb-msg" style="display:none"></span>
-            </div>
+        <!-- DENTRO DE UNA ESTRATEGIA -->
+        <div id="stats-strategy-view" style="display:none">
+          <div class="adm-breadcrumb">
+            <button class="adm-breadcrumb-back" onclick="statsBackToRoot()">← Estrategias</button>
+            <span class="adm-breadcrumb-sep">/</span>
+            <span class="adm-breadcrumb-current"><span class="adm-breadcrumb-dot" id="adm-bc-dot"></span><span id="adm-bc-label">—</span></span>
           </div>
-        </div>
 
-        <!-- HISTORIAL RECIENTE -->
-        <div class="form-card">
-          <div class="form-card-head">
-            <span class="form-card-title">Últimos resultados cargados</span>
-            <select id="sl-estrategia" onchange="loadStatsRecent()" style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.4rem .7rem;color:#fff;font-size:.78rem;font-family:'Inter',sans-serif">
-              <option value="swing">XAUUSD Swing</option>
-              <option value="daily">XAUUSD Daily</option>
-              <option value="tesla">TESLA</option>
-              <option value="btc">BTC</option>
-              <option value="xauaud">XAUAUD</option>
-              <option value="sp500">SP500 (futuros)</option>
-            </select>
+          <!-- CARGA / EDICIÓN DE UN DÍA -->
+          <div class="form-card">
+            <div class="form-card-head"><span class="form-card-title">Cargar / editar un día</span></div>
+            <div class="form-card-body">
+              <div class="adm-edit-banner" id="s-edit-banner" style="display:none">
+                <span id="s-edit-banner-text">Editando un día ya cargado</span>
+                <button type="button" onclick="statsResetDayForm()">Cancelar edición</button>
+              </div>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Fecha</label>
+                  <input type="date" id="s-fecha"/>
+                </div>
+                <div class="field">
+                  <label>Resultado</label>
+                  <div class="result-toggle">
+                    <button type="button" class="result-btn win active" id="s-btn-win" onclick="setStatsResult('win')">✓ WIN</button>
+                    <button type="button" class="result-btn loss" id="s-btn-loss" onclick="setStatsResult('loss')">✗ LOSS</button>
+                  </div>
+                  <input type="hidden" id="s-resultado" value="win"/>
+                </div>
+                <div class="field">
+                  <label>Riesgo del trade (%)</label>
+                  <input type="number" id="s-porcentaje" step="0.1" value="1"/>
+                </div>
+                <div class="field form-full">
+                  <label>Captura del gráfico (opcional, aparece en "Chart overview")</label>
+                  <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap">
+                    <label for="s-imagen" class="file-btn">📎 Elegir imagen</label>
+                    <span id="s-imagen-name" style="font-size:.78rem;color:rgba(255,255,255,.35)">Ningún archivo seleccionado</span>
+                    <button type="button" class="btn-icon danger" id="s-imagen-remove-btn" style="display:none" onclick="statsRemoveCurrentImage()">✕ Quitar imagen actual</button>
+                  </div>
+                  <input type="file" id="s-imagen" accept="image/*" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden"/>
+                  <div id="s-imagen-preview" style="display:none;margin-top:.6rem"><img style="max-width:220px;border-radius:8px;border:1px solid var(--border)"/></div>
+                </div>
+                <div class="field form-full">
+                  <label>Notas / descripción (opcional, aparece al abrir el detalle del trade)</label>
+                  <textarea id="s-notas" rows="3" placeholder="Contexto de la operación: setup, entrada, gestión, lección aprendida..."></textarea>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn-publish" id="s-btn-submit" onclick="submitStatsDay()">Guardar día →</button>
+                <button type="button" class="btn-draft" id="s-btn-delete" style="display:none" onclick="statsDeleteCurrentDay()">Eliminar este día</button>
+                <span class="publish-msg" id="s-msg" style="display:none"></span>
+              </div>
+            </div>
           </div>
-          <div class="trades-table-head" style="grid-template-columns:120px 100px 1fr 90px">
-            <span>Fecha</span><span>Resultado</span><span></span><span>Acciones</span>
+
+          <!-- CALENDARIO -->
+          <div class="form-card" style="padding:0;overflow:hidden">
+            <div class="adm-cal-nav">
+              <button class="adm-cal-nav-btn" onclick="statsCalShift(-1)">‹</button>
+              <span class="adm-cal-nav-title" id="adm-cal-title">—</span>
+              <button class="adm-cal-nav-btn" onclick="statsCalShift(1)">›</button>
+            </div>
+            <div class="adm-cal-head-row">
+              <div class="adm-cal-weekday">DOM</div><div class="adm-cal-weekday">LUN</div><div class="adm-cal-weekday">MAR</div><div class="adm-cal-weekday">MIÉ</div><div class="adm-cal-weekday">JUE</div><div class="adm-cal-weekday">VIE</div><div class="adm-cal-weekday">SÁB</div>
+            </div>
+            <div class="adm-cal-grid" id="adm-cal-grid"></div>
           </div>
-          <div id="stats-list-admin"></div>
+
+          <!-- CARGA MASIVA JSON -->
+          <div class="form-card">
+            <div class="form-card-head"><span class="form-card-title">Carga masiva por JSON</span></div>
+            <div class="form-card-body">
+              <div class="form-grid">
+                <div class="field form-full">
+                  <label>Pegá el JSON acá (acepta [{"fecha":"2026-01-01","resultado":"win"}] o {"days":[{"date":"2026-01-01","result":10}]})</label>
+                  <textarea id="sb-json" placeholder='[{"fecha":"2026-07-01","resultado":"win"}, {"fecha":"2026-07-02","resultado":"loss"}]' rows="6"></textarea>
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn-publish" id="sb-btn-submit" onclick="submitStatsBulk()">Importar →</button>
+                <span class="publish-msg" id="sb-msg" style="display:none"></span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -569,8 +607,10 @@
       btn.classList.add('active');
       if (name === 'lista') loadTrades();
       if (name === 'stats') {
-        if (!document.getElementById('s-fecha').value) document.getElementById('s-fecha').value = new Date().toISOString().split('T')[0];
-        loadStatsRecent();
+        statsStrategy = null;
+        document.getElementById('stats-strategy-view').style.display = 'none';
+        document.getElementById('stats-root-card').style.display = 'block';
+        loadStatsRoot();
       }
       if (name === 'status') loadStrategyStatus();
     }
@@ -638,6 +678,156 @@
     }
 
     /* ── ESTADÍSTICAS (strategy_results) ── */
+    const STRATEGY_META = [
+      { key:'swing', label:'XAUUSD Swing', color:'#c9a84c' },
+      { key:'daily', label:'XAUUSD Daily', color:'#3b82f6' },
+      { key:'tesla', label:'TESLA', color:'#f87171' },
+      { key:'btc', label:'BTC', color:'#8b5cf6' },
+      { key:'xauaud', label:'XAUAUD', color:'#14b8a6' },
+      { key:'sp500', label:'SP500 (futuros)', color:'#4ade80' },
+    ];
+    const ADM_FOLDER_ICON = `<svg viewBox="0 0 24 20" width="34" height="30" fill="currentColor"><path d="M2 4a2 2 0 0 1 2-2h5.2a2 2 0 0 1 1.41.59L12.4 4.4A1 1 0 0 0 13.1 4.7H20a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4z"/></svg>`;
+    let statsStrategy = null;
+    let statsRows = [];
+    let statsCalMonth = new Date();
+    let statsEditingId = null;
+
+    async function loadStatsRoot() {
+      const { data } = await sb.from('strategy_results').select('estrategia');
+      const counts = {};
+      (data || []).forEach(r => { counts[r.estrategia] = (counts[r.estrategia] || 0) + 1; });
+      document.getElementById('adm-strategy-grid').innerHTML = STRATEGY_META.map(s => {
+        const n = counts[s.key] || 0;
+        return `<div class="adm-folder-tile" onclick="statsOpenStrategy('${s.key}')">
+          <div style="color:${s.color}">${ADM_FOLDER_ICON}</div>
+          <div class="adm-folder-tile-name">${s.label}</div>
+          <div class="adm-folder-tile-count">${n} día${n===1?'':'s'} cargado${n===1?'':'s'}</div>
+        </div>`;
+      }).join('');
+    }
+
+    async function statsOpenStrategy(key) {
+      statsStrategy = key;
+      const meta = STRATEGY_META.find(s => s.key === key);
+      document.getElementById('adm-bc-label').textContent = meta.label;
+      document.getElementById('adm-bc-dot').style.background = meta.color;
+      document.getElementById('stats-root-card').style.display = 'none';
+      document.getElementById('stats-strategy-view').style.display = 'block';
+      statsCalMonth = new Date();
+      statsResetDayForm();
+      await statsLoadRows();
+    }
+
+    function statsBackToRoot() {
+      statsStrategy = null;
+      document.getElementById('stats-strategy-view').style.display = 'none';
+      document.getElementById('stats-root-card').style.display = 'block';
+      loadStatsRoot();
+    }
+
+    async function statsLoadRows() {
+      const { data } = await sb.from('strategy_results').select('*').eq('estrategia', statsStrategy).order('fecha');
+      statsRows = data || [];
+      renderStatsCalendar();
+    }
+
+    function statsCalShift(dir) {
+      statsCalMonth = new Date(statsCalMonth.getFullYear(), statsCalMonth.getMonth() + dir, 1);
+      renderStatsCalendar();
+    }
+
+    function renderStatsCalendar() {
+      const y = statsCalMonth.getFullYear(), m = statsCalMonth.getMonth();
+      document.getElementById('adm-cal-title').textContent = statsCalMonth.toLocaleDateString('es-ES', { month:'long', year:'numeric' });
+      const byDay = {};
+      statsRows.forEach(r => { byDay[r.fecha] = r; });
+      const firstDow = new Date(y, m, 1).getDay();
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      const cells = [];
+      for (let i = 0; i < firstDow; i++) cells.push({ pad:true });
+      for (let d = 1; d <= daysInMonth; d++) {
+        const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        cells.push({ pad:false, day:d, ds, row: byDay[ds] || null });
+      }
+      document.getElementById('adm-cal-grid').innerHTML = cells.map(c => {
+        if (c.pad) return `<div class="adm-cal-cell pad"></div>`;
+        const r = c.row;
+        const cls = r ? (r.resultado === 'win' ? 'win' : 'loss') : '';
+        const pct = r ? (Number(r.porcentaje) > 0 ? '+' : '') + Number(r.porcentaje) + '%' : '';
+        const imgDot = r && r.chart_image_url ? '<span class="adm-cal-img-dot"></span>' : '';
+        return `<div class="adm-cal-cell ${cls}" onclick="statsCalDayClick('${c.ds}')">${imgDot}<span class="adm-cal-daynum">${c.day}</span>${r ? `<span class="adm-cal-pct">${pct}</span>` : ''}</div>`;
+      }).join('');
+    }
+
+    function statsResetDayForm() {
+      statsEditingId = null;
+      document.getElementById('s-edit-banner').style.display = 'none';
+      document.getElementById('s-fecha').value = new Date().toISOString().split('T')[0];
+      document.getElementById('s-porcentaje').value = 1;
+      document.getElementById('s-notas').value = '';
+      document.getElementById('s-imagen').value = '';
+      document.getElementById('s-imagen-preview').style.display = 'none';
+      document.getElementById('s-imagen-name').textContent = 'Ningún archivo seleccionado';
+      document.getElementById('s-imagen-remove-btn').style.display = 'none';
+      document.getElementById('s-btn-delete').style.display = 'none';
+      document.getElementById('s-btn-submit').textContent = 'Guardar día →';
+      setStatsResult('win');
+    }
+
+    function statsCalDayClick(ds) {
+      const r = statsRows.find(x => x.fecha === ds);
+      document.getElementById('s-fecha').value = ds;
+      document.getElementById('s-imagen').value = '';
+      document.getElementById('s-imagen-name').textContent = 'Ningún archivo seleccionado';
+      if (r) {
+        statsEditingId = r.id;
+        document.getElementById('s-edit-banner').style.display = 'flex';
+        document.getElementById('s-edit-banner-text').textContent = 'Editando el día ' + new Date(ds+'T00:00:00').toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'});
+        setStatsResult(r.resultado);
+        document.getElementById('s-porcentaje').value = Math.abs(Number(r.porcentaje));
+        document.getElementById('s-notas').value = r.notas || '';
+        if (r.chart_image_url) {
+          document.getElementById('s-imagen-preview').style.display = 'block';
+          document.getElementById('s-imagen-preview').querySelector('img').src = r.chart_image_url;
+          document.getElementById('s-imagen-remove-btn').style.display = 'inline-flex';
+        } else {
+          document.getElementById('s-imagen-preview').style.display = 'none';
+          document.getElementById('s-imagen-remove-btn').style.display = 'none';
+        }
+        document.getElementById('s-btn-delete').style.display = 'inline-block';
+        document.getElementById('s-btn-submit').textContent = 'Actualizar día →';
+      } else {
+        statsEditingId = null;
+        document.getElementById('s-edit-banner').style.display = 'none';
+        document.getElementById('s-porcentaje').value = 1;
+        document.getElementById('s-notas').value = '';
+        document.getElementById('s-imagen-preview').style.display = 'none';
+        document.getElementById('s-imagen-remove-btn').style.display = 'none';
+        document.getElementById('s-btn-delete').style.display = 'none';
+        document.getElementById('s-btn-submit').textContent = 'Guardar día →';
+        setStatsResult('win');
+      }
+      document.getElementById('s-fecha').scrollIntoView({ behavior:'smooth', block:'center' });
+    }
+
+    async function statsRemoveCurrentImage() {
+      if (!statsEditingId) return;
+      if (!confirm('¿Quitar la captura de este trade? El resultado (WIN/LOSS, fecha, %) no se borra.')) return;
+      await sb.from('strategy_results').update({ chart_image_url: null }).eq('id', statsEditingId);
+      document.getElementById('s-imagen-preview').style.display = 'none';
+      document.getElementById('s-imagen-remove-btn').style.display = 'none';
+      await statsLoadRows();
+    }
+
+    async function statsDeleteCurrentDay() {
+      if (!statsEditingId) return;
+      if (!confirm('¿Eliminar este resultado?')) return;
+      await sb.from('strategy_results').delete().eq('id', statsEditingId);
+      statsResetDayForm();
+      await statsLoadRows();
+      await loadStatsRoot();
+    }
+
     function setStatsResult(val) {
       document.getElementById('s-resultado').value = val;
       document.getElementById('s-btn-win').classList.toggle('active', val==='win');
@@ -666,7 +856,8 @@
     async function submitStatsDay() {
       const btn = document.getElementById('s-btn-submit');
       const msg = document.getElementById('s-msg');
-      const estrategia = document.getElementById('s-estrategia').value;
+      const wasEditing = !!statsEditingId;
+      const estrategia = statsStrategy;
       const fecha = document.getElementById('s-fecha').value;
       const resultado = document.getElementById('s-resultado').value;
       const riesgo = parseFloat(document.getElementById('s-porcentaje').value) || 1;
@@ -674,7 +865,7 @@
       const notas = document.getElementById('s-notas').value.trim();
       if (!fecha) { alert('Elegí una fecha.'); return; }
 
-      btn.disabled = true; btn.textContent = 'Guardando...';
+      btn.disabled = true; btn.textContent = wasEditing ? 'Actualizando...' : 'Guardando...';
       const porcentaje = resultado === 'win' ? Math.abs(riesgo) : -Math.abs(riesgo);
       const payload = { estrategia, fecha, resultado, porcentaje, notas: notas || null };
 
@@ -684,7 +875,7 @@
         msg.style.display = 'inline';
         msg.textContent = 'Error subiendo la imagen: ' + e.message;
         msg.className = 'publish-msg err';
-        btn.disabled = false; btn.textContent = 'Guardar día →';
+        btn.disabled = false; btn.textContent = wasEditing ? 'Actualizar día →' : 'Guardar día →';
         return;
       }
 
@@ -695,17 +886,16 @@
       if (error) {
         msg.textContent = 'Error: ' + error.message;
         msg.className = 'publish-msg err';
+        btn.disabled = false; btn.textContent = wasEditing ? 'Actualizar día →' : 'Guardar día →';
       } else {
-        msg.textContent = '¡Guardado! Ya se refleja en estadísticas y calculadora.';
+        msg.textContent = wasEditing ? '¡Actualizado!' : '¡Guardado! Ya se refleja en estadísticas y calculadora.';
         msg.className = 'publish-msg ok';
         setTimeout(() => msg.style.display = 'none', 4000);
-        document.getElementById('s-imagen').value = '';
-        document.getElementById('s-imagen-preview').style.display = 'none';
-        document.getElementById('s-imagen-name').textContent = 'Ningún archivo seleccionado';
-        document.getElementById('s-notas').value = '';
-        if (document.getElementById('sl-estrategia').value === estrategia) loadStatsRecent();
+        await statsLoadRows();
+        if (!wasEditing) loadStatsRoot();
+        statsResetDayForm();
+        btn.disabled = false;
       }
-      btn.disabled = false; btn.textContent = 'Guardar día →';
     }
 
     function parseStatsBulkInput(raw) {
@@ -739,7 +929,7 @@
     async function submitStatsBulk() {
       const btn = document.getElementById('sb-btn-submit');
       const msg = document.getElementById('sb-msg');
-      const estrategia = document.getElementById('sb-estrategia').value;
+      const estrategia = statsStrategy;
       msg.style.display = 'inline';
 
       let rows;
@@ -768,45 +958,10 @@
         msg.className = 'publish-msg ok';
         document.getElementById('sb-json').value = '';
         setTimeout(() => msg.style.display = 'none', 5000);
-        if (document.getElementById('sl-estrategia').value === estrategia) loadStatsRecent();
+        await statsLoadRows();
+        loadStatsRoot();
       }
       btn.disabled = false; btn.textContent = 'Importar →';
-    }
-
-    async function loadStatsRecent() {
-      const estrategia = document.getElementById('sl-estrategia').value;
-      const list = document.getElementById('stats-list-admin');
-      const { data, error } = await sb.from('strategy_results')
-        .select('*').eq('estrategia', estrategia).order('fecha', { ascending: false }).limit(20);
-      if (error || !data?.length) {
-        list.innerHTML = '<div style="padding:2rem 1.2rem;font-size:.82rem;color:rgba(255,255,255,.25)">No hay resultados cargados para esta estrategia todavía.</div>';
-        return;
-      }
-      list.innerHTML = data.map(r => `
-        <div class="trade-row" style="grid-template-columns:36px 120px 100px 1fr 90px">
-          ${r.chart_image_url ? `<div style="position:relative;width:32px;height:32px">
-            <img src="${r.chart_image_url}" style="width:32px;height:32px;object-fit:cover;border-radius:5px;border:1px solid var(--border)"/>
-            <button onclick="removeStatsImage('${r.id}')" title="Quitar imagen" style="position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:.55rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0">✕</button>
-          </div>` : `<span style="width:32px;height:32px;border-radius:5px;border:1px dashed var(--border);display:inline-block"></span>`}
-          <span class="trade-date">${new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'2-digit'})}</span>
-          <span><span class="badge ${r.resultado==='win'?'b-win':'b-loss'}">${r.resultado.toUpperCase()}</span></span>
-          <span class="trade-title-cell">${r.porcentaje > 0 ? '+' : ''}${r.porcentaje}%</span>
-          <div class="row-actions">
-            <button class="btn-icon danger" onclick="deleteStatsRow('${r.id}')" title="Eliminar">✕</button>
-          </div>
-        </div>`).join('');
-    }
-
-    async function deleteStatsRow(id) {
-      if (!confirm('¿Eliminar este resultado?')) return;
-      await sb.from('strategy_results').delete().eq('id', id);
-      loadStatsRecent();
-    }
-
-    async function removeStatsImage(id) {
-      if (!confirm('¿Quitar la captura de este trade? El resultado (WIN/LOSS, fecha, %) no se borra.')) return;
-      await sb.from('strategy_results').update({ chart_image_url: null }).eq('id', id);
-      loadStatsRecent();
     }
 
     async function logout() { await sb.auth.signOut(); location.href = 'index.html'; }
